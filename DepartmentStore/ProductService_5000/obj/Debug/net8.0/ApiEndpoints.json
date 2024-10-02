@@ -1,0 +1,32 @@
+[
+  {
+    "ContainingType": "ProductService_5000.Controllers.ProductServiceController",
+    "Method": "Get",
+    "RelativePath": "ProductService",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ProductService_5000.Controllers.ProductServiceController",
+    "Method": "GetToken",
+    "RelativePath": "ProductService",
+    "HttpMethod": "",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  }
+]
