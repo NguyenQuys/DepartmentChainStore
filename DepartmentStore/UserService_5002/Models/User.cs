@@ -13,6 +13,8 @@ namespace UserService_5002.Models
         [MaxLength(61)]
         public string? Password { get; set; }
 
-        public UserOtherInfo userOtherInfo { get; set; } // Chú ý cách viết hoa
+        public bool IsActive { get; set; } = true;
+
+        public UserOtherInfo UserOtherInfo { get; set; }
     }
 }

@@ -9,14 +9,24 @@ namespace UserService_5002.Models
         { }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<UserOtherInfo> OtherInfo { get; set; }
+        public DbSet<UserOtherInfo> UserOtherInfo { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
-                .HasOne(u => u.userOtherInfo)
+                .HasOne(u => u.UserOtherInfo)
                 .WithOne(w => w.User)
                 .HasForeignKey<UserOtherInfo>(o => o.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.PhoneNumber)
+                .IsUnique();
+
+            modelBuilder.Entity<UserOtherInfo>()
+                .HasOne(uo => uo.Role)
+                .WithMany()
+                .HasForeignKey(ou=>ou.RoleId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(modelBuilder);

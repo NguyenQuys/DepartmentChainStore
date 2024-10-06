@@ -1,5 +1,6 @@
+using IdentityServer.Utilities;
 using Microsoft.EntityFrameworkCore;
-using ProductService_5000.Helper;
+//using ProductService_5000.Helper;
 using UserService_5002.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,7 +32,7 @@ builder.Services.AddAuthorization(options =>
 });
 
 // Register the JwtHelper as a singleton
-builder.Services.AddSingleton<JwtHelper>();
+builder.Services.AddSingleton<IJwtHelper, JwtHelper>();
 
 var app = builder.Build();
 

@@ -15,11 +15,14 @@ namespace UserService_5002.Models
         [MaxLength(30)]
         public string Email { get; set; }
 
-        public DateTime DateOfBirth { get; set; } // Thay DateOnly bằng DateTime
+        public DateOnly DateOfBirth { get; set; } 
 
-        public byte Gender { get; set; } // Thay tinyint bằng byte
+        public byte Gender { get; set; }
 
-        public byte Role { get; set; }
+        [ForeignKey("Role")]
+        public byte RoleId { get; set; }
+
+        public Role Role { get; set; }
 
         public string? IdBranch { get; set; }
 
@@ -38,8 +41,6 @@ namespace UserService_5002.Models
 
         public int UpdateBy { get; set; }
 
-        public bool isActive { get; set; } = true; // Thay Bit bằng bool
-
-        public User User { get; set; } // Thiết lập mối quan hệ 1-1
+        public User User { get; set; }
     }
 }

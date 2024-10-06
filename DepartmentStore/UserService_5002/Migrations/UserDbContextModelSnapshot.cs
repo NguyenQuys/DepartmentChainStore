@@ -22,6 +22,21 @@ namespace UserService_5002.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("UserService_5002.Models.Role", b =>
+                {
+                    b.Property<byte>("Id")
+                        .HasColumnType("tinyint");
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Role");
+                });
+
             modelBuilder.Entity("UserService_5002.Models.User", b =>
                 {
                     b.Property<int>("UserId")
@@ -29,6 +44,9 @@ namespace UserService_5002.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Password")
                         .HasMaxLength(61)
@@ -41,6 +59,9 @@ namespace UserService_5002.Migrations
 
                     b.HasKey("UserId");
 
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique();
+
                     b.ToTable("Users");
                 });
 
@@ -52,8 +73,8 @@ namespace UserService_5002.Migrations
                     b.Property<DateTime?>("BeginDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("DateOfBirth")
+                        .HasColumnType("date");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -80,7 +101,7 @@ namespace UserService_5002.Migrations
                     b.Property<byte>("NumberOfIncorrectEntries")
                         .HasColumnType("tinyint");
 
-                    b.Property<byte>("Role")
+                    b.Property<byte>("RoleId")
                         .HasColumnType("tinyint");
 
                     b.Property<int?>("Salary")
@@ -93,28 +114,35 @@ namespace UserService_5002.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("isActive")
-                        .HasColumnType("bit");
-
                     b.HasKey("UserId");
 
-                    b.ToTable("OtherInfo");
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("UserOtherInfo");
                 });
 
             modelBuilder.Entity("UserService_5002.Models.UserOtherInfo", b =>
                 {
+                    b.HasOne("UserService_5002.Models.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("UserService_5002.Models.User", "User")
-                        .WithOne("userOtherInfo")
+                        .WithOne("UserOtherInfo")
                         .HasForeignKey("UserService_5002.Models.UserOtherInfo", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Role");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("UserService_5002.Models.User", b =>
                 {
-                    b.Navigation("userOtherInfo")
+                    b.Navigation("UserOtherInfo")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

@@ -44,3 +44,4 @@ D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore
 D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\IdentityServer\obj\Debug\net8.0\ref\IdentityServer.dll
 D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\IdentityServer\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\IdentityServer\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\IdentityServer\bin\Debug\net8.0\Otp.NET.dll

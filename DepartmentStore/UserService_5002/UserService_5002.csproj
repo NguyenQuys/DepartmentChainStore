@@ -7,6 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\css\.DS_Store" />
+    <None Include="wwwroot\images\.DS_Store" />
+    <None Include="wwwroot\pages\.DS_Store" />
+    <None Include="wwwroot\pages\charts\.DS_Store" />
+    <None Include="wwwroot\pages\forms\.DS_Store" />
+    <None Include="wwwroot\pages\icons\.DS_Store" />
+    <None Include="wwwroot\pages\samples\.DS_Store" />
+    <None Include="wwwroot\pages\tables\.DS_Store" />
+    <None Include="wwwroot\pages\ui-features\.DS_Store" />
+    <None Include="wwwroot\scss\.DS_Store" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -20,6 +34,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IdentityServer\IdentityServer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Response\" />
   </ItemGroup>
 
 </Project>
