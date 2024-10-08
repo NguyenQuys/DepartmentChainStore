@@ -10,6 +10,8 @@ namespace ProductService_5000.Services
         Task<Product> AddProduct();
         Task<Product> UpdateProductAsync(Product product);
         Task<Product> RemoveProduct(int id);
+
+        Task<List<Product>> GetProductsByIdCategory(int id);
     }
 
     public class S_Product : IS_Product
@@ -44,6 +46,12 @@ namespace ProductService_5000.Services
         public Task<Product> UpdateProductAsync(Product product)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<Product>> GetProductsByIdCategory(int id)
+        {
+            var productCategoryToGet = await _context.Products.Where(m=>m.CategoryId == id).ToListAsync();
+            return productCategoryToGet;
         }
     }
 

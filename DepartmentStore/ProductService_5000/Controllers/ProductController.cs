@@ -5,7 +5,6 @@ using ProductService_5000.Services;
 
 namespace ProductService_5000.Controllers
 {
-    //[Authorize(Policy = "ProductServicePolicy")]
     public class ProductController : Controller
     {
         private readonly IS_Product _s_Product;
@@ -21,6 +20,20 @@ namespace ProductService_5000.Controllers
             return View(gellAllProducts);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetProductsByIdCategory(int id)
+        {
+            var productCategoryToGet = await _s_Product.GetProductsByIdCategory(id);
+            return View(productCategoryToGet);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> ResponseAPIGetProductsByIdCategory(int id)
+        {
+            var productCategoryToGet = await _s_Product.GetProductsByIdCategory(id);
+            return Ok(productCategoryToGet);
+        }
     }
 
 }

@@ -173,10 +173,10 @@ namespace UserService_5002.Services
 
         public async Task<MRes_Login> Login(MReq_Login mReq_Login)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(m => m.PhoneNumber == mReq_Login.PhoneNumber);
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.PhoneNumber == mReq_Login.UserName);
             if (user == null)
             {
-                throw new Exception($"Số điện thoại {mReq_Login.PhoneNumber} chưa đăng ký tài khoản.");
+                throw new Exception($"Tài khoản {mReq_Login.UserName} không tồn tại.");
             }
 
             var userInfo = await _context.UserOtherInfo.FirstOrDefaultAsync(m => m.UserId == user.UserId);

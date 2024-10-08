@@ -8,13 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Set up interfaces
-builder.Services.AddScoped<IS_Product, S_Product>();
-
 // Configure DbContext
 builder.Services.AddDbContext<ProductDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Set up interfaces
+builder.Services.AddScoped<IS_Product, S_Product>();
 // Add Jwt authentication
 builder.Services.AddAuthentication("Bearer").AddJwtBearer("Bearer", options =>
 {
@@ -23,6 +22,14 @@ builder.Services.AddAuthentication("Bearer").AddJwtBearer("Bearer", options =>
     {
         ValidateAudience = false
     };
+});
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder => builder.WithOrigins("http://localhost:5002") // Allow UserService
+                          .AllowAnyHeader()
+                          .AllowAnyMethod());
 });
 
 // Add authorization with policy
@@ -53,6 +60,9 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseCors("AllowSpecificOrigin"); // communicate service
+
 
 // Map default route for controllers
 app.MapControllerRoute(

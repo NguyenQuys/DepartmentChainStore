@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\UserService_5002.bundle.scp.css"
     },
     {
+      "Id": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\controller\\user+login.js",
+      "PackagePath": "staticwebassets\\controller\\user+login.js"
+    },
+    {
       "Id": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\css\\maps\\horizontal-layout-dark\\style.css.map",
       "PackagePath": "staticwebassets\\css\\maps\\horizontal-layout-dark\\style.css.map"
     },
@@ -995,6 +999,10 @@
     {
       "Id": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\js\\typeahead.js",
       "PackagePath": "staticwebassets\\js\\typeahead.js"
+    },
+    {
+      "Id": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\js\\utility_lib.js",
+      "PackagePath": "staticwebassets\\js\\utility_lib.js"
     },
     {
       "Id": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\js\\wizard.js",

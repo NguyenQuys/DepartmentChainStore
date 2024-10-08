@@ -1,7 +1,8 @@
 using IdentityServer.Utilities;
 using Microsoft.EntityFrameworkCore;
-//using ProductService_5000.Helper;
+using ProductService_5000.Services;
 using UserService_5002.Models;
+using UserService_5002.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +23,14 @@ builder.Services.AddAuthentication("Bearer").AddJwtBearer("Bearer", options =>
     };
 });
 
-// Add Authorization Policies
+builder.Services.AddHttpClient(); // Call API to productservice
+builder.Services.AddHttpContextAccessor(); 
+builder.Services.AddScoped<IS_User, S_User>();
+builder.Services.AddScoped<ISendMailSMTP, SendMailSMTP>();
+builder.Services.AddScoped<IOTP_Verify, OTP_Verify>();
+// Product Service
+builder.Services.AddScoped<IS_ProductFromUser, S_ProductFromUser>();
+builder.Services.AddScoped<CurrentUserHelper>();  // <-- Register it here
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("UserServicePolicy", policy =>
@@ -53,7 +61,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=User}/{action=Login}/{id?}");
 
 app.Run();
 

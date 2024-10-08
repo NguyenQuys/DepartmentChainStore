@@ -8,7 +8,6 @@ using UserService_5002.Services;
 
 namespace UserService_5002.Controllers
 {
-    [Authorize]
     public class UserController : Controller
     {
         private readonly IS_User _s_User;
@@ -23,7 +22,7 @@ namespace UserService_5002.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SignUp([FromBody] List<User> users)
+        public async Task<IActionResult> SignUp(List<User> users)
         {
             try
             {
@@ -36,21 +35,29 @@ namespace UserService_5002.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Login()
+        {
+            return View();
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> Login(MReq_Login loginRequest)
         {
             try
             {
                 var login = await _s_User.Login(loginRequest);
-                return GenerateTokenAndRespond(login);
+                GenerateTokenAndRespond(login);
+                return Json(new {success = true, message="Đăng nhập thành công. Đang chuyển hướng..."});
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return Json(new { success = false, message = ex.Message });
             }
         }
 
-        private IActionResult GenerateTokenAndRespond(MRes_Login mRes_Login)
+        private void GenerateTokenAndRespond(MRes_Login mRes_Login)
         {
             var claims = new List<Claim>
             {
@@ -84,21 +91,26 @@ namespace UserService_5002.Controllers
 
             var token = _jwtHelper.BuildToken(claims.ToArray(), expires: 60);
 
-            // Set the JWT token in a cookie
             Response.Cookies.Append("jwt", token, new CookieOptions
             {
                 HttpOnly = true, // Helps prevent XSS attacks
                 Secure = true,   // Set to true if using HTTPS
                 Expires = DateTime.UtcNow.AddMinutes(60)
             });
-
-            return Ok(new
-            {
-                Token = token,
-                Message = $"Đăng nhập thành công. {mRes_Login.Account}"
-            });
         }
 
+        [HttpGet]
+        public IActionResult GetCurrentUser()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                if (_currentUser == null)
+                {
+                    return Unauthorized();
+                }
+            }
 
+            return Ok(_currentUser);
+        }
     }
 }

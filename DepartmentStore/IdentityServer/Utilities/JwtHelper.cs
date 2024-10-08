@@ -32,6 +32,7 @@ namespace IdentityServer.Utilities
 
         public string BuildToken(Claim[] claims, int expires)
         {
+
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var jwtSecurityToken = new JwtSecurityToken(
