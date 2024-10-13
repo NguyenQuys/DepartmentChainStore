@@ -6,45 +6,37 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Cấu hình CORS
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowSpecificOrigin", builder =>
-    {
-        builder.WithOrigins("http://localhost:5002") // Địa chỉ của UserService
-               .AllowAnyHeader()
-               .AllowAnyMethod()
-               .AllowCredentials();
-    });
-});
-
-//++++++++++++++++ IdentityServer4++++++++++++++++
+//+++++++++ IdentityServer4 +++++++++
 builder.Services.AddIdentityServer()
-    .AddInMemoryApiScopes(new ApiScope[]
+    .AddInMemoryApiResources(new ApiResource[]
     {
-        new ApiScope("ProductService_5000"), // API Scope cho ProductService
-        new ApiScope("UserService_5002")
-    })
-    .AddInMemoryClients(new Client[]
-    {
-        new Client
+        new ApiResource("ProductService_5000", "Product Service")
         {
+            Scopes = { "ProductService_5000" }
+        }
+    })
+    .AddInMemoryApiScopes(new ApiScope[] {
+        new ApiScope("ProductService_5000", "Access Product Service"),
+        new ApiScope("UserService_5002", "Access User Service")
+    })
+    .AddInMemoryClients(new Client[] {
+        new Client {
             ClientId = "Product",
             AllowedGrantTypes = GrantTypes.ClientCredentials,
             ClientSecrets = { new Secret("secret".Sha256()) },
             AllowedScopes = { "ProductService_5000" }
         },
-        new Client
-        {
+        new Client {
             ClientId = "User",
             AllowedGrantTypes = GrantTypes.ClientCredentials,
             ClientSecrets = { new Secret("secret".Sha256()) },
-            AllowedScopes = { "UserService_5002" }
+            AllowedScopes = { "UserService_5002", "ProductService_5000" }
         }
     })
-    .AddDeveloperSigningCredential(); // Sử dụng cho phát triển
+    .AddDeveloperSigningCredential();
 
-//+++++++++++++++++++++++++++++++++++++++++++++++++
+
+//+++++++++++++++++++++++++++++++++++++++++
 
 var app = builder.Build();
 
@@ -60,10 +52,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseCors("AllowSpecificOrigin"); // Sử dụng CORS
+// Use IdentityServer middleware
+app.UseIdentityServer();
 
-app.UseIdentityServer(); // Quan trọng để thêm IdentityServer middleware
-
+// Use authentication and authorization middleware
 app.UseAuthentication();
 app.UseAuthorization();
 

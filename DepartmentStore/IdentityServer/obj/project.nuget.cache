@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "NA+V+x1aVKw=",
+  "dgSpecHash": "cxb3HgrFtSc=",
   "success": true,
-  "projectFilePath": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\IdentityServer\\IdentityServer.csproj",
+  "projectFilePath": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\DepartmentStore\\IdentityServer\\IdentityServer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nguye\\.nuget\\packages\\identitymodel\\7.0.0\\identitymodel.7.0.0.nupkg.sha512",
     "C:\\Users\\nguye\\.nuget\\packages\\identityserver4\\4.1.2\\identityserver4.4.1.2.nupkg.sha512",

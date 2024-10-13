@@ -22,6 +22,9 @@
   <link rel="stylesheet" href="~/css/vertical-layout-light/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="~/images/favicon.png" />
+  <!--Add more-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="~/controller/productfromuser_index.js" asp-append-version="true"></script>
 </head>
 <body>
   <div class="container-scroller"> 
@@ -372,12 +375,6 @@
       <!-- partial:partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
-          <li class="nav-item">
-            <a class="nav-link" href="~/index.html">
-              <i class="mdi mdi-grid-large menu-icon"></i>
-              <span class="menu-title">Dashboard</span>
-            </a>
-          </li>
           <li class="nav-item nav-category">Hàng hóa</li>
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="collapse" href="#ui-foods-drinks" aria-expanded="false" aria-controls="ui-foods-drinks">
@@ -386,10 +383,17 @@
                             <i class="menu-arrow"></i>
                         </a>
                         <div class="collapse" id="ui-foods-drinks">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"><a class="nav-link" href="/pages/ui-features/buttons.html">Nước giải khát</a></li>
-                                <li class="nav-item"><a class="nav-link" href="/pages/ui-features/dropdowns.html">Mì gói</a></li>
-                                <li class="nav-item"><a class="nav-link" href="/pages/ui-features/typography.html">Bánh</a></li>
+                            <ul class="nav flex-column" id="categoryTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link" id="nav-drinks-tab" href="#drinks" onclick="HandleTabClick(1, 'nav-drinks-tab')">Nước giải khát</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="nav-cakes-tab" href="#cakes" onclick="HandleTabClick(2, 'nav-cakes-tab')">Bánh</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="nav-fruits-tab" href="#fruits" onclick="HandleTabClick(3, 'nav-fruits-tab')">Trái cây</a>
+                                </li>
+
                             </ul>
                         </div>
                     </li>

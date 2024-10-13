@@ -1,6 +1,7 @@
+using IdentityModel.Client;
 using IdentityServer.Utilities;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using UserService_5002.Models;
@@ -19,52 +20,72 @@ builder.Services.AddDbContext<UserDbContext>(options =>
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        options.Authority = "https://localhost:5001"; // Make sure this URL is correct
+        options.Authority = "https://localhost:5001"; // IdentityServer URL
+        options.Audience = "UserService_5002"; // This should match the API scope
+        options.RequireHttpsMetadata = false; // Set to true in production
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
-            ValidateAudience = false,
+            ValidateAudience = true,
+            ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            // Configure issuer and audience as needed, e.g.:
-            ValidIssuer = builder.Configuration["jwt:Issuer"],
-            ValidAudience = builder.Configuration["jwt:Audience"],
+            ValidIssuer = "https://localhost:5001",
+            ValidAudience = "UserService_5002",
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["jwt:Key"])),
-            ClockSkew = TimeSpan.Zero // Eliminate default clock skew of 5 minutes
-        };
-
-        // Automatically extract the JWT token from cookies
-        options.Events = new JwtBearerEvents
-        {
-            OnMessageReceived = context =>
-            {
-                var token = context.Request.Cookies["jwt"];
-                if (!string.IsNullOrEmpty(token))
-                {
-                    context.Token = token;
-                }
-                return Task.CompletedTask;
-            }
+            ClockSkew = TimeSpan.Zero
         };
     });
 
-// Register your services
-builder.Services.AddHttpClient(); // For calling API to ProductService
+// Register your services (same as before)
+builder.Services.AddHttpClient("IdentityServer", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:5001/");
+});
+
+builder.Services.AddHttpClient("ProductService", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:5000/");
+});
+
+builder.Services.AddSingleton<IDiscoveryCache>(sp =>
+{
+    var factory = sp.GetRequiredService<IHttpClientFactory>();
+    return new DiscoveryCache("https://localhost:5001", () => factory.CreateClient());
+});
+
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IS_User, S_User>();
 builder.Services.AddScoped<ISendMailSMTP, SendMailSMTP>();
 builder.Services.AddScoped<IOTP_Verify, OTP_Verify>();
 builder.Services.AddScoped<IS_ProductFromUser, S_ProductFromUser>();
-builder.Services.AddScoped<CurrentUserHelper>();  // Register CurrentUserHelper
+builder.Services.AddScoped<CurrentUserHelper>();
+
+// Add Authorization
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("UserServicePolicy", policy =>
     {
-        policy.RequireClaim("scope", "UserService");
+        policy.RequireClaim("scope", "UserService_5002");
+    });
+    options.AddPolicy("RequireAdminRole", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        //policy.RequireRole("1");
     });
 });
 
-// Register JwtHelper as a singleton
 builder.Services.AddSingleton<IJwtHelper, JwtHelper>();
+
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowProductService", policy =>
+    {
+        policy.WithOrigins("https://localhost:5000")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
 
@@ -77,16 +98,22 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
 
-app.UseAuthentication(); // Ensure this is before UseAuthorization
+// Use CORS before authentication and authorization
+app.UseCors("AllowProductService");
+
+app.UseAuthentication();
 app.UseAuthorization();
 
-// Map default route
+// Configure routing to support areas
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=User}/{action=Login}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
 

@@ -35,7 +35,5 @@ namespace IdentityServer.Utilities
 
             return currentUser;
         }
-
-       
     }
 }

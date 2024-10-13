@@ -17,51 +17,51 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = UserService_5002
 build_property.RootNamespace = UserService_5002
-build_property.ProjectDir = D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\UserService_5002\
+build_property.ProjectDir = D:\Data\Programming\Project\DACN\DepartmentChainStore\github\DepartmentStore\UserService_5002\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\UserService_5002
+build_property.MSBuildProjectDirectory = D:\Data\Programming\Project\DACN\DepartmentChainStore\github\DepartmentStore\UserService_5002
 build_property._RazorSourceGeneratorDebug = 
 
-[D:/Data/Programming/Project/DACN/DepartmentChainStore/github/dev/DepartmentStore/UserService_5002/Views/Home/Index.cshtml]
+[D:/Data/Programming/Project/DACN/DepartmentChainStore/github/DepartmentStore/UserService_5002/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Data/Programming/Project/DACN/DepartmentChainStore/github/dev/DepartmentStore/UserService_5002/Views/Home/Privacy.cshtml]
+[D:/Data/Programming/Project/DACN/DepartmentChainStore/github/DepartmentStore/UserService_5002/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Data/Programming/Project/DACN/DepartmentChainStore/github/dev/DepartmentStore/UserService_5002/Views/ProductFromUser/GetProductsByIdCategory.cshtml]
+[D:/Data/Programming/Project/DACN/DepartmentChainStore/github/DepartmentStore/UserService_5002/Views/ProductFromUser/GetProductsByIdCategory.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdEZyb21Vc2VyXEdldFByb2R1Y3RzQnlJZENhdGVnb3J5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Data/Programming/Project/DACN/DepartmentChainStore/github/dev/DepartmentStore/UserService_5002/Views/Shared/Error.cshtml]
+[D:/Data/Programming/Project/DACN/DepartmentChainStore/github/DepartmentStore/UserService_5002/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Data/Programming/Project/DACN/DepartmentChainStore/github/dev/DepartmentStore/UserService_5002/Views/Shared/_ValidationScriptsPartial.cshtml]
+[D:/Data/Programming/Project/DACN/DepartmentChainStore/github/DepartmentStore/UserService_5002/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Data/Programming/Project/DACN/DepartmentChainStore/github/dev/DepartmentStore/UserService_5002/Views/User/Login.cshtml]
+[D:/Data/Programming/Project/DACN/DepartmentChainStore/github/DepartmentStore/UserService_5002/Views/User/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Data/Programming/Project/DACN/DepartmentChainStore/github/dev/DepartmentStore/UserService_5002/Views/User/SignUp.cshtml]
+[D:/Data/Programming/Project/DACN/DepartmentChainStore/github/DepartmentStore/UserService_5002/Views/User/SignUp.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxTaWduVXAuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Data/Programming/Project/DACN/DepartmentChainStore/github/dev/DepartmentStore/UserService_5002/Views/_ViewImports.cshtml]
+[D:/Data/Programming/Project/DACN/DepartmentChainStore/github/DepartmentStore/UserService_5002/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Data/Programming/Project/DACN/DepartmentChainStore/github/dev/DepartmentStore/UserService_5002/Views/_ViewStart.cshtml]
+[D:/Data/Programming/Project/DACN/DepartmentChainStore/github/DepartmentStore/UserService_5002/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Data/Programming/Project/DACN/DepartmentChainStore/github/dev/DepartmentStore/UserService_5002/Views/Shared/_Layout.cshtml]
+[D:/Data/Programming/Project/DACN/DepartmentChainStore/github/DepartmentStore/UserService_5002/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-bi6jjb56rl

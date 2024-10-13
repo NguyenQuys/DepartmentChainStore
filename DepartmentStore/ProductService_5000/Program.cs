@@ -17,47 +17,50 @@ builder.Services.AddDbContext<ProductDbContext>(options =>
 
 // Set up interfaces
 builder.Services.AddScoped<IS_Product, S_Product>();
-builder.Services.AddHttpContextAccessor(); // Add IHttpContextAccessor
-builder.Services.AddScoped<CurrentUserHelper>();  // Register CurrentUserHelper
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<CurrentUserHelper>();
 
-// Add Jwt authentication
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.Authority = "https://localhost:5001"; // Địa chỉ của IdentityServer
-    options.RequireHttpsMetadata = false; // Chỉ dùng cho phát triển
-    options.Audience = "ProductService_5000"; // Scope của dịch vụ này
-});
+// Add JWT Authentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = "https://localhost:5001"; // IdentityServer URL
+        options.Audience = "ProductService_5000";
+        options.RequireHttpsMetadata = false; // Set to true in production
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = "https://localhost:5001",
+            ValidAudience = "ProductService_5000",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
 
+// Add Authorization
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("RequireAdminRole", policy =>
-    {
-        policy.RequireAuthenticatedUser();
-        //policy.RequireRole("1");
-    });
-    options.AddPolicy("ProductServicePolicy", policy =>
-    {
-        policy.RequireClaim("scope", "ProductService");
-    });
-
+    options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("ProductServicePolicy", policy => policy.RequireClaim("scope", "ProductService_5000"));
 });
 
-
+// Add CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigin",
-        builder => builder.WithOrigins("http://localhost:5002") // Allow UserService
-                          .AllowAnyHeader()
-                          .AllowAnyMethod());
+    options.AddPolicy("AllowUserService", policy =>
+    {
+        policy.WithOrigins("https://localhost:5002")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
 });
 
 // Add JwtHelper as a singleton
-builder.Services.AddSingleton<JwtHelper, JwtHelper>();
+builder.Services.AddSingleton<IJwtHelper, JwtHelper>();
+
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 
@@ -70,13 +73,13 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
+
+// Use CORS before authentication and authorization
+app.UseCors("AllowUserService");
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.UseCors("AllowSpecificOrigin"); // communicate service
 
 // Map default route for controllers
 app.MapControllerRoute(
