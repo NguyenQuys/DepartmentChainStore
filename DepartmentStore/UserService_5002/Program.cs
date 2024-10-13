@@ -1,6 +1,8 @@
 using IdentityServer.Utilities;
 using Microsoft.EntityFrameworkCore;
-using ProductService_5000.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using UserService_5002.Models;
 using UserService_5002.Services;
 
@@ -14,23 +16,45 @@ builder.Services.AddDbContext<UserDbContext>(options =>
     options.UseSqlServer(GetConnectionString("DefaultConnection")));
 
 // Add JWT Authentication
-builder.Services.AddAuthentication("Bearer").AddJwtBearer("Bearer", options =>
-{
-    options.Authority = "https://localhost:5001"; // Make sure this URL is correct
-    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
     {
-        ValidateAudience = false
-    };
-});
+        options.Authority = "https://localhost:5001"; // Make sure this URL is correct
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = false,
+            ValidateIssuerSigningKey = true,
+            // Configure issuer and audience as needed, e.g.:
+            ValidIssuer = builder.Configuration["jwt:Issuer"],
+            ValidAudience = builder.Configuration["jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["jwt:Key"])),
+            ClockSkew = TimeSpan.Zero // Eliminate default clock skew of 5 minutes
+        };
 
-builder.Services.AddHttpClient(); // Call API to productservice
-builder.Services.AddHttpContextAccessor(); 
+        // Automatically extract the JWT token from cookies
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var token = context.Request.Cookies["jwt"];
+                if (!string.IsNullOrEmpty(token))
+                {
+                    context.Token = token;
+                }
+                return Task.CompletedTask;
+            }
+        };
+    });
+
+// Register your services
+builder.Services.AddHttpClient(); // For calling API to ProductService
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IS_User, S_User>();
 builder.Services.AddScoped<ISendMailSMTP, SendMailSMTP>();
 builder.Services.AddScoped<IOTP_Verify, OTP_Verify>();
-// Product Service
 builder.Services.AddScoped<IS_ProductFromUser, S_ProductFromUser>();
-builder.Services.AddScoped<CurrentUserHelper>();  // <-- Register it here
+builder.Services.AddScoped<CurrentUserHelper>();  // Register CurrentUserHelper
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("UserServicePolicy", policy =>
@@ -39,7 +63,7 @@ builder.Services.AddAuthorization(options =>
     });
 });
 
-// Register the JwtHelper as a singleton
+// Register JwtHelper as a singleton
 builder.Services.AddSingleton<IJwtHelper, JwtHelper>();
 
 var app = builder.Build();
@@ -56,9 +80,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication();
+app.UseAuthentication(); // Ensure this is before UseAuthorization
 app.UseAuthorization();
 
+// Map default route
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=User}/{action=Login}/{id?}");

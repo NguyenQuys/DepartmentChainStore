@@ -1,7 +1,10 @@
+using IdentityServer.Utilities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using ProductService_5000.Helper;
+using Microsoft.IdentityModel.Tokens;
 using ProductService_5000.Models;
 using ProductService_5000.Services;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,15 +17,36 @@ builder.Services.AddDbContext<ProductDbContext>(options =>
 
 // Set up interfaces
 builder.Services.AddScoped<IS_Product, S_Product>();
+builder.Services.AddHttpContextAccessor(); // Add IHttpContextAccessor
+builder.Services.AddScoped<CurrentUserHelper>();  // Register CurrentUserHelper
+
 // Add Jwt authentication
-builder.Services.AddAuthentication("Bearer").AddJwtBearer("Bearer", options =>
+builder.Services.AddAuthentication(options =>
 {
-    options.Authority = "https://localhost:5001";
-    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-    {
-        ValidateAudience = false
-    };
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.Authority = "https://localhost:5001"; // Địa chỉ của IdentityServer
+    options.RequireHttpsMetadata = false; // Chỉ dùng cho phát triển
+    options.Audience = "ProductService_5000"; // Scope của dịch vụ này
 });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireAdminRole", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        //policy.RequireRole("1");
+    });
+    options.AddPolicy("ProductServicePolicy", policy =>
+    {
+        policy.RequireClaim("scope", "ProductService");
+    });
+
+});
+
 
 builder.Services.AddCors(options =>
 {
@@ -30,15 +54,6 @@ builder.Services.AddCors(options =>
         builder => builder.WithOrigins("http://localhost:5002") // Allow UserService
                           .AllowAnyHeader()
                           .AllowAnyMethod());
-});
-
-// Add authorization with policy
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("ProductServicePolicy", policy =>
-    {
-        policy.RequireClaim("scope", "ProductService");
-    });
 });
 
 // Add JwtHelper as a singleton
@@ -62,7 +77,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseCors("AllowSpecificOrigin"); // communicate service
-
 
 // Map default route for controllers
 app.MapControllerRoute(

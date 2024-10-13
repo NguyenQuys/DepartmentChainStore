@@ -13,7 +13,7 @@ namespace UserService_5002.Controllers
             _s_ProductFromUser = s_Product;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetProductsByIdCategory(int id)
         {

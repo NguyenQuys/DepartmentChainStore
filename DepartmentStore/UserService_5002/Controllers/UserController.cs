@@ -1,4 +1,5 @@
-﻿using IdentityServer.Utilities;
+﻿using Azure.Core;
+using IdentityServer.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -13,8 +14,9 @@ namespace UserService_5002.Controllers
         private readonly IS_User _s_User;
         private readonly IJwtHelper _jwtHelper;
         private readonly MRes_InfoUser _currentUser;
+        public static string accessToken;
 
-        public UserController(IS_User s_User, IJwtHelper jwtHelper, CurrentUserHelper currentUserHelper)
+        public UserController(IS_User s_User, IJwtHelper jwtHelper,CurrentUserHelper currentUserHelper)
         {
             _s_User = s_User;
             _jwtHelper = jwtHelper;
@@ -57,7 +59,7 @@ namespace UserService_5002.Controllers
             }
         }
 
-        private void GenerateTokenAndRespond(MRes_Login mRes_Login)
+        private IActionResult GenerateTokenAndRespond(MRes_Login mRes_Login)
         {
             var claims = new List<Claim>
             {
@@ -90,24 +92,29 @@ namespace UserService_5002.Controllers
             }
 
             var token = _jwtHelper.BuildToken(claims.ToArray(), expires: 60);
+            accessToken = token;
 
             Response.Cookies.Append("jwt", token, new CookieOptions
             {
                 HttpOnly = true, // Helps prevent XSS attacks
                 Secure = true,   // Set to true if using HTTPS
-                Expires = DateTime.UtcNow.AddMinutes(60)
+                Expires = DateTime.UtcNow.AddMinutes(60),
+                SameSite = SameSiteMode.None  // Nếu sử dụng cross-origin
+            });
+
+            return Ok(new
+            {
+                Token = token,
+                Message = $"Đăng nhập thành công. {mRes_Login.Account}"
             });
         }
 
         [HttpGet]
         public IActionResult GetCurrentUser()
         {
-            if (User.Identity.IsAuthenticated)
+            if (_currentUser == null)
             {
-                if (_currentUser == null)
-                {
-                    return Unauthorized();
-                }
+                return Unauthorized();
             }
 
             return Ok(_currentUser);
