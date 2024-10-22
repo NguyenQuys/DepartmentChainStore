@@ -1,9 +1,10 @@
+using APIGateway.Utilities;
 using IdentityModel.Client;
-using IdentityServer.Utilities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using UserService_5002.Helper;
 using UserService_5002.Models;
 using UserService_5002.Services;
 
@@ -16,28 +17,43 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<UserDbContext>(options =>
     options.UseSqlServer(GetConnectionString("DefaultConnection")));
 
-// Add JWT Authentication
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
+// Cấu hình JWT Authentication
+builder.Services.AddAuthentication(options =>
+{
+    // Use JWT as the default authentication scheme
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        options.Authority = "https://localhost:5001"; // IdentityServer URL
-        options.Audience = "UserService_5002"; // This should match the API scope
-        options.RequireHttpsMetadata = false; // Set to true in production
-        options.TokenValidationParameters = new TokenValidationParameters
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["jwt:Issuer"],            // Get Issuer from appsettings.json
+        ValidAudience = builder.Configuration["jwt:Audience"],        // Get Audience from appsettings.json
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["jwt:Key"])),  // Get Key from appsettings.json
+        ClockSkew = TimeSpan.Zero // Eliminate default clock skew of 5 minutes
+    };
+
+    // Automatically extract the JWT token from cookies
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
         {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = "https://localhost:5001",
-            ValidAudience = "UserService_5002",
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["jwt:Key"])),
-            ClockSkew = TimeSpan.Zero
-        };
-    });
+            var token = context.Request.Cookies["jwt"];
+            if (!string.IsNullOrEmpty(token))
+            {
+                context.Token = token;
+            }
+            return Task.CompletedTask;
+        }
+    };
+});
 
 // Register your services (same as before)
-builder.Services.AddHttpClient("IdentityServer", client =>
+builder.Services.AddHttpClient("APIGateway", client =>
 {
     client.BaseAddress = new Uri("https://localhost:5001/");
 });
@@ -76,46 +92,69 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddSingleton<IJwtHelper, JwtHelper>();
 
-// Add CORS
+// Add CORS once and configure all policies
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowProductService", policy =>
+    options.AddPolicy("AllowAllOrigins", policy =>
     {
-        policy.WithOrigins("https://localhost:5000")
+        policy.WithOrigins("https://localhost:5001", "https://localhost:5000") // Allow both IdentityServer and ProductService
               .AllowAnyHeader()
-              .AllowAnyMethod();
+              .AllowAnyMethod()
+              .AllowCredentials();
     });
+
+    //options.AddPolicy("AllowProductService", policy =>
+    //{
+    //    policy.WithOrigins("https://localhost:5000")
+    //          .AllowAnyHeader()
+    //          .AllowAnyMethod()
+    //          .AllowCredentials();
+    //});
+
+    //options.AddPolicy("AllowSpecificOrigin", policy =>
+    //{
+    //    policy.WithOrigins("https://localhost:5001")
+    //          .AllowAnyHeader()
+    //          .AllowAnyMethod()
+    //          .AllowCredentials();
+    //});
+
+    options.AddPolicy("AllowApiGateway",
+            builder =>
+            {
+                builder.WithOrigins("https://localhost:7076")  // Cho phép API Gateway
+                       .AllowAnyHeader()
+                       .AllowAnyMethod()
+                       .AllowCredentials();  // Cho phép cookie được gửi
+            });
 });
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
-}
+// Use the specific CORS policy needed in the middleware
+app.UseCors("AllowAllOrigins");  // Use this if you need to allow all origins
+app.UseCors("AllowSpecificOrigin");
 
+
+app.UseCookiePolicy(new CookiePolicyOptions
+{
+    MinimumSameSitePolicy = SameSiteMode.None, // Required for cross-domain
+});
+
+// Other middleware and configurations remain the same
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-// Use CORS before authentication and authorization
-app.UseCors("AllowProductService");
-
 app.UseAuthentication();
 app.UseAuthorization();
-
-// Configure routing to support areas
-app.MapControllerRoute(
-    name: "areas",
-    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
 
 // Method to retrieve the connection string
 string GetConnectionString(string name)

@@ -34,12 +34,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\APIGateway\APIGateway.csproj" />
     <ProjectReference Include="..\IdentityServer\IdentityServer.csproj" />
     <ProjectReference Include="..\ProductService_5000\ProductService_5000.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Response\" />
   </ItemGroup>
 
 </Project>

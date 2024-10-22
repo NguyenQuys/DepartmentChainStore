@@ -1,10 +1,46 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\DepartmentStore\\",
+  "WorkspaceRootPath": "D:\\DepartmentStore\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\departmentstore\\userservice_5002\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\departmentstore\\productservice_5000\\mapper\\mapperprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|solutionrelative:productservice_5000\\mapper\\mapperprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\departmentstore\\productservice_5000\\services\\s_product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|solutionrelative:productservice_5000\\services\\s_product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\departmentstore\\productservice_5000\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|solutionrelative:productservice_5000\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|d:\\departmentstore\\apigateway\\ocelot.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|solutionrelative:apigateway\\ocelot.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\departmentstore\\productservice_5000\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|solutionrelative:productservice_5000\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\departmentstore\\userservice_5002\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|solutionrelative:userservice_5002\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\departmentstore\\userservice_5002\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|solutionrelative:userservice_5002\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\departmentstore\\productservice_5000\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|solutionrelative:productservice_5000\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|d:\\departmentstore\\apigateway\\utilities\\currentuserhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|solutionrelative:apigateway\\utilities\\currentuserhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\departmentstore\\userservice_5002\\helper\\jwthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|solutionrelative:userservice_5002\\helper\\jwthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,19 +50,136 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\DepartmentStore\\UserService_5002\\Program.cs",
-              "RelativeDocumentMoniker": "UserService_5002\\Program.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\DepartmentStore\\UserService_5002\\Program.cs",
-              "RelativeToolTip": "UserService_5002\\Program.cs",
-              "ViewState": "AgIAAF4AAAAAAAAAAAAAAGAAAAABAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "ocelot.json",
+              "DocumentMoniker": "D:\\DepartmentStore\\APIGateway\\ocelot.json",
+              "RelativeDocumentMoniker": "APIGateway\\ocelot.json",
+              "ToolTip": "D:\\DepartmentStore\\APIGateway\\ocelot.json",
+              "RelativeToolTip": "APIGateway\\ocelot.json",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAACkAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-10-22T15:28:49.37Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Product.cs",
+              "DocumentMoniker": "D:\\DepartmentStore\\ProductService_5000\\Models\\Product.cs",
+              "RelativeDocumentMoniker": "ProductService_5000\\Models\\Product.cs",
+              "ToolTip": "D:\\DepartmentStore\\ProductService_5000\\Models\\Product.cs",
+              "RelativeToolTip": "ProductService_5000\\Models\\Product.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAswBIAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-13T18:26:14.587Z",
+              "WhenOpened": "2024-10-22T14:35:54.623Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MapperProfile.cs",
+              "DocumentMoniker": "D:\\DepartmentStore\\ProductService_5000\\Mapper\\MapperProfile.cs",
+              "RelativeDocumentMoniker": "ProductService_5000\\Mapper\\MapperProfile.cs",
+              "ToolTip": "D:\\DepartmentStore\\ProductService_5000\\Mapper\\MapperProfile.cs",
+              "RelativeToolTip": "ProductService_5000\\Mapper\\MapperProfile.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-22T14:33:26.608Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "S_Product.cs",
+              "DocumentMoniker": "D:\\DepartmentStore\\ProductService_5000\\Services\\S_Product.cs",
+              "RelativeDocumentMoniker": "ProductService_5000\\Services\\S_Product.cs",
+              "ToolTip": "D:\\DepartmentStore\\ProductService_5000\\Services\\S_Product.cs",
+              "RelativeToolTip": "ProductService_5000\\Services\\S_Product.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAADwvywAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-22T14:32:06.863Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ProductController.cs",
+              "DocumentMoniker": "D:\\DepartmentStore\\ProductService_5000\\Controllers\\ProductController.cs",
+              "RelativeDocumentMoniker": "ProductService_5000\\Controllers\\ProductController.cs",
+              "ToolTip": "D:\\DepartmentStore\\ProductService_5000\\Controllers\\ProductController.cs",
+              "RelativeToolTip": "ProductService_5000\\Controllers\\ProductController.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAADwvyoAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-22T14:05:52.021Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\DepartmentStore\\UserService_5002\\Program.cs",
+              "RelativeDocumentMoniker": "UserService_5002\\Program.cs",
+              "ToolTip": "D:\\DepartmentStore\\UserService_5002\\Program.cs",
+              "RelativeToolTip": "UserService_5002\\Program.cs",
+              "ViewState": "AgIAADMAAAAAAAAAAAAAAEwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-22T14:15:47.929Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "D:\\DepartmentStore\\UserService_5002\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "UserService_5002\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "D:\\DepartmentStore\\UserService_5002\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "UserService_5002\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAOMAAAAAAAAAAAAAAOkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-22T14:24:20.511Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\DepartmentStore\\ProductService_5000\\Program.cs",
+              "RelativeDocumentMoniker": "ProductService_5000\\Program.cs",
+              "ToolTip": "D:\\DepartmentStore\\ProductService_5000\\Program.cs",
+              "RelativeToolTip": "ProductService_5000\\Program.cs",
+              "ViewState": "AgIAACUAAAAAAAAAAAAAADoAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-22T14:08:24.318Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "CurrentUserHelper.cs",
+              "DocumentMoniker": "D:\\DepartmentStore\\APIGateway\\Utilities\\CurrentUserHelper.cs",
+              "RelativeDocumentMoniker": "APIGateway\\Utilities\\CurrentUserHelper.cs",
+              "ToolTip": "D:\\DepartmentStore\\APIGateway\\Utilities\\CurrentUserHelper.cs",
+              "RelativeToolTip": "APIGateway\\Utilities\\CurrentUserHelper.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-22T14:05:30.878Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "JwtHelper.cs",
+              "DocumentMoniker": "D:\\DepartmentStore\\UserService_5002\\Helper\\JwtHelper.cs",
+              "RelativeDocumentMoniker": "UserService_5002\\Helper\\JwtHelper.cs",
+              "ToolTip": "D:\\DepartmentStore\\UserService_5002\\Helper\\JwtHelper.cs",
+              "RelativeToolTip": "UserService_5002\\Helper\\JwtHelper.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-22T14:05:10.486Z",
               "EditorCaption": ""
             }
           ]

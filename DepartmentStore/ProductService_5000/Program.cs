@@ -1,7 +1,10 @@
-using IdentityServer.Utilities;
+using APIGateway.Utilities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using ProductService_5000.Mapper;
 using ProductService_5000.Models;
 using ProductService_5000.Services;
 using System.Text;
@@ -11,56 +14,62 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Configure DbContext
+// Configure the DbContext with the connection string from appsettings.json
 builder.Services.AddDbContext<ProductDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Set up interfaces
-builder.Services.AddScoped<IS_Product, S_Product>();
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<CurrentUserHelper>();
+builder.Services.AddAutoMapper(typeof(MapperProfile)); // Đăng ký Profile của bạn
 
-// Add JWT Authentication
+// Configure JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.Authority = "https://localhost:5001"; // IdentityServer URL
         options.Audience = "ProductService_5000";
         options.RequireHttpsMetadata = false; // Set to true in production
+
+
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
+            ValidateIssuer = false,
+            ValidateAudience = false,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = "https://localhost:5001",
-            ValidAudience = "ProductService_5000",
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],        // Correct case: "Jwt" instead of "jwt"
+            ValidAudience = builder.Configuration["Jwt:Audience"],    // Ensure correct section name
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"])),
+            ClockSkew = TimeSpan.Zero // Eliminate default clock skew of 5 minutes
+        };
+
+        // Automatically extract the JWT token from cookies
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var token = context.Request.Cookies["jwt"];
+                if (!string.IsNullOrEmpty(token))
+                {
+                    context.Token = token;
+                }
+                return Task.CompletedTask;
+            }
         };
     });
 
-// Add Authorization
+// Add HttpContextAccessor
+builder.Services.AddHttpContextAccessor();
+
+// Register the product service
+builder.Services.AddScoped<IS_Product, S_Product>();
+builder.Services.AddScoped<CurrentUserHelper>();
+
+// Add Authorization policies if needed
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
-    options.AddPolicy("ProductServicePolicy", policy => policy.RequireClaim("scope", "ProductService_5000"));
+    options.AddPolicy("RequireAuthenticatedUser", policy => policy.RequireAuthenticatedUser());
 });
 
-// Add CORS
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowUserService", policy =>
-    {
-        policy.WithOrigins("https://localhost:5002")
-              .AllowAnyHeader()
-              .AllowAnyMethod();
-    });
-});
-
-// Add JwtHelper as a singleton
-builder.Services.AddSingleton<IJwtHelper, JwtHelper>();
-
-builder.Services.AddHttpClient();
+// Add Controllers
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -71,19 +80,18 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+// Middleware: Use HTTPS redirection and static files
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+// Middleware: Use routing
 app.UseRouting();
 
-// Use CORS before authentication and authorization
-app.UseCors("AllowUserService");
-
-app.UseAuthentication();
+// Enable authentication and authorization
+app.UseAuthentication(); // This must come before UseAuthorization()
 app.UseAuthorization();
 
-// Map default route for controllers
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Product}/{action=GetAll}/{id?}");
+// Map Controllers
+app.MapControllers();
 
 app.Run();

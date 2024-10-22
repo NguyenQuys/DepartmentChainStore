@@ -1,13 +1,15 @@
-﻿using IdentityServer.Utilities;
-using Microsoft.AspNetCore.Authorization;
+﻿using APIGateway.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using UserService_5002.Helper;
 using UserService_5002.Models;
 using UserService_5002.Request;
 using UserService_5002.Services;
 
 namespace UserService_5002.Controllers
 {
+
+    [Route("[controller]/[action]")]
     public class UserController : Controller
     {
         private readonly IS_User _s_User;
@@ -38,9 +40,12 @@ namespace UserService_5002.Controllers
         [HttpGet]
         public async Task<IActionResult> Login()
         {
+            if(_currentUser.IdRole != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Login(MReq_Login loginRequest)
@@ -95,9 +100,27 @@ namespace UserService_5002.Controllers
             {
                 HttpOnly = true, // Helps prevent XSS attacks
                 Secure = true,   // Set to true if using HTTPS
-                Expires = DateTime.UtcNow.AddMinutes(60)
+                Expires = DateTime.UtcNow.AddMinutes(60),
+                SameSite = SameSiteMode.None // Đảm bảo cookie không bị giới hạn bởi cross-site requests
+
             });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            var logout = await _s_User.Logout(_currentUser);
+            Response.Cookies.Delete("jwt", new CookieOptions
+            {
+                Domain = "localhost",  // Đảm bảo domain là localhost để cookie có thể được truy cập từ 7076 và 5002
+                HttpOnly = true,
+                Secure = true,  
+            });
+
+            //return Ok(new { message = logout });
+            return RedirectToAction("Login", "User");
+        }
+
 
         [HttpGet]
         public IActionResult GetCurrentUser()

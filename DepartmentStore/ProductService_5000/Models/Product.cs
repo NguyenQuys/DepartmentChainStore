@@ -16,7 +16,7 @@ namespace ProductService_5000.Models
 
         public CategoryProduct CategoryProduct { get; set; }
 
-        public bool IsHide { get; set; } = false;
+        public bool IsHide { get; set; }
 
         public ICollection<Image> Images { get; set; }
 

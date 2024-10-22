@@ -4,7 +4,7 @@ using ProductService_5000.Services;
 
 namespace ProductService_5000.Controllers.ResponseAPIs
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class ProductApiController : ControllerBase
     {
         private readonly IS_Product _s_Product;
@@ -16,7 +16,7 @@ namespace ProductService_5000.Controllers.ResponseAPIs
         }
 
         [Authorize]
-        [HttpGet("ResponseAPIGetProductsByIdCategory/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> ResponseAPIGetProductsByIdCategory(int id)
         {
             var productCategoryToGet = await _s_Product.GetProductsByIdCategory(id);

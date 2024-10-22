@@ -1,5 +1,5 @@
-﻿using IdentityServer.Constant;
-using IdentityServer.Utilities;
+﻿using APIGateway.Utilities;
+using IdentityServer.Constant;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using UserService_5002.Models;
@@ -11,6 +11,7 @@ namespace UserService_5002.Services
     {
         Task<MRes_Login> Login(MReq_Login loginRequest);
         Task<(List<User> AddedUsers, List<string> ExistingPhoneNumbers)> SignUp(List<User> users, MRes_InfoUser currentUser);
+        Task<string> Logout(MRes_InfoUser currentUser);
     }
 
     public class S_User : IS_User
@@ -273,6 +274,15 @@ namespace UserService_5002.Services
             emailbody += "<h3><span>Lưu ý:</span> Mã này chỉ có hiệu lực trong vòng 1 phút</h3>";
             emailbody += "</div>";
             return emailbody;
+        }
+
+        public async Task<string> Logout(MRes_InfoUser currentUser)
+        {
+            var user = await _context.UserOtherInfo.FirstOrDefaultAsync(m => m.UserId == int.Parse(currentUser.IdUser));
+            user.LogoutTime = DateTime.Now;
+            _context.Update(user);
+            await _context.SaveChangesAsync();
+            return "Đăng xuất thành công";
         }
     }
 }
