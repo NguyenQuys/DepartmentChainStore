@@ -1,0 +1,56 @@
+﻿@model UserService_5002.Request.MReq_Login
+@{
+    ViewData["Title"] = "Đăng nhập";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login with Tabs</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Ladda CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/ladda/1.0.0/ladda-themeless.min.css" rel="stylesheet">
+    <style>
+        .ladda-button {
+            position: relative;
+        }
+    </style>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS (Optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Ladda JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Ladda/1.0.0/spin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Ladda/1.0.0/ladda.min.js"></script>
+  
+    <!--Customize-->
+    <script src="~/controller/user+login.js" asp-append-version="true"></script>
+    <partial name = "_P_Scripts" />
+</head>
+<body>
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="card p-4" style="width: 25rem;">
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-loginA" role="tabpanel" aria-labelledby="pills-loginA-tab">
+                    <h2 class="text-center mb-4">Đăng nhập</h2>
+                    <form id="loginForm" method="post" asp-antiforgery="true">
+                        <div class="mb-3">
+                            <label class="form-label">Tên đăng nhập</label>
+                            <input type="text" class="form-control" id="login-username" asp-for="@Model.UserName" placeholder="Nhập tên đăng nhập..." required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Mật khẩu</label>
+                            <input type="password" class="form-control" id="login-password" asp-for="@Model.Password" placeholder="Nhập mật khẩu..." required>
+                        </div>
+                        <button type="submit" data-style="expand-right" id="btn_submit_form" class="btn btn-primary d-grid w-100 ladda-button">Đăng Nhập</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
