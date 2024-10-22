@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "AUl0X0xNLT8=",
+  "dgSpecHash": "VufNMJq53fs=",
   "success": true,
-  "projectFilePath": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\ProductService_5000.csproj",
+  "projectFilePath": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\main\\DepartmentStore\\ProductService_5000\\ProductService_5000.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nguye\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\nguye\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
