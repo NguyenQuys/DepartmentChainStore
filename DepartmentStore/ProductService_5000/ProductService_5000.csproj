@@ -42,8 +42,4 @@
     <ProjectReference Include="..\IdentityServer\IdentityServer.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\uploads\" />
-  </ItemGroup>
-
 </Project>
