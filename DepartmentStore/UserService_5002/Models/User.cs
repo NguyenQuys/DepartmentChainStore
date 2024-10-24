@@ -1,0 +1,20 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace UserService_5002.Models
+{
+    public class User
+    {
+        [Key]
+        public int UserId { get; set; }
+
+        [MaxLength(10)]
+        public string PhoneNumber { get; set; }
+
+        [MaxLength(61)]
+        public string? Password { get; set; }
+
+        public bool IsActive { get; set; } = true;
+
+        public UserOtherInfo UserOtherInfo { get; set; }
+    }
+}
