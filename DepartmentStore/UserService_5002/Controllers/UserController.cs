@@ -1,4 +1,6 @@
-﻿using APIGateway.Utilities;
+﻿using APIGateway.Response;
+using APIGateway.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using UserService_5002.Helper;
@@ -54,7 +56,7 @@ namespace UserService_5002.Controllers
             {
                 var login = await _s_User.Login(loginRequest);
                 GenerateTokenAndRespond(login);
-                return Json(new {success = true, message="Đăng nhập thành công. Đang chuyển hướng..."});
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
             {
@@ -134,6 +136,15 @@ namespace UserService_5002.Controllers
             }
 
             return Ok(_currentUser);
+        }
+
+        // Manage User
+        [HttpGet]
+        [Authorize(Roles = "3,4")]
+        public async Task<IActionResult> GetListUser(int idRoleRequest)
+        {
+            var listUserToGet = await _s_User.GetListUser(idRoleRequest, _currentUser);
+            return Json(listUserToGet);
         }
     }
 }

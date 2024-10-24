@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Zp3M/GQDJczdZQG3VPRO5ITrkaWvMWweZH94lH9Gq0c=",
+  "Hash": "aHE9gxu8dv4RURnw6zRT3qjmyqWeWexKDFL2tbFinpA=",
   "Source": "UserService_5002",
   "BasePath": "_content/UserService_5002",
   "Mode": "Default",
@@ -5915,6 +5915,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\controller\\ProductFromUser_index.js"
+    },
+    {
+      "Identity": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\controller\\User.js",
+      "SourceId": "UserService_5002",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\",
+      "BasePath": "_content/UserService_5002",
+      "RelativePath": "controller/User.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\controller\\User.js"
     },
     {
       "Identity": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\controller\\user+login.js",

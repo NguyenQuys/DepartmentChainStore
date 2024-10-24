@@ -1,4 +1,5 @@
-﻿using APIGateway.Utilities;
+﻿using APIGateway.Response;
+using APIGateway.Utilities;
 using IdentityServer.Constant;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
@@ -12,6 +13,8 @@ namespace UserService_5002.Services
         Task<MRes_Login> Login(MReq_Login loginRequest);
         Task<(List<User> AddedUsers, List<string> ExistingPhoneNumbers)> SignUp(List<User> users, MRes_InfoUser currentUser);
         Task<string> Logout(MRes_InfoUser currentUser);
+
+        Task<List<UserOtherInfo>> GetListUser(int idCategory, MRes_InfoUser currentUser);
     }
 
     public class S_User : IS_User
@@ -32,7 +35,6 @@ namespace UserService_5002.Services
         {
             var newPhoneNumbers = users.Select(u => u.PhoneNumber).ToList();
 
-            // Lấy danh sách số điện thoại đã tồn tại trong database
             var existingPhoneNumbers = await _context.Users
                                                      .Where(p => newPhoneNumbers.Contains(p.PhoneNumber))
                                                      .Select(p => p.PhoneNumber)
@@ -40,7 +42,6 @@ namespace UserService_5002.Services
 
             var phoneNumbersToAdd = newPhoneNumbers.Except(existingPhoneNumbers).ToList();
 
-            // Nếu tất cả số điện thoại đã tồn tại, ném ngoại lệ
             if (!phoneNumbersToAdd.Any())
             {
                 throw new Exception("Số điện thoại đã tồn tại");
@@ -50,7 +51,7 @@ namespace UserService_5002.Services
             var userList = new List<User>();
             var userOtherInfoList = new List<UserOtherInfo>();
 
-            using (var transaction = await _context.Database.BeginTransactionAsync()) // Bắt đầu transaction để đảm bảo tính toàn vẹn
+            using (var transaction = await _context.Database.BeginTransactionAsync()) 
             {
                 try
                 {
@@ -68,7 +69,7 @@ namespace UserService_5002.Services
                         {
                             PhoneNumber = user.PhoneNumber,
                             Password = user.Password != null ? BCrypt.Net.BCrypt.HashPassword(user.Password) : null, // Hash mật khẩu nếu có
-                            IsActive = true // Mặc định trạng thái là active
+                            //IsActive = true // Mặc định trạng thái là active
                         };
                         userList.Add(newUser);
                     }
@@ -83,7 +84,6 @@ namespace UserService_5002.Services
 
                         if (userFromInput == null) continue;
 
-                        // Kiểm tra độ dài của FullName và Email trước khi lưu vào bảng UserOtherInfo
                         if (userFromInput.UserOtherInfo.FullName.Length > 60)
                         {
                             throw new Exception("Họ tên không được vượt quá 60 ký tự");
@@ -98,20 +98,19 @@ namespace UserService_5002.Services
 
                         var newUserOtherInfo = new UserOtherInfo
                         {
-                            UserId = newUser.UserId, // Liên kết với UserId vừa tạo
+                            UserId = newUser.UserId, 
                             FullName = userFromInput.UserOtherInfo.FullName,
                             Email = userFromInput.UserOtherInfo.Email,
-                            DateOfBirth = userFromInput.UserOtherInfo.DateOfBirth, // Lưu DateOfBirth với kiểu DateTime
+                            DateOfBirth = userFromInput.UserOtherInfo.DateOfBirth, 
                             Gender = userFromInput.UserOtherInfo.Gender,
-                            RoleId = userFromInput.UserOtherInfo.RoleId, // Nếu không chỉ định thì gán roleId mặc định là 1
-                            IdBranch = userFromInput.UserOtherInfo.IdBranch, // Nullable, cần kiểm tra nếu null
-                            Salary = userFromInput.UserOtherInfo.Salary, // Nullable, cần kiểm tra trước khi lưu
+                            RoleId = userFromInput.UserOtherInfo.RoleId,
+                            IdBranch = userFromInput.UserOtherInfo.IdBranch, 
+                            Salary = userFromInput.UserOtherInfo.Salary, 
                             BeginDate = DateTime.Now,
                             UpdatedAt = DateTime.Now,
-                            UpdateBy = int.Parse(currentUser.IdUser) // Người cập nhật
+                            UpdateBy = int.Parse(currentUser.IdUser)
                         };
 
-                        // Kiểm tra quyền người dùng hiện tại
                         if (!string.IsNullOrEmpty(currentUser.IdRole))
                         {
                             if (currentUser.IdRole.Equals("3") && userFromInput.UserOtherInfo.RoleId == 2)
@@ -182,7 +181,7 @@ namespace UserService_5002.Services
 
             var userInfo = await _context.UserOtherInfo.FirstOrDefaultAsync(m => m.UserId == user.UserId);
 
-            if (!user.IsActive)
+            if (!userInfo.IsActive)
             {
                 phoneNumberTemporary = user.PhoneNumber;
                 var activeCode = GenerateCode();
@@ -212,7 +211,7 @@ namespace UserService_5002.Services
                 userInfo.LoginTime = DateTime.Now;
                 if (userInfo.NumberOfIncorrectEntries > 5)
                 {
-                    user.IsActive = false;
+                    //user.IsActive = false;
                     _context.Update(user);
                     _context.SaveChanges();
                     throw new Exception("Tài khoản của bạn đã bị khóa. Hãy xác thực mã OTP để kích hoạt lại");
@@ -221,10 +220,10 @@ namespace UserService_5002.Services
 
                 throw new Exception("Mật khẩu không đúng.");
             }
-            else if (!user.IsActive)
-            {
-                throw new Exception("Tài khoản chưa được kích hoạt");
-            }
+            //else if (!user.IsActive)
+            //{
+            //    throw new Exception("Tài khoản chưa được kích hoạt");
+            //}
 
             // Branch login
             //if (!string.IsNullOrEmpty(mReq_Login.BranchAccount) && !string.IsNullOrEmpty(mReq_Login.BranchPassword))
@@ -283,6 +282,12 @@ namespace UserService_5002.Services
             _context.Update(user);
             await _context.SaveChangesAsync();
             return "Đăng xuất thành công";
+        }
+
+        public async Task<List<UserOtherInfo>> GetListUser(int idRole, MRes_InfoUser currentUser)
+        {
+            var listUserToGet = await _context.UserOtherInfo.Where(m => m.RoleId == idRole).ToListAsync();
+            return listUserToGet;
         }
     }
 }

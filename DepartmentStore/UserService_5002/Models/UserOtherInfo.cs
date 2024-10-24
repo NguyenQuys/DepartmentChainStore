@@ -42,5 +42,7 @@ namespace UserService_5002.Models
         public int UpdateBy { get; set; }
 
         public User User { get; set; }
+
+        public bool IsActive { get; set; } = true;
     }
 }

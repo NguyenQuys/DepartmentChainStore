@@ -45,9 +45,6 @@ namespace UserService_5002.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Password")
                         .HasMaxLength(61)
                         .HasColumnType("nvarchar(61)");
@@ -91,6 +88,9 @@ namespace UserService_5002.Migrations
 
                     b.Property<string>("IdBranch")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("LoginTime")
                         .HasColumnType("datetime2");

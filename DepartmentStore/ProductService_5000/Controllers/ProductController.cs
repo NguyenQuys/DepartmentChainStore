@@ -1,4 +1,5 @@
-﻿using APIGateway.Utilities;
+﻿using APIGateway.Response;
+using APIGateway.Utilities;
 using IdentityServer.Constant;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -70,8 +71,16 @@ namespace ProductService_5000.Controllers
         [HttpPost, Authorize(Roles = "1")]
         public async Task<IActionResult> UploadByExcel(IFormFile file)
         {
-            var result = await _s_Product.UploadByExcel(file,_currentUser);
-            return Json(result);
+            try
+            {
+                var result = await _s_Product.UploadByExcel(file, _currentUser);
+                return Json(new {result = 1, message = result});
+            }
+            catch (Exception ex)
+            {
+                return Json(new {result = -1, message = ex.Message});    
+            }
+            
         }
 
 

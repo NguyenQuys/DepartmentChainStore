@@ -236,6 +236,7 @@ function RemoveProduct(idProduct) {
     }
 }
 
+// Add By excel
 $(document).ready(function () {
     $('#add_product_by_excel').click(function () {
         var fileInput = $('#fileInput')[0].files[0];
@@ -255,7 +256,12 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: function (response) {
-                ShowToastNoti('success', '', response, 4000, 'topRight');
+                if (response.result === 1) {
+                    ShowToastNoti('success', '', response.message, 4000, 'topRight');
+                }
+                else {
+                    ShowToastNoti('error', '', response.message, 4000, 'topRight');
+                }
             },
             error: function (xhr, status, error) {
                 console.error('Error uploading product by Excel:', error);

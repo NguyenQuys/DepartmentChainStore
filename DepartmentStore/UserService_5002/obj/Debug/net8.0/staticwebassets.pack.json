@@ -9,6 +9,10 @@
       "PackagePath": "staticwebassets\\controller\\ProductFromUser_index.js"
     },
     {
+      "Id": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\controller\\User.js",
+      "PackagePath": "staticwebassets\\controller\\User.js"
+    },
+    {
       "Id": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\controller\\user+login.js",
       "PackagePath": "staticwebassets\\controller\\user+login.js"
     },

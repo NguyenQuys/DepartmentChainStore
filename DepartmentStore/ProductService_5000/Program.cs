@@ -22,7 +22,7 @@ ExcelPackage.LicenseContext = LicenseContext.NonCommercial; // Hoặc LicenseCon
 builder.Services.AddDbContext<ProductDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddAutoMapper(typeof(MapperProfile)); // Đăng ký Profile của bạn
+builder.Services.AddAutoMapper(typeof(ProductMapper)); // Đăng ký Profile của bạn
 
 // Configure JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

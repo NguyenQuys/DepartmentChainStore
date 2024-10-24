@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using APIGateway.Response;
+using System.Security.Claims;
 
 namespace APIGateway.Utilities
 {

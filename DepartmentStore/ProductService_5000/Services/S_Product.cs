@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using APIGateway.Response;
+using AutoMapper;
 using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
@@ -110,31 +111,36 @@ namespace ProductService_5000.Services
                     var worksheet = package.Workbook.Worksheets[0]; // Lấy worksheet đầu tiên
                     var rowCount = worksheet.Dimension.Rows;
 
-                    for (int row = 2; row <= rowCount; row++) // Bắt đầu từ dòng 2 nếu có tiêu đề
+                    for (int row = 2; row <= rowCount; row++) 
                     {
                         var productName = worksheet.Cells[row, 2].Text?.Trim();
                         if (string.IsNullOrEmpty(productName))
                         {
-                            continue; // Skip rows with empty product names
+                            continue;
                         }
 
                         if (!double.TryParse(worksheet.Cells[row, 3].Value?.ToString(), out double price))
                         {
-                            continue; // Skip rows with invalid price
+                            continue; 
                         }
 
                         if (!int.TryParse(worksheet.Cells[row, 4].Value?.ToString(), out int category))
                         {
-                            continue; // Skip rows with invalid category
+                            continue; 
+                        }
+                        var checkIfExistCategory = await _context.CategoryProducts.AnyAsync(m => m.Id == category);
+                        if (!checkIfExistCategory)
+                        {
+                            throw new Exception("Không tồn tại phân loại này");
                         }
 
                         var newProduct = new Product
                         {
                             ProductName = productName,
                             Price = (int)price,
-                            CategoryId = (byte)category, // Ensure `CategoryId` matches your DB column
+                            CategoryId = (byte)category, 
                             UpdatedBy = int.Parse(currentUser.IdUser),
-                            UpdatedTime = DateTime.UtcNow,
+                            UpdatedTime = DateTime.Now,
                             IsHide = false
                         };
 

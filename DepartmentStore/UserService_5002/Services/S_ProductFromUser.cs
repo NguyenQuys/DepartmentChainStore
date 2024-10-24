@@ -1,4 +1,5 @@
-﻿using IdentityModel.Client;
+﻿using APIGateway.Response;
+using IdentityModel.Client;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using ProductService_5000.Models;
