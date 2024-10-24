@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using ProductService_5000.Models;
 using ProductService_5000.Request;
+using System.Diagnostics;
 
 namespace ProductService_5000.Services
 {
@@ -9,11 +12,17 @@ namespace ProductService_5000.Services
     {
         Task<List<Product>> GetAllProducts();
         Task<Product> GetByIdAsync(int id);
-        Task<Product> AddProductAsync(MReq_Product productsRequest,MRes_InfoUser currentUser);
-        Task<Product> UpdateProductAsync(Product product);
+        Task<List<Product>> GetProductsByIdCategory(int id);
+
+        Task<string> AddProductAsync(MReq_Product productsRequest, MRes_InfoUser currentUser);
+        Task<string> UploadByExcel(IFormFile file, MRes_InfoUser currentUser);
+
+        Task<string> UpdateProductAsync(MReq_Product product, MRes_InfoUser currentUser);
+        Task<string> ChangeStatusProduct(int id, MRes_InfoUser currentUser);
+
         Task<Product> RemoveProduct(int id);
 
-        Task<List<Product>> GetProductsByIdCategory(int id);
+
     }
 
     public class S_Product : IS_Product
@@ -27,7 +36,7 @@ namespace ProductService_5000.Services
             _mapper = mapper;
         }
 
-        public async Task<Product> AddProductAsync(MReq_Product productRequest, MRes_InfoUser currentUser)
+        public async Task<string> AddProductAsync(MReq_Product productRequest, MRes_InfoUser currentUser)
         {
             if (currentUser.IdRole != "1")
             {
@@ -42,7 +51,7 @@ namespace ProductService_5000.Services
             }
 
             var product = _mapper.Map<Product>(productRequest);
-            product.UpdatedBy = int.Parse(currentUser.IdUser); 
+            product.UpdatedBy = int.Parse(currentUser.IdUser);
 
             if (productRequest.ProductImages != null && productRequest.ProductImages.Count > 0)
             {
@@ -66,7 +75,7 @@ namespace ProductService_5000.Services
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
-            return product;
+            return "Đã thêm sản phẩm thành công";
         }
 
         private async Task<string> SaveImageFileAsync(IFormFile file)
@@ -83,31 +92,123 @@ namespace ProductService_5000.Services
             return "/uploads/" + fileName;
         }
 
+        public async Task<string> UploadByExcel(IFormFile file, MRes_InfoUser currentUser)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return ("Không có file upload");
+            }
+
+            var products = new List<Product>();
+
+
+            using (var stream = new MemoryStream())
+            {
+                await file.CopyToAsync(stream);
+                using (var package = new ExcelPackage(stream))
+                {
+                    var worksheet = package.Workbook.Worksheets[0]; // Lấy worksheet đầu tiên
+                    var rowCount = worksheet.Dimension.Rows;
+
+                    for (int row = 2; row <= rowCount; row++) // Bắt đầu từ dòng 2 nếu có tiêu đề
+                    {
+                        var productName = worksheet.Cells[row, 2].Text?.Trim();
+                        if (string.IsNullOrEmpty(productName))
+                        {
+                            continue; // Skip rows with empty product names
+                        }
+
+                        if (!double.TryParse(worksheet.Cells[row, 3].Value?.ToString(), out double price))
+                        {
+                            continue; // Skip rows with invalid price
+                        }
+
+                        if (!int.TryParse(worksheet.Cells[row, 4].Value?.ToString(), out int category))
+                        {
+                            continue; // Skip rows with invalid category
+                        }
+
+                        var newProduct = new Product
+                        {
+                            ProductName = productName,
+                            Price = (int)price,
+                            CategoryId = (byte)category, // Ensure `CategoryId` matches your DB column
+                            UpdatedBy = int.Parse(currentUser.IdUser),
+                            UpdatedTime = DateTime.UtcNow,
+                            IsHide = false
+                        };
+
+                        products.Add(newProduct);
+                    }
+
+                    if (products.Count > 0)
+                    {
+                        await _context.BulkInsertOrUpdateAsync(products);
+                    }
+                }
+            }
+            return $"Nhập dữ liệu {products.Count} dòng từ file Excel thành công";
+        }
+
 
         public async Task<List<Product>> GetAllProducts()
         {
-            return await _context.Products.Where(m=>!m.IsHide).ToListAsync();
+            return await _context.Products.Where(m => !m.IsHide).ToListAsync();
         }
 
-        public Task<Product> GetByIdAsync(int id)
+        public async Task<Product> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var productToDisplay = await _context.Products.FindAsync(id);
+            return productToDisplay;
         }
 
-        public Task<Product> RemoveProduct(int id)
+        public async Task<Product> RemoveProduct(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<Product> UpdateProductAsync(Product product)
-        {
-            throw new NotImplementedException();
+            var productoRemove = await _context.Products.FindAsync(id);
+            _context.Remove(productoRemove);
+            await _context.SaveChangesAsync();
+            return productoRemove;
         }
 
         public async Task<List<Product>> GetProductsByIdCategory(int id)
         {
-            var productCategoryToGet = await _context.Products.Where(m=>m.CategoryId == id).ToListAsync();
+            var productCategoryToGet = await _context.Products.Where(m => m.CategoryId == id).ToListAsync();
             return productCategoryToGet;
+        }
+
+        public async Task<string> UpdateProductAsync(MReq_Product productRequest, MRes_InfoUser currentUser)
+        {
+            var productToUpdate = await _context.Products.FirstOrDefaultAsync(m => m.Id == productRequest.Id);
+            _mapper.Map(productRequest, productToUpdate);
+
+            productToUpdate.UpdatedBy = int.Parse(currentUser.IdUser);
+            _context.Products.Update(productToUpdate);
+            await _context.SaveChangesAsync();
+
+            return $"Cập nhật sản phẩm {productToUpdate.ProductName} thành công";
+        }
+
+        public async Task<string> ChangeStatusProduct(int id, MRes_InfoUser currentUser)
+        {
+            var productToChangeStatus = await _context.Products.FindAsync(id);
+            string message;
+            if (productToChangeStatus.IsHide)
+            {
+                productToChangeStatus.IsHide = false;
+                message = "Hiện sản phẩm thành công";
+            }
+            else
+            {
+                productToChangeStatus.IsHide = true;
+                message = "Ẩn sản phẩm thành công";
+            }
+
+            productToChangeStatus.UpdatedTime = DateTime.Now;
+            productToChangeStatus.UpdatedBy = int.Parse(currentUser.IdUser);
+            _context.Products.Update(productToChangeStatus);
+            await _context.SaveChangesAsync();
+
+            return message;
         }
 
     }

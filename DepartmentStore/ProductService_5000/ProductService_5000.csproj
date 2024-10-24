@@ -23,6 +23,8 @@
 
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="EFCore.BulkExtensions" Version="8.1.1" />
+    <PackageReference Include="EPPlus" Version="7.4.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -38,10 +40,6 @@
   <ItemGroup>
     <ProjectReference Include="..\APIGateway\APIGateway.csproj" />
     <ProjectReference Include="..\IdentityServer\IdentityServer.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\uploads\" />
   </ItemGroup>
 
 </Project>

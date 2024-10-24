@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "FM2Je8L2jds=",
+  "dgSpecHash": "Quh8lnsmq9g=",
   "success": true,
-  "projectFilePath": "D:\\DepartmentStore\\APIGateway\\APIGateway.csproj",
+  "projectFilePath": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\APIGateway.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nguye\\.nuget\\packages\\fluentvalidation\\11.10.0\\fluentvalidation.11.10.0.nupkg.sha512",
     "C:\\Users\\nguye\\.nuget\\packages\\ipaddressrange\\6.0.0\\ipaddressrange.6.0.0.nupkg.sha512",

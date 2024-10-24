@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\DepartmentStore\\IdentityServer\\IdentityServer.csproj": {}
+    "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\IdentityServer\\IdentityServer.csproj": {}
   },
   "projects": {
-    "D:\\DepartmentStore\\IdentityServer\\IdentityServer.csproj": {
+    "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\IdentityServer\\IdentityServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\DepartmentStore\\IdentityServer\\IdentityServer.csproj",
+        "projectUniqueName": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\IdentityServer\\IdentityServer.csproj",
         "projectName": "IdentityServer",
-        "projectPath": "D:\\DepartmentStore\\IdentityServer\\IdentityServer.csproj",
+        "projectPath": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\IdentityServer\\IdentityServer.csproj",
         "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-        "outputPath": "D:\\DepartmentStore\\IdentityServer\\obj\\",
+        "outputPath": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\IdentityServer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using OfficeOpenXml;
 using ProductService_5000.Mapper;
 using ProductService_5000.Models;
 using ProductService_5000.Services;
@@ -13,6 +14,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// EPPLUS
+ExcelPackage.LicenseContext = LicenseContext.NonCommercial; // Hoặc LicenseContext.Commercial nếu bạn có giấy phép thương mại
 
 // Configure the DbContext with the connection string from appsettings.json
 builder.Services.AddDbContext<ProductDbContext>(options =>

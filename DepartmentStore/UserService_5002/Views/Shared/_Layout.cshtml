@@ -32,7 +32,7 @@
       <!-- partial:partials/_settings-panel.html -->
       <div id="right-sidebar" class="settings-panel">
         <i class="settings-close ti-close"></i>
-            <button type="button" class="btn btn-primary p-5" id="settings-trigger" data-bs-toggle="modal" data-bs-target="#modal-add-product">
+            <button type="button" class="btn btn-primary p-5" id="settings-trigger" data-bs-toggle="modal" onclick="OpenModalProduct('addProduct')">
                 Thêm sản phẩm
             </button>
             <li class="nav-item">
@@ -195,7 +195,7 @@
   <!-- container-scroller -->
 
 <!-- Modal -->
-    <div class="modal fade" id="modal-add-product" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modal-product" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -225,7 +225,7 @@
                             <label for="productImages" class="form-label">Hình ảnh sản phẩm</label>
                             <input type="file" id="productImages" multiple />
                         </div>
-                        <button type="button" id="saveChangesBtn" class="btn btn-primary">Thêm sản phẩm</button>
+                        <button type="button" id="btn_product" class="btn btn-primary"></button>
                     </form>
                 </div>
             </div>

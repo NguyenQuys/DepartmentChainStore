@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\DepartmentStore\\UserService_5002\\UserService_5002.csproj": {}
+    "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\UserService_5002.csproj": {}
   },
   "projects": {
-    "D:\\DepartmentStore\\APIGateway\\APIGateway.csproj": {
+    "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\APIGateway.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\DepartmentStore\\APIGateway\\APIGateway.csproj",
+        "projectUniqueName": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\APIGateway.csproj",
         "projectName": "APIGateway",
-        "projectPath": "D:\\DepartmentStore\\APIGateway\\APIGateway.csproj",
+        "projectPath": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\APIGateway.csproj",
         "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-        "outputPath": "D:\\DepartmentStore\\APIGateway\\obj\\",
+        "outputPath": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -82,14 +82,14 @@
         }
       }
     },
-    "D:\\DepartmentStore\\IdentityServer\\IdentityServer.csproj": {
+    "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\IdentityServer\\IdentityServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\DepartmentStore\\IdentityServer\\IdentityServer.csproj",
+        "projectUniqueName": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\IdentityServer\\IdentityServer.csproj",
         "projectName": "IdentityServer",
-        "projectPath": "D:\\DepartmentStore\\IdentityServer\\IdentityServer.csproj",
+        "projectPath": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\IdentityServer\\IdentityServer.csproj",
         "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-        "outputPath": "D:\\DepartmentStore\\IdentityServer\\obj\\",
+        "outputPath": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\IdentityServer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -168,14 +168,14 @@
         }
       }
     },
-    "D:\\DepartmentStore\\ProductService_5000\\ProductService_5000.csproj": {
+    "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\ProductService_5000.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\DepartmentStore\\ProductService_5000\\ProductService_5000.csproj",
+        "projectUniqueName": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\ProductService_5000.csproj",
         "projectName": "ProductService_5000",
-        "projectPath": "D:\\DepartmentStore\\ProductService_5000\\ProductService_5000.csproj",
+        "projectPath": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\ProductService_5000.csproj",
         "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-        "outputPath": "D:\\DepartmentStore\\ProductService_5000\\obj\\",
+        "outputPath": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -193,11 +193,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\DepartmentStore\\APIGateway\\APIGateway.csproj": {
-                "projectPath": "D:\\DepartmentStore\\APIGateway\\APIGateway.csproj"
+              "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\APIGateway.csproj": {
+                "projectPath": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\APIGateway.csproj"
               },
-              "D:\\DepartmentStore\\IdentityServer\\IdentityServer.csproj": {
-                "projectPath": "D:\\DepartmentStore\\IdentityServer\\IdentityServer.csproj"
+              "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\IdentityServer\\IdentityServer.csproj": {
+                "projectPath": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\IdentityServer\\IdentityServer.csproj"
               }
             }
           }
@@ -220,6 +220,14 @@
             "BCrypt.Net-Next": {
               "target": "Package",
               "version": "[4.0.3, )"
+            },
+            "EFCore.BulkExtensions": {
+              "target": "Package",
+              "version": "[8.1.1, )"
+            },
+            "EPPlus": {
+              "target": "Package",
+              "version": "[7.4.1, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
@@ -265,14 +273,14 @@
         }
       }
     },
-    "D:\\DepartmentStore\\UserService_5002\\UserService_5002.csproj": {
+    "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\UserService_5002.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\DepartmentStore\\UserService_5002\\UserService_5002.csproj",
+        "projectUniqueName": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\UserService_5002.csproj",
         "projectName": "UserService_5002",
-        "projectPath": "D:\\DepartmentStore\\UserService_5002\\UserService_5002.csproj",
+        "projectPath": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\UserService_5002.csproj",
         "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-        "outputPath": "D:\\DepartmentStore\\UserService_5002\\obj\\",
+        "outputPath": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -290,14 +298,14 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\DepartmentStore\\APIGateway\\APIGateway.csproj": {
-                "projectPath": "D:\\DepartmentStore\\APIGateway\\APIGateway.csproj"
+              "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\APIGateway.csproj": {
+                "projectPath": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\APIGateway.csproj"
               },
-              "D:\\DepartmentStore\\IdentityServer\\IdentityServer.csproj": {
-                "projectPath": "D:\\DepartmentStore\\IdentityServer\\IdentityServer.csproj"
+              "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\IdentityServer\\IdentityServer.csproj": {
+                "projectPath": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\IdentityServer\\IdentityServer.csproj"
               },
-              "D:\\DepartmentStore\\ProductService_5000\\ProductService_5000.csproj": {
-                "projectPath": "D:\\DepartmentStore\\ProductService_5000\\ProductService_5000.csproj"
+              "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\ProductService_5000.csproj": {
+                "projectPath": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\ProductService_5000.csproj"
               }
             }
           }
