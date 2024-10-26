@@ -5,7 +5,6 @@ public class UserMapper : Profile
 {
     public UserMapper()
     {
-        
 
     }
 }

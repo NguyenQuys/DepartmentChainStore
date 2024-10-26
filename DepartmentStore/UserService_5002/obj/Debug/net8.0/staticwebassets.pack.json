@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\UserService_5002.bundle.scp.css"
     },
     {
+      "Id": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\controller\\Branch.js",
+      "PackagePath": "staticwebassets\\controller\\Branch.js"
+    },
+    {
       "Id": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\controller\\ProductFromUser_index.js",
       "PackagePath": "staticwebassets\\controller\\ProductFromUser_index.js"
     },

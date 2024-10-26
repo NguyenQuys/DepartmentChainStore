@@ -22,7 +22,7 @@ ExcelPackage.LicenseContext = LicenseContext.NonCommercial; // Hoặc LicenseCon
 builder.Services.AddDbContext<ProductDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddAutoMapper(typeof(ProductMapper)); // Đăng ký Profile của bạn
+builder.Services.AddAutoMapper(typeof(ProductMapper));
 
 // Configure JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -31,7 +31,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         options.Authority = "https://localhost:5001"; // IdentityServer URL
         options.Audience = "ProductService_5000";
         options.RequireHttpsMetadata = false; // Set to true in production
-
 
         options.TokenValidationParameters = new TokenValidationParameters
         {
@@ -66,12 +65,6 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IS_Product, S_Product>();
 builder.Services.AddScoped<CurrentUserHelper>();
 
-// Add Authorization policies if needed
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("RequireAuthenticatedUser", policy => policy.RequireAuthenticatedUser());
-});
-
 // Add Controllers
 builder.Services.AddControllers();
 
@@ -92,7 +85,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 // Enable authentication and authorization
-app.UseAuthentication(); // This must come before UseAuthorization()
+app.UseAuthentication(); 
 app.UseAuthorization();
 
 // Map Controllers

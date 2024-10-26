@@ -30,14 +30,19 @@ function GetProductsByIdCategory(id) {
 
 // Render the product table
 function RenderProductTable(products) {
+    $('#div_table_branch').hide();
+    $('#div_table_product').show();
     let tableBody = '';
 
     if (products.length === 0) {
         tableBody = '<tr><td colspan="6" class="text-center">Không có sản phẩm để hiển thị</td></tr>';
-    } else {
-        products.forEach(function (product) {
+    }
+    else
+    {
+        products.forEach(function (product, index) { 
             tableBody += `
                 <tr>
+                    <td>${index + 1}</td> 
                     <td>${product.productName}</td>
                     <td>${product.price}</td>
                     <td style="text-align: center; vertical-align: middle;">
@@ -47,18 +52,31 @@ function RenderProductTable(products) {
                     </td>
                     <td>${new Date(product.updatedTime).toLocaleString("en-GB")}</td>
                     <td>
-                        <a href="#" onclick="OpenModalProduct('updateProduct', ${product.id})" class="btn btn-primary">Sửa</a>
-                        <a href="#" onclick="RemoveProduct(${product.id})" class="btn btn-danger">Xóa</a>
+                        <a href="javascript:void(0)" onclick="OpenModalProduct('updateProduct', ${product.id})" class="btn btn-primary">Sửa</a>
+                        <a href="javascript:void(0)" onclick="RemoveProduct(${product.id})" class="btn btn-danger">Xóa</a>
                     </td>
                 </tr>
             `;
         });
     }
 
-    $('#productByIdCategory').html(`
+    $('#div_table_product').html(`
+        <div class="card">
+            <div>
+             <button type="button" class="btn btn-primary m-4" id="btn_add_product" data-bs-toggle="modal" onclick="OpenModalProduct('addProduct')">
+                Thêm sản phẩm
+            </button>
+             </div>
+            <div>
+                <input type="file" id="fileInput" accept=".xlsx, .xls" />
+                <button onclick="UploadExcelProductFile()">Import Excel File</button>
+            </div>
+        </div>
+       
         <table class="table table-striped">
             <thead>
                 <tr class='bg-primary text-white'>
+                    <th>STT</th> 
                     <th>Tên sản phẩm</th>
                     <th>Giá</th>
                     <th>Trạng thái</th>
@@ -70,6 +88,7 @@ function RenderProductTable(products) {
         </table>
     `);
 }
+
 
 $(document).ready(function () {
     $(document).on('click', '.toggle-status', function () {
@@ -127,10 +146,10 @@ function addProduct() {
             if (response.result === 1) {
                 ShowToastNoti('success', '', response.message, 4000, 'topRight');
                 $('#modal-product').modal('hide');
-                $('#add-product-form')[0].reset();
+                $('#add_form_product')[0].reset();
                 GetProductsByIdCategory(categoryId); 
             } else {
-                alert('Có lỗi xảy ra: ' + response.message);
+                ShowToastNoti('error', '', response.message, 4000, 'topRight');
             }
         },
         error: function (error) {
@@ -142,17 +161,19 @@ function addProduct() {
 
 // Function to open the add/update product modal
 function OpenModalProduct(type, productId = null) {
-    let modalTitle = $('#modal_product_title');
+    let modalProductTitle = $('#modal_title_product');
     const btnProduct = $('#btn_product');
 
-    $('#add-product-form')[0].reset();
-    //btnProduct.off('click'); // Remove previous event handlers
+    $('#add_form_product')[0].reset(); 
+
+    // Loại bỏ sự kiện click đã được gán trước đó
+    btnProduct.off('click');
 
     if (type === 'addProduct') {
-        modalTitle.text('Thêm sản phẩm mới');
+        modalProductTitle.text('Thêm sản phẩm mới');
         btnProduct.text('Thêm sản phẩm').on('click', addProduct);
     } else if (type === 'updateProduct') {
-        modalTitle.text('Cập nhật sản phẩm');
+        modalProductTitle.text('Cập nhật sản phẩm');
         btnProduct.text('Cập nhật sản phẩm');
 
         if (productId) {
@@ -162,14 +183,13 @@ function OpenModalProduct(type, productId = null) {
                 success: function (response) {
                     if (response.result === 1) {
                         let product = response.data;
-                        // Populate the form fields with fetched data
                         $('#productName').val(product.productName);
                         $('#productPrice').val(product.price);
                         $('#categoryId').val(product.categoryId);
 
-                        // Now attach the updateProduct handler to the button after fetching the data
+                        // Gán sự kiện click để cập nhật sản phẩm sau khi đã tải dữ liệu
                         btnProduct.on('click', function () {
-                            updateProduct(productId);  // Call updateProduct when button is clicked
+                            updateProduct(productId);
                         });
                     } else {
                         alert('Có lỗi xảy ra: ' + response.message);
@@ -184,6 +204,7 @@ function OpenModalProduct(type, productId = null) {
     }
     new bootstrap.Modal(document.getElementById('modal-product')).show();
 }
+
 
 // Function to update the product
 function updateProduct(productId) {
@@ -200,7 +221,7 @@ function updateProduct(productId) {
     }
 
     $.ajax({
-        url: `/list/Product/UpdateProduct/`, 
+        url: `/list/Product/UpdateProduct`, 
         type: 'PUT',
         data: formData,
         processData: false, // Prevent jQuery from processing the data
@@ -211,8 +232,7 @@ function updateProduct(productId) {
             GetProductsByIdCategory($('#categoryId').val()); 
         },
         error: function (error) {
-            console.error('Error:', error);
-            alert('Có lỗi xảy ra khi cập nhật sản phẩm.');
+            ShowToastNoti('success', '', response, 4000, 'topRight');
         }
     });
 }
@@ -236,38 +256,34 @@ function RemoveProduct(idProduct) {
     }
 }
 
-// Add By excel
-$(document).ready(function () {
-    $('#add_product_by_excel').click(function () {
-        var fileInput = $('#fileInput')[0].files[0];
+function UploadExcelProductFile() {
+    var fileInput = $('#fileInput')[0].files[0]; // Get the selected file
 
-        if (!fileInput) {
-            alert('Please select an Excel file to upload.');
-            return;
-        }
+    if (!fileInput) {
+        alert('Please select a file to upload.');
+        return;
+    }
 
-        var formData = new FormData();
-        formData.append('file', fileInput);
-
-        $.ajax({
-            url: '/list/Product/UploadByExcel',
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (response) {
-                if (response.result === 1) {
-                    ShowToastNoti('success', '', response.message, 4000, 'topRight');
-                }
-                else {
-                    ShowToastNoti('error', '', response.message, 4000, 'topRight');
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error('Error uploading product by Excel:', error);
-                alert('An error occurred while processing the request.');
+    var formData = new FormData();
+    formData.append('file', fileInput); 
+    $.ajax({
+        url: '/list/Product/UploadByExcel', 
+        type: 'POST',
+        data: formData,
+        contentType: false, // Important for file uploads
+        processData: false, // Prevent jQuery from processing the FormData
+        success: function (response) {
+            if (response.result === 1) {
+                ShowToastNoti('success', '', response.message, 4000, 'topRight');
+            } else {
+                ShowToastNoti('error', '', response.message, 4000, 'topRight');
             }
-        });
+        },
+        error: function (xhr, status, error) {
+            console.error('Error uploading product by Excel:', error);
+            alert('An error occurred while processing the request.');
+        }
     });
-});
+}
+
 

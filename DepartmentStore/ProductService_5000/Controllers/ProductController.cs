@@ -13,7 +13,7 @@ using System.Diagnostics;
 
 namespace ProductService_5000.Controllers
 {
-    [Route("/list/[controller]/[action]")]
+    [Route("list/[controller]/[action]")]
     public class ProductController : Controller
     {
         private readonly IS_Product _s_Product;
@@ -80,9 +80,7 @@ namespace ProductService_5000.Controllers
             {
                 return Json(new {result = -1, message = ex.Message});    
             }
-            
         }
-
 
         [HttpPut]
         [Authorize(Roles = "1")]

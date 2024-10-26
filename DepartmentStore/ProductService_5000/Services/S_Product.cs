@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using ProductService_5000.Models;
 using ProductService_5000.Request;
-using System.Diagnostics;
 
 namespace ProductService_5000.Services
 {
@@ -108,7 +107,7 @@ namespace ProductService_5000.Services
                 await file.CopyToAsync(stream);
                 using (var package = new ExcelPackage(stream))
                 {
-                    var worksheet = package.Workbook.Worksheets[0]; // Lấy worksheet đầu tiên
+                    var worksheet = package.Workbook.Worksheets[0]; 
                     var rowCount = worksheet.Dimension.Rows;
 
                     for (int row = 2; row <= rowCount; row++) 

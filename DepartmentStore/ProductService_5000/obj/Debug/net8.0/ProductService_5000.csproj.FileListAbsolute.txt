@@ -1690,3 +1690,8 @@ D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore
 D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\ProductService_5000\bin\Debug\net8.0\runtimes\win-x86\native\SqlServerSpatial160.dll
 D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\ProductService_5000\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Runtime.Caching.dll
 D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\ProductService_5000\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll
+D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\ProductService_5000\bin\Debug\net8.0\Microsoft.Extensions.Caching.Memory.dll
+D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\ProductService_5000\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
+D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\ProductService_5000\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
+D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\ProductService_5000\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\ProductService_5000\bin\Debug\net8.0\Microsoft.Extensions.Options.dll

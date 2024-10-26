@@ -11,13 +11,13 @@
             <div class="collapse" id="ui-foods-drinks">
                 <ul class="nav flex-column" id="categoryTab" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link" id="nav-drinks-tab" href="#drinks" onclick="HandleTabClick(1, 'nav-drinks-tab')">Nước giải khát</a>
+                        <a class="nav-link toggle-product" id="nav-drinks-tab" href="javascript:void(0)" onclick="HandleTabClick(1, 'nav-drinks-tab')">Nước giải khát</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="nav-cakes-tab" href="#cakes" onclick="HandleTabClick(2, 'nav-cakes-tab')">Bánh</a>
+                        <a class="nav-link toggle-product" id="nav-cakes-tab" href="javascript:void(0)" onclick="HandleTabClick(2, 'nav-cakes-tab')">Bánh</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="nav-fruits-tab" href="#fruits" onclick="HandleTabClick(3, 'nav-fruits-tab')">Trái cây</a>
+                        <a class="nav-link toggle-product" id="nav-fruits-tab" href="javascript:void(0)" onclick="HandleTabClick(3, 'nav-fruits-tab')">Trái cây</a>
                     </li>
 
                 </ul>
@@ -41,16 +41,10 @@
 
         <li class="nav-item nav-category">Quản lý cửa hàng</li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="~/#form-elements" aria-expanded="false" aria-controls="form-elements">
+            <a class="nav-link" id="nav-branch-tab" href="javascript:void(0)" onclick="ActiveTogglePills('nav-branch-tab'); RenderBranchTable();">
                 <i class="menu-icon mdi mdi-card-text-outline"></i>
-                <span class="menu-title">Chi nhánh</span>
-                <i class="menu-arrow"></i>
+                <span class="">Chi nhánh</span>
             </a>
-            <div class="collapse" id="form-elements">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"><a class="nav-link" href="~/pages/forms/basic_elements.html">Basic Elements</a></li>
-                </ul>
-            </div>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="~/#charts" aria-expanded="false" aria-controls="charts">

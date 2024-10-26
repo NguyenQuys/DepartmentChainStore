@@ -20,7 +20,6 @@ builder.Services.AddDbContext<UserDbContext>(options =>
 // Cấu hình JWT Authentication
 builder.Services.AddAuthentication(options =>
 {
-    // Use JWT as the default authentication scheme
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
@@ -95,30 +94,6 @@ builder.Services.AddSingleton<IJwtHelper, JwtHelper>();
 // Add CORS once and configure all policies
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAllOrigins", policy =>
-    {
-        policy.WithOrigins("https://localhost:5001", "https://localhost:5000") // Allow both IdentityServer and ProductService
-              .AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowCredentials();
-    });
-
-    //options.AddPolicy("AllowProductService", policy =>
-    //{
-    //    policy.WithOrigins("https://localhost:5000")
-    //          .AllowAnyHeader()
-    //          .AllowAnyMethod()
-    //          .AllowCredentials();
-    //});
-
-    //options.AddPolicy("AllowSpecificOrigin", policy =>
-    //{
-    //    policy.WithOrigins("https://localhost:5001")
-    //          .AllowAnyHeader()
-    //          .AllowAnyMethod()
-    //          .AllowCredentials();
-    //});
-
     options.AddPolicy("AllowApiGateway",
             builder =>
             {

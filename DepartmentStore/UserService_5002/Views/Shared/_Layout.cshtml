@@ -32,9 +32,6 @@
       <!-- partial:partials/_settings-panel.html -->
       <div id="right-sidebar" class="settings-panel">
         <i class="settings-close ti-close"></i>
-            <button type="button" class="btn btn-primary p-5" id="settings-trigger" data-bs-toggle="modal" onclick="OpenModalProduct('addProduct')">
-                Thêm sản phẩm
-            </button>
             <li class="nav-item">
             <a class="nav-link active" id="todo-tab" data-bs-toggle="tab" href="~/#todo-section" role="tab" aria-controls="todo-section" aria-expanded="true">TO DO LIST</a>
           </li>
@@ -194,16 +191,16 @@
   </div>
   <!-- container-scroller -->
 
-<!-- Modal -->
+<!-- Modal Product -->
     <div class="modal fade" id="modal-product" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Thêm sản phẩm</h5>
+                    <h5 class="modal-title" id="modal_title_product">Thêm sản phẩm</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="add-product-form">
+                    <form id="add_form_product">
                         <div class="mb-3">
                             <label for="productName" class="form-label">Tên sản phẩm</label>
                             <input type="text" class="form-control" id="productName" required>
@@ -215,7 +212,7 @@
                         <div class="mb-3">
                             <label for="categoryId" class="form-label">Danh mục</label>
                             <select class="form-select" id="categoryId" required>
-                                <option value="">Chọn danh mục</option>
+                                <option disabled>Chọn danh mục</option>
                                 <option value="1">Danh mục 1</option>
                                 <option value="2">Danh mục 2</option>
                                 <option value="3">Danh mục 3</option>
@@ -231,6 +228,41 @@
             </div>
         </div>
     </div>
+
+<!--Modal Branch-->
+    <div class="modal fade" id="modal-branch" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal_title_branch">Thêm chi nhánh</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="add_form_branch">
+                        <div class="mb-3">
+                            <label for="location" class="form-label">Tên chi nhánh</label>
+                            <input type="text" class="form-control" id="location" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="account" class="form-label">Tài khoản</label>
+                            <input type="text" class="form-control" id="account" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Mật khẩu</label>
+                            <input type="password" class="form-control" id="password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Nhập lại mật khẩu</label>
+                            <input type="password" class="form-control" id="reinput_password" required>
+                        </div>
+                        <div id="password_message" class="text-danger"></div>
+                        <button type="button" id="btn_branch" class="btn btn-primary"></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
 
