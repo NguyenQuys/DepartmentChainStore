@@ -13,7 +13,9 @@ namespace BranchService_5003.Services
 
         Task<string> Create(Branch branchRequest);
 
-        Task<Branch> Update(Branch branchRequest);
+        Task<string> Update(Branch branchRequest);
+
+        Task<string> Remove(int id);
     }
 
     public class S_Branch : IS_Branch
@@ -39,26 +41,32 @@ namespace BranchService_5003.Services
 
         public async Task<string> Create(Branch branchRequest)
         {
-            var existingBranch = await _context.Branches.AnyAsync(m=>m.Location.Equals(branchRequest.Location));
-            if (existingBranch)
+            var existingBranches = await _context.Branches.ToListAsync();
+
+            if (existingBranches.Any(b => b.Location == branchRequest.Location))
             {
                 throw new Exception("Chi nhánh này đã tồn tại");
+            }
+            else if (existingBranches.Any(b => b.Account == branchRequest.Account))
+            {
+                throw new Exception("Tên tài khoản này đã tồn tại");
             }
 
             var newBranch = new Branch()
             {
                 Location = branchRequest.Location,
                 Account = branchRequest.Account,
-                Password = BCrypt.Net.BCrypt.HashPassword(branchRequest.Password)
+                Password = BCrypt.Net.BCrypt.HashPassword(branchRequest.Password) // Hash the password
             };
-            
+
             await _context.AddAsync(newBranch);
             await _context.SaveChangesAsync();
 
             return $"Tạo chi nhánh {newBranch.Location} thành công";
         }
 
-        public async Task<Branch> Update(Branch branchRequest)
+
+        public async Task<string> Update(Branch branchRequest)
         {
             var branchToUpdate = await _context.Branches.FirstOrDefaultAsync(m => m.Id == branchRequest.Id);
 
@@ -78,11 +86,24 @@ namespace BranchService_5003.Services
 
             branchToUpdate.Location = branchRequest.Location;
             branchToUpdate.Account = branchRequest.Account;
-            branchToUpdate.Password = BCrypt.Net.BCrypt.HashPassword(branchRequest.Password);
+            if (!branchRequest.Password.Equals(branchToUpdate.Password))
+            {
+                branchToUpdate.Password = BCrypt.Net.BCrypt.HashPassword(branchRequest.Password);
+            }
 
+            _context.Update(branchToUpdate);
             await _context.SaveChangesAsync();
 
-            return branchToUpdate;
+            return "Cập nhật thành công";
+        }
+
+        public async Task<string> Remove(int id)
+        {
+            var branchToRemove = await _context.Branches.FirstOrDefaultAsync(b => b.Id == id);
+            _context.Remove(branchToRemove);
+            await _context.SaveChangesAsync();
+
+            return "Xóa thành công";
         }
     }
 }

@@ -1,4 +1,6 @@
 using APIGateway.Utilities;
+using BranchService_5003.Models;
+using BranchService_5003.Services;
 using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +18,9 @@ builder.Services.AddControllersWithViews();
 // Configure the DbContext with the connection string
 builder.Services.AddDbContext<UserDbContext>(options =>
     options.UseSqlServer(GetConnectionString("DefaultConnection")));
+
+builder.Services.AddDbContext<BranchDBContext>(options =>
+    options.UseSqlServer(GetConnectionString("BranchDBConnection")));
 
 // Cấu hình JWT Authentication
 builder.Services.AddAuthentication(options =>
@@ -73,6 +78,8 @@ builder.Services.AddScoped<IS_User, S_User>();
 builder.Services.AddScoped<ISendMailSMTP, SendMailSMTP>();
 builder.Services.AddScoped<IOTP_Verify, OTP_Verify>();
 builder.Services.AddScoped<IS_ProductFromUser, S_ProductFromUser>();
+builder.Services.AddScoped<IS_Auth, S_Auth>(); // S_Auth depends on BranchDBContext
+builder.Services.AddScoped<IS_Branch, S_Branch>();
 builder.Services.AddScoped<CurrentUserHelper>();
 
 // Add Authorization

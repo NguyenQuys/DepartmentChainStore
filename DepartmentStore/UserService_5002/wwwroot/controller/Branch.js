@@ -25,6 +25,7 @@
 //    });
 //}
 
+// Render Branch Table
 function RenderBranchTable() {
     $('#div_table_product').hide();
     $('#div_table_branch').show();
@@ -42,7 +43,6 @@ function RenderBranchTable() {
                     <tr>
                         <td>${index + 1}</td> 
                         <td>${branch.location}</td>
-                        
                         <td></td>
                         <td>
                             <a href="javascript:void(0)" onclick="OpenModalBranch('updateBranch', ${branch.id})" class="btn btn-primary">Sửa</a>
@@ -81,6 +81,9 @@ function RenderBranchTable() {
     });
 }
 
+// Other functions are the same as updated above...
+
+
 // Open Modal branch
 function OpenModalBranch(type, branchId = null) {
     let modalBranchTitle = $('#modal_title_branch');
@@ -97,8 +100,7 @@ function OpenModalBranch(type, branchId = null) {
     } else if (type === 'updateBranch') {
         modalBranchTitle.text('Cập nhật chi nhánh');
         btnBranch.text('Cập nhật').on('click', function () {
-            ConfirmPasswordBranch()
-            UpdateBranch(branchId);  // Bind update branch handler
+            UpdateBranch(branchId);  
         });
 
         // Fetch branch data if branchId is provided
@@ -128,40 +130,32 @@ function addBranch() {
     const branchLocation = $('#location').val();
     const account = $('#account').val();
     const password = $('#password').val();
-    const reinputPassword = $('#reinput_password').val();
-    let message = document.getElementById('password_message');
 
-    if (password !== reinputPassword) {
-        message.textContent = 'Mật khẩu không khớp';
-    }
-    else {
-        const formData = new FormData();
-        formData.append('Location', branchLocation);
-        formData.append('Account', account);
-        formData.append('Password', password);
+    const formData = new FormData();
+    formData.append('Location', branchLocation);
+    formData.append('Account', account);
+    formData.append('Password', password);
 
-        $.ajax({
-            url: '/branch/Branch/Create',
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (response) {
-                if (response.result === 1) {
-                    ShowToastNoti('success', '', response.message, 4000, 'topRight');
-                    $('#modal-product').modal('hide');
-                    $('#add_form_product')[0].reset();
-                    RenderBranchTable();
-                } else {
-                    ShowToastNoti('error', '', response.message, 4000, 'topRight');
-                }
-            },
-            error: function (error) {
-                ShowToastNoti('error', '', error, 4000, 'topRight');
+    $.ajax({
+        url: '/branch/Branch/Create',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            if (response.result === 1) {
+                ShowToastNoti('success', '', response.message, 4000, 'topRight');
+                $('#modal-branch').modal('hide');  // Correct modal ID
+                $('#add_form_branch')[0].reset();   // Correct form ID
+                RenderBranchTable();
+            } else {
+                ShowToastNoti('error', '', response.message, 4000, 'topRight');
             }
-
-        });
-    }
+        },
+        error: function (error) {
+            ShowToastNoti('error', '', error, 4000, 'topRight');
+        }
+    });
 }
 
 // Update Branch
@@ -175,12 +169,12 @@ function UpdateBranch(branchId) {
     $.ajax({
         url: '/branch/Branch/Update',
         type: 'PUT',
-        data: formData,
+        data: formDataBranch,  // Use formDataBranch here
         processData: false,
         contentType: false,
         success: function (response) {
             if (response.result === 1) {
-                ShowToastNoti('success', '', response.data.location, 4000, 'topRight');
+                ShowToastNoti('success', '', response.message, 4000, 'topRight');
                 $('#modal-branch').modal('hide');
                 RenderBranchTable();
             } else {
@@ -193,26 +187,20 @@ function UpdateBranch(branchId) {
     });
 }
 
-function ConfirmPasswordBranch(idBranch, oldPass, newPass, confirmPass) {
-    const formData = new FormData();
-    formData.append('IdBranch', idBranch);
-    formData.append('OldPassword', oldPass);
-    formData.append('NewPassword', newPass);
-    formData.append('ConfirmNewPassword', confirmPass);
-
-    $.ajax({
-        url: '/Auth/COnfirmPassword',
-        type: 'POST',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function (response) {
-            if (response.result === -1) {
-                $('#password_message').text = `${response.message}`;
-            } else {
-                $('#password_message').text = `${response.message}`;
+function RemoveBranch(idBanch) {
+    if (confirm('Bạn có chắc chắn muốn xóa chi nhánh này không?')) {
+        $.ajax({
+            url: `/branch/Branch/Remove`,
+            type: 'DELETE',
+            data: { id: idBanch },
+            success: function (response) {
+                ShowToastNoti('success', '', response, 4000, 'topRight');
+                RenderBranchTable();
+            },
+            error: function (xhr, status, error) {
+                alert('Có lỗi xảy ra khi xóa sản phẩm.');
             }
-
-        }
-    });
+        });
+    }
 }
+

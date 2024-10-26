@@ -53,12 +53,20 @@ namespace BranchService_5003.Controllers
             try
             {
                 var branchToUpdate = await _s_Branch.Update(branchRequest);
-                return Json(new { result = 1, data = branchToUpdate });
+                return Json(new { result = 1, message = branchToUpdate });
             }
             catch (Exception ex)
             {
                 return Json(new { result = -1, message = ex.Message });
             }
+        }
+
+        [HttpDelete]
+        [Authorize(Roles = "1")]
+        public async Task<IActionResult> Remove(int id)
+        {
+            var branchToRemove = await _s_Branch.Remove(id);
+            return Json(branchToRemove);
         }
     }
 }

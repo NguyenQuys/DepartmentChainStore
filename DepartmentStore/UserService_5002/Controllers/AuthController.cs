@@ -18,7 +18,6 @@ namespace UserService_5002.Controllers
 
         [HttpPost]
         [Authorize(Roles = "1")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ConfirmPassword(MRes_Password passwordRequest)
         {
             try
@@ -28,7 +27,7 @@ namespace UserService_5002.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { result = 1, message = ex.Message });
+                return Json(new { result = -1, message = ex.Message });
             }
         }
     }
