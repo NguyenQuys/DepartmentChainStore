@@ -23,5 +23,7 @@ namespace ProductService_5000.Models
         public DateTime UpdatedTime { get; set; }
 
         public int UpdatedBy { get; set; }
+
+        public ICollection<Batch> Batches { get; set; }
     }
 }

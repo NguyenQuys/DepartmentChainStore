@@ -9,6 +9,7 @@ namespace ProductService_5000.Models
         public DbSet<Product> Products { get; set; }
         public DbSet<CategoryProduct> CategoryProducts { get; set; }
         public DbSet<Image> Images { get; set; }
+        public DbSet<Batch> Batches { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,6 +24,11 @@ namespace ProductService_5000.Models
                 .WithMany(c=>c.Images)
                 .HasForeignKey(i=>i.IdProduct)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Batch>()
+                .HasOne(p => p.Product)
+                .WithMany(b => b.Batches)
+                .HasForeignKey(b => b.IdProduct);
         }
     }
 }

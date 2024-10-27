@@ -20,7 +20,7 @@ ExcelPackage.LicenseContext = LicenseContext.NonCommercial; // Hoặc LicenseCon
 
 // Configure the DbContext with the connection string from appsettings.json
 builder.Services.AddDbContext<ProductDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ProductDBConnection")));
 
 builder.Services.AddAutoMapper(typeof(ProductMapper));
 

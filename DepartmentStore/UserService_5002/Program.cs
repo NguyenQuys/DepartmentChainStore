@@ -17,7 +17,7 @@ builder.Services.AddControllersWithViews();
 
 // Configure the DbContext with the connection string
 builder.Services.AddDbContext<UserDbContext>(options =>
-    options.UseSqlServer(GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(GetConnectionString("UserDBConnection")));
 
 builder.Services.AddDbContext<BranchDBContext>(options =>
     options.UseSqlServer(GetConnectionString("BranchDBConnection")));
