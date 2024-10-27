@@ -1,5 +1,6 @@
 ﻿using APIGateway.Response;
 using APIGateway.Utilities;
+using BranchService_5003.Models;
 using IdentityServer.Constant;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
@@ -19,14 +20,16 @@ namespace UserService_5002.Services
 
     public class S_User : IS_User
     {
-        private readonly UserDbContext _context;
+        private readonly UserDbContext _userContext;
+        private readonly BranchDBContext _branchContext;
         private readonly ISendMailSMTP _sendMailSMTP;
         private readonly IOTP_Verify _otp_Verify;
         private static string phoneNumberTemporary;
 
-        public S_User(UserDbContext user, ISendMailSMTP sendMailSMTP, IOTP_Verify oTP_Verify)
+        public S_User(UserDbContext user,BranchDBContext branch, ISendMailSMTP sendMailSMTP, IOTP_Verify oTP_Verify)
         {
-            _context = user;
+            _userContext = user;
+            _branchContext = branch;
             _sendMailSMTP = sendMailSMTP;
             _otp_Verify = oTP_Verify;
         }
@@ -35,7 +38,7 @@ namespace UserService_5002.Services
         {
             var newPhoneNumbers = users.Select(u => u.PhoneNumber).ToList();
 
-            var existingPhoneNumbers = await _context.Users
+            var existingPhoneNumbers = await _userContext.Users
                                                      .Where(p => newPhoneNumbers.Contains(p.PhoneNumber))
                                                      .Select(p => p.PhoneNumber)
                                                      .ToListAsync();
@@ -51,7 +54,7 @@ namespace UserService_5002.Services
             var userList = new List<User>();
             var userOtherInfoList = new List<UserOtherInfo>();
 
-            using (var transaction = await _context.Database.BeginTransactionAsync()) 
+            using (var transaction = await _userContext.Database.BeginTransactionAsync()) 
             {
                 try
                 {
@@ -74,8 +77,8 @@ namespace UserService_5002.Services
                         userList.Add(newUser);
                     }
 
-                    await _context.Users.AddRangeAsync(userList);
-                    await _context.SaveChangesAsync(); // Lưu tất cả User trước để lấy UserId
+                    await _userContext.Users.AddRangeAsync(userList);
+                    await _userContext.SaveChangesAsync(); // Lưu tất cả User trước để lấy UserId
 
                     // Lưu thông tin UserOtherInfo tương ứng
                     foreach (var newUser in userList)
@@ -93,8 +96,6 @@ namespace UserService_5002.Services
                         {
                             throw new Exception("Email không được vượt quá 30 ký tự");
                         }
-
-
 
                         var newUserOtherInfo = new UserOtherInfo
                         {
@@ -143,8 +144,8 @@ namespace UserService_5002.Services
                     }
 
                     // Lưu danh sách UserOtherInfo vào bảng UserOtherInfo
-                    await _context.UserOtherInfo.AddRangeAsync(userOtherInfoList);
-                    await _context.SaveChangesAsync(); // Lưu toàn bộ thông tin khác
+                    await _userContext.UserOtherInfo.AddRangeAsync(userOtherInfoList);
+                    await _userContext.SaveChangesAsync(); // Lưu toàn bộ thông tin khác
 
                     // Commit transaction sau khi tất cả dữ liệu được lưu thành công
                     await transaction.CommitAsync();
@@ -173,13 +174,32 @@ namespace UserService_5002.Services
 
         public async Task<MRes_Login> Login(MReq_Login mReq_Login)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(m => m.PhoneNumber == mReq_Login.UserName);
+            var user = await _userContext.Users.FirstOrDefaultAsync(m => m.PhoneNumber == mReq_Login.UserName);
             if (user == null)
             {
-                throw new Exception($"Tài khoản {mReq_Login.UserName} không tồn tại.");
+                var branch = _branchContext.Branches
+                    .FirstOrDefault(b => b.Account == mReq_Login.UserName);
+
+                if (branch == null)
+                {
+                    throw new Exception($"Tài khoản {mReq_Login.UserName} chưa đăng ký.");
+                }
+
+                if (BCrypt.Net.BCrypt.Verify(mReq_Login.Password, branch.Password))
+                {
+                    return new MRes_Login
+                    {
+                        Account = branch.Account,
+                        IdBranch = branch.Id.ToString()
+                    };
+                }
+                else
+                {
+                    throw new Exception("Mật khẩu không đúng.");
+                }
             }
 
-            var userInfo = await _context.UserOtherInfo.FirstOrDefaultAsync(m => m.UserId == user.UserId);
+            var userInfo = await _userContext.UserOtherInfo.FirstOrDefaultAsync(m => m.UserId == user.UserId);
 
             if (!userInfo.IsActive)
             {
@@ -194,8 +214,8 @@ namespace UserService_5002.Services
             {
                 userInfo.LogoutTime = null;
                 userInfo.LoginTime = DateTime.Now;
-                _context.Update(user);
-                _context.SaveChanges();
+                _userContext.Update(user);
+                _userContext.SaveChanges();
                 return new MRes_Login
                 {
                     Account = user.PhoneNumber,
@@ -212,44 +232,18 @@ namespace UserService_5002.Services
                 if (userInfo.NumberOfIncorrectEntries > 5)
                 {
                     //user.IsActive = false;
-                    _context.Update(user);
-                    _context.SaveChanges();
+                    _userContext.Update(user);
+                    _userContext.SaveChanges();
                     throw new Exception("Tài khoản của bạn đã bị khóa. Hãy xác thực mã OTP để kích hoạt lại");
                 }
-                _context.SaveChanges();
+                _userContext.SaveChanges();
 
                 throw new Exception("Mật khẩu không đúng.");
             }
-            //else if (!user.IsActive)
-            //{
-            //    throw new Exception("Tài khoản chưa được kích hoạt");
-            //}
-
-            // Branch login
-            //if (!string.IsNullOrEmpty(mReq_Login.BranchAccount) && !string.IsNullOrEmpty(mReq_Login.BranchPassword))
-            //{
-            //    var branch = _context.Branches
-            //        .FirstOrDefault(b => b.Account == mReq_Login.BranchAccount);
-
-            //    if (branch == null)
-            //    {
-            //        throw new Exception($"Tài khoản {mReq_Login.BranchAccount} chưa đăng ký.");
-            //    }
-
-            //    if (BCrypt.Net.BCrypt.Verify(mReq_Login.BranchPassword, branch.Password))
-            //    {
-            //        //return await GenerateTokenAndRespond(branch.Account, null, null, branch.Id.ToString());
-            //        return new MRes_Login
-            //        {
-            //            Account = branch.Account,
-            //            IdBranch = branch.Id.ToString()
-            //        };
-            //    }
-            //    else
-            //    {
-            //        throw new Exception("Mật khẩu không đúng.");
-            //    }
-            //}
+            else if (!userInfo.IsActive)
+            {
+                throw new Exception("Tài khoản chưa được kích hoạt");
+            }
 
             throw new Exception("Vui lòng nhập thông tin đăng nhập hợp lệ.");
         }
@@ -277,16 +271,16 @@ namespace UserService_5002.Services
 
         public async Task<string> Logout(MRes_InfoUser currentUser)
         {
-            var user = await _context.UserOtherInfo.FirstOrDefaultAsync(m => m.UserId == int.Parse(currentUser.IdUser));
+            var user = await _userContext.UserOtherInfo.FirstOrDefaultAsync(m => m.UserId == int.Parse(currentUser.IdUser));
             user.LogoutTime = DateTime.Now;
-            _context.Update(user);
-            await _context.SaveChangesAsync();
+            _userContext.Update(user);
+            await _userContext.SaveChangesAsync();
             return "Đăng xuất thành công";
         }
 
         public async Task<List<UserOtherInfo>> GetListUser(int idRole, MRes_InfoUser currentUser)
         {
-            var listUserToGet = await _context.UserOtherInfo.Where(m => m.RoleId == idRole).ToListAsync();
+            var listUserToGet = await _userContext.UserOtherInfo.Where(m => m.RoleId == idRole).ToListAsync();
             return listUserToGet;
         }
     }
