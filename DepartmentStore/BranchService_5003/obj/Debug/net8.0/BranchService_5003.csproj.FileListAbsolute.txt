@@ -317,7 +317,6 @@ D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore
 D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\BranchService_5003\obj\Debug\net8.0\BranchService_5003.AssemblyInfoInputs.cache
 D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\BranchService_5003\obj\Debug\net8.0\BranchService_5003.AssemblyInfo.cs
 D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\BranchService_5003\obj\Debug\net8.0\BranchService_5003.csproj.CoreCompileInputs.cache
-D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\BranchService_5003\obj\Debug\net8.0\BranchService_5003.MvcApplicationPartsAssemblyInfo.cs
 D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\BranchService_5003\obj\Debug\net8.0\BranchService_5003.MvcApplicationPartsAssemblyInfo.cache
 D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\BranchService_5003\obj\Debug\net8.0\BranchService_5003.RazorAssemblyInfo.cache
 D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\BranchService_5003\obj\Debug\net8.0\BranchService_5003.RazorAssemblyInfo.cs

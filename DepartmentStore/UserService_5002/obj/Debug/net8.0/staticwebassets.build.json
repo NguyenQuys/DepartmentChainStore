@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "S/IMKKe0059Nh5Zyf0FdSe2vMWxsQiDjTe4gl7LIziQ=",
+  "Hash": "nPpCLZFMDzY/Z7Q7BuqcxDPHJC5+sQ4D45NUWs00jek=",
   "Source": "UserService_5002",
   "BasePath": "_content/UserService_5002",
   "Mode": "Default",
@@ -7073,6 +7073,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\UserService_5002.bundle.scp.css"
+    },
+    {
+      "Identity": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\controller\\Batch.js",
+      "SourceId": "UserService_5002",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\",
+      "BasePath": "_content/UserService_5002",
+      "RelativePath": "controller/Batch.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\controller\\Batch.js"
     },
     {
       "Identity": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\controller\\Branch.js",

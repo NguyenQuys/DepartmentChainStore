@@ -31,6 +31,7 @@ function GetProductsByIdCategory(id) {
 // Render the product table
 function RenderProductTable(products) {
     $('#div_table_branch').hide();
+    $('#div_table_batch').hide();
     $('#div_table_product').show();
     let tableBody = '';
 

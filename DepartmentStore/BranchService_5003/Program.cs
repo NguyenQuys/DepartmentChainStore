@@ -56,7 +56,6 @@ builder.Services.AddScoped<CurrentUserHelper>();
 
 builder.Services.AddControllers();
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -1732,7 +1732,6 @@ D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore
 D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\UserService_5002\obj\Debug\net8.0\UserService_5002.AssemblyInfoInputs.cache
 D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\UserService_5002\obj\Debug\net8.0\UserService_5002.AssemblyInfo.cs
 D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\UserService_5002\obj\Debug\net8.0\UserService_5002.csproj.CoreCompileInputs.cache
-D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\UserService_5002\obj\Debug\net8.0\UserService_5002.MvcApplicationPartsAssemblyInfo.cs
 D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\UserService_5002\obj\Debug\net8.0\UserService_5002.MvcApplicationPartsAssemblyInfo.cache
 D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\UserService_5002\obj\Debug\net8.0\UserService_5002.RazorAssemblyInfo.cache
 D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\UserService_5002\obj\Debug\net8.0\UserService_5002.RazorAssemblyInfo.cs

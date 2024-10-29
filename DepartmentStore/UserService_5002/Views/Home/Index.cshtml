@@ -5,4 +5,142 @@
 <script src="~/controller/productfromuser_index.js" asp-append-version="true"></script>
 
 <div id="div_table_product"></div>
+<div id="div_table_batch"></div>
 <div id="div_table_branch"></div>
+
+<!-- Modal Product -->
+<div class="modal fade" id="modal-product" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_title_product">Thêm sản phẩm</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="add_form_product">
+                    <div class="mb-3">
+                        <label for="productName" class="form-label">Tên sản phẩm</label>
+                        <input type="text" class="form-control" id="productName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="productPrice" class="form-label">Giá sản phẩm</label>
+                        <input type="number" class="form-control" id="productPrice" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="categoryId" class="form-label">Danh mục</label>
+                        <select class="form-select" id="categoryId" required>
+                            <option disabled>Chọn danh mục</option>
+                            <option value="1">Danh mục 1</option>
+                            <option value="2">Danh mục 2</option>
+                            <option value="3">Danh mục 3</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="productImages" class="form-label">Hình ảnh sản phẩm</label>
+                        <input type="file" id="productImages" multiple />
+                    </div>
+                    <button type="button" id="btn_product" class="btn btn-primary"></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal Branch-->
+<div class="modal fade" id="modal_branch" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_title_branch">Thêm chi nhánh</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="add_form_branch">
+                    <div class="mb-3">
+                        <label for="location" class="form-label">Tên chi nhánh</label>
+                        <input type="text" class="form-control" id="location" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="account" class="form-label">Tài khoản</label>
+                        <input type="text" class="form-control" id="account" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Mật khẩu</label>
+                        <input type="password" class="form-control" id="password" required>
+                    </div>
+                    <button type="button" id="btn_branch" class="btn btn-primary"></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal Product Branch-->
+@* <div class="modal fade" id="modal-branch" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_title_branch">Thêm chi nhánh</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="add_form_branch">
+                    <div class="mb-3">
+                        <label for="location" class="form-label">Tên chi nhánh</label>
+                        <input type="text" class="form-control" id="location" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="account" class="form-label">Tài khoản</label>
+                        <input type="text" class="form-control" id="account" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Mật khẩu</label>
+                        <input type="password" class="form-control" id="password" required>
+                    </div>
+                    <button type="button" id="btn_branch" class="btn btn-primary"></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> *@
+<!--Modal Batch-->
+<div class="modal fade" id="modal_batch" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_title_batch">Thêm lô hàng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="add_form_batch">
+                    <div class="mb-3">
+                        <label for="BatchNumber" class="form-label">Số lô hàng</label>
+                        <input type="text" class="form-control" id="batchNumber" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="productId" class="form-label">Loại sản phẩm</label>
+                        <select class="form-select" id="productId_batch" required>
+                            <option disabled selected>-- Vui lòng chọn sản phẩm --</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="expiryDate" class="form-label">Ngày hết hạn</label>
+                        <input type="date" class="form-control" id="expiryDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="initQuantity" class="form-label">Số lượng ban đầu</label>
+                        <input type="number" class="form-control" id="initQuantity" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="importDate" class="form-label">Ngày nhập</label>
+                        <input type="datetime" class="form-control" id="importDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="idReceive" class="form-label">Người nhận</label>
+                        <input type="number" class="form-control" id="idReceive" required>
+                    </div>
+                    <button type="button" id="btn_batch" class="btn btn-primary"></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

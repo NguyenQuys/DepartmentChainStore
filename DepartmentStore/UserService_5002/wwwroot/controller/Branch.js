@@ -28,6 +28,7 @@
 // Render Branch Table
 function RenderBranchTable() {
     $('#div_table_product').hide();
+    $('#div_table_batch').hide();
     $('#div_table_branch').show();
     let tableBody = '';
 
@@ -45,6 +46,7 @@ function RenderBranchTable() {
                         <td>${branch.location}</td>
                         <td></td>
                         <td>
+                            <a href="javascript:void(0)" onclick="OpenModalBranch('updateBranch', ${branch.id})" class="btn btn-info">Chi tiết</a>
                             <a href="javascript:void(0)" onclick="OpenModalBranch('updateBranch', ${branch.id})" class="btn btn-primary">Sửa</a>
                             <a href="javascript:void(0)" onclick="RemoveBranch(${branch.id})" class="btn btn-danger">Xóa</a>
                         </td>
@@ -122,7 +124,7 @@ function OpenModalBranch(type, branchId = null) {
     }
 
     // Show the modal
-    new bootstrap.Modal(document.getElementById('modal-branch')).show();
+    new bootstrap.Modal(document.getElementById('modal_branch')).show();
 }
 
 // Add Branch
@@ -145,7 +147,7 @@ function addBranch() {
         success: function (response) {
             if (response.result === 1) {
                 ShowToastNoti('success', '', response.message, 4000, 'topRight');
-                $('#modal-branch').modal('hide');  // Correct modal ID
+                $('#modal_branch').modal('hide');  // Correct modal ID
                 $('#add_form_branch')[0].reset();   // Correct form ID
                 RenderBranchTable();
             } else {
@@ -175,7 +177,7 @@ function UpdateBranch(branchId) {
         success: function (response) {
             if (response.result === 1) {
                 ShowToastNoti('success', '', response.message, 4000, 'topRight');
-                $('#modal-branch').modal('hide');
+                $('#modal_branch').modal('hide');
                 RenderBranchTable();
             } else {
                 ShowToastNoti('error', '', response.message, 4000, 'topRight');
