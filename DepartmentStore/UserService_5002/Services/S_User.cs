@@ -1,5 +1,6 @@
 ﻿using APIGateway.Response;
 using APIGateway.Utilities;
+using AutoMapper;
 using BranchService_5003.Models;
 using IdentityServer.Constant;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +16,10 @@ namespace UserService_5002.Services
         Task<(List<User> AddedUsers, List<string> ExistingPhoneNumbers)> SignUp(List<User> users, MRes_InfoUser currentUser);
         Task<string> Logout(MRes_InfoUser currentUser);
 
-        Task<List<UserOtherInfo>> GetListUser(int idCategory, MRes_InfoUser currentUser);
+        Task<List<UserOtherInfo>> GetListUserByIdBranch(int idBranch, MRes_InfoUser currentUser);
+
+        Task<string> AddStaff(MReq_Staff mReq_Staff);
+        Task<string> UpdateStaff(MReq_Staff mReq_Staff);
     }
 
     public class S_User : IS_User
@@ -25,13 +29,15 @@ namespace UserService_5002.Services
         private readonly ISendMailSMTP _sendMailSMTP;
         private readonly IOTP_Verify _otp_Verify;
         private static string phoneNumberTemporary;
+        private readonly IMapper _mapper;
 
-        public S_User(UserDbContext user,BranchDBContext branch, ISendMailSMTP sendMailSMTP, IOTP_Verify oTP_Verify)
+        public S_User(UserDbContext user,BranchDBContext branch, ISendMailSMTP sendMailSMTP, IOTP_Verify oTP_Verify,IMapper mapper)
         {
             _userContext = user;
             _branchContext = branch;
             _sendMailSMTP = sendMailSMTP;
             _otp_Verify = oTP_Verify;
+            _mapper = mapper;
         }
 
         public async Task<(List<User> AddedUsers, List<string> ExistingPhoneNumbers)> SignUp(List<User> users, MRes_InfoUser currentUser)
@@ -279,10 +285,53 @@ namespace UserService_5002.Services
             return "Đăng xuất thành công";
         }
 
-        public async Task<List<UserOtherInfo>> GetListUser(int idRole, MRes_InfoUser currentUser)
+        public async Task<List<UserOtherInfo>> GetListUserByIdBranch(int idBranch, MRes_InfoUser currentUser)
         {
-            var listUserToGet = await _userContext.UserOtherInfo.Where(m => m.RoleId == idRole).ToListAsync();
+            var listUserToGet = await _userContext.UserOtherInfo.Where(m => m.IdBranch == idBranch.ToString()).ToListAsync();
             return listUserToGet;
         }
+
+        public async Task<string> AddStaff(MReq_Staff mReq_Staff)
+        {
+            var existingStaffs = await _userContext.UserOtherInfo.FirstOrDefaultAsync(m=>m.Email == mReq_Staff.Email);
+            if (existingStaffs != null) throw new Exception("Email này đã tồn tại");
+
+            var userToAdd = new User()
+            {
+                PhoneNumber = mReq_Staff.PhoneNumber,
+                Password = BCrypt.Net.BCrypt.HashPassword("123456Vv")
+            };
+
+            await _userContext.Users.AddAsync(userToAdd);
+            await _userContext.SaveChangesAsync();
+
+            var otherInfoUserToAdd = _mapper.Map<UserOtherInfo>(mReq_Staff);
+            otherInfoUserToAdd.UserId = userToAdd.UserId; 
+
+            await _userContext.UserOtherInfo.AddAsync(otherInfoUserToAdd);
+            await _userContext.SaveChangesAsync();
+
+            return "Thêm nhân viên thành công";
+        }
+
+        public async Task<string> UpdateStaff(MReq_Staff mReq_Staff)
+        {
+            var existingStaff = await _userContext.UserOtherInfo
+                .FirstOrDefaultAsync(m => m.Email == mReq_Staff.Email);
+
+            if (existingStaff != null)
+            {
+                throw new Exception("Email đã tồn tại");
+            }
+
+            existingStaff.User.PhoneNumber = mReq_Staff.PhoneNumber;
+
+            _mapper.Map(mReq_Staff, existingStaff);
+
+            await _userContext.SaveChangesAsync();
+
+            return "Cập nhật nhân viên thành công";
+        }
+
     }
 }

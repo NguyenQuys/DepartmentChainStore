@@ -50,8 +50,7 @@ function RenderBranchTable() {
                         <td>${branch.location}</td>
                         <td></td>
                         <td>
-                             <a href="javascript:void(0)" onclick="OpenModalDetailBranch(${branch.id}, '${branch.location}')" class="btn btn-info">Chi tiết</a>
-
+                            <a href="javascript:void(0)" onclick="OpenModalDetailBranch(${branch.id}, '${branch.location}')" class="btn btn-info">Chi tiết</a>
                             <a href="javascript:void(0)" onclick="OpenModalBranch('updateBranch', ${branch.id})" class="btn btn-primary">Sửa</a>
                             <a href="javascript:void(0)" onclick="RemoveBranch(${branch.id})" class="btn btn-danger">Xóa</a>
                         </td>
@@ -226,7 +225,7 @@ function OnChangeTypeBranchDetail(elm, type) {
     if (type === 'product_branch') {
         RenderTableProductBranch();
     } else if (type === 'staff') {
-        $('#div_data_detail_branch').html(`<h1>BBB</h1>`);
+        RenderTableStaff(idBranch_global);
     }
 }
 
@@ -280,3 +279,189 @@ function RenderTableProductBranch() {
     });
 }
 
+//+++++++++++++++++++++++Staff Area starts+++++++++++++++++++++++++++++
+function RenderTableStaff(idBranch) {
+    let tableBody = '';
+
+    $.ajax({
+        url: '/User/GetListUserByIdBranch',
+        type: 'GET',
+        data: { idBranch: idBranch },
+        success: function (response) {
+            if (response.length === 0) {
+                tableBody = '<tr><td colspan="5" class="text-center">Không có dữ liệu để hiển thị</td></tr>';
+            }
+            else {
+                response.forEach(function (staff, index) {
+                    tableBody += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${staff.fullName}</td>
+                            <td>${staff.email}</td>
+                            <td>${staff.dateOfBirth}</td>
+                            <td>${staff.salary.toLocaleString('vi-VN')}</td>
+                            <td>
+                                <a href="javascript:void(0)" onclick="UpdateStaff(${staff.id})" class="btn btn-primary">Sửa</a>
+                                <a href="javascript:void(0)" class="btn btn-danger">Xóa</a>
+                            </td>
+                        </tr>`;
+                });
+            }
+
+            $('#div_data_detail_branch').html(`
+                <div>
+                    <button type="button" class="btn btn-primary m-4" id="btn_add_branch" data-bs-toggle="modal" onclick="AddStaff(${idBranch})">
+                        <i class='mdi mdi-account-plus'></i>
+                        Thêm nhân sự
+                    </button>
+                </div>
+                <div>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr class='bg-primary text-white'>
+                                <th>STT</th>
+                                <th>Họ tên</th>
+                                <th>Email</th>
+                                <th>Ngày sinh</th>
+                                <th>Mức lương</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>${tableBody}</tbody>
+                    </table>
+                </div>
+            `);
+        }
+    });
+}
+
+function AddStaff(idBranch) {
+    $('#div_data_detail_branch').html(`
+        <form id="add_form_staff">
+            <div class="mb-3">
+                <label class="form-label">Họ tên</label>
+                <input type="text" class="form-control" id="fullName" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Số điện thoại</label>
+                <input type="number" class="form-control" id="phoneNumber" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Giới tính</label>
+                <select class="form-control" id="gender" required>
+                    <option value="0">Nam</option>
+                    <option value="1">Nữ</option>
+                    <option value="2">Khác</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Chức vụ</label>
+                <select class="form-control" id="roleId" required>
+                    <option selected disabled>--Chọn chức vụ</option>
+                    <option value="1">Quản lý</option>
+                    <option value="2">Nhân viên</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Ngày sinh</label>
+                <input type="date" class="form-control" id="dateOfBirth" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Ngày vào làm</label>
+                <input type="date" class="form-control" id="beginDate" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Mức lương</label>
+                <input type="number" class="form-control" id="salary" required>
+            </div>
+            <button type="button" id="btn_submit_staff" class="btn btn-primary">Thêm nhân sự</button>
+        </form>
+    `);
+
+    $('#btn_submit_staff').on('click', function () {
+        var formData = new FormData();
+        formData.append('FullName', $('#fullName').val());
+        formData.append('PhoneNumber', $('#phoneNumber').val());
+        formData.append('Email', $('#email').val());
+        formData.append('DateOfBirth', $('#dateOfBirth').val());
+        formData.append('Gender', $('#gender').val());
+        formData.append('RoleId', $('#roleId').val());
+        formData.append('IdBranch', idBranch);
+        formData.append('BeginDate', $('#beginDate').val());
+        formData.append('Salary', $('#salary').val());
+
+        $.ajax({
+            url: '/User/AddStaff',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response.result === 1) {
+                    ShowToastNoti('success', '', response.message, 4000, 'topRight');
+                    RenderTableStaff(idBranch);
+                }
+                else {
+                    ShowToastNoti('error', '', response.message, 4000, 'topRight');
+                }
+            },
+            error: function (error) {
+                console.error('Error:', error);
+                alert('Có lỗi xảy ra khi thêm nhân viên.');
+            }
+        });
+    });
+}
+
+function UpdateStaff(idStaff) {
+    $('#div_data_detail_branch').html(`
+        <form id="add_form_staff">
+            <div class="mb-3">
+                <label class="form-label">Họ tên</label>
+                <input type="text" class="form-control" id="fullName" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Số điện thoại</label>
+                <input type="number" class="form-control" id="phoneNumber" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Giới tính</label>
+                <select class="form-control" id="gender" required>
+                    <option value="0">Nam</option>
+                    <option value="1">Nữ</option>
+                    <option value="2">Khác</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Chức vụ</label>
+                <select class="form-control" id="roleId" required>
+                    <option selected disabled>--Chọn chức vụ</option>
+                    <option value="1">Quản lý</option>
+                    <option value="2">Nhân viên</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Ngày sinh</label>
+                <input type="date" class="form-control" id="dateOfBirth" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Ngày vào làm</label>
+                <input type="date" class="form-control" id="beginDate" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Mức lương</label>
+                <input type="number" class="form-control" id="salary" required>
+            </div>
+            <button type="button" id="btn_submit_staff" class="btn btn-primary">Thêm nhân sự</button>
+        </form>
+    `);
+}
+//+++++++++++++++++++++++Staff Area Ends+++++++++++++++++++++++++++++

@@ -140,11 +140,39 @@ namespace UserService_5002.Controllers
 
         // Manage User
         [HttpGet]
-        [Authorize(Roles = "3,4")]
-        public async Task<IActionResult> GetListUser(int idRoleRequest)
+        [Authorize(Roles = "1,2")]
+        public async Task<IActionResult> GetListUserByIdBranch(int idBranch)
         {
-            var listUserToGet = await _s_User.GetListUser(idRoleRequest, _currentUser);
+            var listUserToGet = await _s_User.GetListUserByIdBranch(idBranch, _currentUser);
             return Json(listUserToGet);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "1,2")]
+        public async Task<IActionResult> AddStaff(MReq_Staff request)
+        {
+            try
+            {
+                var staffToAdd = await _s_User.AddStaff(request);
+                return Json(new {result = 1, message = staffToAdd});
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = -1, message = ex.Message });
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateStaff(MReq_Staff request)
+        {
+            try
+            {
+                var userToUpdate = await _s_User.UpdateStaff(request);
+                return Json(new { result = 1, data = userToUpdate });
+            }
+            catch (Exception ex) {
+                return Json(new { result = -1, message =ex.Message});
+            }
         }
     }
 }

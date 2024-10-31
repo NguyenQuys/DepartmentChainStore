@@ -58,7 +58,7 @@ builder.Services.AddScoped<CurrentUserHelper>();
 //httpclient
 builder.Services.AddHttpClient("ProductService", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7076"); // Địa chỉ API Gateway
+    client.BaseAddress = new Uri("https://localhost:7076"); 
 });
 
 builder.Services.AddControllers();

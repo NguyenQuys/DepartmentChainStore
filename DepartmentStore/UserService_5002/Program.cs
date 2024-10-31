@@ -5,6 +5,7 @@ using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using ProductService_5000.Mapper;
 using System.Text;
 using UserService_5002.Helper;
 using UserService_5002.Models;
@@ -110,6 +111,10 @@ builder.Services.AddCors(options =>
                        .AllowCredentials();  // Cho phép cookie được gửi
             });
 });
+
+//+++++++++++++++++++++++ Mapper +++++++++++++++++++++++
+builder.Services.AddAutoMapper(typeof(UserMapper));
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 var app = builder.Build();
 
