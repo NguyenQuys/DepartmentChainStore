@@ -17,7 +17,7 @@ namespace UserService_5002.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -67,8 +67,8 @@ namespace UserService_5002.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("BeginDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly?>("BeginDate")
+                        .HasColumnType("date");
 
                     b.Property<DateOnly>("DateOfBirth")
                         .HasColumnType("date");
@@ -126,7 +126,7 @@ namespace UserService_5002.Migrations
                     b.HasOne("UserService_5002.Models.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("UserService_5002.Models.User", "User")

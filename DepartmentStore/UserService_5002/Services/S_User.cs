@@ -17,9 +17,12 @@ namespace UserService_5002.Services
         Task<string> Logout(MRes_InfoUser currentUser);
 
         Task<List<UserOtherInfo>> GetListUserByIdBranch(int idBranch, MRes_InfoUser currentUser);
+        Task<MReq_Staff> GetById(int id);
 
         Task<string> AddStaff(MReq_Staff mReq_Staff);
         Task<string> UpdateStaff(MReq_Staff mReq_Staff);
+
+        String DeleteStaff(int id);
     }
 
     public class S_User : IS_User
@@ -112,8 +115,8 @@ namespace UserService_5002.Services
                             Gender = userFromInput.UserOtherInfo.Gender,
                             RoleId = userFromInput.UserOtherInfo.RoleId,
                             IdBranch = userFromInput.UserOtherInfo.IdBranch, 
-                            Salary = userFromInput.UserOtherInfo.Salary, 
-                            BeginDate = DateTime.Now,
+                            Salary = userFromInput.UserOtherInfo.Salary,
+                            BeginDate = DateOnly.FromDateTime(DateTime.Now),
                             UpdatedAt = DateTime.Now,
                             UpdateBy = int.Parse(currentUser.IdUser)
                         };
@@ -332,6 +335,38 @@ namespace UserService_5002.Services
 
             return "Cập nhật nhân viên thành công";
         }
+
+        public async Task<MReq_Staff> GetById(int id)
+        {
+            var userToGet = await _userContext.Users.FirstOrDefaultAsync(m=>m.UserId == id);
+            var infoUser = await _userContext.UserOtherInfo.FirstOrDefaultAsync(m => m.UserId == id);
+
+            var result = new MReq_Staff()
+            {
+                PhoneNumber = userToGet.PhoneNumber,
+                FullName = infoUser.FullName,
+                Email = infoUser.Email,
+                DateOfBirth = infoUser.DateOfBirth,
+                Gender = infoUser.Gender,
+                RoleId = infoUser.RoleId,
+                IdBranch = infoUser.IdBranch,
+                BeginDate = infoUser.BeginDate,
+                Salary = infoUser.Salary
+            };
+            return result;
+        }
+
+        public String DeleteStaff(int id)
+        {
+            var staffToDelete = _userContext.Users.Include(m=>m.UserOtherInfo)
+                .FirstOrDefault(u => u.UserId == id);
+
+            _userContext.Users.Remove(staffToDelete);
+            _userContext.SaveChanges();
+
+            return "Xóa thành công";
+        }
+
 
     }
 }

@@ -162,17 +162,33 @@ namespace UserService_5002.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var userToGet = await _s_User.GetById(id);
+            return Json(userToGet);
+        }
+
         [HttpPut]
+        [Authorize(Roles = "1,2")]
         public async Task<IActionResult> UpdateStaff(MReq_Staff request)
         {
             try
             {
                 var userToUpdate = await _s_User.UpdateStaff(request);
-                return Json(new { result = 1, data = userToUpdate });
+                return Json(new { result = 1, message = userToUpdate });
             }
             catch (Exception ex) {
-                return Json(new { result = -1, message =ex.Message});
+                return Json(new { result = -1, message = ex.Message});
             }
+        }
+
+        [HttpDelete]
+        [Authorize(Roles = "1,2")]
+        public IActionResult DeleteStaff(int id)
+        {
+            var staffToDetele = _s_User.DeleteStaff(id);
+            return Json(staffToDetele);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace UserService_5002.Models
 
         public string? IdBranch { get; set; }
 
-        public DateTime? BeginDate { get; set; }
+        public DateOnly? BeginDate { get; set; }
 
         [MaxLength(9)]
         public int? Salary { get; set; }

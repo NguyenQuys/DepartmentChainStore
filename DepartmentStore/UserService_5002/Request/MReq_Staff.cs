@@ -16,8 +16,8 @@
 
         public string IdBranch { get; set; }
 
-        public DateTime BeginDate { get; set; }
+        public DateOnly? BeginDate { get; set; }
 
-        public int Salary { get; set; }
+        public int? Salary { get; set; }
     }
 }

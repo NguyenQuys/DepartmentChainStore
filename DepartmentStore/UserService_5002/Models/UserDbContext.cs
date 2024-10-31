@@ -26,8 +26,9 @@ namespace UserService_5002.Models
             modelBuilder.Entity<UserOtherInfo>()
                 .HasOne(uo => uo.Role)
                 .WithMany()
-                .HasForeignKey(ou=>ou.RoleId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(ou => ou.RoleId)
+                .OnDelete(DeleteBehavior.Restrict);  
+
 
             base.OnModelCreating(modelBuilder);
         }

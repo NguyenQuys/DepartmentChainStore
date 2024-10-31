@@ -51,7 +51,7 @@
         }
       ],
       "UpstreamPathTemplate": "/{controller}/{action}",
-      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
       "AddHeadersToDownstream": {
         "Authorization": "{Headers.Authorization}"
       }
