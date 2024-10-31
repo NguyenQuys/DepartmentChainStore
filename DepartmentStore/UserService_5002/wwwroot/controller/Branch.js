@@ -25,6 +25,9 @@
 //    });
 //}
 
+let currentType = ''; 
+let idBranch_global;
+
 // Render Branch Table
 function RenderBranchTable() {
     $('#div_table_product').hide();
@@ -35,7 +38,8 @@ function RenderBranchTable() {
     $.ajax({
         url: '/branch/Branch/GetAllBranches',
         type: 'GET',
-        success: function (response) {
+        success: function (response)
+        {
             if (response.length === 0) {
                 tableBody = '<tr><td colspan="6" class="text-center">Không có chi nhánh để hiển thị</td></tr>';
             } else {
@@ -46,7 +50,8 @@ function RenderBranchTable() {
                         <td>${branch.location}</td>
                         <td></td>
                         <td>
-                            <a href="javascript:void(0)" onclick="OpenModalBranch('updateBranch', ${branch.id})" class="btn btn-info">Chi tiết</a>
+                             <a href="javascript:void(0)" onclick="OpenModalDetailBranch(${branch.id}, '${branch.location}')" class="btn btn-info">Chi tiết</a>
+
                             <a href="javascript:void(0)" onclick="OpenModalBranch('updateBranch', ${branch.id})" class="btn btn-primary">Sửa</a>
                             <a href="javascript:void(0)" onclick="RemoveBranch(${branch.id})" class="btn btn-danger">Xóa</a>
                         </td>
@@ -83,7 +88,6 @@ function RenderBranchTable() {
     });
 }
 
-// Other functions are the same as updated above...
 
 
 // Open Modal branch
@@ -125,6 +129,14 @@ function OpenModalBranch(type, branchId = null) {
 
     // Show the modal
     new bootstrap.Modal(document.getElementById('modal_branch')).show();
+}
+
+function OpenModalDetailBranch(idBranch, location) {
+    let modalTitle = $('#modal_title_detail_branch').html(`Chi tiết chi nhánh <span class="text-primary">${location}</span>`);
+    idBranch_global = idBranch;
+    OnChangeTypeBranchDetail($('.nav-detail-branch').eq(0), 'product_branch');
+
+    new bootstrap.Modal(document.getElementById('modal_detail_branch')).show();
 }
 
 // Add Branch
@@ -189,12 +201,12 @@ function UpdateBranch(branchId) {
     });
 }
 
-function RemoveBranch(idBanch) {
+function RemoveBranch(idBranch) {
     if (confirm('Bạn có chắc chắn muốn xóa chi nhánh này không?')) {
         $.ajax({
             url: `/branch/Branch/Remove`,
             type: 'DELETE',
-            data: { id: idBanch },
+            data: { id: idBranch },
             success: function (response) {
                 ShowToastNoti('success', '', response, 4000, 'topRight');
                 RenderBranchTable();
@@ -204,5 +216,67 @@ function RemoveBranch(idBanch) {
             }
         });
     }
+}
+
+function OnChangeTypeBranchDetail(elm, type) {
+    currentType = type;
+    $(".nav-detail-branch").removeClass("active");
+    $(elm).addClass("active");
+
+    if (type === 'product_branch') {
+        RenderTableProductBranch();
+    } else if (type === 'staff') {
+        $('#div_data_detail_branch').html(`<h1>BBB</h1>`);
+    }
+}
+
+function RenderTableProductBranch() {
+    let tableBody = '';
+
+    $.ajax({
+        url: '/branch/Product_Branch/GetListByIdBranch',
+        type: 'GET',
+        data: { id: idBranch_global },
+        success: function (response) {
+            if (response.result === 1) {
+                if (response.data.length === 0) {
+                    tableBody = '<tr><td colspan="4" class="text-center">Không có dữ liệu để hiển thị</td></tr>';
+                } else {
+                    response.data.forEach(function (pb, index) {
+                        tableBody += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${pb.productName}</td>
+                            <td>${pb.batchNumber}</td>
+                            <td>${pb.quantity}</td>
+                        </tr>`;
+                    });
+                }
+
+                $('#div_data_detail_branch').html(`
+                <div>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr class="bg-primary text-white">
+                                <th>STT</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Số lô hàng</th>
+                                <th>Số lượng hiện tại</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${tableBody}
+                        </tbody>
+                    </table>
+                </div>
+                `);
+            } else {
+                ShowToastNoti('error', '', response.message, 4000, 'topRight');
+            }
+        },
+        error: function () {
+            ShowToastNoti('error', '', 'Lỗi khi tải dữ liệu', 4000, 'topRight');
+        }
+    });
 }
 

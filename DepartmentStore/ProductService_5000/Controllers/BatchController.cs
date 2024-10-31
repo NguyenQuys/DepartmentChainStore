@@ -1,5 +1,6 @@
 ﻿using APIGateway.Response;
 using APIGateway.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProductService_5000.Models;
 using ProductService_5000.Services;
@@ -26,6 +27,7 @@ namespace ProductService_5000.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "1")]
         public async Task<IActionResult> GetListByIdProduct(int id)
         {
             var listBatchToGet = await _s_Batch.GetListByIdProduct(id);
@@ -33,11 +35,27 @@ namespace ProductService_5000.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "1")]
         public async Task<IActionResult> Create(Batch batchRequest)
         {
             try
             {
                 var batchToCreate = await _s_Batch.Create(batchRequest);
+                return Json(new { result = 1, data = batchToCreate });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = -1, message = ex.Message });
+            }
+        }
+
+        [HttpPut]
+        [Authorize(Roles = "1")]
+        public async Task<IActionResult> Update(Batch batchRequest)
+        {
+            try
+            {
+                var batchToCreate = await _s_Batch.Update(batchRequest);
                 return Json(new { result = 1, message = batchToCreate });
             }
             catch (Exception ex)
@@ -46,5 +64,12 @@ namespace ProductService_5000.Controllers
             }
         }
 
+        [HttpDelete]
+        [Authorize(Roles = "1")]
+        public async Task<IActionResult> DeleteById(int id)
+        {
+            var batchToRemove = await _s_Batch.DeleteById(id);
+            return Json(batchToRemove);
+        }
     }
 }

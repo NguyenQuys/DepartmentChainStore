@@ -32,7 +32,8 @@ namespace ProductService_5000.Migrations
 
                     b.Property<string>("BatchNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<DateOnly>("ExpiryDate")
                         .HasColumnType("date");
@@ -40,14 +41,16 @@ namespace ProductService_5000.Migrations
                     b.Property<int>("IdProduct")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdReceive")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("ImportDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("InitQuantity")
                         .HasColumnType("int");
+
+                    b.Property<string>("Receiver")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<int>("RemainingQuantity")
                         .HasColumnType("int");

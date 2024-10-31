@@ -23,6 +23,7 @@ builder.Services.AddDbContext<ProductDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ProductDBConnection")));
 
 builder.Services.AddAutoMapper(typeof(ProductMapper));
+builder.Services.AddAutoMapper(typeof(BatchMapper));
 
 // Configure JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

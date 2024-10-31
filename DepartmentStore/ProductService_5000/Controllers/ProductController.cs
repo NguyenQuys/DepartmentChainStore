@@ -49,8 +49,8 @@ namespace ProductService_5000.Controllers
         [HttpGet]
         public async Task<IActionResult> GetById(int idProduct)
         {
-            var productToUpdate = await _s_Product.GetByIdAsync(idProduct);
-            return Json(new { result = 1, data = productToUpdate });
+            var productToGet = await _s_Product.GetByIdAsync(idProduct);
+            return  Json(productToGet);
         }
 
         [Authorize(Roles = "1")]

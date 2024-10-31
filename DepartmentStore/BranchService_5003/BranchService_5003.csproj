@@ -24,8 +24,4 @@
     <ProjectReference Include="..\ProductService_5000\ProductService_5000.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Request\" />
-  </ItemGroup>
-
 </Project>

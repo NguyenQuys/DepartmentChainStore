@@ -337,3 +337,4 @@ D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore
 D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\BranchService_5003\obj\Debug\net8.0\BranchService_5003.pdb
 D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\BranchService_5003\obj\Debug\net8.0\BranchService_5003.genruntimeconfig.cache
 D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\BranchService_5003\obj\Debug\net8.0\ref\BranchService_5003.dll
+D:\Data\Programming\Project\DACN\DepartmentChainStore\github\dev\DepartmentStore\BranchService_5003\obj\Debug\net8.0\BranchService_5003.MvcApplicationPartsAssemblyInfo.cs

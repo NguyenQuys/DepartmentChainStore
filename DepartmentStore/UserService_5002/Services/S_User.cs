@@ -223,6 +223,7 @@ namespace UserService_5002.Services
                     IdRole = userInfo.RoleId.ToString(),
                     FullName = userInfo.FullName,
                     Email = userInfo.Email,
+                    IdBranch = userInfo.IdBranch
                 };
             }
             else if (!BCrypt.Net.BCrypt.Verify(mReq_Login.Password, user.Password))

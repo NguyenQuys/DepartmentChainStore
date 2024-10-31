@@ -30,9 +30,9 @@
                         <label for="categoryId" class="form-label">Danh mục</label>
                         <select class="form-select" id="categoryId" required>
                             <option disabled>Chọn danh mục</option>
-                            <option value="1">Danh mục 1</option>
-                            <option value="2">Danh mục 2</option>
-                            <option value="3">Danh mục 3</option>
+                            <option value="1">Nước</option>
+                            <option value="2">Bánh</option>
+                            <option value="3">Trái cây</option>
                         </select>
                     </div>
                     <div class="mb-3">
@@ -74,34 +74,40 @@
         </div>
     </div>
 </div>
-<!--Modal Product Branch-->
-@* <div class="modal fade" id="modal-branch" tabindex="-1" aria-hidden="true">
+<!-- Modal Detail Branch -->
+<div class="modal fade" id="modal_detail_branch" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modal_title_branch">Thêm chi nhánh</h5>
+                <h5 class="modal-title" id="modal_title_detail_branch">Product Branch List</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="add_form_branch">
-                    <div class="mb-3">
-                        <label for="location" class="form-label">Tên chi nhánh</label>
-                        <input type="text" class="form-control" id="location" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="account" class="form-label">Tài khoản</label>
-                        <input type="text" class="form-control" id="account" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Mật khẩu</label>
-                        <input type="password" class="form-control" id="password" required>
-                    </div>
-                    <button type="button" id="btn_branch" class="btn btn-primary"></button>
-                </form>
+                <ul class="nav nav-pills mb-3 d-flex justify-content-evenly" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link nav-detail-branch active" onclick="OnChangeTypeBranchDetail(this, 'product_branch')">Hàng hóa</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link nav-detail-branch" onclick="OnChangeTypeBranchDetail(this, 'staff')">Nhân sự</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link nav-detail-branch" onclick="OnChangeTypeBranchDetail(this, 'invoice')">Hóa đơn</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link nav-detail-branch" onclick="OnChangeTypeBranchDetail(this, 'import')">Nhập hàng</button>
+                    </li>
+                </ul>
+                <div id="div_data_detail_branch"></div>
             </div>
         </div>
     </div>
-</div> *@
+</div>
+
+<!-- Button to Trigger Modal -->
+@* <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_product_branch">
+    Open Product Branch Modal
+</button> *@
+
 <!--Modal Batch-->
 <div class="modal fade" id="modal_batch" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
@@ -135,8 +141,8 @@
                         <input type="datetime" class="form-control" id="importDate" required>
                     </div>
                     <div class="mb-3">
-                        <label for="idReceive" class="form-label">Người nhận</label>
-                        <input type="number" class="form-control" id="idReceive" required>
+                        <label for="receiver_batch" class="form-label">Người nhận</label>
+                        <input type="text" class="form-control" id="receiver_batch" required>
                     </div>
                     <button type="button" id="btn_batch" class="btn btn-primary"></button>
                 </form>

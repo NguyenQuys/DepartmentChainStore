@@ -27,10 +27,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuer = false,
             ValidateAudience = false,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],        
-            ValidAudience = builder.Configuration["Jwt:Audience"],    
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"])),
-            ClockSkew = TimeSpan.Zero 
+            ClockSkew = TimeSpan.Zero
         };
 
         // Automatically extract the JWT token from cookies
@@ -52,7 +52,14 @@ builder.Services.AddHttpContextAccessor();
 
 // Add Service
 builder.Services.AddScoped<IS_Branch, S_Branch>();
+builder.Services.AddScoped<IS_Product_Branch, S_Product_Branch>();
 builder.Services.AddScoped<CurrentUserHelper>();
+
+//httpclient
+builder.Services.AddHttpClient("ProductService", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7076"); // Địa chỉ API Gateway
+});
 
 builder.Services.AddControllers();
 
