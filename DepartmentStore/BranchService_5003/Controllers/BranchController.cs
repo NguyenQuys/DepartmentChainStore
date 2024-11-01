@@ -1,4 +1,6 @@
 ﻿using APIGateway.Request;
+using APIGateway.Response;
+using APIGateway.Utilities;
 using BranchService_5003.Models;
 using BranchService_5003.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -11,16 +13,18 @@ namespace BranchService_5003.Controllers
     public class BranchController : Controller
     {
         private readonly IS_Branch _s_Branch;
+        private readonly MRes_InfoUser _currentUser;
 
-        public BranchController(IS_Branch branch)
+        public BranchController(IS_Branch branch, CurrentUserHelper currentUser)
         {
             _s_Branch = branch;
+            _currentUser = currentUser.GetCurrentUser();
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllBranches()
         {
-            var getAllBranches = await _s_Branch.GetAllBranches();
+            var getAllBranches = await _s_Branch.GetAllBranches(_currentUser);
             return Json(getAllBranches);
         }
 

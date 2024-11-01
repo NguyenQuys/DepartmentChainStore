@@ -163,9 +163,9 @@ namespace UserService_5002.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetStaffById(int id)
         {
-            var userToGet = await _s_User.GetById(id);
+            var userToGet = await _s_User.GetStaffById(id);
             return Json(userToGet);
         }
 
@@ -189,6 +189,23 @@ namespace UserService_5002.Controllers
         {
             var staffToDetele = _s_User.DeleteStaff(id);
             return Json(staffToDetele);
+        }
+
+        // Customer
+        [HttpGet]
+        [Authorize(Roles ="1")]
+        public async Task<IActionResult> GetCustomerList()
+        {
+            var customerListToGet = await _s_User.GetCustomerList();
+            return Json(customerListToGet);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetCustomerById(int id)
+        {
+            var customerToGet = await _s_User.GetCustomerById(id);
+            return Json(customerToGet);
         }
     }
 }

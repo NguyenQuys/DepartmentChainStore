@@ -1,31 +1,4 @@
-﻿//$(document).ready(function () {
-//    $('#div_droplist_select_branch').on('click', function () {
-//        DropListBranch();
-//    });
-//});
-
-//function DropListBranch() {
-//    $.ajax({
-//        url: '/branch/Branch/GetAllBranches', // Fix the URL path
-//        type: 'GET',
-//        success: function (data) {
-//            // Clear the existing options
-//            $('#div_droplist_select_branch').empty();
-
-//            // Populate the dropdown with the received data
-//            $.each(data, function (index, branch) {
-//                $('#div_droplist_select_branch').append(
-//                    $('<option></option>').val(branch.id).text(branch.name)
-//                );
-//            });
-//        },
-//        error: function (error) {
-//            console.log('Error fetching branches:', error);
-//        }
-//    });
-//}
-
-let currentType = '';
+﻿let currentType = '';
 let idBranch_global;
 let idUser_global;
 
@@ -33,6 +6,7 @@ let idUser_global;
 function RenderBranchTable() {
     $('#div_table_product').hide();
     $('#div_table_batch').hide();
+    $('#div_table_customer').hide();
     $('#div_table_branch').show();
     let tableBody = '';
 
@@ -81,7 +55,6 @@ function RenderBranchTable() {
                         `);
         },
         error: function (error) {
-            console.error('Error:', error);
             alert('Có lỗi xảy ra khi tải danh sách chi nhánh.');
         }
     });

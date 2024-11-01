@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using UserService_5002.Models;
 using UserService_5002.Request;
+using UserService_5002.Response;
 
 namespace UserService_5002.Services
 {
@@ -17,12 +18,16 @@ namespace UserService_5002.Services
         Task<string> Logout(MRes_InfoUser currentUser);
 
         Task<List<UserOtherInfo>> GetListUserByIdBranch(int idBranch, MRes_InfoUser currentUser);
-        Task<MReq_Staff> GetById(int id);
+        Task<MReq_Staff> GetStaffById(int id);
 
         Task<string> AddStaff(MReq_Staff mReq_Staff);
         Task<string> UpdateStaff(MReq_Staff mReq_Staff);
 
         String DeleteStaff(int id);
+
+        // Customer
+        Task<List<MReq_Staff>> GetCustomerList();
+        Task<MRes_Customer> GetCustomerById(int id);
     }
 
     public class S_User : IS_User
@@ -351,7 +356,7 @@ namespace UserService_5002.Services
         }
 
 
-        public async Task<MReq_Staff> GetById(int id)
+        public async Task<MReq_Staff> GetStaffById(int id)
         {
             var userToGet = await _userContext.Users.FirstOrDefaultAsync(m=>m.UserId == id);
             var infoUser = await _userContext.UserOtherInfo.FirstOrDefaultAsync(m => m.UserId == id);
@@ -382,6 +387,32 @@ namespace UserService_5002.Services
             return "Xóa thành công";
         }
 
+        // Customer
+        public async Task<List<MReq_Staff>> GetCustomerList()
+        {
+            var result = new List<MReq_Staff>();
+
+            var customerListToGet = await _userContext.Users.Include(m => m.UserOtherInfo)
+                                                            .Where(m=>m.UserOtherInfo.RoleId == 4)
+                                                            .ToListAsync();
+
+            foreach (var item in customerListToGet)
+            {
+                var mappedUser = _mapper.Map<MReq_Staff>(item);
+                result.Add(mappedUser);
+            }
+
+            return result;
+        }
+
+        public async Task<MRes_Customer> GetCustomerById(int id)
+        {
+            var customerToGet = await _userContext.Users.Include(m=>m.UserOtherInfo)
+                                                         .FirstOrDefaultAsync(m=>m.UserId == id);
+
+            var result = _mapper.Map<MRes_Customer>(customerToGet);
+            return result;
+        }
 
     }
 }

@@ -1,4 +1,5 @@
-﻿      <!-- partial:partials/_sidebar.html -->
+﻿@model APIGateway.Response.MRes_InfoUser;
+      <!-- partial:partials/_sidebar.html -->
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
         <li class="nav-item nav-category">Hàng hóa</li>
@@ -11,24 +12,27 @@
             <div class="collapse" id="ui-foods-drinks">
                 <ul class="nav flex-column" id="categoryTab" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link toggle-product" id="nav-drinks-tab" href="javascript:void(0)" onclick="HandleTabClick(1, 'nav-drinks-tab')">Nước giải khát</a>
+                        <a class="nav-link toggle-product" id="nav-drinks-tab" href="javascript:void(0)" onclick="HandleTabClick(1, 'nav-drinks-tab',@Model.IdRole)">Nước giải khát</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link toggle-product" id="nav-cakes-tab" href="javascript:void(0)" onclick="HandleTabClick(2, 'nav-cakes-tab')">Bánh</a>
+                        <a class="nav-link toggle-product" id="nav-cakes-tab" href="javascript:void(0)" onclick="HandleTabClick(2, 'nav-cakes-tab',@Model.IdRole)">Bánh</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link toggle-product" id="nav-fruits-tab" href="javascript:void(0)" onclick="HandleTabClick(3, 'nav-fruits-tab')">Trái cây</a>
+                        <a class="nav-link toggle-product" id="nav-fruits-tab" href="javascript:void(0)" onclick="HandleTabClick(3, 'nav-fruits-tab',@Model.IdRole)">Trái cây</a>
                     </li>
 
                 </ul>
             </div>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" id="nav_batch_tab" href="javascript:void(0)" onclick="ActiveTogglePills('nav_batch_tab'); ShowContentBatch()">
+        @if (Model.IdRole == "1")
+        {
+            <li class="nav-item">
+                <a class="nav-link" id="nav_batch_tab" href="javascript:void(0)" onclick="ActiveTogglePills('nav_batch_tab'); ShowContentBatch()">
                 <i class="menu-icon mdi mdi-card-text-outline"></i>
                 <span class="">Lô hàng</span>
             </a>
         </li>
+        }
         <li class="nav-item nav-category">Quản lý cửa hàng</li>
         <li class="nav-item">
             <a class="nav-link" id="nav_branch_tab" href="javascript:void(0)" onclick="ActiveTogglePills('nav_branch_tab'); RenderBranchTable();">
@@ -36,41 +40,12 @@
                 <span class="">Chi nhánh</span>
             </a>
         </li>
+        <li class="nav-item nav-category">Quản lý khách hàng</li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="~/#charts" aria-expanded="false" aria-controls="charts">
-                <i class="menu-icon mdi mdi-chart-line"></i>
-                <span class="menu-title">Charts</span>
-                <i class="menu-arrow"></i>
+            <a class="nav-link" id="nav_customer_tab" href="javascript:void(0)" onclick="ActiveTogglePills('nav_customer_tab');RenderCustomerTable()">
+                <i class="menu-icon mdi mdi-card-text-outline"></i>
+                <span class="">Khách hàng</span>
             </a>
-            <div class="collapse" id="charts">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="~/pages/charts/chartjs.html">ChartJs</a></li>
-                </ul>
-            </div>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="~/#tables" aria-expanded="false" aria-controls="tables">
-                <i class="menu-icon mdi mdi-table"></i>
-                <span class="menu-title">Tables</span>
-                <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="tables">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="~/pages/tables/basic-table.html">Basic table</a></li>
-                </ul>
-            </div>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="~/#icons" aria-expanded="false" aria-controls="icons">
-                <i class="menu-icon mdi mdi-layers-outline"></i>
-                <span class="menu-title">Icons</span>
-                <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="icons">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="~/pages/icons/mdi.html">Mdi icons</a></li>
-                </ul>
-            </div>
         </li>
         <li class="nav-item nav-category">pages</li>
         <li class="nav-item">

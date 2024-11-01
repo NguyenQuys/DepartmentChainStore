@@ -1,9 +1,12 @@
 ﻿let productIdToAction;
+let ID_ROLE;
 
-function HandleTabClick(categoryId, tabId) {
+function HandleTabClick(categoryId, tabId, idRole) {
+    ID_ROLE = idRole;
     GetProductsByIdCategory(categoryId);
     ActiveTogglePills(tabId);
 }
+
 
 function ActiveTogglePills(tabId) {
     $('.nav-link').removeClass('bg-primary text-white');
@@ -32,47 +35,58 @@ function GetProductsByIdCategory(id) {
 function RenderProductTable(products) {
     $('#div_table_branch').hide();
     $('#div_table_batch').hide();
+    $('#div_table_customer').hide();
     $('#div_table_product').show();
     let tableBody = '';
 
     if (products.length === 0) {
         tableBody = '<tr><td colspan="6" class="text-center">Không có sản phẩm để hiển thị</td></tr>';
-    }
-    else
-    {
-        products.forEach(function (product, index) { 
+    } else {
+        products.forEach(function (product, index) {
+            // Conditionally render action buttons based on idRole
+            const actionButtons = ID_ROLE === 1 ? `
+                <td>
+                    <a href="javascript:void(0)" onclick="OpenModalProduct('updateProduct', ${product.id})" class="btn btn-primary">Sửa</a>
+                    <a href="javascript:void(0)" onclick="RemoveProduct(${product.id})" class="btn btn-danger">Xóa</a>
+                </td>
+            ` : '';
+
+            // Conditionally render the status toggle based on idRole
+            const statusToggle = ID_ROLE === 1 ? `
+                <td style="text-align: center; vertical-align: middle;">
+                    <div class="form-check form-switch" style="display: inline-block;">
+                        <input class="form-check-input toggle-status" type="checkbox" data-product-id="${product.id}" ${!product.isHide ? 'checked' : ''}>
+                    </div>
+                </td>
+            ` : '';
+
             tableBody += `
                 <tr>
                     <td>${index + 1}</td> 
                     <td>${product.productName}</td>
                     <td>${product.price}</td>
-                    <td style="text-align: center; vertical-align: middle;">
-                        <div class="form-check form-switch" style="display: inline-block;">
-                            <input class="form-check-input toggle-status" type="checkbox" data-product-id="${product.id}" ${!product.isHide ? 'checked' : ''}>
-                        </div>
-                    </td>
+                    ${statusToggle}
                     <td>${new Date(product.updatedTime).toLocaleString("en-GB")}</td>
-                    <td>
-                        <a href="javascript:void(0)" onclick="OpenModalProduct('updateProduct', ${product.id})" class="btn btn-primary">Sửa</a>
-                        <a href="javascript:void(0)" onclick="RemoveProduct(${product.id})" class="btn btn-danger">Xóa</a>
-                    </td>
+                    ${actionButtons}
                 </tr>
             `;
         });
     }
 
     $('#div_table_product').html(`
+        ${ID_ROLE === 1 ? `
         <div class="card">
             <div>
-             <button type="button" class="btn btn-primary m-4" id="btn_add_product" data-bs-toggle="modal" onclick="OpenModalProduct('addProduct')">
-                Thêm sản phẩm
-            </button>
-             </div>
+                <button type="button" class="btn btn-primary m-4" id="btn_add_product" data-bs-toggle="modal" onclick="OpenModalProduct('addProduct')">
+                    Thêm sản phẩm
+                </button>
+            </div>
+            
             <div>
                 <input type="file" id="fileInput" accept=".xlsx, .xls" />
                 <button onclick="UploadExcelProductFile()">Import Excel File</button>
             </div>
-        </div>
+        </div>` : ''}
        
         <table class="table table-striped">
             <thead>
@@ -80,15 +94,18 @@ function RenderProductTable(products) {
                     <th>STT</th> 
                     <th>Tên sản phẩm</th>
                     <th>Giá</th>
-                    <th>Trạng thái</th>
+                    ${ID_ROLE === 1 ? '<th>Trạng thái</th>' : ''}
                     <th>Cập nhật lần cuối</th>
-                    <th>Hành động</th>
+                    ${ID_ROLE === 1 ? '<th>Hành động</th>' : ''}
                 </tr>
             </thead>
             <tbody>${tableBody}</tbody>
         </table>
     `);
 }
+
+
+
 
 
 $(document).ready(function () {

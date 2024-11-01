@@ -1,4 +1,5 @@
 ﻿using APIGateway.Request;
+using APIGateway.Response;
 using AutoMapper;
 using BranchService_5003.Models;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -8,7 +9,7 @@ namespace BranchService_5003.Services
 {
     public interface IS_Branch
     {
-        Task<List<Branch>> GetAllBranches();
+        Task<List<Branch>> GetAllBranches(MRes_InfoUser currentUser);
         Task<Branch> GetById(int id);
 
         Task<string> Create(Branch branchRequest);
@@ -27,11 +28,24 @@ namespace BranchService_5003.Services
             _context = context;
         }
 
-        public async Task<List<Branch>> GetAllBranches()
+        public async Task<List<Branch>> GetAllBranches(MRes_InfoUser currentUser)
         {
-            var branchesToDisplay = await _context.Branches.ToListAsync();
+            List<Branch> branchesToDisplay = new List<Branch>();
+
+            if (currentUser.IdRole == "1")
+            {
+                branchesToDisplay = await _context.Branches.ToListAsync();
+            }
+            else
+            {
+                branchesToDisplay = await _context.Branches
+                    .Where(m => m.Id == int.Parse(currentUser.IdBranch))
+                    .ToListAsync();
+            }
+
             return branchesToDisplay;
         }
+
 
         public async Task<Branch> GetById(int id)
         {

@@ -7,7 +7,7 @@
 <div id="div_table_product"></div>
 <div id="div_table_batch"></div>
 <div id="div_table_branch"></div>
-
+<div id="div_table_customer"></div>
 <!-- Modal Product -->
 <div class="modal fade" id="modal-product" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -103,10 +103,6 @@
     </div>
 </div>
 
-<!-- Button to Trigger Modal -->
-@* <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_product_branch">
-    Open Product Branch Modal
-</button> *@
 
 <!--Modal Batch-->
 <div class="modal fade" id="modal_batch" tabindex="-1" aria-hidden="true">
@@ -146,6 +142,51 @@
                     </div>
                     <button type="button" id="btn_batch" class="btn btn-primary"></button>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal Detail Customer-->
+<div class="modal fade" id="modal_customer" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chi tiết thông tin khách hàng</h5>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="fullName" class="form-label">Họ tên</label>
+                    <input type="text" class="form-control" id="fullName" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="phoneNumber" class="form-label">Số điện thoại</label>
+                    <input type="text" class="form-control" id="phoneNumber" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="text" class="form-control" id="email" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="dateOfBirth" class="form-label">Ngày sinh</label>
+                    <input type="date" class="form-control" id="dateOfBirth" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="gender" class="form-label">Giới tính</label>
+                    <input type="text" class="form-control" id="gender" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="updatedAt" class="form-label">Ngày cập nhật</label>
+                    <input type="datetime" class="form-control" id="updatedAt" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="loginTime" class="form-label">Thời gian đăng nhập</label>
+                    <input type="datetime" class="form-control" id="loginTime" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="logoutTime" class="form-label">Thời gian đăng xuất</label>
+                    <input type="datetime" class="form-control" id="logoutTime" readonly>
+                </div>
             </div>
         </div>
     </div>
