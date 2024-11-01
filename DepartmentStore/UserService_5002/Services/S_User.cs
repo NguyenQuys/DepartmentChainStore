@@ -319,22 +319,37 @@ namespace UserService_5002.Services
 
         public async Task<string> UpdateStaff(MReq_Staff mReq_Staff)
         {
-            var existingStaff = await _userContext.UserOtherInfo
-                .FirstOrDefaultAsync(m => m.Email == mReq_Staff.Email);
+            var existingStaff = await _userContext.Users.Include(m => m.UserOtherInfo)
+                                                        .FirstOrDefaultAsync(m => m.UserId == mReq_Staff.IdUser);
 
-            if (existingStaff != null)
+            if (existingStaff.PhoneNumber != mReq_Staff.PhoneNumber)
             {
-                throw new Exception("Email đã tồn tại");
+                var phoneExists = await _userContext.Users
+                                                    .AnyAsync(u => u.PhoneNumber == mReq_Staff.PhoneNumber && u.UserId != mReq_Staff.IdUser);
+                if (phoneExists)
+                {
+                    throw new Exception("Số điện thoại đã tồn tại"); 
+                }
             }
 
-            existingStaff.User.PhoneNumber = mReq_Staff.PhoneNumber;
+            if (existingStaff.UserOtherInfo.Email != mReq_Staff.Email)
+            {
+                var emailExists = await _userContext.UserOtherInfo
+                                                    .AnyAsync(info => info.Email == mReq_Staff.Email && info.UserId != mReq_Staff.IdUser);
+                if (emailExists)
+                {
+                    throw new Exception("Email đã tồn tại"); 
+                }
+            }
 
-            _mapper.Map(mReq_Staff, existingStaff);
+            existingStaff.PhoneNumber = mReq_Staff.PhoneNumber;
+            _mapper.Map(mReq_Staff, existingStaff.UserOtherInfo);
 
             await _userContext.SaveChangesAsync();
 
-            return "Cập nhật nhân viên thành công";
+            return "Cập nhật nhân viên thành công"; 
         }
+
 
         public async Task<MReq_Staff> GetById(int id)
         {

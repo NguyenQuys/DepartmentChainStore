@@ -2,6 +2,8 @@
 {
     public class MReq_Staff
     {
+        public int IdUser { get; set; }
+
         public string PhoneNumber { get; set; }
 
         public string FullName { get; set; }

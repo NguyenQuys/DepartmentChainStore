@@ -179,7 +179,7 @@ namespace UserService_5002.Controllers
                 return Json(new { result = 1, message = userToUpdate });
             }
             catch (Exception ex) {
-                return Json(new { result = -1, message = ex.Message});
+                return BadRequest(new { message = ex.Message });
             }
         }
 

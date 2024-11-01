@@ -27,6 +27,7 @@
 
 let currentType = '';
 let idBranch_global;
+let idUser_global;
 
 // Render Branch Table
 function RenderBranchTable() {
@@ -433,6 +434,7 @@ function AddStaff(idBranch) {
 
 
 function GetUserById(idStaff) {
+    idUser_global = idStaff;
     DivActionStaff('updateStaff');
 
     $.ajax({
@@ -457,6 +459,7 @@ function GetUserById(idStaff) {
 
 function UpdateStaff(idBranch) {
     var formData = new FormData();
+    formData.append('IdUser', idUser_global);
     formData.append('FullName', $('#fullName').val());
     formData.append('PhoneNumber', $('#phoneNumber').val());
     formData.append('Email', $('#email').val());
@@ -474,18 +477,15 @@ function UpdateStaff(idBranch) {
         processData: false,
         contentType: false,
         success: function (response) {
-            if (response.result === 1) {
-                ShowToastNoti('success', '', response.message, 4000, 'topRight');
-                RenderTableStaff(idBranch);
-            } else {
-                ShowToastNoti('error', '', response.message, 4000, 'topRight');
-            }
+            ShowToastNoti('success', '', response.message, 4000, 'topRight');
+            RenderTableStaff(idBranch);
         },
         error: function (error) {
-            ShowToastNoti('error', '', 'Unable to update staff details', 4000, 'topRight');
+            ShowToastNoti('error', '', error.responseJSON.message , 4000, 'topRight');
         }
     });
 }
+
 
 function RemoveStaff(idStaff) {
     if (confirm('Bạn có chắc chắn muốn xóa nhân sự này không?')) {
