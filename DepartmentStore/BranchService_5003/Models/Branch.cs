@@ -15,5 +15,7 @@ namespace BranchService_5003.Models
         public string Password { get; set; }
 
         public ICollection<Product_Branch> Product_Branches { get; set; } = new List<Product_Branch>();
+
+        public ICollection<ImportProductHistory> ImportProductHistory { get; set; } = new List<ImportProductHistory>();
     }
 }

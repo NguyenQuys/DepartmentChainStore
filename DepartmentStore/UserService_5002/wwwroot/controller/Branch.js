@@ -99,7 +99,6 @@ function OpenModalBranch(type, branchId = null) {
         }
     }
 
-    // Show the modal
     new bootstrap.Modal(document.getElementById('modal_branch')).show();
 }
 
@@ -131,8 +130,8 @@ function addBranch() {
         success: function (response) {
             if (response.result === 1) {
                 ShowToastNoti('success', '', response.message, 4000, 'topRight');
-                $('#modal_branch').modal('hide');  // Correct modal ID
-                $('#add_form_branch')[0].reset();   // Correct form ID
+                $('#modal_branch').modal('hide');  
+                $('#add_form_branch')[0].reset(); 
                 RenderBranchTable();
             } else {
                 ShowToastNoti('error', '', response.message, 4000, 'topRight');
@@ -199,6 +198,8 @@ function OnChangeTypeBranchDetail(elm, type) {
         RenderTableProductBranch();
     } else if (type === 'staff') {
         RenderTableStaff(idBranch_global);
+    } else if ('importProduct') {
+        RenderTableImportProduct(idBranch_global);
     }
 }
 

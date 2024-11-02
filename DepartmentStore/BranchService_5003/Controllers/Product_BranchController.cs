@@ -31,5 +31,15 @@ namespace BranchService_5003.Controllers
                 return Json(new { result = -1, message = ex.Message });
             }
         }
+
+        [HttpGet]
+        [Authorize(Roles ="1,2")]
+        public async Task<IActionResult> ViewHistoryExport(int idBranch)
+        {
+            var viewHistory = await _s_Product_Branch.ViewHistoryExport(idBranch);
+            return Json(viewHistory);
+        }
     }
+
+
 }

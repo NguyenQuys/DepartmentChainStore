@@ -207,5 +207,13 @@ namespace UserService_5002.Controllers
             var customerToGet = await _s_User.GetCustomerById(id);
             return Json(customerToGet);
         }
+
+        [Authorize(Roles = "1")]
+        [HttpPut]
+        public async Task<IActionResult> ChangeStatusCustomer(int id)
+        {
+            var customerToChangeStatus = await _s_User.ChangeStatusCustomer(id, _currentUser);
+            return Json(customerToChangeStatus);
+        }
     }
 }

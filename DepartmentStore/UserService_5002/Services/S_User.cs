@@ -28,6 +28,8 @@ namespace UserService_5002.Services
         // Customer
         Task<List<MReq_Staff>> GetCustomerList();
         Task<MRes_Customer> GetCustomerById(int id);
+
+        Task<string> ChangeStatusCustomer(int id,MRes_InfoUser currentUser);
     }
 
     public class S_User : IS_User
@@ -414,5 +416,16 @@ namespace UserService_5002.Services
             return result;
         }
 
+        public async Task<string> ChangeStatusCustomer(int id, MRes_InfoUser currentUser)
+        {
+            var customerToChangeStatus = await _userContext.UserOtherInfo.FirstOrDefaultAsync(m => m.UserId == id);
+            customerToChangeStatus.IsActive = !customerToChangeStatus.IsActive;
+            customerToChangeStatus.UpdatedAt = DateTime.UtcNow;
+            customerToChangeStatus.UpdateBy = int.Parse(currentUser.IdUser);
+
+            _userContext.Update(customerToChangeStatus);
+            await _userContext.SaveChangesAsync();
+            return "Thay đổi trạng thái thành công";
+        }
     }
 }

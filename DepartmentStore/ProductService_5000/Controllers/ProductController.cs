@@ -105,5 +105,7 @@ namespace ProductService_5000.Controllers
             var productToDelete = await _s_Product.RemoveProduct(idProduct);
             return Json(productToDelete);
         }
+
+
     }
 }

@@ -55,7 +55,7 @@ function RenderProductTable(products) {
             const statusToggle = ID_ROLE === 1 ? `
                 <td style="text-align: center; vertical-align: middle;">
                     <div class="form-check form-switch" style="display: inline-block;">
-                        <input class="form-check-input toggle-status" type="checkbox" data-product-id="${product.id}" ${!product.isHide ? 'checked' : ''}>
+                        <input class="form-check-input toggle-status-product" type="checkbox" data-product-id="${product.id}" ${!product.isHide ? 'checked' : ''}>
                     </div>
                 </td>
             ` : '';
@@ -104,12 +104,8 @@ function RenderProductTable(products) {
     `);
 }
 
-
-
-
-
 $(document).ready(function () {
-    $(document).on('click', '.toggle-status', function () {
+    $(document).on('click', '.toggle-status-product', function () {
         var productId = $(this).data('product-id'); // Lấy productId từ thuộc tính data của checkbox
         ChangeStatusProduct(productId); 
     });

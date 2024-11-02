@@ -4,7 +4,7 @@
     $('#div_table_branch').hide();
     $('#div_table_customer').show();
 
-    let tableBody = ''; 
+    let tableBody = '';
 
     $.ajax({
         url: '/User/GetCustomerList',
@@ -20,8 +20,8 @@
                         <td>${cus.fullName}</td>
                         <td>${cus.phoneNumber}</td>
                         <td style="text-align: center; vertical-align: middle;">
-                            <div class="form-check form-switch" style="display: inline-block;">
-                                <input class="form-check-input" type="checkbox">
+                            <div class="form-check form-switch d-inline-block">
+                                <input class="form-check-input toggle-status-customer" type="checkbox" data-customer-id="${cus.idUser}" ${!cus.isActive ? 'checked' : ''}>
                             </div>
                         </td>
                         <td>
@@ -46,7 +46,6 @@
                     <tbody>${tableBody}</tbody>
                 </table>
             </div>
-
             `);
         }
     });
@@ -62,7 +61,7 @@ function OpenModalDetailCustomer(idCustomer) {
             $('#phoneNumber').val(response.phoneNumber);
             $('#email').val(response.email);
             $('#dateOfBirth').val(response.dateOfBirth);
-            $('#gender').val(response.gender === 1 ? 'Nam' : (response.gender === 0 ? 'Nữ' : 'Khác')); 
+            $('#gender').val(response.gender === 1 ? 'Nam' : (response.gender === 0 ? 'Nữ' : 'Khác'));
             $('#updatedAt').val(response.updatedAt ?? 'Không có thông tin');
             $('#loginTime').val(response.loginTime ?? 'Không có thông tin');
             $('#logoutTime').val(response.logoutTime ?? 'Không có thông tin');
@@ -71,6 +70,27 @@ function OpenModalDetailCustomer(idCustomer) {
         },
         error: function () {
             alert('Có lỗi xảy ra khi lấy thông tin khách hàng');
+        }
+    });
+}
+
+$(document).ready(function () {
+    $(document).on('click', '.toggle-status-customer', function () {
+        var customerId = $(this).data('customer-id');
+        ChangeStatusCustomer(customerId);
+    });
+});
+
+function ChangeStatusCustomer(customerId) {
+    $.ajax({
+        url: '/User/ChangeStatusCustomer',
+        type: 'PUT',
+        data: { id: customerId },
+        success: function (response) {
+            ShowToastNoti('success', '', response, 4000, 'topRight');
+        },
+        error: function (error) {
+            ShowToastNoti('error', '', error, 4000, 'topRight');
         }
     });
 }

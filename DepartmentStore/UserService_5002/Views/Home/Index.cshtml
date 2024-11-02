@@ -94,7 +94,7 @@
                         <button class="nav-link nav-detail-branch" onclick="OnChangeTypeBranchDetail(this, 'invoice')">Hóa đơn</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link nav-detail-branch" onclick="OnChangeTypeBranchDetail(this, 'import')">Nhập hàng</button>
+                        <button class="nav-link nav-detail-branch" onclick="OnChangeTypeBranchDetail(this, 'importProduct')">Nhập hàng</button>
                     </li>
                 </ul>
                 <div id="div_data_detail_branch"></div>
@@ -102,7 +102,6 @@
         </div>
     </div>
 </div>
-
 
 <!--Modal Batch-->
 <div class="modal fade" id="modal_batch" tabindex="-1" aria-hidden="true">
@@ -149,10 +148,11 @@
 
 <!--Modal Detail Customer-->
 <div class="modal fade" id="modal_customer" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Chi tiết thông tin khách hàng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="mb-3">
