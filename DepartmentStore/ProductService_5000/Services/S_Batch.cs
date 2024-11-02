@@ -1,7 +1,9 @@
 ﻿using APIGateway.Response;
 using AutoMapper;
+using IdentityServer.Constant;
 using Microsoft.EntityFrameworkCore;
 using ProductService_5000.Models;
+using ProductService_5000.Request;
 using ProductService_5000.Response;
 
 namespace ProductService_5000.Services
@@ -9,7 +11,8 @@ namespace ProductService_5000.Services
     public interface IS_Batch
     {
         Task<Batch> GetById(int id);
-        Task<List<MRes_Batch>> GetListByIdProduct(int id);
+        Task<List<MRes_Batch>> GetListByFilter(MReq_BatchFilter filter);
+        Task<List<MRes_Batch>> GetAll();
 
         Task<Batch> Create(Batch batchRequest);
 
@@ -35,16 +38,40 @@ namespace ProductService_5000.Services
             return batchToGet;
         }
 
-        public async Task<List<MRes_Batch>> GetListByIdProduct(int id)
+        public async Task<List<MRes_Batch>> GetListByFilter(MReq_BatchFilter filter)
         {
-            var batches = await _context.Batches
-                                        .Where(m => m.IdProduct == id)
-                                        .Include(b => b.Product)
-                                        .ToListAsync();
+            var batchQuery = _context.Batches.Include(m=>m.Product).AsQueryable();
 
-            var batchDtos = _mapper.Map<List<MRes_Batch>>(batches);
-            return batchDtos;
+            if (filter.IdProduct.HasValue)
+            {
+                batchQuery = batchQuery.Where(batch => batch.IdProduct == filter.IdProduct);
+            }
+
+            if (filter.Time.HasValue)
+            {
+                var importDate = new DateTime(filter.Time.Value.Year, filter.Time.Value.Month, filter.Time.Value.Day);
+                batchQuery = batchQuery.Where(batch => batch.ImportDate.Date == importDate);
+            }
+
+            var batchEntities = await batchQuery.ToListAsync();
+
+            var batchDTOs = _mapper.Map<List<MRes_Batch>>(batchEntities);
+            return batchDTOs;
         }
+
+
+        public async Task<List<MRes_Batch>> GetAll()
+        {
+            var getAllBatches = await _context.Batches
+                .Include(M=>M.Product)
+                .OrderByDescending(b => b.ImportDate)
+                .ToListAsync();
+
+            var result = _mapper.Map<List<MRes_Batch>>(getAllBatches);
+
+            return result;
+        }
+
 
         public async Task<Batch> Create(Batch batchRequest)
         {
@@ -80,7 +107,6 @@ namespace ProductService_5000.Services
 
             return "Cập nhật lô hàng thành công";
         }
-
 
         public async Task<Batch> DeleteById(int id)
         {

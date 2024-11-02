@@ -1,43 +1,53 @@
-﻿function GetAllProducts(selectedProductId = null) {
+﻿// Put info in add Batch
+function GetAllProducts(selectedProductId = null) {
     $.ajax({
         url: '/list/Product/GetAllProducts',
         type: 'GET',
         success: function (data) {
+            let selectHtml = '<option disabled selected>-- Vui lòng chọn sản phẩm --</option>';
             if (data && data.length > 0) {
-                let selectHtml = '<option disabled selected>-- Vui lòng chọn sản phẩm --</option>';
                 data.forEach(function (product) {
                     selectHtml += `<option value="${product.id}">${product.productName}</option>`;
                 });
-                $('#productId_batch').html(selectHtml);
+            }
+            $('#productId_batch').html(selectHtml);
 
-                // Set the selected product if provided
-                if (selectedProductId) {
-                    $('#productId_batch').val(selectedProductId);
-
-                }
+            // Set the selected product if provided
+            if (selectedProductId) {
+                $('#productId_batch').val(selectedProductId);
             }
         },
         error: function () {
-            let errorHtml = '<option value="">Không thể lấy danh sách sản phẩm</option>';
-            $('#productId_batch').html(errorHtml);
+            $('#productId_batch').html('<option value="">Không thể lấy danh sách sản phẩm</option>');
         }
     });
 }
 
 function ShowContentBatch() {
-    $('#div_table_product').hide();
-    $('#div_table_branch').hide();
-    $('#div_table_batch').show();
-
-    $('#div_table_batch').html(`
+    $('#div_table_product, #div_table_branch').hide();
+    $('#div_table_batch').show().html(`
         <div class="row m-3">
-            <div class="col-lg-10">
+            <div class="col-lg-7">
                 <button class="btn btn-primary" id="btn_add_batch" onclick="OpenModalBatch('addBatch')">Thêm lô hàng</button>
             </div>
-            <div class="col-lg-2"> 
-                <select id="productSelect" class="form-control">
-                    <option value="">-- Vui lòng chọn sản phẩm --</option>
-                </select>
+            <div class="col-lg-5"> 
+                <form id="batch_filter">
+                    <div class='row'>
+                        <div class='col-lg-5'>
+                        <select id="productSelect" class="form-control">
+                        </select>
+                        </div>
+                        <div class='col-lg-5'>
+                            <input type="date" class='form-control' id="timeInput">
+                        </div>
+                        <div class='col-lg-2'>
+                            <button type="submit" id='submit_batchFilter' class='btn btn-success'>
+                            <i class='mdi mdi-filter'></i>
+                            Lọc
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
         <div>
@@ -59,47 +69,51 @@ function ShowContentBatch() {
         </div>
     `);
 
+    LoadProductOptions();
+
+    // Handle filter form submission
+    $('#batch_filter').on('submit', function (event) {
+        event.preventDefault(); // Prevent the default form submission
+        const productId = $('#productSelect').val();
+        const time = $('#timeInput').val();
+        RenderBatchTable(productId, time); // submit in this spot is end in this function, not jump to LoadBatchData()
+    });
+
+    LoadBatchData(); // load when batch_filter not submit
+}
+
+function LoadProductOptions() {
     $.ajax({
         url: '/list/Product/GetAllProducts',
         type: 'GET',
         dataType: 'json',
         success: function (data) {
+            let selectHtml = '<option value="" selected disabled>-- Vui lòng chọn sản phẩm --</option>';
             if (data && data.length > 0) {
-                let selectHtml = '<option value="">-- Vui lòng chọn sản phẩm --</option>';
                 data.forEach(function (product) {
                     selectHtml += `<option value="${product.id}">${product.productName}</option>`;
                 });
-                $('#productSelect').html(selectHtml);
+            } else {
+                selectHtml = '<option value="">Không có sản phẩm nào phù hợp</option>';
             }
+            $('#productSelect').html(selectHtml);
         },
         error: function () {
-            let errorHtml = '<option value="">Không thể lấy danh sách sản phẩm</option>';
-            $('#productSelect').html(errorHtml);
-        }
-    });
-
-    $('#productSelect').on('change', function () {
-        const productId = $(this).val();
-        if (productId) {
-            RenderBatchTable(productId);
-        } else {
-            $('#batchTableBody').html('<tr><td colspan="7" class="text-center">Vui lòng chọn sản phẩm</td></tr>');
+            $('#productSelect').html('<option value="">Không thể lấy danh sách sản phẩm</option>');
         }
     });
 }
 
-function RenderBatchTable(productId) {
+function RenderBatchTable(productId, time) {
+    
     $.ajax({
-        url: `/list/Batch/GetListByIdProduct`,
-        type: 'GET',
-        data: { id: productId },
+        url: `/list/Batch/GetListByFilter`,
+        type: 'POST',
+        data: { IdProduct: productId, Time: time },
         success: function (response) {
-            let tableBody = '';
-            if (response.length === 0) {
-                tableBody = '<tr><td colspan="7" class="text-center">Không có lô hàng để hiển thị</td></tr>';
-            } else {
-                response.forEach(function (batch, index) {
-                    tableBody += `
+            let tableBody = response.length === 0
+                ? '<tr><td colspan="8" class="text-center">Không có lô hàng để hiển thị</td></tr>'
+                : response.map((batch, index) => `
                     <tr>
                         <td>${index + 1}</td>
                         <td>${batch.batchNumber}</td>
@@ -113,14 +127,41 @@ function RenderBatchTable(productId) {
                             <a href="javascript:void(0)" onclick="RemoveBatch(${batch.id})" class="btn btn-danger">Xóa</a>
                         </td>
                     </tr>
-                    `;
-                });
-            }
+                `).join('');
             $('#batchTableBody').html(tableBody);
         },
         error: function () {
-            let errorRow = '<tr><td colspan="7" class="text-center text-danger">Không thể lấy danh sách lô hàng</td></tr>';
-            $('#batchTableBody').html(errorRow);
+            $('#batchTableBody').html('<tr><td colspan="8" class="text-center text-danger">Không thể lấy danh sách lô hàng</td></tr>');
+        }
+    });
+}
+
+function LoadBatchData() {
+    $.ajax({
+        url: '/list/Batch/GetAll',
+        type: 'GET',
+        success: function (response) {
+            let tableBody = response.length === 0
+                ? '<tr><td colspan="8" class="text-center">Không có lô hàng để hiển thị</td></tr>'
+                : response.map((batch, index) => `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${batch.batchNumber}</td>
+                        <td>${batch.productName}</td>
+                        <td>${batch.initQuantity}</td>
+                        <td>${batch.remainingQuantity}</td>
+                        <td>${new Date(batch.importDate).toLocaleDateString()}</td>
+                        <td>${batch.receiver}</td>
+                        <td>
+                            <a href="javascript:void(0)" onclick="OpenModalBatch('updateBatch', ${batch.id})" class="btn btn-primary">Sửa</a>
+                            <a href="javascript:void(0)" onclick="RemoveBatch(${batch.id})" class="btn btn-danger">Xóa</a>
+                        </td>
+                    </tr>
+                `).join('');
+            $('#batchTableBody').html(tableBody);
+        },
+        error: function () {
+            $('#batchTableBody').html('<tr><td colspan="8" class="text-center">Không thể tải dữ liệu lô hàng</td></tr>');
         }
     });
 }
@@ -153,7 +194,6 @@ function OpenModalBatch(type, batchId = null) {
                     $('#initQuantity').val(response.initQuantity);
                     $('#importDate').val(response.importDate);
                     $('#receiver_batch').val(response.receiver);
-                    // Load products and set the selected product
                     GetAllProducts(response.idProduct);
                 },
                 error: function () {
@@ -167,26 +207,16 @@ function OpenModalBatch(type, batchId = null) {
 }
 
 function AddBatch() {
-    // Lấy các giá trị từ form
-    const batchNumber = $('#batchNumber').val();
-    const idProduct = $('#productId_batch').val();
-    const expiryDate = $('#expiryDate').val();
-    const initQuantity = $('#initQuantity').val();
-    const importDate = $('#importDate').val();
-    const receiver_batch = $('#receiver_batch').val();
-
-    // Tạo một FormData để gửi dữ liệu qua AJAX
     const formData = new FormData();
-    formData.append('BatchNumber', batchNumber);
-    formData.append('IdProduct', idProduct);
-    formData.append('ExpiryDate', expiryDate);
-    formData.append('InitQuantity', initQuantity);
-    formData.append('ImportDate', importDate);
-    formData.append('Receiver', receiver_batch);
+    formData.append('BatchNumber', $('#batchNumber').val());
+    formData.append('IdProduct', $('#productId_batch').val());
+    formData.append('ExpiryDate', $('#expiryDate').val());
+    formData.append('InitQuantity', $('#initQuantity').val());
+    formData.append('ImportDate', $('#importDate').val());
+    formData.append('Receiver', $('#receiver_batch').val());
 
-    // Gửi yêu cầu AJAX để thêm lô hàng
     $.ajax({
-        url: '/list/Batch/Create',  
+        url: '/list/Batch/Create',
         type: 'POST',
         data: formData,
         contentType: false,
@@ -194,20 +224,18 @@ function AddBatch() {
         success: function (response) {
             if (response.result === 1) {
                 ShowToastNoti('success', '', response.message, 4000, 'topRight');
-                $('#modal_batch').modal('hide');  
-                $('#add_form_batch')[0].reset();   
-                RenderBatchTable(idProduct);       
+                $('#modal_batch').modal('hide');
+                RenderBatchTable($('#productId_batch').val());
             } else {
                 ShowToastNoti('error', '', response.message, 4000, 'topRight');
             }
         },
-        error: function (error) {
+        error: function () {
             ShowToastNoti('error', '', 'Không thể thêm lô hàng', 4000, 'topRight');
         }
     });
 }
 
-// Update Branch
 function UpdateBatch(idBatch) {
     const formDataBatch = new FormData();
     formDataBatch.append('Id', idBatch);
@@ -220,37 +248,41 @@ function UpdateBatch(idBatch) {
 
     $.ajax({
         url: '/list/Batch/Update',
-        type: 'PUT',
-        data: formDataBatch, 
-        processData: false,
+        type: 'POST',
+        data: formDataBatch,
         contentType: false,
+        processData: false,
         success: function (response) {
             if (response.result === 1) {
-                ShowToastNoti('success', '', "Thêm lô hàng thành công", 4000, 'topRight');
+                ShowToastNoti('success', '', response.message, 4000, 'topRight');
                 $('#modal_batch').modal('hide');
                 RenderBatchTable($('#productId_batch').val());
             } else {
                 ShowToastNoti('error', '', response.message, 4000, 'topRight');
             }
         },
-        error: function (error) {
-            ShowToastNoti('error', '', error, 4000, 'topRight');
+        error: function () {
+            ShowToastNoti('error', '', 'Không thể cập nhật lô hàng', 4000, 'topRight');
         }
     });
 }
 
-function RemoveBatch(idBatch) {
-    if (confirm('Bạn có chắc chắn muốn xóa lô hàng này không?')) {
+function RemoveBatch(batchId) {
+    if (confirm('Bạn có chắc chắn muốn xóa lô hàng này?')) {
         $.ajax({
-            url: `/list/Batch/DeleteById`,
-            type: 'DELETE',
-            data: { id: idBatch },
+            url: '/list/Batch/Delete',
+            type: 'POST',
+            data: { id: batchId },
             success: function (response) {
-                ShowToastNoti('success', '', "Xóa lô hàng thành công", 4000, 'topRight');
-                RenderBatchTable(response.idProduct);
+                if (response.result === 1) {
+                    ShowToastNoti('success', '', response.message, 4000, 'topRight');
+                    LoadBatchData();
+                } else {
+                    ShowToastNoti('error', '', response.message, 4000, 'topRight');
+                }
             },
-            error: function (xhr, status, error) {
-                alert('Có lỗi xảy ra khi xóa sản phẩm.');
+            error: function () {
+                ShowToastNoti('error', '', 'Không thể xóa lô hàng', 4000, 'topRight');
             }
         });
     }

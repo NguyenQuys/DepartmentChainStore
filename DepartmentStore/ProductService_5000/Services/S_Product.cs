@@ -177,7 +177,9 @@ namespace ProductService_5000.Services
 
         public async Task<List<Product>> GetProductsByIdCategory(int id)
         {
-            var productCategoryToGet = await _context.Products.Where(m => m.CategoryId == id).ToListAsync();
+            var productCategoryToGet = await _context.Products.Where(m => m.CategoryId == id)
+                                                              .OrderByDescending(M=>M.UpdatedTime)
+                                                              .ToListAsync();
             return productCategoryToGet;
         }
 

@@ -3,6 +3,7 @@ using APIGateway.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProductService_5000.Models;
+using ProductService_5000.Request;
 using ProductService_5000.Services;
 
 namespace ProductService_5000.Controllers
@@ -28,9 +29,17 @@ namespace ProductService_5000.Controllers
 
         [HttpGet]
         [Authorize(Roles = "1")]
-        public async Task<IActionResult> GetListByIdProduct(int id)
+        public async Task<IActionResult> GetAll()
         {
-            var listBatchToGet = await _s_Batch.GetListByIdProduct(id);
+            var getAllBatches = await _s_Batch.GetAll();
+            return Json(getAllBatches);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "1")]
+        public async Task<IActionResult> GetListByFilter(MReq_BatchFilter filter)
+        {
+            var listBatchToGet = await _s_Batch.GetListByFilter(filter);
             return Json(listBatchToGet);
         }
 
