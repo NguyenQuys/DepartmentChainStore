@@ -3,8 +3,11 @@ using AutoMapper;
 using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using ProductService_5000.Models;
 using ProductService_5000.Request;
+using System.Drawing;
+using Image = ProductService_5000.Models.Image;
 
 namespace ProductService_5000.Services
 {
@@ -15,14 +18,14 @@ namespace ProductService_5000.Services
         Task<List<Product>> GetProductsByIdCategory(int id);
 
         Task<string> AddProductAsync(MReq_Product productsRequest, MRes_InfoUser currentUser);
-        Task<string> UploadByExcel(IFormFile file, MRes_InfoUser currentUser);
+        Task<string> UploadProductByExcel(IFormFile file, MRes_InfoUser currentUser);
 
         Task<string> UpdateProductAsync(MReq_Product product, MRes_InfoUser currentUser);
         Task<string> ChangeStatusProduct(int id, MRes_InfoUser currentUser);
 
         Task<Product> RemoveProduct(int id);
 
-
+        Task<MemoryStream> ExportSampleProductFileExcel();
     }
 
     public class S_Product : IS_Product
@@ -92,7 +95,7 @@ namespace ProductService_5000.Services
             return "/uploads/" + fileName;
         }
 
-        public async Task<string> UploadByExcel(IFormFile file, MRes_InfoUser currentUser)
+        public async Task<string> UploadProductByExcel(IFormFile file, MRes_InfoUser currentUser)
         {
             if (file == null || file.Length == 0)
             {
@@ -100,7 +103,6 @@ namespace ProductService_5000.Services
             }
 
             var products = new List<Product>();
-
 
             using (var stream = new MemoryStream())
             {
@@ -112,18 +114,18 @@ namespace ProductService_5000.Services
 
                     for (int row = 2; row <= rowCount; row++) 
                     {
-                        var productName = worksheet.Cells[row, 2].Text?.Trim();
+                        var productName = worksheet.Cells[row, 1].Text?.Trim();
                         if (string.IsNullOrEmpty(productName))
                         {
                             continue;
                         }
 
-                        if (!double.TryParse(worksheet.Cells[row, 3].Value?.ToString(), out double price))
+                        if (!double.TryParse(worksheet.Cells[row, 2].Value?.ToString(), out double price))
                         {
                             continue; 
                         }
 
-                        if (!int.TryParse(worksheet.Cells[row, 4].Value?.ToString(), out int category))
+                        if (!int.TryParse(worksheet.Cells[row, 3].Value?.ToString(), out int category))
                         {
                             continue; 
                         }
@@ -217,6 +219,49 @@ namespace ProductService_5000.Services
 
             return message;
         }
+
+        public async Task<MemoryStream> ExportSampleProductFileExcel()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Product List");
+
+                // Tiêu đề
+                worksheet.Cells[1, 1].Value = "Tên sản phẩm"; // row, column
+                worksheet.Cells[1, 2].Value = "Giá";
+                worksheet.Cells[1, 3].Value = "Phân loại";
+
+                using (var range = worksheet.Cells[1, 1, 1, 3]) // Sửa thành 3 cột
+                {
+                    range.Style.Font.Bold = true;
+                    range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    range.Style.Fill.BackgroundColor.SetColor(Color.LightGray);
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                }
+
+                // Lấy danh sách phân loại sản phẩm từ database
+                var categories = await _context.CategoryProducts
+                                               .Select(m => m.Type) 
+                                               .ToListAsync();
+
+                // Tạo danh sách thả xuống (droplist) từ danh sách phân loại
+                var categoryValidation = worksheet.DataValidations.AddListValidation("C:C"); // Tạo droplist cho các ô từ C2 đến C100
+                foreach (var category in categories)
+                {
+                    categoryValidation.Formula.Values.Add(category); // Thêm từng giá trị vào droplist
+                }
+
+                worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+
+                // Tạo MemoryStream
+                var stream = new MemoryStream();
+                package.SaveAs(stream);
+                stream.Position = 0;
+
+                return stream;
+            }
+        }
+
 
     }
 

@@ -34,12 +34,32 @@ namespace BranchService_5003.Controllers
 
         [HttpGet]
         [Authorize(Roles ="1,2")]
-        public async Task<IActionResult> ViewHistoryExport(int idBranch)
+        public async Task<IActionResult> ViewHistoryExport(int? idBranch)
         {
             var viewHistory = await _s_Product_Branch.ViewHistoryExport(idBranch);
             return Json(viewHistory);
         }
+
+        //[HttpGet,Authorize(Roles = "1")]
+        //public async Task<IActionResult> ExportFileExportSample()
+        //{
+        //    var fileSampleToExport = await _s_Product_Branch.ExportFileExportSample();
+        //    var excelFileName = $"Thêm sản phẩm - {System.DateTime.Now:yyyyMMddHHmmss}.xlsx";
+        //    return File(fileSampleToExport, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelFileName);
+        //}
+
+        [HttpPost, Authorize(Roles = "1")]
+        public async Task<IActionResult> UploadExportProductByExcel(IFormFile file)
+        {
+            try
+            {
+                var result = await _s_Product_Branch.UploadExportProductByExcel(file);
+                return Json(new { result = 1, message = result });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = -1, message = ex.Message });
+            }
+        }
     }
-
-
 }

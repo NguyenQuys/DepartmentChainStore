@@ -68,12 +68,20 @@ namespace ProductService_5000.Controllers
             }
         }
 
+        [HttpGet,Authorize(Roles = "1")]
+        public async Task<IActionResult> ExportSampleProductFileExcel()
+        {
+            var sampleProductfile = await _s_Product.ExportSampleProductFileExcel();
+            var excelFileName = $"Thêm hàng hóa - {System.DateTime.Now:yyyyMMddHHmmss}.xlsx";
+            return File(sampleProductfile, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelFileName);
+        }
+
         [HttpPost, Authorize(Roles = "1")]
-        public async Task<IActionResult> UploadByExcel(IFormFile file)
+        public async Task<IActionResult> UploadProductByExcel(IFormFile file)
         {
             try
             {
-                var result = await _s_Product.UploadByExcel(file, _currentUser);
+                var result = await _s_Product.UploadProductByExcel(file, _currentUser);
                 return Json(new {result = 1, message = result});
             }
             catch (Exception ex)

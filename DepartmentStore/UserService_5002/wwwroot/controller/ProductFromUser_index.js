@@ -1,8 +1,13 @@
 ﻿let productIdToAction;
 let ID_ROLE;
+let ID_TAB;
+let ID_CATEGORY;
 
 function HandleTabClick(categoryId, tabId, idRole) {
     ID_ROLE = idRole;
+    ID_TAB = tabId;
+    ID_CATEGORY = categoryId;
+    console.log(ID_TAB);
     GetProductsByIdCategory(categoryId);
     ActiveTogglePills(tabId);
 }
@@ -33,9 +38,7 @@ function GetProductsByIdCategory(id) {
 
 // Render the product table
 function RenderProductTable(products) {
-    $('#div_table_branch').hide();
-    $('#div_table_batch').hide();
-    $('#div_table_customer').hide();
+    $('#div_table_branch, #div_table_batch, #div_table_customer, #div_table_export').hide();
     $('#div_table_product').show();
     let tableBody = '';
 
@@ -85,6 +88,11 @@ function RenderProductTable(products) {
             <div>
                 <input type="file" id="fileInput" accept=".xlsx, .xls" />
                 <button onclick="UploadExcelProductFile()">Import Excel File</button>
+            </div>
+            <div>
+                <button class='btn btn-primary' onclick='DownloadSampleFileProduct()'>
+                    Tải file mẫu
+                </button>
             </div>
         </div>` : ''}
        
@@ -281,7 +289,7 @@ function UploadExcelProductFile() {
     var formData = new FormData();
     formData.append('file', fileInput); 
     $.ajax({
-        url: '/list/Product/UploadByExcel', 
+        url: '/list/Product/UploadProductByExcel', 
         type: 'POST',
         data: formData,
         contentType: false, // Important for file uploads
@@ -289,15 +297,19 @@ function UploadExcelProductFile() {
         success: function (response) {
             if (response.result === 1) {
                 ShowToastNoti('success', '', response.message, 4000, 'topRight');
+                GetProductsByIdCategory(ID_CATEGORY);
             } else {
                 ShowToastNoti('error', '', response.message, 4000, 'topRight');
             }
         },
         error: function (xhr, status, error) {
-            console.error('Error uploading product by Excel:', error);
             alert('An error occurred while processing the request.');
         }
     });
+}
+
+function DownloadSampleFileProduct() {
+    window.location.href = '/list/Product/ExportSampleProductFileExcel';
 }
 
 

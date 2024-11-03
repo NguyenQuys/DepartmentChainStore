@@ -24,7 +24,7 @@ function GetAllProducts(selectedProductId = null) {
 }
 
 function ShowContentBatch() {
-    $('#div_table_product, #div_table_branch').hide();
+    $('#div_table_product, #div_table_branch, #div_table_export').hide();
     $('#div_table_batch').show().html(`
         <div class="row m-3">
             <div class="col-lg-7">
@@ -105,7 +105,6 @@ function LoadProductOptions() {
 }
 
 function RenderBatchTable(productId, time) {
-    
     $.ajax({
         url: `/list/Batch/GetListByFilter`,
         type: 'POST',
