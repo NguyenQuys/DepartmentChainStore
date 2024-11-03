@@ -1,12 +1,16 @@
 ﻿using APIGateway.Response;
+using AutoMapper;
 using BranchService_5003.Models;
 using BranchService_5003.Response;
 using EFCore.BulkExtensions;
 using IdentityServer.Constant;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using ProductService_5000.Models;
+using ProductService_5000.Request;
+using ProductService_5000.Response;
 using System.Drawing;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -17,11 +21,12 @@ namespace BranchService_5003.Services
     public interface IS_Product_Branch
     {
         Task<List<MRes_Product_Branch>> GetListByIdBranch(int idBranch, MRes_InfoUser currentUser);
-        Task<List<MRes_ImportProductHistory>> ViewHistoryExport(int? idBranch);
+        Task<List<MRes_ImportProductHistory>> ViewHistoryExportByIdBranch(int? idBranch);
+        Task<List<MRes_ImportProductHistory>> GetListByFilter(MReq_Filter filter);
 
         Task<string> UploadExportProductByExcel(IFormFile file);
 
-        //Task<MemoryStream> ExportFileExportSample();
+        Task<MemoryStream> ExportSampleProductFileExcel();
 
     }
 
@@ -35,8 +40,6 @@ namespace BranchService_5003.Services
             _context = context;
             _httpClientFactory = httpClientFactory;
         }
-
-
 
         public async Task<List<MRes_Product_Branch>> GetListByIdBranch(int idBranch, MRes_InfoUser currentUser)
         {
@@ -85,7 +88,7 @@ namespace BranchService_5003.Services
             return result;
         }
 
-        public async Task<List<MRes_ImportProductHistory>> ViewHistoryExport(int? idBranch)
+        public async Task<List<MRes_ImportProductHistory>> ViewHistoryExportByIdBranch(int? idBranch)
         {
             var result = new List<MRes_ImportProductHistory>();
             var listToGet = idBranch != null
@@ -243,35 +246,97 @@ namespace BranchService_5003.Services
             return $"Successfully imported {exportProductHistoryList.Count} records from the Excel file.";
         }
 
-        //public async Task<MemoryStream> ExportFileExportSample()
-        //{
-        //    using (var package = new ExcelPackage())
-        //    {
-        //        var worksheet = package.Workbook.Worksheets.Add("Invoice List");
+        public async Task<MemoryStream> ExportSampleProductFileExcel()
+        {
+            using var package = new ExcelPackage();
+            var worksheet = package.Workbook.Worksheets.Add("File xuất hàng hóa");
 
-        //        // Tiêu đề
-        //        worksheet.Cells[1, 1].Value = "Tên sản phẩm"; // row, column
-        //        worksheet.Cells[1, 2].Value = "Giá";
-        //        worksheet.Cells[1, 3].Value = "Phân loại";
+            // Header setup
+            var headers = new[] { "Chi nhánh", "Sản phẩm", "Số lô hàng", "Số lượng", "Người nhận", "Thời gian nhập" };
+            for (int i = 0; i < headers.Length; i++)
+            {
+                worksheet.Cells[1, i + 1].Value = headers[i];
+            }
 
-        //        using (var range = worksheet.Cells[1, 1, 1, 6])
-        //        {
-        //            range.Style.Font.Bold = true;
-        //            range.Style.Fill.PatternType = ExcelFillStyle.Solid;
-        //            range.Style.Fill.BackgroundColor.SetColor(Color.LightGray);
-        //            range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-        //        }
+            using (var headerRange = worksheet.Cells[1, 1, 1, headers.Length])
+            {
+                headerRange.Style.Font.Bold = true;
+                headerRange.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                headerRange.Style.Fill.BackgroundColor.SetColor(Color.LightGray);
+                headerRange.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            }
 
-        //        // Create droplist from category
+            // Branch dropdown list
+            var branches = await _context.Branches.Select(m => m.Location).ToListAsync();
+            var branchValidation = worksheet.DataValidations.AddListValidation("A2:A100");
+            foreach (var branch in branches)
+            {
+                branchValidation.Formula.Values.Add(branch);
+            }
 
-        //        var stream = new MemoryStream();
-        //        package.SaveAs(stream);
-        //        stream.Position = 0;
+            // Get product names for dropdown
+            using var client = _httpClientFactory.CreateClient("ProductService");
+            var productsResponse = await client.GetAsync("/list/Product/GetAllProducts");
+            if (!productsResponse.IsSuccessStatusCode)
+            {
+                throw new Exception("Unable to retrieve product information from ProductService");
+            }
 
-        //        var categoryRange = await _context.cate
+            var getAllProducts = await productsResponse.Content.ReadFromJsonAsync<List<Product>>();
+            var productNames = getAllProducts?.Select(m => m.ProductName).ToList() ?? new List<string> { "Unknown Product" };
 
-        //        return stream;
-        //    }
-        //}
+            var productValidation = worksheet.DataValidations.AddListValidation("B2:B100");
+            foreach (var productName in productNames)
+            {
+                productValidation.Formula.Values.Add(productName);
+            }
+
+            worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+
+            // Save to memory stream
+            var stream = new MemoryStream();
+            package.SaveAs(stream);
+            stream.Position = 0;
+
+            return stream;
+        }
+
+        public async Task<List<MRes_ImportProductHistory>> GetListByFilter(MReq_Filter filter)
+        {
+            var result = new List<MRes_ImportProductHistory>();
+            var query = _context.ImportProductHistories.Include(m => m.Branch).AsQueryable();
+
+            if (filter.IdProduct.HasValue)
+            {
+                query = query.Where(m => m.IdProduct == filter.IdProduct);
+            }
+
+            if (filter.Time.HasValue)
+            {
+                var importDate = new DateTime(filter.Time.Value.Year, filter.Time.Value.Month, filter.Time.Value.Day);
+                query = query.Where(m => m.ImportTime.Date == importDate);
+            }
+
+            var importHistoryList = await query.ToListAsync();
+            using var client = _httpClientFactory.CreateClient("ProductService");
+
+            foreach (var item in importHistoryList)
+            {
+                var productName = await GetProductName(client, item.IdProduct);
+                var batchNumber = await GetBatchNumber(client, item.IdBatch);
+
+                result.Add(new MRes_ImportProductHistory
+                {
+                    LocationBranch = item.Branch.Location,
+                    ProductName = productName,
+                    BatchNumber = batchNumber,
+                    Quantity = item.Quantity,
+                    DateImport = item.ImportTime,
+                    Consignee = item.Consignee
+                });
+            }
+
+            return result;
+        }
     }
 }

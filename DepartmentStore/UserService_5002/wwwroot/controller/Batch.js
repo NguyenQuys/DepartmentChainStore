@@ -79,7 +79,7 @@ function ShowContentBatch() {
         RenderBatchTable(productId, time); // submit in this spot is end in this function, not jump to LoadBatchData()
     });
 
-    LoadBatchData(); // load when batch_filter not submit
+    LoadAllBatch(); // load when batch_filter not submit
 }
 
 function LoadProductOptions() {
@@ -135,7 +135,7 @@ function RenderBatchTable(productId, time) {
     });
 }
 
-function LoadBatchData() {
+function LoadAllBatch() {
     $.ajax({
         url: '/list/Batch/GetAll',
         type: 'GET',

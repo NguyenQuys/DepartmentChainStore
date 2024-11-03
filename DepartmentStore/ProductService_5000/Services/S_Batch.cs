@@ -11,7 +11,7 @@ namespace ProductService_5000.Services
     public interface IS_Batch
     {
         Task<Batch> GetById(int id);
-        Task<List<MRes_Batch>> GetListByFilter(MReq_BatchFilter filter);
+        Task<List<MRes_Batch>> GetListByFilter(MReq_Filter filter);
         Task<List<MRes_Batch>> GetAll();
 
         Task<Batch> Create(Batch batchRequest);
@@ -38,7 +38,7 @@ namespace ProductService_5000.Services
             return batchToGet;
         }
 
-        public async Task<List<MRes_Batch>> GetListByFilter(MReq_BatchFilter filter)
+        public async Task<List<MRes_Batch>> GetListByFilter(MReq_Filter filter)
         {
             var batchQuery = _context.Batches.Include(m=>m.Product).AsQueryable();
 

@@ -72,7 +72,7 @@ namespace ProductService_5000.Controllers
         public async Task<IActionResult> ExportSampleProductFileExcel()
         {
             var sampleProductfile = await _s_Product.ExportSampleProductFileExcel();
-            var excelFileName = $"Thêm hàng hóa - {System.DateTime.Now:yyyyMMddHHmmss}.xlsx";
+            var excelFileName = $"Thêm hàng hóa.xlsx";
             return File(sampleProductfile, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelFileName);
         }
 

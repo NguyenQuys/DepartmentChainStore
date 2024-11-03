@@ -3,6 +3,7 @@ using APIGateway.Utilities;
 using BranchService_5003.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ProductService_5000.Request;
 
 namespace BranchService_5003.Controllers
 {
@@ -18,6 +19,13 @@ namespace BranchService_5003.Controllers
             _currentUser = currentUserHelper.GetCurrentUser();
         }
 
+        //[HttpGet,Authorize(Roles = "1")]
+        //public async Task<IActionResult> GetAll()
+        //{
+        //    var getAll = await _s_Product_Branch.GetAll();
+        //    return Json(getAll);
+        //}
+
         [HttpGet]
         public async Task<IActionResult> GetListByIdBranch(int id)
         {
@@ -32,22 +40,29 @@ namespace BranchService_5003.Controllers
             }
         }
 
+        [HttpPost,Authorize(Roles = "1")]
+        public async Task<IActionResult> GetListByFilter(MReq_Filter filter)
+        {
+            var listToGet = await _s_Product_Branch.GetListByFilter(filter);
+            return Json(listToGet);
+        }
+
         [HttpGet]
         [Authorize(Roles ="1,2")]
         public async Task<IActionResult> ViewHistoryExport(int? idBranch)
         {
-            var viewHistory = await _s_Product_Branch.ViewHistoryExport(idBranch);
+            var viewHistory = await _s_Product_Branch.ViewHistoryExportByIdBranch(idBranch);
             return Json(viewHistory);
         }
 
-        //[HttpGet,Authorize(Roles = "1")]
-        //public async Task<IActionResult> ExportFileExportSample()
-        //{
-        //    var fileSampleToExport = await _s_Product_Branch.ExportFileExportSample();
-        //    var excelFileName = $"Thêm sản phẩm - {System.DateTime.Now:yyyyMMddHHmmss}.xlsx";
-        //    return File(fileSampleToExport, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelFileName);
-        //}
-
+        [HttpGet, Authorize(Roles = "1")]
+        public async Task<IActionResult> ExportSampleProductFileExcel()
+        {
+            var fileSampleToExport = await _s_Product_Branch.ExportSampleProductFileExcel();
+            var excelFileName = $"Xuất kho.xlsx";
+            return File(fileSampleToExport, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelFileName);
+        }
+        
         [HttpPost, Authorize(Roles = "1")]
         public async Task<IActionResult> UploadExportProductByExcel(IFormFile file)
         {

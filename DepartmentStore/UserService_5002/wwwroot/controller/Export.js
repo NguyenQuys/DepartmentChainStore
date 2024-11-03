@@ -1,54 +1,73 @@
 ﻿function ShowContentExport() {
     $('#div_table_product, #div_table_branch, #div_table_batch').hide();
     $('#div_table_export').show().html(`
-            <div class="row m-3">
-            <div class="col-lg-7">
-                <button class="btn btn-primary" id="btn_add_export" onclick="OpenModalBatch('addBatch')">Thêm lô hàng</button>
+        <div class='container-fluid'>
+            <div class="row my-4">
+                <div class="col-lg-6 mb-3">
+                    <label for="fileInput_exportProduct" class="form-label fw-bold">Import sản phẩm từ Excel</label>
+                    <div class="input-group">
+                        <input type="file" class="form-control" id="fileInput_exportProduct" accept=".xlsx, .xls" />
+                        <button class="btn btn-outline-secondary" onclick="UploadExportProductByExcel()">Import</button>
+                    </div>
+                </div>
+                <div class="col-lg-6 d-flex align-items-center">
+                    <button class="btn btn-primary w-100 mt-3" onclick="ExportSampleProductFileExcel()">
+                        <i class="mdi mdi-download"></i> Tải file mẫu
+                    </button>
+                </div>
             </div>
-            <div>
-                <input type="file" id="fileInput_exportProduct" accept=".xlsx, .xls" />
-                <button onclick="UploadExportProductByExcel()">Import Excel File</button>
-            </div>
-            <div class="col-lg-5"> 
-                <form id="batch_filter">
-                    <div class='row'>
-                        <div class='col-lg-5'>
-                        <select id="product_select_export" class="form-control">
+
+            <div class="row mb-4">
+                <form id="export_filter" class="d-flex">
+                    <div class="col-lg-5 mx-2">
+                        <label for="product_select_export" class="form-label fw-bold">Sản phẩm</label>
+                        <select id="product_select_export" class="form-select">
+                            <!-- Options loaded here dynamically -->
                         </select>
-                        </div>
-                        <div class='col-lg-5'>
-                            <input type="date" class='form-control' id="timeInput">
-                        </div>
-                        <div class='col-lg-2'>
-                            <button type="submit" id='submit_batchFilter' class='btn btn-success'>
-                            <i class='mdi mdi-filter'></i>
-                            Lọc
-                            </button>
-                        </div>
+                    </div>
+                    <div class="col-lg-5 mx-2">
+                        <label for="timeInputExport" class="form-label fw-bold">Thời gian</label>
+                        <input type="date" class="form-control p-3" id="timeInputExport">
+                    </div>
+                    <div class="col-lg-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="mdi mdi-filter"></i> Lọc
+                        </button>
                     </div>
                 </form>
             </div>
-        </div>
-        <div>
-            <table class="table table-striped">
-                <thead>
-                    <tr class='bg-primary text-white'>
-                        <th>STT</th>
-                        <th>Chi nhánh</th>
-                        <th>Tên sản phẩm</th>
-                        <th>Lô hàng</th>
-                        <th>Số lượng xuất</th>
-                        <th>Người nhận</th>
-                        <th>Ngày xuất</th>
-                        <th>Hành động</th>
-                    </tr>
-                </thead>
-                <tbody id="export_TableBody"></tbody>
-            </table>
+
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead>
+                        <tr class="bg-primary text-white text-center">
+                            <th>STT</th>
+                            <th>Chi nhánh</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Lô hàng</th>
+                            <th>Số lượng xuất</th>
+                            <th>Người nhận</th>
+                            <th>Ngày xuất</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="export_TableBody">
+                        <!-- Rows will be dynamically loaded here -->
+                    </tbody>
+                </table>
+            </div>
         </div>
     `);
 
     LoadProductOptionsExport();
+    $('#export_filter').on('submit', function (event) {
+        event.preventDefault(); // Prevent the default form submission
+        const productId = $('#product_select_export').val();
+        const time = $('#timeInputExport').val();
+        RenderExportTable(productId, time); // submit in this spot is end in this function, not jump to LoadBatchData()
+    });
+
+    LoadAllExport();
 }
 
 function LoadProductOptionsExport() {
@@ -69,6 +88,68 @@ function LoadProductOptionsExport() {
         },
         error: function () {
             $('#product_select_export').html('<option value="">Không thể lấy danh sách sản phẩm</option>');
+        }
+    });
+}
+
+function RenderExportTable(productId, time) {
+    $.ajax({
+        url: `/branch/Product_Branch/GetListByFilter`,
+        type: 'POST',
+        data: { IdProduct: productId, Time: time },
+        success: function (response) {
+            let tableBody = response.length === 0
+                ? '<tr><td colspan="8" class="text-center">Không có lô hàng để hiển thị</td></tr>'
+                : response.map((ex, index) => `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${ex.locationBranch}</td>
+                        <td>${ex.productName}</td>
+                        <td>${ex.batchNumber}</td>
+                        <td>${ex.quantity}</td>
+                        <td>${new Date(ex.dateImport).toLocaleDateString()}</td>
+                        <td>${ex.consignee}</td>
+                        <td>
+                            <a href="javascript:void(0)" onclick="OpenModalBatch('updateBatch', ${ex.id})" class="btn btn-primary">Sửa</a>
+                            <a href="javascript:void(0)" onclick="RemoveBatch(${ex.id})" class="btn btn-danger">Xóa</a>
+                        </td>
+                    </tr>
+                `).join('');
+            $('#export_TableBody').html(tableBody);
+        },
+        error: function () {
+            $('#export_TableBody').html('<tr><td colspan="8" class="text-center text-danger">Không thể lấy danh sách lô hàng</td></tr>');
+        }
+    });
+}
+
+function LoadAllExport() {
+    $.ajax({
+        url: '/branch/Product_Branch/GetListByFilter',
+        type: 'POST',
+        data: { IdProduct: null, Time: null },
+        success: function (response) {
+            let tableBody = response.length === 0
+                ? '<tr><td colspan="8" class="text-center">Không có lô hàng để hiển thị</td></tr>'
+                : response.map((ex, index) => `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${ex.locationBranch}</td>
+                        <td>${ex.productName}</td>
+                        <td>${ex.batchNumber}</td>
+                        <td>${ex.quantity}</td>
+                        <td>${new Date(ex.dateImport).toLocaleDateString()}</td>
+                        <td>${ex.consignee}</td>
+                        <td>
+                            <a href="javascript:void(0)" onclick="OpenModalBatch('updateBatch', ${ex.id})" class="btn btn-primary">Sửa</a>
+                            <a href="javascript:void(0)" onclick="RemoveBatch(${ex.id})" class="btn btn-danger">Xóa</a>
+                        </td>
+                    </tr>
+                `).join('');
+            $('#export_TableBody').html(tableBody);
+        },
+        error: function () {
+            $('#export_TableBody').html('<tr><td colspan="8" class="text-center text-danger">Không thể lấy danh sách lô hàng</td></tr>');
         }
     });
 }
@@ -101,4 +182,8 @@ function UploadExportProductByExcel() {
             alert('An error occurred while processing the request.');
         }
     });
+}
+
+function ExportSampleProductFileExcel() {
+    window.location.href = '/branch/Product_Branch/ExportSampleProductFileExcel';
 }
