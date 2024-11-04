@@ -32,6 +32,13 @@ namespace ProductService_5000.Controllers
             return Ok(productsToGet);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetByName(string productName)
+        {
+            var productToGet = await _s_Product.GetByName(productName);
+            return Json(productToGet);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProductsByCategory(int id)
         {

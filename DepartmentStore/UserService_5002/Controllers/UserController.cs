@@ -17,6 +17,7 @@ namespace UserService_5002.Controllers
         private readonly IS_User _s_User;
         private readonly IJwtHelper _jwtHelper;
         private readonly MRes_InfoUser _currentUser;
+        public static string accessToken;
 
         public UserController(IS_User s_User, IJwtHelper jwtHelper, CurrentUserHelper currentUserHelper)
         {
@@ -97,6 +98,7 @@ namespace UserService_5002.Controllers
             }
 
             var token = _jwtHelper.BuildToken(claims.ToArray(), expires: 60);
+            accessToken = token;
 
             Response.Cookies.Append("jwt", token, new CookieOptions
             {

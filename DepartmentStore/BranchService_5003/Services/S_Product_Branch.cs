@@ -153,6 +153,7 @@ namespace BranchService_5003.Services
             }
 
             var exportProductHistoryList = new List<ImportProductHistory>();
+            var branches = await _context.Branches.ToListAsync();
 
             using (var stream = new MemoryStream())
             {
@@ -164,44 +165,37 @@ namespace BranchService_5003.Services
 
                     for (int row = 2; row <= rowCount; row++)
                     {
-                        // Parse Branch ID
-                        if (!int.TryParse(worksheet.Cells[row, 1].Value?.ToString(), out int idBranch))
+                        var locationBranchFromExcel = worksheet.Cells[row, 1].Text?.Trim();
+                        if(string.IsNullOrEmpty(locationBranchFromExcel))
                         {
-                            continue;
+                            throw new Exception($"Tại vị trí [A{row}] chưa điền dữ liệu");
                         }
 
-                        // Check if branch exists
-                        var branchExists = await _context.Branches.AnyAsync(b => b.Id == idBranch);
-                        if (!branchExists)
+                        var branch = branches.FirstOrDefault(m=>m.Location.Equals(locationBranchFromExcel));
+                        if(branch == null)
+                            throw new Exception($"{locationBranchFromExcel} không tồn tại");
+                        
+                        var productNameFormExcel = worksheet.Cells[row,1].Text?.Trim();
+                        if (string.IsNullOrEmpty(productNameFormExcel))
                         {
-                            throw new Exception($"Branch with ID {idBranch} does not exist.");
+                            throw new Exception($"Tại vị trí [B{row}] chưa điền dữ liệu");
                         }
 
-                        // Parse Product ID
-                        if (!int.TryParse(worksheet.Cells[row, 2].Value?.ToString(), out int idProduct))
+                        using var client = _httpClientFactory.CreateClient("ProductService");
+                        var productResponse = await client.GetAsync($"/list/Product/GetByName");
+                        if (!productResponse.IsSuccessStatusCode)
                         {
-                            continue;
+                            throw new Exception("Unable to retrieve product information from ProductService");
                         }
 
-                        // Check if product exists
-                        //var productExists = await _context.Products.AnyAsync(p => p.Id == idProduct);
-                        //if (!productExists)
-                        //{
-                        //    throw new Exception($"Product with ID {idProduct} does not exist.");
-                        //}
+                        var getProduct = await productResponse.Content.ReadFromJsonAsync<Product>();
+                        var idProduct = getProduct.Id;
 
                         // Parse Batch ID
                         if (!int.TryParse(worksheet.Cells[row, 3].Value?.ToString(), out int idBatch))
                         {
                             continue;
                         }
-
-                        // Check if batch exists
-                        //var batchExists = await _context.batch.AnyAsync(b => b.Id == idBatch);
-                        //if (!batchExists)
-                        //{
-                        //    throw new Exception($"Batch with ID {idBatch} does not exist.");
-                        //}
 
                         // Parse Quantity
                         if (!short.TryParse(worksheet.Cells[row, 4].Value?.ToString(), out short quantity))
@@ -225,7 +219,7 @@ namespace BranchService_5003.Services
                         // Create a new ImportProductHistory record
                         var newImportProductHistory = new ImportProductHistory
                         {
-                            IdBranch = idBranch,
+                            IdBranch = branch.Id,
                             IdProduct = idProduct,
                             IdBatch = idBatch,
                             Quantity = quantity,
@@ -289,6 +283,21 @@ namespace BranchService_5003.Services
             foreach (var productName in productNames)
             {
                 productValidation.Formula.Values.Add(productName);
+            }
+
+
+            var batchesResponse = await client.GetAsync("/list/Batch/GetAll");
+            if (!batchesResponse.IsSuccessStatusCode)
+            {
+                throw new Exception("Unable to retrieve batch information from ProductService");
+            }
+
+            var getAllBatches = await batchesResponse.Content.ReadFromJsonAsync<List<Batch>>();
+            var batchesListNumber = getAllBatches?.Select(m => m.BatchNumber).ToList() ?? new List<string> { "Unknown Batch" };
+            var batchesValidation = worksheet.DataValidations.AddListValidation("C2:C100");
+            foreach (var batchNuumber in batchesListNumber)
+            {
+                batchesValidation.Formula.Values.Add(batchNuumber);
             }
 
             worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();

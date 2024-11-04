@@ -16,6 +16,7 @@ namespace ProductService_5000.Services
         Task<List<Product>> GetAllProducts();
         Task<Product> GetByIdAsync(int id);
         Task<List<Product>> GetProductsByIdCategory(int id);
+        Task<Product> GetByName(string productName);
 
         Task<string> AddProductAsync(MReq_Product productsRequest, MRes_InfoUser currentUser);
         Task<string> UploadProductByExcel(IFormFile file, MRes_InfoUser currentUser);
@@ -95,8 +96,6 @@ namespace ProductService_5000.Services
             return "/uploads/" + fileName;
         }
 
-
-
         public async Task<List<Product>> GetAllProducts()
         {
             return await _context.Products.Where(m => !m.IsHide).ToListAsync();
@@ -122,6 +121,12 @@ namespace ProductService_5000.Services
                                                               .OrderByDescending(M=>M.UpdatedTime)
                                                               .ToListAsync();
             return productCategoryToGet;
+        }
+
+        public async Task<Product> GetByName(string productName)
+        {
+            var productToGet = await _context.Products.FirstOrDefaultAsync(m=>m.ProductName.Equals(productName));
+            return productToGet;
         }
 
         public async Task<string> UpdateProductAsync(MReq_Product productRequest, MRes_InfoUser currentUser)
@@ -168,7 +173,6 @@ namespace ProductService_5000.Services
 
             var products = new List<Product>();
 
-            // Lấy danh sách phân loại từ cơ sở dữ liệu
             var categories = await _context.CategoryProducts.ToListAsync();
 
             using (var stream = new MemoryStream())
@@ -268,8 +272,5 @@ namespace ProductService_5000.Services
                 return stream;
             }
         }
-
-
     }
-
 }

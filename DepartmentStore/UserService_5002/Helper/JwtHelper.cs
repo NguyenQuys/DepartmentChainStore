@@ -45,8 +45,6 @@ namespace UserService_5002.Helper
             return accessToken;
         }
 
-
-
         public bool ValidateOTP(string otpToken)
         {
             // Check if the token is null or empty

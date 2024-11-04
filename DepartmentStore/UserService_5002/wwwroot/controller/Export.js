@@ -138,8 +138,8 @@ function LoadAllExport() {
                         <td>${ex.productName}</td>
                         <td>${ex.batchNumber}</td>
                         <td>${ex.quantity}</td>
-                        <td>${new Date(ex.dateImport).toLocaleDateString()}</td>
                         <td>${ex.consignee}</td>
+                        <td>${new Date(ex.dateImport).toLocaleDateString()}</td>
                         <td>
                             <a href="javascript:void(0)" onclick="OpenModalBatch('updateBatch', ${ex.id})" class="btn btn-primary">Sửa</a>
                             <a href="javascript:void(0)" onclick="RemoveBatch(${ex.id})" class="btn btn-danger">Xóa</a>
