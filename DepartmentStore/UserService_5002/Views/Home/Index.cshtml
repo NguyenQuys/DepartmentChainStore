@@ -193,3 +193,44 @@
         </div>
     </div>
 </div>
+
+<!--Export Modal-->
+<div class="modal fade" id="modal_export" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_title_export"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="form_export">
+                    <div class="mb-3">
+                        <label for="locationBranch_export" class="form-label">Chi nhánh</label>
+                        <input type="text" class="form-control" id="locationBranch_export" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="productName_export" class="form-label">Tên sản phẩm</label>
+                        <input type="text" class="form-control" id="productName_export" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="batchNumber_export" class="form-label">Số lô</label>
+                        <input type="text" class="form-control" id="batchNumber_export" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="quantity_export" class="form-label">Số lượng</label>
+                        <input type="number" class="form-control" id="quantity_export" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dateImport_export" class="form-label">Ngày nhập</label>
+                        <input type="datetime-local" class="form-control" id="dateImport_export" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="consignee_export" class="form-label">Người nhận</label>
+                        <input type="text" class="form-control" id="consignee_export" readonly>
+                    </div>
+                    <button type="button" id="btn_export" class="btn btn-primary"></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

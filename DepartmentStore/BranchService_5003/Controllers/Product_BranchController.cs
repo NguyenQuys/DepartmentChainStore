@@ -1,5 +1,6 @@
 ﻿using APIGateway.Response;
 using APIGateway.Utilities;
+using BranchService_5003.Response;
 using BranchService_5003.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,6 +39,27 @@ namespace BranchService_5003.Controllers
         {
             var listToGet = await _s_Product_Branch.GetListByFilter(filter,_currentUser);
             return Json(listToGet);
+        }
+
+        [HttpGet,Authorize(Roles = "1")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var pbToGet = await _s_Product_Branch.GetById(id, _currentUser);
+            return Json(pbToGet);
+        }
+
+        [HttpPut,Authorize(Roles = "1")]
+        public async Task<IActionResult> UpdateExport(MRes_ImportProductHistory mRes_ImportProductHistory)
+        {
+            try
+            {
+                var update = await _s_Product_Branch.UpdateExport(mRes_ImportProductHistory,_currentUser);
+                return Json(new { result = 1, message = update });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = -1, message = ex.Message }); 
+            }
         }
 
         [HttpGet, Authorize(Roles = "1,2")]

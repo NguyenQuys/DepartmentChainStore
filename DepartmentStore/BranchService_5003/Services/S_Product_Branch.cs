@@ -6,6 +6,7 @@ using EFCore.BulkExtensions;
 using IdentityServer.Constant;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using NetTopologySuite.Index.HPRtree;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using ProductService_5000.Models;
@@ -23,11 +24,13 @@ namespace BranchService_5003.Services
         Task<List<MRes_Product_Branch>> GetListByIdBranch(int idBranch, MRes_InfoUser currentUser);
         Task<List<MRes_ImportProductHistory>> ViewHistoryExportByIdBranch(int? idBranch);
         Task<List<MRes_ImportProductHistory>> GetListByFilter(MReq_Filter filter, MRes_InfoUser currentUser);
+        Task<MRes_ImportProductHistory> GetById(int id,MRes_InfoUser currentUser);
 
         Task<string> UploadExportProductByExcel(IFormFile file,MRes_InfoUser currentUser);
 
         Task<MemoryStream> ExportSampleProductFileExcel(MRes_InfoUser currentUser);
 
+        Task<string> UpdateExport(MRes_ImportProductHistory productHistoryRequest,MRes_InfoUser currentUser);
         Task<string> Delete(int id);
     }
 
@@ -371,6 +374,72 @@ namespace BranchService_5003.Services
             }
 
             return result;
+        }
+
+        public async Task<MRes_ImportProductHistory> GetById(int id,MRes_InfoUser currentUser)
+        {
+            var pbToGet = await _context.ImportProductHistories.Include(m=>m.Branch).FirstOrDefaultAsync(m => m.Id == id);
+            // Get location
+            var locationBranch = pbToGet.Branch.Location;
+            // get productName
+            using var client = _httpClientFactory.CreateClient("ProductService");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", currentUser.AccessToken);
+            var productName = await GetProductName(client, pbToGet.IdProduct);
+            // Get batchNumber
+            var batchNumber = await GetBatchNumber(client,pbToGet.IdBatch);
+
+            var result = new MRes_ImportProductHistory()
+            {
+                LocationBranch = locationBranch,
+                ProductName = productName,
+                BatchNumber = batchNumber,
+                Quantity = pbToGet.Quantity,
+                DateImport = pbToGet.ImportTime,
+                Consignee = pbToGet.Consignee
+            };
+            return result;
+        }
+
+        public async Task<string> UpdateExport(MRes_ImportProductHistory productHistoryRequest,MRes_InfoUser currentUser)
+        {
+            var existingExport = await _context.ImportProductHistories.Include(m => m.Branch)
+                                                                      .FirstOrDefaultAsync(m => m.Id == productHistoryRequest.Id);
+
+            var checkExistBranch = await _context.Branches.FirstOrDefaultAsync(m => m.Location.Equals(productHistoryRequest.LocationBranch));
+            if (checkExistBranch == null) throw new Exception("Chi nhánh không tồn tại");
+            var idBranch = checkExistBranch.Id;
+
+
+            using var client = _httpClientFactory.CreateClient("ProductService");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", currentUser.AccessToken);
+
+            var productResponse = await client.GetAsync($"/list/Product/GetByName?productName={productHistoryRequest.ProductName}");
+            if (productResponse == null) 
+            {
+                throw new Exception("Sản phẩm không tồn tại. Vui lòng nhập đúng tên sản phẩm");
+            }
+            var getProduct = await productResponse.Content.ReadFromJsonAsync<Product>();
+            var idProduct = getProduct.Id;
+
+            var batchResponse = await client.GetAsync($"/list/Batch/GetByBatchNumber?batchNumber={productHistoryRequest.BatchNumber}");
+            if (productResponse == null)
+            {
+                throw new Exception("Số lô hàng không tồn tại. Vui lòng nhập đúng tên sản phẩm");
+            }
+            var getBatch = await batchResponse.Content.ReadFromJsonAsync<Batch>();
+            var idBatch = getBatch.Id;
+
+            // Update 
+            existingExport.IdBranch = idBranch;
+            existingExport.IdProduct = idProduct;
+            existingExport.IdBatch = idBatch;
+            existingExport.Quantity = productHistoryRequest.Quantity;
+            existingExport.ImportTime = productHistoryRequest.DateImport;
+            existingExport.Consignee = productHistoryRequest.Consignee;
+
+            _context.Update(existingExport);
+            await _context.SaveChangesAsync();
+            return "Cập nhật thành công";
         }
 
         public async Task<string> Delete(int id)

@@ -110,7 +110,7 @@ function RenderExportTable(productId, time) {
                         <td>${new Date(ex.dateImport).toLocaleDateString()}</td>
                         <td>${ex.consignee}</td>
                         <td>
-                            <a href="javascript:void(0)" onclick="OpenModalBatch('updateBatch', ${ex.id})" class="btn btn-primary">Sửa</a>
+                            <a href="javascript:void(0)" onclick="OpenModalExport('updateExport', ${ex.id})" class="btn btn-primary">Sửa</a>
                             <a href="javascript:void(0)" onclick="RemoveExport(${ex.id})" class="btn btn-danger">Xóa</a>
                         </td>
                     </tr>
@@ -141,7 +141,7 @@ function LoadAllExport() {
                         <td>${ex.consignee}</td>
                         <td>${new Date(ex.dateImport).toLocaleDateString()}</td>
                         <td>
-                            <a href="javascript:void(0)" onclick="OpenModalBatch('updateBatch', ${ex.id})" class="btn btn-primary">Sửa</a>
+                            <a href="javascript:void(0)" onclick="OpenModalExport('updateExport', ${ex.id})" class="btn btn-primary">Sửa</a>
                             <a href="javascript:void(0)" onclick="RemoveExport(${ex.id})" class="btn btn-danger">Xóa</a>
                         </td>
                     </tr>
@@ -187,6 +187,74 @@ function UploadExportProductByExcel() {
 function ExportSampleProductFileExcel() {
     window.location.href = '/branch/Product_Branch/ExportSampleProductFileExcel';
 }
+
+function OpenModalExport(type, id) {
+    let modalExportTitle = $('#modal_title_export');
+    const btnExport = $('#btn_export');
+
+    $('#form_export')[0].reset();
+    btnExport.off('click');
+
+    if (type == 'updateExport') {
+        modalExportTitle.text('Cập nhật');
+        btnExport.text('Cập nhật').on('click', function () {
+            UpdateExport(id);
+        });
+    }
+
+    $.ajax({
+        url: '/branch/Product_Branch/GetById',
+        type: 'GET',
+        data: { id: id },
+        success: function (response) {
+            $('#locationBranch_export').val(response.locationBranch);
+            $('#productName_export').val(response.productName);
+            $('#batchNumber_export').val(response.batchNumber);
+            $('#quantity_export').val(response.quantity);
+            $('#dateImport_export').val(response.dateImport);
+            $('#consignee_export').val(response.consignee);
+            $('#modal_export').modal('show');
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+            alert('Đã xảy ra lỗi khi tải dữ liệu.');
+        }
+    });
+}
+
+function UpdateExport(id) {
+    const formData = new FormData();
+
+    formData.append('Id', id);
+    formData.append('LocationBranch', $('#locationBranch_export').val());
+    formData.append('ProductName', $('#productName_export').val());
+    formData.append('BatchNumber', $('#batchNumber_export').val());
+    formData.append('Quantity', $('#quantity_export').val());
+    formData.append('DateImport', $('#dateImport_export').val());
+    formData.append('Consignee', $('#consignee_export').val());
+
+    $.ajax({
+        url: '/branch/Product_Branch/UpdateExport',
+        type: 'PUT',
+        data: formData,
+        processData: false, 
+        contentType: false, 
+        success: function (response) {
+            if (response.result === 1) {
+                ShowToastNoti('success', '', response.message, 4000, 'topRight');
+                $('#modal_export').modal('hide');
+                LoadAllExport();
+            }
+            else {
+                ShowToastNoti('error', '', response.message, 4000, 'topRight');
+            }
+        },
+        error: function (xhr, status, error) {
+            alert('Đã xảy ra lỗi khi cập nhật dữ liệu.');
+        }
+    });
+}
+
 
 function RemoveExport(id) {
     if (confirm('Bạn có chắc chắn muốn xóa lịch sử này?')) {
