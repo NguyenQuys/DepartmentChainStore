@@ -111,7 +111,7 @@ function RenderExportTable(productId, time) {
                         <td>${ex.consignee}</td>
                         <td>
                             <a href="javascript:void(0)" onclick="OpenModalBatch('updateBatch', ${ex.id})" class="btn btn-primary">Sửa</a>
-                            <a href="javascript:void(0)" onclick="RemoveBatch(${ex.id})" class="btn btn-danger">Xóa</a>
+                            <a href="javascript:void(0)" onclick="RemoveExport(${ex.id})" class="btn btn-danger">Xóa</a>
                         </td>
                     </tr>
                 `).join('');
@@ -142,7 +142,7 @@ function LoadAllExport() {
                         <td>${new Date(ex.dateImport).toLocaleDateString()}</td>
                         <td>
                             <a href="javascript:void(0)" onclick="OpenModalBatch('updateBatch', ${ex.id})" class="btn btn-primary">Sửa</a>
-                            <a href="javascript:void(0)" onclick="RemoveBatch(${ex.id})" class="btn btn-danger">Xóa</a>
+                            <a href="javascript:void(0)" onclick="RemoveExport(${ex.id})" class="btn btn-danger">Xóa</a>
                         </td>
                     </tr>
                 `).join('');
@@ -173,7 +173,7 @@ function UploadExportProductByExcel() {
         success: function (response) {
             if (response.result === 1) {
                 ShowToastNoti('success', '', response.message, 4000, 'topRight');
-                GetProductsByIdCategory(ID_CATEGORY);
+                LoadAllExport();
             } else {
                 ShowToastNoti('error', '', response.message, 4000, 'topRight');
             }
@@ -186,4 +186,18 @@ function UploadExportProductByExcel() {
 
 function ExportSampleProductFileExcel() {
     window.location.href = '/branch/Product_Branch/ExportSampleProductFileExcel';
+}
+
+function RemoveExport(id) {
+    if (confirm('Bạn có chắc chắn muốn xóa lịch sử này?')) {
+        $.ajax({
+            url: '/branch/Product_Branch/Delete',
+            type: 'DELETE',
+            data: { id: id },
+            success: function (response) {
+                ShowToastNoti('success', '', response, 4000, 'topRight');
+                LoadAllExport();
+            }
+        });
+    }
 }

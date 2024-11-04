@@ -20,10 +20,17 @@ namespace ProductService_5000.Controllers
             _currentUser = currentUser.GetCurrentUser();
         }
 
-        [HttpGet]
+        [HttpGet,Authorize(Roles ="1")]
         public async Task<IActionResult> GetById(int id)
         {
             var batchToGet = await _s_Batch.GetById(id);
+            return Json(batchToGet);
+        }
+
+        [HttpGet,Authorize(Roles = "1")]
+        public async Task<IActionResult> GetByBatchNumber(string batchNumber)
+        {
+            var batchToGet = await _s_Batch.GetByBatchNumber(batchNumber);
             return Json(batchToGet);
         }
 

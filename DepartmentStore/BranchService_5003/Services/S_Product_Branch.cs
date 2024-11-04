@@ -22,12 +22,13 @@ namespace BranchService_5003.Services
     {
         Task<List<MRes_Product_Branch>> GetListByIdBranch(int idBranch, MRes_InfoUser currentUser);
         Task<List<MRes_ImportProductHistory>> ViewHistoryExportByIdBranch(int? idBranch);
-        Task<List<MRes_ImportProductHistory>> GetListByFilter(MReq_Filter filter);
+        Task<List<MRes_ImportProductHistory>> GetListByFilter(MReq_Filter filter, MRes_InfoUser currentUser);
 
-        Task<string> UploadExportProductByExcel(IFormFile file);
+        Task<string> UploadExportProductByExcel(IFormFile file,MRes_InfoUser currentUser);
 
-        Task<MemoryStream> ExportSampleProductFileExcel();
+        Task<MemoryStream> ExportSampleProductFileExcel(MRes_InfoUser currentUser);
 
+        Task<string> Delete(int id);
     }
 
     public class S_Product_Branch : IS_Product_Branch
@@ -56,6 +57,7 @@ namespace BranchService_5003.Services
             var result = new List<MRes_Product_Branch>();
 
             using var client = _httpClientFactory.CreateClient("ProductService");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", currentUser.AccessToken);
 
             foreach (var item in listToGet)
             {
@@ -145,15 +147,16 @@ namespace BranchService_5003.Services
             return batch?.BatchNumber ?? "Unknown Batch";
         }
 
-        public async Task<string> UploadExportProductByExcel(IFormFile file)
+        public async Task<string> UploadExportProductByExcel(IFormFile file, MRes_InfoUser currentUser)
         {
             if (file == null || file.Length == 0)
             {
-                return "No file uploaded.";
+                return "Không có file nào được tải lên.";
             }
 
             var exportProductHistoryList = new List<ImportProductHistory>();
-            var branches = await _context.Branches.ToListAsync();
+            var branches = await _context.Branches.ToDictionaryAsync(b => b.Location, b => b.Id);
+            var errors = new List<string>();
 
             using (var stream = new MemoryStream())
             {
@@ -163,84 +166,104 @@ namespace BranchService_5003.Services
                     var worksheet = package.Workbook.Worksheets[0];
                     var rowCount = worksheet.Dimension.Rows;
 
+                    using var client = _httpClientFactory.CreateClient("ProductService");
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", currentUser.AccessToken);
+
                     for (int row = 2; row <= rowCount; row++)
                     {
-                        var locationBranchFromExcel = worksheet.Cells[row, 1].Text?.Trim();
-                        if(string.IsNullOrEmpty(locationBranchFromExcel))
+                        try
                         {
-                            throw new Exception($"Tại vị trí [A{row}] chưa điền dữ liệu");
+                            var locationBranchFromExcel = worksheet.Cells[row, 1].Text?.Trim();
+                            if (string.IsNullOrEmpty(locationBranchFromExcel) || !branches.TryGetValue(locationBranchFromExcel, out var branchId))
+                            {
+                                errors.Add($"Chi nhánh không hợp lệ tại ô [A{row}]: {locationBranchFromExcel ?? "trống"}.");
+                                continue;
+                            }
+
+                            var productNameFromExcel = worksheet.Cells[row, 2].Text?.Trim();
+                            if (string.IsNullOrEmpty(productNameFromExcel))
+                            {
+                                errors.Add($"Thiếu tên sản phẩm tại ô [B{row}].");
+                                continue;
+                            }
+
+                            var productResponse = await client.GetAsync($"/list/Product/GetByName?productName={productNameFromExcel}");
+                            if (!productResponse.IsSuccessStatusCode)
+                            {
+                                errors.Add($"Không thể lấy thông tin sản phẩm '{productNameFromExcel}' tại ô [B{row}].");
+                                continue;
+                            }
+                            var getProduct = await productResponse.Content.ReadFromJsonAsync<Product>();
+                            var idProduct = getProduct.Id;
+
+                            var batchNumberFromExcel = worksheet.Cells[row, 3].Text?.Trim();
+                            if (string.IsNullOrEmpty(batchNumberFromExcel))
+                            {
+                                errors.Add($"Thiếu số lô tại ô [C{row}].");
+                                continue;
+                            }
+
+                            var batchResponse = await client.GetAsync($"/list/Batch/GetByBatchNumber?batchNumber={batchNumberFromExcel}");
+                            if (!batchResponse.IsSuccessStatusCode)
+                            {
+                                errors.Add($"Không thể lấy thông tin lô hàng cho số lô '{batchNumberFromExcel}' tại ô [C{row}].");
+                                continue;
+                            }
+                            var getBatch = await batchResponse.Content.ReadFromJsonAsync<Batch>();
+                            var idBatch = getBatch.Id;
+
+                            if (!short.TryParse(worksheet.Cells[row, 4].Value?.ToString(), out short quantity))
+                            {
+                                errors.Add($"Số lượng không hợp lệ tại ô [D{row}].");
+                                continue;
+                            }
+
+                            var consignee = worksheet.Cells[row, 5].Text?.Trim();
+                            if (string.IsNullOrEmpty(consignee) || consignee.Length > 20)
+                            {
+                                errors.Add($"Người nhận không hợp lệ tại ô [E{row}].");
+                                continue;
+                            }
+
+                            if (!DateTime.TryParse(worksheet.Cells[row, 6].Text, out DateTime importTime))
+                            {
+                                errors.Add($"Thời gian nhập không hợp lệ tại ô [F{row}].");
+                                continue;
+                            }
+
+                            exportProductHistoryList.Add(new ImportProductHistory
+                            {
+                                IdBranch = branchId,
+                                IdProduct = idProduct,
+                                IdBatch = idBatch,
+                                Quantity = quantity,
+                                Consignee = consignee,
+                                ImportTime = importTime
+                            });
                         }
-
-                        var branch = branches.FirstOrDefault(m=>m.Location.Equals(locationBranchFromExcel));
-                        if(branch == null)
-                            throw new Exception($"{locationBranchFromExcel} không tồn tại");
-                        
-                        var productNameFormExcel = worksheet.Cells[row,1].Text?.Trim();
-                        if (string.IsNullOrEmpty(productNameFormExcel))
+                        catch (Exception ex)
                         {
-                            throw new Exception($"Tại vị trí [B{row}] chưa điền dữ liệu");
+                            errors.Add($"Lỗi tại dòng {row}: {ex.Message}");
                         }
-
-                        using var client = _httpClientFactory.CreateClient("ProductService");
-                        var productResponse = await client.GetAsync($"/list/Product/GetByName");
-                        if (!productResponse.IsSuccessStatusCode)
-                        {
-                            throw new Exception("Unable to retrieve product information from ProductService");
-                        }
-
-                        var getProduct = await productResponse.Content.ReadFromJsonAsync<Product>();
-                        var idProduct = getProduct.Id;
-
-                        // Parse Batch ID
-                        if (!int.TryParse(worksheet.Cells[row, 3].Value?.ToString(), out int idBatch))
-                        {
-                            continue;
-                        }
-
-                        // Parse Quantity
-                        if (!short.TryParse(worksheet.Cells[row, 4].Value?.ToString(), out short quantity))
-                        {
-                            continue;
-                        }
-
-                        // Parse Consignee
-                        var consignee = worksheet.Cells[row, 5].Text?.Trim();
-                        if (string.IsNullOrEmpty(consignee) || consignee.Length > 20)
-                        {
-                            continue;
-                        }
-
-                        // Parse Import Time
-                        if (!DateTime.TryParse(worksheet.Cells[row, 6].Text, out DateTime importTime))
-                        {
-                            continue;
-                        }
-
-                        // Create a new ImportProductHistory record
-                        var newImportProductHistory = new ImportProductHistory
-                        {
-                            IdBranch = branch.Id,
-                            IdProduct = idProduct,
-                            IdBatch = idBatch,
-                            Quantity = quantity,
-                            Consignee = consignee,
-                            ImportTime = importTime
-                        };
-
-                        exportProductHistoryList.Add(newImportProductHistory);
                     }
 
-                    // Save all records to the database
                     if (exportProductHistoryList.Count > 0)
                     {
                         await _context.BulkInsertOrUpdateAsync(exportProductHistoryList);
                     }
                 }
             }
-            return $"Successfully imported {exportProductHistoryList.Count} records from the Excel file.";
+
+            var resultMessage = $"Nhập thành công {exportProductHistoryList.Count} dòng dữ liệu từ file Excel.";
+            if (errors.Any())
+            {
+                resultMessage += "\nCác lỗi gặp phải:\n" + string.Join("\n", errors);
+            }
+
+            return resultMessage;
         }
 
-        public async Task<MemoryStream> ExportSampleProductFileExcel()
+        public async Task<MemoryStream> ExportSampleProductFileExcel(MRes_InfoUser currentUser)
         {
             using var package = new ExcelPackage();
             var worksheet = package.Workbook.Worksheets.Add("File xuất hàng hóa");
@@ -285,7 +308,7 @@ namespace BranchService_5003.Services
                 productValidation.Formula.Values.Add(productName);
             }
 
-
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", currentUser.AccessToken);
             var batchesResponse = await client.GetAsync("/list/Batch/GetAll");
             if (!batchesResponse.IsSuccessStatusCode)
             {
@@ -310,7 +333,7 @@ namespace BranchService_5003.Services
             return stream;
         }
 
-        public async Task<List<MRes_ImportProductHistory>> GetListByFilter(MReq_Filter filter)
+        public async Task<List<MRes_ImportProductHistory>> GetListByFilter(MReq_Filter filter, MRes_InfoUser currentUser)
         {
             var result = new List<MRes_ImportProductHistory>();
             var query = _context.ImportProductHistories.Include(m => m.Branch).AsQueryable();
@@ -328,6 +351,7 @@ namespace BranchService_5003.Services
 
             var importHistoryList = await query.ToListAsync();
             using var client = _httpClientFactory.CreateClient("ProductService");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", currentUser.AccessToken);
 
             foreach (var item in importHistoryList)
             {
@@ -336,6 +360,7 @@ namespace BranchService_5003.Services
 
                 result.Add(new MRes_ImportProductHistory
                 {
+                    Id = item.Id,
                     LocationBranch = item.Branch.Location,
                     ProductName = productName,
                     BatchNumber = batchNumber,
@@ -346,6 +371,14 @@ namespace BranchService_5003.Services
             }
 
             return result;
+        }
+
+        public async Task<string> Delete(int id)
+        {
+            var batchToDelete = await _context.ImportProductHistories.FirstOrDefaultAsync(m => m.Id == id);
+            _context.Remove(batchToDelete);
+            await _context.SaveChangesAsync();
+            return "Xóa thành công";
         }
     }
 }

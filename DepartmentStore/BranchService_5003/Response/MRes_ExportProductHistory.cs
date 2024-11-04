@@ -2,6 +2,7 @@
 {
     public class MRes_ImportProductHistory
     {
+        public int Id { get; set; }
         public string? LocationBranch { get; set; }
         public string ProductName { get; set; }
         public string BatchNumber { get; set; }

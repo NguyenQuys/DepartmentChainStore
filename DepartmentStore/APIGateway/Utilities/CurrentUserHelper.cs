@@ -1,4 +1,5 @@
 ﻿using APIGateway.Response;
+using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 
 namespace APIGateway.Utilities
@@ -14,6 +15,8 @@ namespace APIGateway.Utilities
 
         public MRes_InfoUser GetCurrentUser()
         {
+            var token = _httpContextAccessor.HttpContext.Request.Cookies["jwt"];
+
             var userIdClaim = _httpContextAccessor.HttpContext.User.Claims
                 .FirstOrDefault(c => c.Type == "IdUser")?.Value;
             var roleClaim = _httpContextAccessor.HttpContext.User.Claims
@@ -24,6 +27,8 @@ namespace APIGateway.Utilities
                  .FirstOrDefault(c => c.Type == "Fullname")?.Value;
             var emailClaim = _httpContextAccessor.HttpContext.User.Claims
                 .FirstOrDefault(m => m.Type == "Email")?.Value;
+            var accessTokenClaim = _httpContextAccessor.HttpContext.User.Claims
+                .FirstOrDefault(a => a.Type == "AccessToken")?.Value;
 
             var currentUser = new MRes_InfoUser
             {
@@ -31,7 +36,8 @@ namespace APIGateway.Utilities
                 IdUser = userIdClaim,
                 IdBranch = branchIdClaim,
                 FullName = fullNameClaim,
-                Email = emailClaim
+                Email = emailClaim,
+                AccessToken = token
             };
 
             return currentUser;

@@ -11,6 +11,7 @@ namespace ProductService_5000.Services
     public interface IS_Batch
     {
         Task<Batch> GetById(int id);
+        Task<Batch> GetByBatchNumber(string batchNumber);
         Task<List<MRes_Batch>> GetListByFilter(MReq_Filter filter);
         Task<List<MRes_Batch>> GetAll();
 
@@ -35,6 +36,12 @@ namespace ProductService_5000.Services
         public async Task<Batch> GetById(int id)
         {
             var batchToGet = await _context.Batches.FirstOrDefaultAsync(b => b.Id == id);
+            return batchToGet;
+        }
+
+        public async Task<Batch> GetByBatchNumber(string batchNumber)
+        {
+            var batchToGet = await _context.Batches.FirstOrDefaultAsync(m=>m.BatchNumber.Equals(batchNumber));
             return batchToGet;
         }
 

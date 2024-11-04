@@ -17,7 +17,6 @@ namespace UserService_5002.Controllers
         private readonly IS_User _s_User;
         private readonly IJwtHelper _jwtHelper;
         private readonly MRes_InfoUser _currentUser;
-        public static string accessToken;
 
         public UserController(IS_User s_User, IJwtHelper jwtHelper, CurrentUserHelper currentUserHelper)
         {
@@ -98,7 +97,6 @@ namespace UserService_5002.Controllers
             }
 
             var token = _jwtHelper.BuildToken(claims.ToArray(), expires: 60);
-            accessToken = token;
 
             Response.Cookies.Append("jwt", token, new CookieOptions
             {
@@ -106,7 +104,6 @@ namespace UserService_5002.Controllers
                 Secure = true,   // Set to true if using HTTPS
                 Expires = DateTime.UtcNow.AddMinutes(60),
                 SameSite = SameSiteMode.None // Đảm bảo cookie không bị giới hạn bởi cross-site requests
-
             });
         }
 

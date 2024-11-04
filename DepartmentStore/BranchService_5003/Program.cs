@@ -4,12 +4,15 @@ using BranchService_5003.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using OfficeOpenXml;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+// EPPLUS
+ExcelPackage.LicenseContext = LicenseContext.NonCommercial; // Hoặc LicenseContext.Commercial nếu bạn có giấy phép thương mại
 
 builder.Services.AddDbContext<BranchDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("BranchDBConnection")));

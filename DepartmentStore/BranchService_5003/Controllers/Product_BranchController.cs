@@ -19,13 +19,6 @@ namespace BranchService_5003.Controllers
             _currentUser = currentUserHelper.GetCurrentUser();
         }
 
-        //[HttpGet,Authorize(Roles = "1")]
-        //public async Task<IActionResult> GetAll()
-        //{
-        //    var getAll = await _s_Product_Branch.GetAll();
-        //    return Json(getAll);
-        //}
-
         [HttpGet]
         public async Task<IActionResult> GetListByIdBranch(int id)
         {
@@ -43,12 +36,11 @@ namespace BranchService_5003.Controllers
         [HttpPost,Authorize(Roles = "1")]
         public async Task<IActionResult> GetListByFilter(MReq_Filter filter)
         {
-            var listToGet = await _s_Product_Branch.GetListByFilter(filter);
+            var listToGet = await _s_Product_Branch.GetListByFilter(filter,_currentUser);
             return Json(listToGet);
         }
 
-        [HttpGet]
-        [Authorize(Roles ="1,2")]
+        [HttpGet, Authorize(Roles = "1,2")]
         public async Task<IActionResult> ViewHistoryExport(int? idBranch)
         {
             var viewHistory = await _s_Product_Branch.ViewHistoryExportByIdBranch(idBranch);
@@ -58,7 +50,7 @@ namespace BranchService_5003.Controllers
         [HttpGet, Authorize(Roles = "1")]
         public async Task<IActionResult> ExportSampleProductFileExcel()
         {
-            var fileSampleToExport = await _s_Product_Branch.ExportSampleProductFileExcel();
+            var fileSampleToExport = await _s_Product_Branch.ExportSampleProductFileExcel(_currentUser);
             var excelFileName = $"Xuất kho.xlsx";
             return File(fileSampleToExport, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelFileName);
         }
@@ -68,13 +60,20 @@ namespace BranchService_5003.Controllers
         {
             try
             {
-                var result = await _s_Product_Branch.UploadExportProductByExcel(file);
+                var result = await _s_Product_Branch.UploadExportProductByExcel(file,_currentUser);
                 return Json(new { result = 1, message = result });
             }
             catch (Exception ex)
             {
                 return Json(new { result = -1, message = ex.Message });
             }
+        }
+
+        [HttpDelete,Authorize(Roles ="1")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var batchToDetele = await _s_Product_Branch.Delete(id);
+            return Json(batchToDetele);
         }
     }
 }
