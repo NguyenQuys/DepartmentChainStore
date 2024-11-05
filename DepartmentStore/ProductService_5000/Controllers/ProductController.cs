@@ -28,7 +28,8 @@ namespace ProductService_5000.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View();
+            var productsToGet = await _s_Product.GetAllProducts();
+            return View(productsToGet);
         }
 
         [HttpGet]

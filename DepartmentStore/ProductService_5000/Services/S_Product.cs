@@ -85,7 +85,7 @@ namespace ProductService_5000.Services
         private async Task<string> SaveImageFileAsync(IFormFile file)
         {
             var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-            var filePath = Path.Combine("wwwroot/uploads", fileName);
+            var filePath = Path.Combine("wwwroot/product/images", fileName);
 
             // Lưu file vào thư mục
             using (var stream = new FileStream(filePath, FileMode.Create))

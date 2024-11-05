@@ -59,7 +59,7 @@ namespace ProductService_5000.Migrations
 
                     b.HasIndex("IdProduct");
 
-                    b.ToTable("Batches", (string)null);
+                    b.ToTable("Batches");
                 });
 
             modelBuilder.Entity("ProductService_5000.Models.CategoryProduct", b =>
@@ -74,7 +74,7 @@ namespace ProductService_5000.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CategoryProducts", (string)null);
+                    b.ToTable("CategoryProducts");
                 });
 
             modelBuilder.Entity("ProductService_5000.Models.Image", b =>
@@ -97,7 +97,7 @@ namespace ProductService_5000.Migrations
 
                     b.HasIndex("IdProduct");
 
-                    b.ToTable("Images", (string)null);
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("ProductService_5000.Models.Product", b =>
@@ -113,6 +113,11 @@ namespace ProductService_5000.Migrations
 
                     b.Property<bool>("IsHide")
                         .HasColumnType("bit");
+
+                    b.Property<string>("MainImage")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("Price")
                         .HasColumnType("int");
@@ -132,7 +137,7 @@ namespace ProductService_5000.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("ProductService_5000.Models.Batch", b =>
