@@ -1,7 +1,7 @@
 ﻿// Put info in add Batch
 function GetAllProducts(selectedProductId = null) {
     $.ajax({
-        url: '/list/Product/GetAllProducts',
+        url: '/product/Product/GetAllProducts',
         type: 'GET',
         success: function (data) {
             let selectHtml = '<option disabled selected>-- Vui lòng chọn sản phẩm --</option>';
@@ -84,7 +84,7 @@ function ShowContentBatch() {
 
 function LoadProductOptions() {
     $.ajax({
-        url: '/list/Product/GetAllProducts',
+        url: '/product/Product/GetAllProducts',
         type: 'GET',
         dataType: 'json',
         success: function (data) {
@@ -106,7 +106,7 @@ function LoadProductOptions() {
 
 function RenderBatchTable(productId, time) {
     $.ajax({
-        url: `/list/Batch/GetListByFilter`,
+        url: `/product/Batch/GetListByFilter`,
         type: 'POST',
         data: { IdProduct: productId, Time: time },
         success: function (response) {
@@ -137,7 +137,7 @@ function RenderBatchTable(productId, time) {
 
 function LoadAllBatch() {
     $.ajax({
-        url: '/list/Batch/GetAll',
+        url: '/product/Batch/GetAll',
         type: 'GET',
         success: function (response) {
             let tableBody = response.length === 0
@@ -184,7 +184,7 @@ function OpenModalBatch(type, batchId = null) {
 
         if (batchId) {
             $.ajax({
-                url: '/list/Batch/GetById',
+                url: '/product/Batch/GetById',
                 type: 'GET',
                 data: { id: batchId },
                 success: function (response) {
@@ -215,7 +215,7 @@ function AddBatch() {
     formData.append('Receiver', $('#receiver_batch').val());
 
     $.ajax({
-        url: '/list/Batch/Create',
+        url: '/product/Batch/Create',
         type: 'POST',
         data: formData,
         contentType: false,
@@ -246,7 +246,7 @@ function UpdateBatch(idBatch) {
     formDataBatch.append('Receiver', $('#receiver_batch').val());
 
     $.ajax({
-        url: '/list/Batch/Update',
+        url: '/product/Batch/Update',
         type: 'POST',
         data: formDataBatch,
         contentType: false,
@@ -269,7 +269,7 @@ function UpdateBatch(idBatch) {
 function RemoveBatch(batchId) {
     if (confirm('Bạn có chắc chắn muốn xóa lô hàng này?')) {
         $.ajax({
-            url: '/list/Batch/Delete',
+            url: '/product/Batch/Delete',
             type: 'POST',
             data: { id: batchId },
             success: function (response) {

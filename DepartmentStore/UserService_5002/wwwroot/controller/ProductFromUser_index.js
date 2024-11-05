@@ -21,7 +21,7 @@ function ActiveTogglePills(tabId) {
 // Fetch products by category ID via AJAX
 function GetProductsByIdCategory(id) {
     $.ajax({
-        url: `/list/Product/GetProductsByCategory/${id}`,
+        url: `/product/Product/GetProductsByCategory/${id}`,
         type: 'GET',
         success: function (response) {
             if (response.result === 1) {
@@ -121,7 +121,7 @@ $(document).ready(function () {
 
 function ChangeStatusProduct(productId) {
     $.ajax({
-        url: '/list/Product/ChangeStatusProduct',
+        url: '/product/Product/ChangeStatusProduct',
         type: 'PUT',
         data: { id: productId },
         success: function (response) {
@@ -159,7 +159,7 @@ function addProduct() {
     }
 
     $.ajax({
-        url: '/list/Product/AddProduct',
+        url: '/product/Product/AddProduct',
         type: 'POST',
         data: formData,
         contentType: false,
@@ -200,22 +200,17 @@ function OpenModalProduct(type, productId = null) {
 
         if (productId) {
             $.ajax({
-                url: `/list/Product/GetById?idProduct=${productId}`,
+                url: `/product/Product/GetById?idProduct=${productId}`,
                 type: 'GET',
                 success: function (response) {
-                    if (response.result === 1) {
-                        let product = response.data;
-                        $('#productName').val(product.productName);
-                        $('#productPrice').val(product.price);
-                        $('#categoryId').val(product.categoryId);
+                    $('#productName').val(response.productName);
+                    $('#productPrice').val(response.price);
+                    $('#categoryId').val(response.categoryId);
 
-                        // Gán sự kiện click để cập nhật sản phẩm sau khi đã tải dữ liệu
-                        btnProduct.on('click', function () {
-                            updateProduct(productId);
-                        });
-                    } else {
-                        alert('Có lỗi xảy ra: ' + response.message);
-                    }
+                    // Gán sự kiện click để cập nhật sản phẩm sau khi đã tải dữ liệu
+                    btnProduct.on('click', function () {
+                        updateProduct(response.id);
+                    });
                 },
                 error: function (xhr, status, error) {
                     console.error('Error fetching product:', error);
@@ -226,7 +221,6 @@ function OpenModalProduct(type, productId = null) {
     }
     new bootstrap.Modal(document.getElementById('modal-product')).show();
 }
-
 
 // Function to update the product
 function updateProduct(productId) {
@@ -243,7 +237,7 @@ function updateProduct(productId) {
     }
 
     $.ajax({
-        url: `/list/Product/UpdateProduct`, 
+        url: `/product/Product/UpdateProduct`, 
         type: 'PUT',
         data: formData,
         processData: false, // Prevent jQuery from processing the data
@@ -263,7 +257,7 @@ function updateProduct(productId) {
 function RemoveProduct(idProduct) {
     if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')) {
         $.ajax({
-            url: `/list/Product/RemoveProduct`,
+            url: `/product/Product/RemoveProduct`,
             type: 'DELETE',
             data: { idProduct: idProduct },
             success: function (response) {
@@ -289,7 +283,7 @@ function UploadExcelProductFile() {
     var formData = new FormData();
     formData.append('file', fileInput); 
     $.ajax({
-        url: '/list/Product/UploadProductByExcel', 
+        url: '/product/Product/UploadProductByExcel', 
         type: 'POST',
         data: formData,
         contentType: false, // Important for file uploads
@@ -309,7 +303,7 @@ function UploadExcelProductFile() {
 }
 
 function DownloadSampleFileProduct() {
-    window.location.href = '/list/Product/ExportSampleProductFileExcel';
+    window.location.href = '/product/Product/ExportSampleProductFileExcel';
 }
 
 

@@ -13,7 +13,7 @@ using System.Diagnostics;
 
 namespace ProductService_5000.Controllers
 {
-    [Route("list/[controller]/[action]")]
+    [Route("product/[controller]/[action]")]
     public class ProductController : Controller
     {
         private readonly IS_Product _s_Product;
@@ -23,6 +23,12 @@ namespace ProductService_5000.Controllers
         {
             _s_Product = product;
             _currentUser = currentUserHelper.GetCurrentUser();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            return View();
         }
 
         [HttpGet]
@@ -57,7 +63,7 @@ namespace ProductService_5000.Controllers
         public async Task<IActionResult> GetById(int idProduct)
         {
             var productToGet = await _s_Product.GetByIdAsync(idProduct);
-            return  Json(productToGet);
+            return Json(productToGet);
         }
 
         [Authorize(Roles = "1")]
@@ -120,7 +126,5 @@ namespace ProductService_5000.Controllers
             var productToDelete = await _s_Product.RemoveProduct(idProduct);
             return Json(productToDelete);
         }
-
-
     }
 }

@@ -18,7 +18,7 @@
     //  }
     //},
     {
-      "DownstreamPathTemplate": "/list/{controller}/{action}",
+      "DownstreamPathTemplate": "/product/{controller}/{action}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -26,7 +26,7 @@
           "Port": 5000
         }
       ],
-      "UpstreamPathTemplate": "/list/{controller}/{action}",
+      "UpstreamPathTemplate": "/product/{controller}/{action}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     },
     {

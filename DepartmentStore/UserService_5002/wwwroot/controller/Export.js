@@ -72,7 +72,7 @@
 
 function LoadProductOptionsExport() {
     $.ajax({
-        url: '/list/Product/GetAllProducts',
+        url: '/product/Product/GetAllProducts',
         type: 'GET',
         dataType: 'json',
         success: function (data) {
