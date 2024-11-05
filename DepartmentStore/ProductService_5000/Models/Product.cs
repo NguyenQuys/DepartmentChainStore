@@ -25,7 +25,7 @@ namespace ProductService_5000.Models
         public int UpdatedBy { get; set; }
 
         [MaxLength(100)]
-        public string MainImage { get; set; }
+        public string? MainImage { get; set; }
 
         public ICollection<Batch> Batches { get; set; }
     }

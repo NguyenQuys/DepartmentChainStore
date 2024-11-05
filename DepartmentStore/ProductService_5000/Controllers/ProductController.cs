@@ -29,6 +29,7 @@ namespace ProductService_5000.Controllers
         public async Task<IActionResult> Index()
         {
             var productsToGet = await _s_Product.GetAllProducts();
+
             return View(productsToGet);
         }
 
@@ -36,7 +37,7 @@ namespace ProductService_5000.Controllers
         public async Task<IActionResult> GetAllProducts()
         {
             var productsToGet = await _s_Product.GetAllProducts();
-            return Ok(productsToGet);
+            return Json(productsToGet);
         }
 
         [HttpGet]
@@ -46,12 +47,13 @@ namespace ProductService_5000.Controllers
             return Json(productToGet);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetProductsByCategory(int id)
+        //[HttpGet("{id}")]
+        [HttpGet]
+        public async Task<IActionResult> GetProductsByCategory(int? id)
         {
             try
             {
-                var productsToGet = await _s_Product.GetProductsByIdCategory(id);
+                List<Product> productsToGet = await _s_Product.GetProductsByIdCategory(id);
                 return Json(new { result = 1, data = productsToGet });
             }
             catch (Exception ex)

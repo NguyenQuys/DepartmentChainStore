@@ -1,5 +1,5 @@
-﻿@model List<ProductService_5000.Models.Product>
-
+﻿@* @model List<Product>
+ *@
 @{
     ViewData["Title"] = "Trang chủ";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -51,12 +51,23 @@
     </div>
     <div class="container">
         <div class="row">
-            @foreach (var product in Model)
+            <form class="search-form" action="#">
+                <i class="icon-search"></i>
+                <input type="search" class="form-control" placeholder="Search Here" title="Search here">
+            </form>
+            <select class="form-control" id="category_select_customer">
+                <option value="1">AAA</option>
+                <option value="2">BBB</option>
+                <option value="3">CCC</option>
+            </select>
+        </div>
+
+            @* @foreach (var product in Model)
             {
                 <div class="col-md-6 col-lg-3 ftco-animate">
                     <div class="product">
                         <a href="#" class="img-prod">
-                            <img class="img-fluid" src="images/product-1.jpg" alt="Product Image">
+                            <img class="img-fluid" src="@product.MainImage" alt="Product Image">
                             <span class="status">30%</span>
                             <div class="overlay"></div>
                         </a>
@@ -83,7 +94,8 @@
                         </div>
                     </div>
                 </div>
-            }
-        </div>
+            } *@
+            <div id="div_data_product_index" class="row"></div>
     </div>
 </section>
+

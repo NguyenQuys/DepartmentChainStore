@@ -52,7 +52,6 @@
                         </tr>
                     </thead>
                     <tbody id="export_TableBody">
-                        <!-- Rows will be dynamically loaded here -->
                     </tbody>
                 </table>
             </div>

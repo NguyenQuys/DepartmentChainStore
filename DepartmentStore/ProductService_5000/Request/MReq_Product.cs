@@ -16,6 +16,8 @@ namespace ProductService_5000.Request
         [Required]
         public byte CategoryId { get; set; }
 
-        public List<IFormFile> ProductImages { get; set; }
+        public IFormFile MainImage { get; set; }
+
+        public List<IFormFile> SecondaryImages { get; set; }
     }
 }

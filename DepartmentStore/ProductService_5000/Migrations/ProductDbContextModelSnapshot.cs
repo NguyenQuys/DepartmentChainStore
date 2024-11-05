@@ -115,7 +115,6 @@ namespace ProductService_5000.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("MainImage")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 

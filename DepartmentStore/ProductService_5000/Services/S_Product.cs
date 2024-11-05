@@ -14,8 +14,8 @@ namespace ProductService_5000.Services
     public interface IS_Product
     {
         Task<List<Product>> GetAllProducts();
-        Task<Product> GetByIdAsync(int id);
-        Task<List<Product>> GetProductsByIdCategory(int id);
+        Task<Product> GetByIdAsync(int? id);
+        Task<List<Product>> GetProductsByIdCategory(int? id);
         Task<Product> GetByName(string productName);
 
         Task<string> AddProductAsync(MReq_Product productsRequest, MRes_InfoUser currentUser);
@@ -54,21 +54,29 @@ namespace ProductService_5000.Services
                 throw new Exception("Phân loại không tồn tại");
             }
 
+            string mainImagePath = null;
+            if (productRequest.MainImage != null)
+            {
+                mainImagePath = await SaveImageFileAsync(productRequest.MainImage);
+            }
+
             var product = _mapper.Map<Product>(productRequest);
             product.UpdatedBy = int.Parse(currentUser.IdUser);
+            product.MainImage = mainImagePath;
 
-            if (productRequest.ProductImages != null && productRequest.ProductImages.Count > 0)
+
+            if (productRequest.SecondaryImages != null && productRequest.SecondaryImages.Count > 0)
             {
                 product.Images = new List<Image>();
-                foreach (var file in productRequest.ProductImages)
+                foreach (var file in productRequest.SecondaryImages)
                 {
                     if (file.Length > 0)
                     {
-                        var imagePath = await SaveImageFileAsync(file);
+                        var secondaryImagePath = await SaveImageFileAsync(file);
 
                         var image = new Image
                         {
-                            ImagePath = imagePath,
+                            ImagePath = secondaryImagePath,
                             Product = product
                         };
                         product.Images.Add(image);
@@ -84,7 +92,8 @@ namespace ProductService_5000.Services
 
         private async Task<string> SaveImageFileAsync(IFormFile file)
         {
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            //var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            var fileName = file.FileName;
             var filePath = Path.Combine("wwwroot/product/images", fileName);
 
             // Lưu file vào thư mục
@@ -93,15 +102,15 @@ namespace ProductService_5000.Services
                 await file.CopyToAsync(stream);
             }
 
-            return "/uploads/" + fileName;
+            return "/product/images/" + fileName;
         }
 
         public async Task<List<Product>> GetAllProducts()
         {
-            return await _context.Products.Where(m => !m.IsHide).ToListAsync();
+            return await _context.Products.Where(m => !m.IsHide).OrderByDescending(m=>m.UpdatedTime).ToListAsync();
         }
 
-        public async Task<Product> GetByIdAsync(int id)
+        public async Task<Product> GetByIdAsync(int? id)
         {
             var productToDisplay = await _context.Products.FindAsync(id);
             return productToDisplay;
@@ -115,11 +124,13 @@ namespace ProductService_5000.Services
             return productoRemove;
         }
 
-        public async Task<List<Product>> GetProductsByIdCategory(int id)
+        public async Task<List<Product>> GetProductsByIdCategory(int? id)
         {
-            var productCategoryToGet = await _context.Products.Where(m => m.CategoryId == id)
-                                                              .OrderByDescending(M=>M.UpdatedTime)
-                                                              .ToListAsync();
+            var productCategoryToGet = id != null
+                ? await _context.Products.Where(m => m.CategoryId == id)
+                                                              .OrderByDescending(M => M.UpdatedTime)
+                                                              .ToListAsync()
+                : await _context.Products.OrderByDescending(M => M.UpdatedTime).ToListAsync();
             return productCategoryToGet;
         }
 
