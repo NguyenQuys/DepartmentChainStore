@@ -2,7 +2,7 @@
     let tableBody = '';
 
     $.ajax({
-        url: '/branch/Product_Branch/ViewHistoryExport',
+        url: '/branch/Product_Branch/ViewHistoryExportByIdBranch',
         type: 'GET',
         data: { idBranch: idBranch },
         success: function (response) {

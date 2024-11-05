@@ -4,9 +4,7 @@ let idUser_global;
 
 // Render Branch Table
 function RenderBranchTable() {
-    $('#div_table_product').hide();
-    $('#div_table_batch').hide();
-    $('#div_table_customer').hide();
+    $('#div_table_product, #div_table_batch, #div_table_customer, #div_table_export').hide();
     $('#div_table_branch').show();
     let tableBody = '';
 

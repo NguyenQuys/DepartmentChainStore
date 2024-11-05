@@ -22,7 +22,7 @@ namespace BranchService_5003.Services
     public interface IS_Product_Branch
     {
         Task<List<MRes_Product_Branch>> GetListByIdBranch(int idBranch, MRes_InfoUser currentUser);
-        Task<List<MRes_ImportProductHistory>> ViewHistoryExportByIdBranch(int? idBranch);
+        Task<List<MRes_ImportProductHistory>> ViewHistoryExportByIdBranch(int? idBranch, MRes_InfoUser currentUser);
         Task<List<MRes_ImportProductHistory>> GetListByFilter(MReq_Filter filter, MRes_InfoUser currentUser);
         Task<MRes_ImportProductHistory> GetById(int id,MRes_InfoUser currentUser);
 
@@ -93,7 +93,7 @@ namespace BranchService_5003.Services
             return result;
         }
 
-        public async Task<List<MRes_ImportProductHistory>> ViewHistoryExportByIdBranch(int? idBranch)
+        public async Task<List<MRes_ImportProductHistory>> ViewHistoryExportByIdBranch(int? idBranch, MRes_InfoUser currentUser)
         {
             var result = new List<MRes_ImportProductHistory>();
             var listToGet = idBranch != null
@@ -104,10 +104,9 @@ namespace BranchService_5003.Services
 
             foreach (var item in listToGet)
             {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", currentUser.AccessToken);
                 var productName = await GetProductName(client, item.IdProduct);
-
                 var batchNumber = await GetBatchNumber(client, item.IdBatch);
-
                 var historyEntry = new MRes_ImportProductHistory
                 {
                     ProductName = productName,
