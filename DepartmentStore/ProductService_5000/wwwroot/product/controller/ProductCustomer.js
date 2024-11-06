@@ -22,13 +22,13 @@ function GetListProduct(idCategory = null) {
                     data += `
                         <div class="col-md-6 col-lg-3 ftco-animate fadeInUp ftco-animated">
                             <div class="product">
-                                <a href="#" class="img-prod">
+                                <a href="/product/Product/GetById?idProduct=${product.id}" class="img-prod">
                                     <img class="img-fluid" src="${product.mainImage}" alt="Product Image">
                                     <span class="status">30%</span>
                                     <div class="overlay"></div>
                                 </a>
                                 <div class="text py-3 pb-4 px-3 text-center">
-                                    <h3><a href="/product/Product/GetById?idProduct=${product.id}">${product.productName}</a></h3>
+                                    <h3>${product.productName}</h3>
                                     <div class="d-flex">
                                         <div class="pricing">
                                             <p class="price"><span class="mr-2">${product.price} VND</span></p>
@@ -127,3 +127,25 @@ $(document).ready(function () {
     //});
 });
 
+$(document).ready(function () {
+
+    $('.quantity-right-plus').click(function (e) {
+        e.preventDefault();
+        var currentQuantity = parseInt($('#quantity').val());
+        if (currentQuantity < 100) { // Check the maximum value
+            $('#quantity').val(currentQuantity + 1);
+            if (currentQuantity + 1 > 10) {
+                ShowToastNoti('success', '', 'AAAAA', 4000, 'topRight');
+            }
+        }
+    });
+
+    $('.quantity-left-minus').click(function (e) {
+        e.preventDefault();
+        var currentQuantity = parseInt($('#quantity').val());
+        if (currentQuantity > 1) { // Check the minimum value
+            $('#quantity').val(currentQuantity - 1);
+        }
+    });
+
+});

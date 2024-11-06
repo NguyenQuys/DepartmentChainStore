@@ -72,19 +72,8 @@ namespace ProductService_5000.Controllers
         public async Task<IActionResult> GetById(int idProduct)
         {
             var productToGet = await _s_Product.GetByIdAsync(idProduct);
-
-            // Kiểm tra nếu yêu cầu là AJAX, trả về JSON
-            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-            {
-                return Json(productToGet);  
-            }
-            else
-            {
-                return View(productToGet); 
-            }
+            return Request.IsAjaxRequest() ? Json(productToGet) : View(productToGet);
         }
-
-
 
         [Authorize(Roles = "1")]
         [HttpPost]
