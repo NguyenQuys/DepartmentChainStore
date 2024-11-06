@@ -1,13 +1,11 @@
 ﻿$(document).ready(function () {
-    // Load initial product list
-    console.log(123);
     GetListProduct();
 });
 
+
 // Listen for changes in the category select element using jQuery
-$('#category_select').on('change', function () {
+$('#category_select_customer').on('change', function () {
     const selectedId = this.value; // 'this' refers to the select element
-    console.log(selectedId);
     GetListProduct(selectedId); // Pass the selected ID to the function
 });
 
@@ -30,10 +28,10 @@ function GetListProduct(idCategory = null) {
                                     <div class="overlay"></div>
                                 </a>
                                 <div class="text py-3 pb-4 px-3 text-center">
-                                    <h3><a href="#">${product.productName}</a></h3>
+                                    <h3><a href="/product/Product/GetById?idProduct=${product.id}">${product.productName}</a></h3>
                                     <div class="d-flex">
                                         <div class="pricing">
-                                            <p class="price"><span class="mr-2 price-dc">${product.price} VND</span></p>
+                                            <p class="price"><span class="mr-2">${product.price} VND</span></p>
                                         </div>
                                     </div>
                                     <div class="bottom-area d-flex px-3">
@@ -64,3 +62,68 @@ function GetListProduct(idCategory = null) {
         }
     });
 }
+
+$(document).ready(function () {
+    $('#search_product_keyword').on('keyup', function () {
+        var keyword = $(this).val().trim();
+
+        if (keyword) {
+            $.ajax({
+                url: '/product/Product/SearchProduct', // Correct URL path
+                type: 'POST',
+                data: { productName: keyword },
+                success: function (response) {
+                    var results = $('#search_results');
+                    results.removeClass('d-none').css('z-index', '9').show();
+
+                    results.empty(); // Clear previous results
+
+                    if (response.length > 0) {
+                        response.forEach(function (product) {
+                            results.append(`
+                                <li class="list-group-item">
+                                    <img src="${product.mainImage}" alt="${product.productName}" style="max-width: 50px; margin-right: 10px">
+                                    <span>${product.productName}</span>
+                                </li>
+                            `);
+                        });
+                    } else {
+                        results.append('<li class="list-group-item">Không tìm thấy sản phẩm</li>');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX error:", status, error);
+                }
+            });
+        } else {
+            $('#search_results').hide();
+        }
+    });
+
+    // Hide results when clicking outside
+    $(document).on('click', function (e) {
+        if (!$(e.target).closest('.search-form, #search_results').length) {
+            $('#search_results').hide();
+        }
+    });
+
+    // Xử lý sự kiện click trên các mục kết quả tìm kiếm
+    $('#search_results').on('click', 'li', function () {
+        $('#search_product_keyword').val($(this).text());
+        $('#search_results').hide(); // Ẩn kết quả sau khi chọn
+    });
+
+    // Hiển thị lại kết quả khi bắt đầu nhập lại sau khi chọn
+    $('#search_product_keyword').on('focus', function () {
+        if ($('#search_results').children().length > 0) {
+            $('#search_results').show();
+        }
+    });
+
+    // Optionally: Handle click on result items
+    //$('#search_results').on('click', 'li', function () {
+    //    $('#search_product_keyword').val($(this).text());
+    //    $('#search_results').hide(); // Hide results after selection
+    //});
+});
+

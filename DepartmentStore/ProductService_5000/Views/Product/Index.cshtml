@@ -51,16 +51,48 @@
     </div>
     <div class="container">
         <div class="row">
-            <form class="search-form" action="#">
-                <i class="icon-search"></i>
-                <input type="search" class="form-control" placeholder="Search Here" title="Search here">
+            <div class="col-lg-6">
+            <form class="search-form" onsubmit="return false;" style="position: relative;">
+                <input type="search" id="search_product_keyword" class="form-control" placeholder="Search Here" title="Search here">
+@*                     <span><i class="icon-search"></i></span>
+ *@
+                <button type="submit">Search</button>
             </form>
-            <select class="form-control" id="category_select_customer">
-                <option value="1">AAA</option>
-                <option value="2">BBB</option>
-                <option value="3">CCC</option>
-            </select>
+            </div>
+            <!-- Search Results Div -->
+            <div class="col-lg-6">
+                <select class="form-control" id="category_select_customer">
+                    <option value="1">Nước</option>
+                    <option value="2">Bánh</option>
+                    <option value="3">Trái cây</option>
+                </select>
+            </div>
         </div>
+        <ul id="search_results" class="d-none position-absolute bg-white shadow pl-0" style="width: 23%; max-height: 300px; overflow-y: auto;"></ul>
+
+            <style>
+                #search-results {
+                    list-style-type: none;
+                    margin: 0;
+                    padding: 0;
+                    border: 1px solid #ccc;
+                    max-width: 200px;
+                    position: absolute;
+                    background-color: white;
+                    z-index: 1000;
+                    /* Ensure a high z-index */
+                }
+
+                    #search-results li {
+                        padding: 10px;
+                        border-bottom: 1px solid #ccc;
+                        cursor: pointer;
+                    }
+
+                        #search-results li:hover {
+                            background-color: #f0f0f0;
+                        }
+            </style>
 
             @* @foreach (var product in Model)
             {
@@ -98,4 +130,5 @@
             <div id="div_data_product_index" class="row"></div>
     </div>
 </section>
+
 

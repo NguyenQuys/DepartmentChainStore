@@ -28,9 +28,7 @@ namespace ProductService_5000.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var productsToGet = await _s_Product.GetAllProducts();
-
-            return View(productsToGet);
+            return View();
         }
 
         [HttpGet]
@@ -40,10 +38,18 @@ namespace ProductService_5000.Controllers
             return Json(productsToGet);
         }
 
+        // Excel
         [HttpGet]
         public async Task<IActionResult> GetByName(string productName)
         {
             var productToGet = await _s_Product.GetByName(productName);
+            return Json(productToGet);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SearchProduct(string productName)
+        {
+            var productToGet = await _s_Product.SearchProduct(productName);
             return Json(productToGet);
         }
 
@@ -53,7 +59,7 @@ namespace ProductService_5000.Controllers
         {
             try
             {
-                List<Product> productsToGet = await _s_Product.GetProductsByIdCategory(id);
+                var productsToGet = await _s_Product.GetProductsByIdCategory(id,_currentUser);
                 return Json(new { result = 1, data = productsToGet });
             }
             catch (Exception ex)
@@ -66,8 +72,19 @@ namespace ProductService_5000.Controllers
         public async Task<IActionResult> GetById(int idProduct)
         {
             var productToGet = await _s_Product.GetByIdAsync(idProduct);
-            return Json(productToGet);
+
+            // Kiểm tra nếu yêu cầu là AJAX, trả về JSON
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return Json(productToGet);  
+            }
+            else
+            {
+                return View(productToGet); 
+            }
         }
+
+
 
         [Authorize(Roles = "1")]
         [HttpPost]

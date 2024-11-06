@@ -21,8 +21,9 @@ function ActiveTogglePills(tabId) {
 // Fetch products by category ID via AJAX
 function GetProductsByIdCategory(id) {
     $.ajax({
-        url: `/product/Product/GetProductsByCategory/${id}`,
+        url: `/product/Product/GetProductsByCategory`,
         type: 'GET',
+        data: {id:id},
         success: function (response) {
             if (response.result === 1) {
                 RenderProductTable(response.data);

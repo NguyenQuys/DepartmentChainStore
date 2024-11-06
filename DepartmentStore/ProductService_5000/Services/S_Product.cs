@@ -15,11 +15,12 @@ namespace ProductService_5000.Services
     {
         Task<List<Product>> GetAllProducts();
         Task<Product> GetByIdAsync(int? id);
-        Task<List<Product>> GetProductsByIdCategory(int? id);
+        Task<List<Product>> GetProductsByIdCategory(int? id, MRes_InfoUser currentUser);
         Task<Product> GetByName(string productName);
 
         Task<string> AddProductAsync(MReq_Product productsRequest, MRes_InfoUser currentUser);
         Task<string> UploadProductByExcel(IFormFile file, MRes_InfoUser currentUser);
+        Task<List<Product>> SearchProduct(string productName);
 
         Task<string> UpdateProductAsync(MReq_Product product, MRes_InfoUser currentUser);
         Task<string> ChangeStatusProduct(int id, MRes_InfoUser currentUser);
@@ -124,14 +125,13 @@ namespace ProductService_5000.Services
             return productoRemove;
         }
 
-        public async Task<List<Product>> GetProductsByIdCategory(int? id)
+        public async Task<List<Product>> GetProductsByIdCategory(int? id, MRes_InfoUser currentUser)
         {
-            var productCategoryToGet = id != null
-                ? await _context.Products.Where(m => m.CategoryId == id)
-                                                              .OrderByDescending(M => M.UpdatedTime)
-                                                              .ToListAsync()
-                : await _context.Products.OrderByDescending(M => M.UpdatedTime).ToListAsync();
-            return productCategoryToGet;
+            return await _context.Products
+                                 .Where(m => (!id.HasValue || m.CategoryId == id) &&
+                                             (currentUser.IdRole == "1" || !m.IsHide))
+                                 .OrderByDescending(m => m.UpdatedTime)
+                                 .ToListAsync();
         }
 
         public async Task<Product> GetByName(string productName)
@@ -240,6 +240,19 @@ namespace ProductService_5000.Services
                 }
             }
             return $"Nhập dữ liệu {products.Count} dòng từ file Excel thành công";
+        }
+
+
+        public async Task<List<Product>> SearchProduct(string productNameImput)
+        {
+            if(productNameImput == null)
+            {
+                return null;
+            }
+            var productsToGet = await _context.Products.Where(m=>m.ProductName
+                                                       .Contains(productNameImput.ToLower()) && !m.IsHide)
+                                                       .ToListAsync();
+            return productsToGet;
         }
 
         public async Task<MemoryStream> ExportSampleProductFileExcel()
