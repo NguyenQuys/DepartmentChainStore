@@ -28,5 +28,7 @@ namespace ProductService_5000.Models
         public string? MainImage { get; set; }
 
         public ICollection<Batch> Batches { get; set; }
+
+        public ICollection<Cart> Carts { get; set; }
     }
 }

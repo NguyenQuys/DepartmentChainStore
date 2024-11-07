@@ -1,0 +1,24 @@
+﻿@model IEnumerable<BranchService_5003.Models.Branch>
+
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <form asp-action="CurrentBranch" method="post" class="p-4 border rounded shadow bg-light w-100" style="max-width: 1000px;">
+        <h1 class="text-center mb-4">Vui lòng chọn chi nhánh ở gần bạn để chúng tôi có thể phục vụ bạn một cách tốt nhất</h1>
+        <ul class="list-unstyled">
+            @foreach (var item in Model)
+            {
+                <li class="mb-3">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <input type="radio" name="idBranch" value="@item.Id" class="form-check-input" />
+                            <input type="hidden" name="location" value="@item.Location" />
+                        </div>
+                        <div class="col">
+                            <label for="branch_@item.Id" class="h5 mb-0">@Html.DisplayFor(modelItem => item.Location)</label>
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+        <button type="submit" class="btn btn-primary mt-3 w-100">Tiếp tục</button> <!-- Nút submit -->
+    </form>
+</div>

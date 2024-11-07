@@ -33,11 +33,13 @@ namespace ProductService_5000.Services
     public class S_Product : IS_Product
     {
         private readonly ProductDbContext _context;
+        private readonly IHttpClientFactory _httpClientFactory;
         private readonly IMapper _mapper;
 
-        public S_Product(ProductDbContext context, IMapper mapper)
+        public S_Product(ProductDbContext context, IHttpClientFactory httpClientFactory, IMapper mapper)
         {
             _context = context;
+            _httpClientFactory = httpClientFactory;
             _mapper = mapper;
         }
 

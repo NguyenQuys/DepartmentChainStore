@@ -10,6 +10,7 @@ namespace ProductService_5000.Models
         public DbSet<CategoryProduct> CategoryProducts { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<Batch> Batches { get; set; }
+        public DbSet<Cart> Carts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -29,6 +30,11 @@ namespace ProductService_5000.Models
                 .HasOne(p => p.Product)
                 .WithMany(b => b.Batches)
                 .HasForeignKey(b => b.IdProduct);
+
+            modelBuilder.Entity<Cart>()
+                .HasOne(m => m.Product)
+                .WithMany(m => m.Carts)
+                .HasForeignKey(m => m.IdProduct);
         }
     }
 }

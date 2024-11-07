@@ -3,6 +3,7 @@ using APIGateway.Utilities;
 using IdentityServer.Constant;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol.Plugins;
 using OfficeOpenXml;
@@ -26,8 +27,20 @@ namespace ProductService_5000.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> CurrentBranch(int idBranch,string location)
+        {
+            TempData["SelectedBranchId"] = idBranch;
+            TempData.Keep("SelectedBranchId");
+            TempData["BranchLocation"] = location;
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
+            var branchLocation = TempData["BranchLocation"] as string;
+
+            ViewBag.Location = branchLocation;
             return View();
         }
 
@@ -35,6 +48,8 @@ namespace ProductService_5000.Controllers
         public async Task<IActionResult> GetAllProducts()
         {
             var productsToGet = await _s_Product.GetAllProducts();
+            var a = TempData["SelectedBranchId"] as int?;
+
             return Json(productsToGet);
         }
 

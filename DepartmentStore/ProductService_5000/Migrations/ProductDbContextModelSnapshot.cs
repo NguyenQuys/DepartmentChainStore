@@ -62,6 +62,30 @@ namespace ProductService_5000.Migrations
                     b.ToTable("Batches");
                 });
 
+            modelBuilder.Entity("ProductService_5000.Models.Cart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("IdProduct")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdUser")
+                        .HasColumnType("int");
+
+                    b.Property<short>("Quantity")
+                        .HasColumnType("smallint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdProduct");
+
+                    b.ToTable("Carts");
+                });
+
             modelBuilder.Entity("ProductService_5000.Models.CategoryProduct", b =>
                 {
                     b.Property<byte>("Id")
@@ -150,6 +174,17 @@ namespace ProductService_5000.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("ProductService_5000.Models.Cart", b =>
+                {
+                    b.HasOne("ProductService_5000.Models.Product", "Product")
+                        .WithMany("Carts")
+                        .HasForeignKey("IdProduct")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("ProductService_5000.Models.Image", b =>
                 {
                     b.HasOne("ProductService_5000.Models.Product", "Product")
@@ -180,6 +215,8 @@ namespace ProductService_5000.Migrations
             modelBuilder.Entity("ProductService_5000.Models.Product", b =>
                 {
                     b.Navigation("Batches");
+
+                    b.Navigation("Carts");
 
                     b.Navigation("Images");
                 });
