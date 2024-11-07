@@ -1,7 +1,7 @@
 ﻿{
   "Routes": [
     {
-      "DownstreamPathTemplate": "/promotion/{controller}/{action}",
+      "DownstreamPathTemplate": "/Promotion/{action}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -9,11 +9,12 @@
           "Port": 5004
         }
       ],
-      "UpstreamPathTemplate": "/promotion/{controller}/{action}",
+      "UpstreamPathTemplate": "/Promotion/{action}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     },
+    //++++++++++++5000 starts
     {
-      "DownstreamPathTemplate": "/product/{controller}/{action}",
+      "DownstreamPathTemplate": "/Product/{action}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -21,11 +22,25 @@
           "Port": 5000
         }
       ],
-      "UpstreamPathTemplate": "/product/{controller}/{action}",
+      "UpstreamPathTemplate": "/Product/{action}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     },
     {
-      "DownstreamPathTemplate": "/branch/{controller}/{action}",
+      "DownstreamPathTemplate": "/Batch/{action}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ],
+      "UpstreamPathTemplate": "/Batch/{action}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+    },
+    //++++++++++++++5000 ends
+    //++++++++++++5003 starts++++++++++++++++++++
+    {
+      "DownstreamPathTemplate": "/Branch/{action}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -33,11 +48,25 @@
           "Port": 5003
         }
       ],
-      "UpstreamPathTemplate": "/branch/{controller}/{action}",
+      "UpstreamPathTemplate": "/Branch/{action}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     },
     {
-      "DownstreamPathTemplate": "/{controller}/{action}",
+      "DownstreamPathTemplate": "/Product_Branch/{action}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ],
+      "UpstreamPathTemplate": "/Product_Branch/{action}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+    },
+    //++++++++++++5003 ends++++++++++++++++++++
+
+    {
+      "DownstreamPathTemplate": "/User/{action}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -45,7 +74,7 @@
           "Port": 5002
         }
       ],
-      "UpstreamPathTemplate": "/{controller}/{action}",
+      "UpstreamPathTemplate": "/User/{action}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
       "AddHeadersToDownstream": {
         "Authorization": "{Headers.Authorization}"

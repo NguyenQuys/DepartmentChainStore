@@ -8,7 +8,7 @@ using ProductService_5000.Request;
 
 namespace BranchService_5003.Controllers
 {
-    [Route("branch/[controller]/[action]")]
+    [Route("Product_Branch/[action]")]
     public class Product_BranchController : Controller
     {
         private readonly IS_Product_Branch _s_Product_Branch;

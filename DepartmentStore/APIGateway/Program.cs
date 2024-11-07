@@ -61,7 +61,7 @@ app.Use(async (context, next) =>
     {
         // Redirect to /home/index
         //context.Response.Redirect("/User/Login");
-        context.Response.Redirect("/product/Product/Index");
+        context.Response.Redirect("/Product/Index");
         return; // Short-circuit the pipeline
     }
 

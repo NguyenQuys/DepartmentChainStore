@@ -6,7 +6,7 @@ using PromotionService_5004.Services;
 namespace PromotionService_5004.Controllers
 {
     [ApiController]
-    [Route("promotion/[controller]/[action]")]
+    [Route("Promotion/[action]")]
     public class PromotionController : ControllerBase
     {
         private readonly IS_Promotion _s_Promotion;

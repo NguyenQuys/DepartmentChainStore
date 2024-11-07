@@ -97,7 +97,7 @@ namespace ProductService_5000.Services
         {
             //var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
             var fileName = file.FileName;
-            var filePath = Path.Combine("wwwroot/product/images", fileName);
+            var filePath = Path.Combine("wwwroot/images", fileName);
 
             // Lưu file vào thư mục
             using (var stream = new FileStream(filePath, FileMode.Create))
@@ -105,7 +105,7 @@ namespace ProductService_5000.Services
                 await file.CopyToAsync(stream);
             }
 
-            return "/product/images/" + fileName;
+            return "/images/" + fileName;
         }
 
         public async Task<List<Product>> GetAllProducts()

@@ -7,16 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\css\.DS_Store" />
-    <None Include="wwwroot\images\.DS_Store" />
-    <None Include="wwwroot\pages\.DS_Store" />
-    <None Include="wwwroot\pages\charts\.DS_Store" />
-    <None Include="wwwroot\pages\forms\.DS_Store" />
-    <None Include="wwwroot\pages\icons\.DS_Store" />
-    <None Include="wwwroot\pages\samples\.DS_Store" />
-    <None Include="wwwroot\pages\tables\.DS_Store" />
-    <None Include="wwwroot\pages\ui-features\.DS_Store" />
-    <None Include="wwwroot\scss\.DS_Store" />
+    <None Include="wwwroot\user\css\.DS_Store" />
+    <None Include="wwwroot\user\images\.DS_Store" />
+    <None Include="wwwroot\user\pages\.DS_Store" />
+    <None Include="wwwroot\user\pages\charts\.DS_Store" />
+    <None Include="wwwroot\user\pages\forms\.DS_Store" />
+    <None Include="wwwroot\user\pages\icons\.DS_Store" />
+    <None Include="wwwroot\user\pages\samples\.DS_Store" />
+    <None Include="wwwroot\user\pages\tables\.DS_Store" />
+    <None Include="wwwroot\user\pages\ui-features\.DS_Store" />
+    <None Include="wwwroot\user\scss\.DS_Store" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,7 +41,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="wwwroot\controller\Branch.js">
+    <Content Update="wwwroot\user\controller\Branch.js">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

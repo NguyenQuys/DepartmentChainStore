@@ -64,7 +64,7 @@ namespace BranchService_5003.Services
 
             foreach (var item in listToGet)
             {
-                var productResponse = await client.GetAsync($"/product/Product/GetById?idProduct={item.IdProduct}");
+                var productResponse = await client.GetAsync($"/Product/GetByIdJson?idProduct={item.IdProduct}");
                 if (!productResponse.IsSuccessStatusCode)
                 {
                     throw new Exception("Không thể lấy thông tin sản phẩm từ ProductService");
@@ -72,7 +72,7 @@ namespace BranchService_5003.Services
                 var product = await productResponse.Content.ReadFromJsonAsync<Product>();
                 string productName = product?.ProductName ?? "Unknown Product";
 
-                var batchRequest = new HttpRequestMessage(HttpMethod.Get, $"/product/Batch/GetById?id={item.IdBatch}");
+                var batchRequest = new HttpRequestMessage(HttpMethod.Get, $"/Batch/GetById?id={item.IdBatch}");
 
                 var batchResponse = await client.SendAsync(batchRequest);
                 if (!batchResponse.IsSuccessStatusCode)
@@ -129,7 +129,7 @@ namespace BranchService_5003.Services
 
         private async Task<string> GetProductName(HttpClient client, int productId)
         {
-            var productResponse = await client.GetAsync($"/product/Product/GetById?idProduct={productId}");
+            var productResponse = await client.GetAsync($"/Product/GetByIdJson?idProduct={productId}");
             if (!productResponse.IsSuccessStatusCode)
             {
                 throw new Exception("Unable to retrieve product information from ProductService");
@@ -140,7 +140,7 @@ namespace BranchService_5003.Services
 
         private async Task<string> GetBatchNumber(HttpClient client, int batchId)
         {
-            var batchResponse = await client.GetAsync($"/product/Batch/GetById?id={batchId}");
+            var batchResponse = await client.GetAsync($"/Batch/GetById?id={batchId}");
             if (!batchResponse.IsSuccessStatusCode)
             {
                 throw new Exception("Unable to retrieve batch information from BatchService");
@@ -189,7 +189,7 @@ namespace BranchService_5003.Services
                                 continue;
                             }
 
-                            var productResponse = await client.GetAsync($"/product/Product/GetByName?productName={productNameFromExcel}");
+                            var productResponse = await client.GetAsync($"/Product/GetByName?productName={productNameFromExcel}");
                             if (!productResponse.IsSuccessStatusCode)
                             {
                                 errors.Add($"Không thể lấy thông tin sản phẩm '{productNameFromExcel}' tại ô [B{row}].");
@@ -205,7 +205,7 @@ namespace BranchService_5003.Services
                                 continue;
                             }
 
-                            var batchResponse = await client.GetAsync($"/product/Batch/GetByBatchNumber?batchNumber={batchNumberFromExcel}");
+                            var batchResponse = await client.GetAsync($"/Batch/GetByBatchNumber?batchNumber={batchNumberFromExcel}");
                             if (!batchResponse.IsSuccessStatusCode)
                             {
                                 errors.Add($"Không thể lấy thông tin lô hàng cho số lô '{batchNumberFromExcel}' tại ô [C{row}].");
@@ -295,7 +295,7 @@ namespace BranchService_5003.Services
 
             // Get product names for dropdown
             using var client = _httpClientFactory.CreateClient("ProductService");
-            var productsResponse = await client.GetAsync("/product/Product/GetAllProducts");
+            var productsResponse = await client.GetAsync("/Product/GetAllProducts");
             if (!productsResponse.IsSuccessStatusCode)
             {
                 throw new Exception("Unable to retrieve product information from ProductService");
@@ -311,7 +311,7 @@ namespace BranchService_5003.Services
             }
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", currentUser.AccessToken);
-            var batchesResponse = await client.GetAsync("/product/Batch/GetAll");
+            var batchesResponse = await client.GetAsync("/Batch/GetAll");
             if (!batchesResponse.IsSuccessStatusCode)
             {
                 throw new Exception("Unable to retrieve batch information from ProductService");
@@ -412,7 +412,7 @@ namespace BranchService_5003.Services
             using var client = _httpClientFactory.CreateClient("ProductService");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", currentUser.AccessToken);
 
-            var productResponse = await client.GetAsync($"/product/Product/GetByName?productName={productHistoryRequest.ProductName}");
+            var productResponse = await client.GetAsync($"/Product/GetByName?productName={productHistoryRequest.ProductName}");
             if (productResponse == null) 
             {
                 throw new Exception("Sản phẩm không tồn tại. Vui lòng nhập đúng tên sản phẩm");
@@ -420,7 +420,7 @@ namespace BranchService_5003.Services
             var getProduct = await productResponse.Content.ReadFromJsonAsync<Product>();
             var idProduct = getProduct.Id;
 
-            var batchResponse = await client.GetAsync($"/product/Batch/GetByBatchNumber?batchNumber={productHistoryRequest.BatchNumber}");
+            var batchResponse = await client.GetAsync($"/Batch/GetByBatchNumber?batchNumber={productHistoryRequest.BatchNumber}");
             if (productResponse == null)
             {
                 throw new Exception("Số lô hàng không tồn tại. Vui lòng nhập đúng tên sản phẩm");

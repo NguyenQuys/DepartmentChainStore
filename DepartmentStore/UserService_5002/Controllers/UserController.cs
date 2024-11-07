@@ -11,7 +11,7 @@ using UserService_5002.Services;
 namespace UserService_5002.Controllers
 {
 
-    [Route("[controller]/[action]")]
+    [Route("User/[action]")]
     public class UserController : Controller
     {
         private readonly IS_User _s_User;
@@ -23,6 +23,13 @@ namespace UserService_5002.Controllers
             _s_User = s_User;
             _jwtHelper = jwtHelper;
             _currentUser = currentUserHelper.GetCurrentUser();
+        }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult Index()
+        {
+            return View(_currentUser);
         }
 
         [HttpPost]

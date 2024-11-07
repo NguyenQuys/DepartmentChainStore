@@ -15,11 +15,6 @@ namespace UserService_5002.Controllers
             _currentUser = currentUser.GetCurrentUser();
         }
 
-        [HttpGet]
-        [Authorize]
-        public IActionResult Index() 
-        { 
-            return View(_currentUser); 
-        }
+        
     }
 }

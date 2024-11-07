@@ -12,7 +12,7 @@ $('#category_select_customer').on('change', function () {
 // Function to get products based on category
 function GetListProduct(idCategory = null) {
     $.ajax({
-        url: '/product/Product/GetProductsByCategory',
+        url: '/Product/GetProductsByCategory',
         type: 'GET',
         data: { id: idCategory },
         success: function (response) {
@@ -22,7 +22,7 @@ function GetListProduct(idCategory = null) {
                     data += `
                         <div class="col-md-6 col-lg-3 ftco-animate fadeInUp ftco-animated">
                             <div class="product">
-                                <a href="/product/Product/GetById?idProduct=${product.id}" class="img-prod">
+                                <a href="/Product/GetByIdView?idProduct=${product.id}" class="img-prod">
                                     <img class="img-fluid" src="${product.mainImage}" alt="Product Image">
                                     <span class="status">30%</span>
                                     <div class="overlay"></div>
@@ -69,7 +69,7 @@ $(document).ready(function () {
 
         if (keyword) {
             $.ajax({
-                url: '/product/Product/SearchProduct', // Correct URL path
+                url: '/Product/SearchProduct', // Correct URL path
                 type: 'POST',
                 data: { productName: keyword },
                 success: function (response) {

@@ -9,7 +9,7 @@ using NetTopologySuite.Index.Strtree;
 
 namespace BranchService_5003.Controllers
 {
-    [Route("branch/[controller]/[action]")]
+    [Route("Branch/[action]")]
     public class BranchController : Controller
     {
         private readonly IS_Branch _s_Branch;

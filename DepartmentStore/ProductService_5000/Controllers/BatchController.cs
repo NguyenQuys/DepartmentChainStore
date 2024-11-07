@@ -8,7 +8,7 @@ using ProductService_5000.Services;
 
 namespace ProductService_5000.Controllers
 {
-    [Route("product/[controller]/[action]")]
+    [Route("Batch/[action]")]
     public class BatchController : Controller
     {
         private readonly IS_Batch _s_Batch;

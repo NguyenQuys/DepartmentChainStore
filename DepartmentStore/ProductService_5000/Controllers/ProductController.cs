@@ -14,7 +14,7 @@ using System.Diagnostics;
 
 namespace ProductService_5000.Controllers
 {
-    [Route("product/[controller]/[action]")]
+    [Route("Product/[action]")]
     public class ProductController : Controller
     {
         private readonly IS_Product _s_Product;
@@ -84,10 +84,17 @@ namespace ProductService_5000.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetById(int idProduct)
+        public async Task<IActionResult> GetByIdView(int idProduct)
         {
             var productToGet = await _s_Product.GetByIdAsync(idProduct);
-            return Request.IsAjaxRequest() ? Json(productToGet) : View(productToGet);
+            return View(productToGet);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetByIdJson(int idProduct)
+        {
+            var productToGet = await _s_Product.GetByIdAsync(idProduct);
+            return Json(productToGet);
         }
 
         [Authorize(Roles = "1")]
