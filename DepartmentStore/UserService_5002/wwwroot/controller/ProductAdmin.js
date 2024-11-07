@@ -39,7 +39,7 @@ function GetProductsByIdCategory(id) {
 
 // Render the product table
 function RenderProductTable(products) {
-    $('#div_table_branch, #div_table_batch, #div_table_customer, #div_table_export').hide();
+    $('#div_table_branch, #div_table_batch, #div_table_customer, #div_table_export,#div_table_promotion').hide();
     $('#div_table_product').show();
     let tableBody = '';
 

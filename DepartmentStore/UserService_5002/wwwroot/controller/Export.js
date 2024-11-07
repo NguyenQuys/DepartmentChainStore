@@ -1,5 +1,5 @@
 ﻿function ShowContentExport() {
-    $('#div_table_product, #div_table_branch, #div_table_batch').hide();
+    $('#div_table_product, #div_table_branch, #div_table_batch,#div_table_promotion').hide();
     $('#div_table_export').show().html(`
         <div class='container-fluid'>
             <div class="row my-4">
@@ -22,7 +22,6 @@
                     <div class="col-lg-5 mx-2">
                         <label for="product_select_export" class="form-label fw-bold">Sản phẩm</label>
                         <select id="product_select_export" class="form-select">
-                            <!-- Options loaded here dynamically -->
                         </select>
                     </div>
                     <div class="col-lg-5 mx-2">

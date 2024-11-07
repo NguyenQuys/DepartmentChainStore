@@ -4,7 +4,7 @@ let idUser_global;
 
 // Render Branch Table
 function RenderBranchTable() {
-    $('#div_table_product, #div_table_batch, #div_table_customer, #div_table_export').hide();
+    $('#div_table_product, #div_table_batch, #div_table_customer, #div_table_export,#div_table_promotion').hide();
     $('#div_table_branch').show();
     let tableBody = '';
 
@@ -57,8 +57,6 @@ function RenderBranchTable() {
         }
     });
 }
-
-
 
 // Open Modal branch
 function OpenModalBranch(type, branchId = null) {

@@ -24,7 +24,7 @@ function GetAllProducts(selectedProductId = null) {
 }
 
 function ShowContentBatch() {
-    $('#div_table_product, #div_table_branch, #div_table_export').hide();
+    $('#div_table_product, #div_table_branch, #div_table_export, #div_table_promotion').hide();
     $('#div_table_batch').show().html(`
         <div class="row m-3">
             <div class="col-lg-7">

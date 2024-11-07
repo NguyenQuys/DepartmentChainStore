@@ -1,7 +1,5 @@
 ﻿function RenderCustomerTable() {
-    $('#div_table_product').hide();
-    $('#div_table_batch').hide();
-    $('#div_table_branch').hide();
+    $('#div_table_product,#div_table_batch,#div_table_branch,#div_table_promotion').hide();
     $('#div_table_customer').show();
 
     let tableBody = '';
