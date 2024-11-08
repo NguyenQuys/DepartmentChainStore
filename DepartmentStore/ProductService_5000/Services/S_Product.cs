@@ -6,6 +6,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using ProductService_5000.Models;
 using ProductService_5000.Request;
+using ProductService_5000.Response;
 using System.Drawing;
 using Image = ProductService_5000.Models.Image;
 
@@ -15,6 +16,7 @@ namespace ProductService_5000.Services
     {
         Task<List<Product>> GetAllProducts();
         Task<Product> GetByIdAsync(int? id);
+        Task<MRes_Product> GetByIdView(int idProduct, int idBranch);
         Task<List<Product>> GetProductsByIdCategory(int? id, MRes_InfoUser currentUser);
         Task<Product> GetByName(string productName);
 
@@ -297,6 +299,14 @@ namespace ProductService_5000.Services
 
                 return stream;
             }
+        }
+
+        public async Task<MRes_Product> GetByIdView(int idProduct, int idBranch)
+        {
+            var pbChosen = await _context.pro
+            var productToDisplay = await _context.Products.FindAsync(idProduct);
+            var result = _mapper.Map<MRes_Product>(productToDisplay);
+            return result;
         }
     }
 }

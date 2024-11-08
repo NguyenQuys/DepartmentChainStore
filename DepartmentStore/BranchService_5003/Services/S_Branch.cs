@@ -32,7 +32,7 @@ namespace BranchService_5003.Services
         {
             List<Branch> branchesToDisplay = new List<Branch>();
 
-            if (currentUser.IdRole == "1" || currentUser.IdRole == null)
+            if (currentUser.IdRole == "4" || currentUser.IdRole == null)
             {
                 branchesToDisplay = await _context.Branches.ToListAsync();
             }

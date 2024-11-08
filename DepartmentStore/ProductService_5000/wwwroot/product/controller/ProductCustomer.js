@@ -6,15 +6,17 @@
 // Listen for changes in the category select element using jQuery
 $('#category_select_customer').on('change', function () {
     const selectedId = this.value; // 'this' refers to the select element
+    //GetListProduct(selectedId); // Pass the selected ID to the function
     GetListProduct(selectedId); // Pass the selected ID to the function
+
 });
 
-// Function to get products based on category
-function GetListProduct(idCategory = null) {
+
+function GetListProduct(idProductCategory = null) {
     $.ajax({
-        url: '/Product/GetProductsByCategory',
+        url: '/Product_Branch/GetListByIdBranch',
         type: 'GET',
-        data: { id: idCategory },
+        data: { idBranch: ID_BRANCH, idProductCategory: idProductCategory },
         success: function (response) {
             if (response.result === 1) {
                 let data = '';
@@ -31,7 +33,7 @@ function GetListProduct(idCategory = null) {
                                     <h3>${product.productName}</h3>
                                     <div class="d-flex">
                                         <div class="pricing">
-                                            <p class="price"><span class="mr-2">${product.price} VND</span></p>
+                                            <p class="price"><span class="mr-2">${product.price.toLocaleString('vi-VN') } VND</span></p>
                                         </div>
                                     </div>
                                     <div class="bottom-area d-flex px-3">
@@ -62,6 +64,7 @@ function GetListProduct(idCategory = null) {
         }
     });
 }
+
 
 $(document).ready(function () {
     $('#search_product_keyword').on('keyup', function () {

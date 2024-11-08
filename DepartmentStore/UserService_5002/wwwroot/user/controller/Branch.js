@@ -205,7 +205,7 @@ function RenderTableProductBranch() {
     $.ajax({
         url: '/Product_Branch/GetListByIdBranch',
         type: 'GET',
-        data: { id: idBranch_global },
+        data: { idBranch: idBranch_global },
         success: function (response) {
             if (response.result === 1) {
                 if (response.data.length === 0) {

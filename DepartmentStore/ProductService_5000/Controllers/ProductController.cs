@@ -19,6 +19,8 @@ namespace ProductService_5000.Controllers
     {
         private readonly IS_Product _s_Product;
         private readonly MRes_InfoUser _currentUser;
+        public static string _locationBranch;
+        public static int _idBranch;
 
         public ProductController(IS_Product product, CurrentUserHelper currentUserHelper)
         {
@@ -26,21 +28,28 @@ namespace ProductService_5000.Controllers
             _currentUser = currentUserHelper.GetCurrentUser();
         }
 
-        [HttpGet]
-        public async Task<IActionResult> CurrentBranch(int idBranch,string location)
-        {
-            TempData["SelectedBranchId"] = idBranch;
-            TempData.Keep("SelectedBranchId");
-            TempData["BranchLocation"] = location;
-            return RedirectToAction("Index");
-        }
+        //[HttpGet]
+        //public async Task<IActionResult> CurrentBranch(int idBranch,string location)
+        //{
+        //    _idBranch = idBranch;
+        //    _locationBranch = location;
+        //    return RedirectToAction("Index");
+        //}
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int idBranch, string location)
         {
-            var branchLocation = TempData["BranchLocation"] as string;
+            _idBranch = idBranch;
+            _locationBranch = location;
+            if (_idBranch == 0)
+            {
+                return Redirect("https://localhost:7076/Branch/ChooseBranchIndex");
+            }
+
+            var branchLocation = _locationBranch;
 
             ViewBag.Location = branchLocation;
+            ViewBag.IdBranch = _idBranch;
             return View();
         }
 
@@ -48,8 +57,6 @@ namespace ProductService_5000.Controllers
         public async Task<IActionResult> GetAllProducts()
         {
             var productsToGet = await _s_Product.GetAllProducts();
-            var a = TempData["SelectedBranchId"] as int?;
-
             return Json(productsToGet);
         }
 
@@ -86,7 +93,7 @@ namespace ProductService_5000.Controllers
         [HttpGet]
         public async Task<IActionResult> GetByIdView(int idProduct)
         {
-            var productToGet = await _s_Product.GetByIdAsync(idProduct);
+            var productToGet = await _s_Product.GetByIdView(idProduct, _idBranch);
             return View(productToGet);
         }
 

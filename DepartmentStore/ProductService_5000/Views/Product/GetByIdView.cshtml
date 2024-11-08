@@ -1,4 +1,4 @@
-﻿@model Product
+﻿@model ProductService_5000.Response.MRes_Product
 @{
     ViewData["Title"] = "Danh sách sản phẩm";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -31,6 +31,7 @@
                 <p>
                     A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth. Text should turn around and return to its own, safe country. But nothing the copy said could convince her and so it didn’t take long until.
                 </p>
+                <h3>Số lượng còn lại: @Model.Quantity</h3>
                 <div class="row mt-4">
                     <div class="w-100"></div>
                     <div class="input-group col-md-6 d-flex mb-3">

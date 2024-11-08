@@ -9,8 +9,8 @@
                 <li class="mb-3">
                     <div class="row align-items-center">
                         <div class="col-auto">
-                            <input type="radio" name="idBranch" value="@item.Id" class="form-check-input" />
-                            <input type="hidden" name="location" value="@item.Location" />
+                            <input type="radio" name="idBranch" value="@item.Id" class="form-check-input" 
+                                   onchange="updateLocation('@item.Location')" />
                         </div>
                         <div class="col">
                             <label for="branch_@item.Id" class="h5 mb-0">@Html.DisplayFor(modelItem => item.Location)</label>
@@ -19,6 +19,15 @@
                 </li>
             }
         </ul>
+        <input type="hidden" id="locationInput" name="location" />
         <button type="submit" class="btn btn-primary mt-3 w-100">Tiếp tục</button> <!-- Nút submit -->
     </form>
 </div>
+
+<script>
+    function updateLocation(location) {
+        // Cập nhật giá trị location khi radio button được chọn
+        document.getElementById('locationInput').value = location;
+    }
+</script>
+

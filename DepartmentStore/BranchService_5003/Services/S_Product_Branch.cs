@@ -21,7 +21,7 @@ namespace BranchService_5003.Services
 {
     public interface IS_Product_Branch
     {
-        Task<List<MRes_Product_Branch>> GetListByIdBranch(int idBranch, MRes_InfoUser currentUser);
+        Task<List<MRes_Product_Branch>> GetListByIdBranch(int idBranch,int? idProductCategory, MRes_InfoUser currentUser);
         Task<List<MRes_ImportProductHistory>> ViewHistoryExportByIdBranch(int? idBranch, MRes_InfoUser currentUser);
         Task<List<MRes_ImportProductHistory>> GetListByFilter(MReq_Filter filter, MRes_InfoUser currentUser);
         Task<MRes_ImportProductHistory> GetById(int id,MRes_InfoUser currentUser);
@@ -45,52 +45,79 @@ namespace BranchService_5003.Services
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<List<MRes_Product_Branch>> GetListByIdBranch(int idBranch, MRes_InfoUser currentUser)
+        public async Task<List<MRes_Product_Branch>> GetListByIdBranch(int idBranch,int? idProductCategory, MRes_InfoUser currentUser)
         {
-            if (currentUser.IdRole == "4")
+            List<Product_Branch> pbList;
+            // Retrieve product branches based on role or access token status
+            if (currentUser.IdRole == "4" || currentUser.AccessToken == null)
             {
-                throw new Exception("Bạn không có quyền xem hàng tại chi nhánh này");
+                pbList = await _context.Product_Branches
+                                       .Where(m => m.IdBranch == idBranch 
+                                        && m.Quantity > 0)
+                                       .ToListAsync();
             }
             else if (currentUser.IdRole == "2" && idBranch != int.Parse(currentUser.IdBranch))
             {
                 throw new Exception("Bạn không có quyền xem hàng tại chi nhánh này");
             }
+            else
+            {
+                pbList = await _context.Product_Branches
+                                       .Where(m => m.IdBranch == idBranch)
+                                       .ToListAsync();
+            }
 
-            var listToGet = await _context.Product_Branches.Where(m => m.IdBranch == idBranch).ToListAsync();
             var result = new List<MRes_Product_Branch>();
 
             using var client = _httpClientFactory.CreateClient("ProductService");
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", currentUser.AccessToken);
-
-            foreach (var item in listToGet)
+            if (currentUser.AccessToken != null && currentUser.IdRole != "4")
             {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", currentUser.AccessToken);
+            }
+
+            foreach (var item in pbList)
+            {
+                // Retrieve product information
                 var productResponse = await client.GetAsync($"/Product/GetByIdJson?idProduct={item.IdProduct}");
                 if (!productResponse.IsSuccessStatusCode)
                 {
                     throw new Exception("Không thể lấy thông tin sản phẩm từ ProductService");
                 }
-                var product = await productResponse.Content.ReadFromJsonAsync<Product>();
-                string productName = product?.ProductName ?? "Unknown Product";
+                var product = await productResponse.Content.ReadFromJsonAsync<Product>();           
 
-                var batchRequest = new HttpRequestMessage(HttpMethod.Get, $"/Batch/GetById?id={item.IdBatch}");
+                string batchNumber = null; // Default batch number for restricted users
 
-                var batchResponse = await client.SendAsync(batchRequest);
-                if (!batchResponse.IsSuccessStatusCode)
+                // Retrieve batch information if access is allowed
+                if (currentUser.IdRole != "4" && currentUser.AccessToken != null)
                 {
-                    throw new Exception("Không thể lấy thông tin batch từ BatchService");
+                    var batchResponse = await client.GetAsync($"/Batch/GetById?id={item.IdBatch}");
+                    if (batchResponse.IsSuccessStatusCode)
+                    {
+                        var batch = await batchResponse.Content.ReadFromJsonAsync<Batch>();
+                        batchNumber = batch?.BatchNumber ?? "Unknown Batch";
+                    }
                 }
-                var batch = await batchResponse.Content.ReadFromJsonAsync<Batch>();
-                string batchNumber = batch?.BatchNumber ?? "Unknown Batch";
 
+                // Add product and batch details to result
                 result.Add(new MRes_Product_Branch
                 {
-                    ProductName = productName,
+                    Id = product.Id,
+                    ProductName = product.ProductName,
+                    IdProductCategory = product.CategoryId,
+                    Price = product.Price,
+                    IsHide = product.IsHide,
+                    MainImage = product.MainImage,
                     BatchNumber = batchNumber,
                     Quantity = item.Quantity
                 });
             }
 
-            return result;
+            if(!idProductCategory.HasValue)
+            {
+                return result.Where(m=>!m.IsHide).ToList();
+            }
+
+            return result.Where(m => m.IdProductCategory == idProductCategory && !m.IsHide).ToList();
         }
 
         public async Task<List<MRes_ImportProductHistory>> ViewHistoryExportByIdBranch(int? idBranch, MRes_InfoUser currentUser)

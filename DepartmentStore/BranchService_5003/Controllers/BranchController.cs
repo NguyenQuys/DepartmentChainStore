@@ -24,6 +24,7 @@ namespace BranchService_5003.Controllers
         [HttpGet]
         public async Task<IActionResult> ChooseBranchIndex()
         {
+            
             var choosenBranch = await _s_Branch.GetAllBranches(_currentUser);
             return View(choosenBranch); 
         }
@@ -31,8 +32,7 @@ namespace BranchService_5003.Controllers
         [HttpPost]
         public async Task<IActionResult> CurrentBranch(int idBranch,string location)
         {
-            // Redirect to another action within the same or another controller
-            return RedirectToAction("CurrentBranch", "Product", new { idBranch = idBranch, location = location });
+            return RedirectToAction("Index", "Product", new { idBranch = idBranch, location = location });
         }
 
 

@@ -21,11 +21,11 @@ namespace BranchService_5003.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetListByIdBranch(int id)
+        public async Task<IActionResult> GetListByIdBranch(int idBranch, int? idProductCategory)
         {
             try
             {
-                var listToGet = await _s_Product_Branch.GetListByIdBranch(id, _currentUser);
+                var listToGet = await _s_Product_Branch.GetListByIdBranch(idBranch, idProductCategory, _currentUser);
                 return Json(new { result = 1, data = listToGet });
             }
             catch (Exception ex)

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PromotionService_5004.Models;
 using PromotionService_5004.Services;
+using System.Net.Http.Headers;
 
 namespace PromotionService_5004.Controllers
 {

@@ -49,9 +49,25 @@ namespace UserService_5002.Controllers
         [HttpGet]
         public async Task<IActionResult> Login()
         {
-            if(_currentUser.IdRole != null)
+            //if(_currentUser.IdRole != null)
+            //{
+            //    if(_currentUser.IdRole == "1" || )
+            //    {
+            //        return RedirectToAction("Index", "User");
+            //    }
+            //    return RedirectToAction("Index", "Home");
+            //}
+            //return View();
+            if (_currentUser.AccessToken != null)
             {
-                return RedirectToAction("Index", "Home");
+                if(_currentUser.IdUser == "1" || _currentUser.IdUser == "2" || _currentUser.IdBranch != null)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return RedirectToAction("ChooseBranchIndex","Branch");
+                }
             }
             return View();
         }
@@ -63,7 +79,11 @@ namespace UserService_5002.Controllers
             {
                 var login = await _s_User.Login(loginRequest);
                 GenerateTokenAndRespond(login);
-                return RedirectToAction("Index", "Home");
+                if(login.IdRole == "1" || login.IdRole == "2")
+                {
+                    return RedirectToAction("Index", "User");
+                }
+                return RedirectToAction("Index", "Product");
             }
             catch (Exception ex)
             {
