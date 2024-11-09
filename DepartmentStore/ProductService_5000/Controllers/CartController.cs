@@ -23,7 +23,7 @@ namespace ProductService_5000.Controllers
         public async Task<IActionResult> GetAll()
         {
             var getAll = await _s_Cart.GetAll(_idBranch,_currentUser);
-            return View(); // add view later
+            return View(getAll); // add view later
         }
 
         [HttpPost]

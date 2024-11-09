@@ -172,3 +172,4 @@ function AddToCart(idProduct) {
         }
     });
 }
+

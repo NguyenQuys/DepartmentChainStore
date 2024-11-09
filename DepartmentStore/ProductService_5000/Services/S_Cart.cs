@@ -3,6 +3,7 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ProductService_5000.Models;
 using ProductService_5000.Response;
+using System.Net.Http;
 
 namespace ProductService_5000.Services
 {
@@ -17,12 +18,14 @@ namespace ProductService_5000.Services
     {
         private readonly ProductDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IHttpClientFactory _httpClientFactory;
         private static List<Cart> _cart = new List<Cart>();
 
-        public S_Cart(ProductDbContext context, IMapper mapper)
+        public S_Cart(ProductDbContext context, IMapper mapper, IHttpClientFactory httpClientFactory)
         {
             _context = context;
             _mapper = mapper;
+            _httpClientFactory = httpClientFactory;
         }
 
         public async Task<string> Add(MRes_Cart request,MRes_InfoUser currentUser)
@@ -61,10 +64,40 @@ namespace ProductService_5000.Services
             return "Thêm vào giỏ hàng thành công";
         }
 
-        public async Task<List<MRes_Product>> GetAll(int idBranch, MRes_InfoUser currentUser)
-        {
-            var getAll = await _context.Carts.Where(m=>m.IdUser ==int.Parse(currentUser.IdUser)).ToListAsync();
-            return getAll;
-        }
-    }
+		public async Task<List<MRes_Product>> GetAll(int idBranch, MRes_InfoUser currentUser)
+		{
+			List<Cart> cartEntities;
+			if (currentUser?.AccessToken != null)
+			{
+				cartEntities = await _context.Carts
+											 .Where(m => m.IdUser == int.Parse(currentUser.IdUser) && m.IdBranch == idBranch)
+											 .ToListAsync();
+			}
+			else
+			{
+				cartEntities = _cart; 
+			}
+
+			var productIds = cartEntities.Select(m => m.IdProduct).Distinct().ToList();
+
+			var products = await _context.Products
+										 .Where(m => productIds.Contains(m.Id))
+										 .ToDictionaryAsync(m => m.Id);
+
+			var cartDTOs = cartEntities
+				.Where(cartEntity => products.ContainsKey(cartEntity.IdProduct))
+				.Select(cartEntity => new MRes_Product
+				{
+					Id = products[cartEntity.IdProduct].Id,
+					ProductName = products[cartEntity.IdProduct].ProductName,
+					Price = products[cartEntity.IdProduct].Price,
+					Quantity = cartEntity.Quantity,
+					IdBranch = idBranch,
+					MainImage = products[cartEntity.IdProduct].MainImage
+				})
+				.ToList();
+
+			return cartDTOs;
+		}
+	}
 }
