@@ -16,7 +16,7 @@
                     </div>
                     <div class="col-md-3 pr-4 d-flex topper align-items-center text-lg-right">
                         <a type="button" href="/Branch/ChooseBranchIndex">
-                            <span class="text">Chi nhánh: @ViewBag.Location</span>
+                            <span class="text">Chi nhánh: @TempData["Location"]</span>
                         </a>
                     </div>
                 </div>
@@ -41,14 +41,14 @@
                         <a class="dropdown-item" href="shop.html">Shop</a>
                         <a class="dropdown-item" href="wishlist.html">Wishlist</a>
                         <a class="dropdown-item" href="product-single.html">Single Product</a>
-                        <a class="dropdown-item" href="cart.html">Cart</a>
+                        <a class="dropdown-item" href="/Cart/GetAll">Cart</a>
                         <a class="dropdown-item" href="checkout.html">Checkout</a>
                     </div>
                 </li>
                 <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
                 <li class="nav-item"><a href="https://localhost:5002/User/Login" class="nav-link">Blog</a></li>
                 <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
-                <li class="nav-item cta cta-colored"><a href="cart.html" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+                <li class="nav-item cta cta-colored"><a href="/Cart/GetAll" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
                 @if (User.Identity.IsAuthenticated)
                 {
                     <li class="nav-item dropdown">
@@ -58,7 +58,7 @@
                         <div class="dropdown-menu" aria-labelledby="dropdown04">
                             <a class="dropdown-item" href="wishlist.html">Thông tin</a>
                             <a class="dropdown-item" href="product-single.html">Single Product</a>
-                            <a class="dropdown-item" href="cart.html">Cart</a>
+                            <a class="dropdown-item" href="/Cart/GetAll">Cart</a>
                             <form action="/User/Logout" method="post">
                                 <button type="submit" class="dropdown-item" id="btn_logout" href="#"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Đăng Xuất</button>
                             </form>

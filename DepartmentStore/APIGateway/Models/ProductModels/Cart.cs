@@ -8,6 +8,8 @@
 
         public Product Product { get; set; }
 
+        public int IdBranch { get; set; }
+
         public int IdUser { get; set; }
 
         public short Quantity { get; set; }

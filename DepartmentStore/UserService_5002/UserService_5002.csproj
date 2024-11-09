@@ -37,7 +37,6 @@
     <ProjectReference Include="..\APIGateway\APIGateway.csproj" />
     <ProjectReference Include="..\BranchService_5003\BranchService_5003.csproj" />
     <ProjectReference Include="..\IdentityServer\IdentityServer.csproj" />
-    <ProjectReference Include="..\ProductService_5000\ProductService_5000.csproj" />
   </ItemGroup>
 
   <ItemGroup>

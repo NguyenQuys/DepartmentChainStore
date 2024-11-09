@@ -1,7 +1,7 @@
 ﻿using APIGateway.Response;
 using APIGateway.Utilities;
 using Microsoft.AspNetCore.Mvc;
-using ProductService_5000.Request;
+using ProductService_5000.Response;
 using ProductService_5000.Services;
 
 namespace ProductService_5000.Controllers
@@ -11,6 +11,7 @@ namespace ProductService_5000.Controllers
     {
         private readonly IS_Cart _s_Cart;
         private readonly MRes_InfoUser _currentUser;
+        int _idBranch = ProductService_5000.Controllers.ProductController._idBranch;
 
         public CartController(IS_Cart cart, CurrentUserHelper currentUser)
         {
@@ -18,12 +19,14 @@ namespace ProductService_5000.Controllers
             _currentUser = currentUser.GetCurrentUser();
         }
 
+        [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var getAll = await _s_Cart.GetAll(_currentUser);
+            var getAll = await _s_Cart.GetAll(_idBranch,_currentUser);
             return View(); // add view later
         }
 
+        [HttpPost]
         public async Task<IActionResult> Add(MRes_Cart request)
         {
             var add = await _s_Cart.Add(request,_currentUser);

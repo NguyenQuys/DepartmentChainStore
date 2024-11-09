@@ -13,6 +13,19 @@
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     },
     //++++++++++++5000 starts
+
+    {
+      "DownstreamPathTemplate": "/Cart/{action}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ],
+      "UpstreamPathTemplate": "/Cart/{action}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+    },
     {
       "DownstreamPathTemplate": "/Product/{action}",
       "DownstreamScheme": "https",

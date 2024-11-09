@@ -48,8 +48,8 @@ namespace ProductService_5000.Controllers
 
             var branchLocation = _locationBranch;
 
-            ViewBag.Location = branchLocation;
-            ViewBag.IdBranch = _idBranch;
+            TempData["Location"] = _locationBranch;
+            TempData["IdBranch"] = _idBranch;
             return View();
         }
 
@@ -93,6 +93,8 @@ namespace ProductService_5000.Controllers
         [HttpGet]
         public async Task<IActionResult> GetByIdView(int idProduct)
         {
+            TempData["Location"] = _locationBranch;
+            TempData["IdBranch"] = _idBranch;
             var productToGet = await _s_Product.GetByIdView(idProduct, _idBranch);
             return View(productToGet);
         }

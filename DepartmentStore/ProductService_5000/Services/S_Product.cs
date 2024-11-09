@@ -35,14 +35,14 @@ namespace ProductService_5000.Services
     public class S_Product : IS_Product
     {
         private readonly ProductDbContext _context;
-        private readonly IHttpClientFactory _httpClientFactory;
         private readonly IMapper _mapper;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public S_Product(ProductDbContext context, IHttpClientFactory httpClientFactory, IMapper mapper)
+        public S_Product(ProductDbContext context, IMapper mapper, IHttpClientFactory httpClientFactory)
         {
             _context = context;
-            _httpClientFactory = httpClientFactory;
             _mapper = mapper;
+            _httpClientFactory = httpClientFactory;
         }
 
         public async Task<string> AddProductAsync(MReq_Product productRequest, MRes_InfoUser currentUser)
@@ -303,9 +303,18 @@ namespace ProductService_5000.Services
 
         public async Task<MRes_Product> GetByIdView(int idProduct, int idBranch)
         {
-            var pbChosen = await _context.pro
+            using var client = _httpClientFactory.CreateClient("ProductService");
+
+            var pbResponse = await client.GetAsync($"/Product_Branch/GetByIdProductAndIdBranch?idProduct={idProduct}&idBranch={idBranch}");
+            if (!pbResponse.IsSuccessStatusCode)
+            {
+                throw new Exception("Không thể lấy thông tin sản phẩm từ ProductService");
+            }
+            var pbQuantity = await pbResponse.Content.ReadFromJsonAsync<int>();
+
             var productToDisplay = await _context.Products.FindAsync(idProduct);
             var result = _mapper.Map<MRes_Product>(productToDisplay);
+            result.Quantity = pbQuantity;
             return result;
         }
     }

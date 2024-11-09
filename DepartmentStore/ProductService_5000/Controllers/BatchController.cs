@@ -44,7 +44,7 @@ namespace ProductService_5000.Controllers
 
         [HttpPost]
         [Authorize(Roles = "1")]
-        public async Task<IActionResult> GetListByFilter(MReq_Filter filter)
+        public async Task<IActionResult> GetListByFilter(MReq_BatchFilter filter)
         {
             var listBatchToGet = await _s_Batch.GetListByFilter(filter);
             return Json(listBatchToGet);

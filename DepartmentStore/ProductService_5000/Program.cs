@@ -70,6 +70,7 @@ builder.Services.AddHttpContextAccessor();
 // Register the product service
 builder.Services.AddScoped<IS_Product, S_Product>();
 builder.Services.AddScoped<IS_Batch, S_Batch>();
+builder.Services.AddScoped<IS_Cart, S_Cart>();
 builder.Services.AddScoped<CurrentUserHelper>();
 
 // Add Controllers

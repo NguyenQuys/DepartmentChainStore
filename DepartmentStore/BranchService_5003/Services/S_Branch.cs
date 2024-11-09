@@ -31,12 +31,12 @@ namespace BranchService_5003.Services
         public async Task<List<Branch>> GetAllBranches(MRes_InfoUser currentUser)
         {
             List<Branch> branchesToDisplay = new List<Branch>();
-
-            if (currentUser.IdRole == "4" || currentUser.IdRole == null)
+            // WHen user is admin
+            if (currentUser.IdRole == "4"|| currentUser.IdRole == "1" || currentUser.IdRole == null)
             {
                 branchesToDisplay = await _context.Branches.ToListAsync();
             }
-            else
+            else // because manager manager 1 branch, cashier 1 branch 
             {
                 branchesToDisplay = await _context.Branches
                     .Where(m => m.Id == int.Parse(currentUser.IdBranch))

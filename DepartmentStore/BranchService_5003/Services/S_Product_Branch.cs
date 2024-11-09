@@ -6,7 +6,6 @@ using EFCore.BulkExtensions;
 using IdentityServer.Constant;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
-using NetTopologySuite.Index.HPRtree;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using ProductService_5000.Models;
@@ -23,8 +22,9 @@ namespace BranchService_5003.Services
     {
         Task<List<MRes_Product_Branch>> GetListByIdBranch(int idBranch,int? idProductCategory, MRes_InfoUser currentUser);
         Task<List<MRes_ImportProductHistory>> ViewHistoryExportByIdBranch(int? idBranch, MRes_InfoUser currentUser);
-        Task<List<MRes_ImportProductHistory>> GetListByFilter(MReq_Filter filter, MRes_InfoUser currentUser);
+        Task<List<MRes_ImportProductHistory>> GetListByFilter(MReq_BatchFilter filter, MRes_InfoUser currentUser);
         Task<MRes_ImportProductHistory> GetById(int id,MRes_InfoUser currentUser);
+        Task<int> GetByIdProductAndIdBranch(int idProduct, int idBranch);
 
         Task<string> UploadExportProductByExcel(IFormFile file,MRes_InfoUser currentUser);
 
@@ -48,13 +48,14 @@ namespace BranchService_5003.Services
         public async Task<List<MRes_Product_Branch>> GetListByIdBranch(int idBranch,int? idProductCategory, MRes_InfoUser currentUser)
         {
             List<Product_Branch> pbList;
-            // Retrieve product branches based on role or access token status
             if (currentUser.IdRole == "4" || currentUser.AccessToken == null)
             {
-                pbList = await _context.Product_Branches
+                pbList = _context.Product_Branches
                                        .Where(m => m.IdBranch == idBranch 
                                         && m.Quantity > 0)
-                                       .ToListAsync();
+                                       .AsEnumerable()
+                                       .DistinctBy(m=>m.IdProduct)
+                                       .ToList();
             }
             else if (currentUser.IdRole == "2" && idBranch != int.Parse(currentUser.IdBranch))
             {
@@ -362,7 +363,7 @@ namespace BranchService_5003.Services
             return stream;
         }
 
-        public async Task<List<MRes_ImportProductHistory>> GetListByFilter(MReq_Filter filter, MRes_InfoUser currentUser)
+        public async Task<List<MRes_ImportProductHistory>> GetListByFilter(MReq_BatchFilter filter, MRes_InfoUser currentUser)
         {
             var result = new List<MRes_ImportProductHistory>();
             var query = _context.ImportProductHistories.Include(m => m.Branch).AsQueryable();
@@ -474,6 +475,15 @@ namespace BranchService_5003.Services
             _context.Remove(batchToDelete);
             await _context.SaveChangesAsync();
             return "Xóa thành công";
+        }
+
+        public async Task<int> GetByIdProductAndIdBranch(int idProduct, int idBranch)
+        {
+            var pbToGet = await _context.Product_Branches.Where(m => m.IdBranch == idBranch
+                                                                && m.IdProduct == idProduct)
+                                                          .ToListAsync();
+            var sumQuantity = pbToGet.Sum(m => m.Quantity);
+            return sumQuantity;
         }
     }
 }

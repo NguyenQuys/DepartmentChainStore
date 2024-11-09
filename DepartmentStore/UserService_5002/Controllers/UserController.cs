@@ -83,7 +83,7 @@ namespace UserService_5002.Controllers
                 {
                     return RedirectToAction("Index", "User");
                 }
-                return RedirectToAction("Index", "Product");
+                return RedirectToAction("ChooseBranchIndex", "Branch");
             }
             catch (Exception ex)
             {

@@ -35,7 +35,7 @@ namespace BranchService_5003.Controllers
         }
 
         [HttpPost,Authorize(Roles = "1")]
-        public async Task<IActionResult> GetListByFilter(MReq_Filter filter)
+        public async Task<IActionResult> GetListByFilter(MReq_BatchFilter filter)
         {
             var listToGet = await _s_Product_Branch.GetListByFilter(filter,_currentUser);
             return Json(listToGet);
@@ -97,5 +97,14 @@ namespace BranchService_5003.Controllers
             var batchToDetele = await _s_Product_Branch.Delete(id);
             return Json(batchToDetele);
         }
+
+        // API
+        [HttpGet]
+        public async Task<IActionResult> GetByIdProductAndIdBranch(int idProduct, int idBranch)
+        {
+            var sumQuantity = await _s_Product_Branch.GetByIdProductAndIdBranch(idProduct, idBranch);
+            return Json(sumQuantity);
+        }
+
     }
 }
