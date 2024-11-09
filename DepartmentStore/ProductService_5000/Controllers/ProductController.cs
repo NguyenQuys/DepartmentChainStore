@@ -14,157 +14,150 @@ using System.Diagnostics;
 
 namespace ProductService_5000.Controllers
 {
-    [Route("Product/[action]")]
-    public class ProductController : Controller
-    {
-        private readonly IS_Product _s_Product;
-        private readonly MRes_InfoUser _currentUser;
-        public static string _locationBranch;
-        public static int _idBranch;
+	[Route("Product/[action]")]
+	public class ProductController : Controller
+	{
+		private readonly IS_Product _s_Product;
+		private readonly MRes_InfoUser _currentUser;
+		private readonly IHttpContextAccessor _httpContextAccessor;
+		private ISession Session => _httpContextAccessor.HttpContext.Session;
 
-        public ProductController(IS_Product product, CurrentUserHelper currentUserHelper)
-        {
-            _s_Product = product;
-            _currentUser = currentUserHelper.GetCurrentUser();
-        }
+		private const string LocationBranchSessionKey = "LocationBranch";
+		private const string IdBranchSessionKey = "IdBranch";
 
-        //[HttpGet]
-        //public async Task<IActionResult> CurrentBranch(int idBranch,string location)
-        //{
-        //    _idBranch = idBranch;
-        //    _locationBranch = location;
-        //    return RedirectToAction("Index");
-        //}
+		public ProductController(IS_Product product, CurrentUserHelper currentUserHelper, IHttpContextAccessor httpContextAccessor)
+		{
+			_s_Product = product;
+			_currentUser = currentUserHelper.GetCurrentUser();
+			_httpContextAccessor = httpContextAccessor;
+		}
 
-        [HttpGet]
-        public async Task<IActionResult> Index(int idBranch, string location)
-        {
-            _idBranch = idBranch;
-            _locationBranch = location;
-            if (_idBranch == 0)
-            {
-                return Redirect("https://localhost:7076/Branch/ChooseBranchIndex");
-            }
+		[HttpGet]
+		public async Task<IActionResult> Index(int idBranch, string location)
+		{
+			if (idBranch == 0)
+			{
+				return Redirect("https://localhost:7076/Branch/ChooseBranchIndex");
+			}
+			Session.SetString(LocationBranchSessionKey, location);
+			Session.SetInt32(IdBranchSessionKey, idBranch);
 
-            var branchLocation = _locationBranch;
+			TempData["Location"] = location;
+			TempData["IdBranch"] = idBranch;
+			return View();
+		}
 
-            TempData["Location"] = _locationBranch;
-            TempData["IdBranch"] = _idBranch;
-            return View();
-        }
+		[HttpGet]
+		public async Task<IActionResult> GetAllProducts()
+		{
+			var productsToGet = await _s_Product.GetAllProducts();
+			return Json(productsToGet);
+		}
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllProducts()
-        {
-            var productsToGet = await _s_Product.GetAllProducts();
-            return Json(productsToGet);
-        }
+		// Excel
+		[HttpGet]
+		public async Task<IActionResult> GetByName(string productName)
+		{
+			var productToGet = await _s_Product.GetByName(productName);
+			return Json(productToGet);
+		}
 
-        // Excel
-        [HttpGet]
-        public async Task<IActionResult> GetByName(string productName)
-        {
-            var productToGet = await _s_Product.GetByName(productName);
-            return Json(productToGet);
-        }
+		[HttpPost]
+		public async Task<IActionResult> SearchProduct(string productName)
+		{
+			var productToGet = await _s_Product.SearchProduct(productName);
+			return Json(productToGet);
+		}
 
-        [HttpPost]
-        public async Task<IActionResult> SearchProduct(string productName)
-        {
-            var productToGet = await _s_Product.SearchProduct(productName);
-            return Json(productToGet);
-        }
+		[HttpGet]
+		public async Task<IActionResult> GetProductsByCategory(int? id)
+		{
+			try
+			{
+				var productsToGet = await _s_Product.GetProductsByIdCategory(id, _currentUser);
+				return Json(new { result = 1, data = productsToGet });
+			}
+			catch (Exception ex)
+			{
+				return Json(new { result = -1, message = ex.Message });
+			}
+		}
 
-        //[HttpGet("{id}")]
-        [HttpGet]
-        public async Task<IActionResult> GetProductsByCategory(int? id)
-        {
-            try
-            {
-                var productsToGet = await _s_Product.GetProductsByIdCategory(id,_currentUser);
-                return Json(new { result = 1, data = productsToGet });
-            }
-            catch (Exception ex)
-            {
-                return Json(new { result = -1, message = ex.Message });
-            }
-        }
+		[HttpGet]
+		public async Task<IActionResult> GetByIdView(int idProduct)
+		{
+			TempData["Location"] = Session.GetString(LocationBranchSessionKey);
+			TempData["IdBranch"] = Session.GetInt32(IdBranchSessionKey);
+			var productToGet = await _s_Product.GetByIdView(idProduct, Session.GetInt32(IdBranchSessionKey) ?? 0);
+			return View(productToGet);
+		}
 
-        [HttpGet]
-        public async Task<IActionResult> GetByIdView(int idProduct)
-        {
-            TempData["Location"] = _locationBranch;
-            TempData["IdBranch"] = _idBranch;
-            var productToGet = await _s_Product.GetByIdView(idProduct, _idBranch);
-            return View(productToGet);
-        }
+		[HttpGet]
+		public async Task<IActionResult> GetByIdJson(int idProduct)
+		{
+			var productToGet = await _s_Product.GetByIdAsync(idProduct);
+			return Json(productToGet);
+		}
 
-        [HttpGet]
-        public async Task<IActionResult> GetByIdJson(int idProduct)
-        {
-            var productToGet = await _s_Product.GetByIdAsync(idProduct);
-            return Json(productToGet);
-        }
+		[Authorize(Roles = "1")]
+		[HttpPost]
+		public async Task<IActionResult> AddProduct(MReq_Product productRequest)
+		{
+			try
+			{
+				var productsToAdd = await _s_Product.AddProductAsync(productRequest, _currentUser);
+				return Json(new { result = 1, message = productsToAdd });
+			}
+			catch (Exception ex)
+			{
+				return Json(new { result = -1, message = ex.Message });
+			}
+		}
 
-        [Authorize(Roles = "1")]
-        [HttpPost]
-        public async Task<IActionResult> AddProduct(MReq_Product productRequest)
-        {
-            try
-            {
-                var productsToAdd = await _s_Product.AddProductAsync(productRequest, _currentUser);
-                return Json(new { result = 1, message = productsToAdd });
-            }
-            catch (Exception ex)
-            {
-                return Json(new { result = -1, message = ex.Message });
-            }
-        }
+		[HttpGet, Authorize(Roles = "1")]
+		public async Task<IActionResult> ExportSampleProductFileExcel()
+		{
+			var sampleProductfile = await _s_Product.ExportSampleProductFileExcel();
+			var excelFileName = $"Thêm hàng hóa.xlsx";
+			return File(sampleProductfile, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelFileName);
+		}
 
-        [HttpGet,Authorize(Roles = "1")]
-        public async Task<IActionResult> ExportSampleProductFileExcel()
-        {
-            var sampleProductfile = await _s_Product.ExportSampleProductFileExcel();
-            var excelFileName = $"Thêm hàng hóa.xlsx";
-            return File(sampleProductfile, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelFileName);
-        }
+		[HttpPost, Authorize(Roles = "1")]
+		public async Task<IActionResult> UploadProductByExcel(IFormFile file)
+		{
+			try
+			{
+				var result = await _s_Product.UploadProductByExcel(file, _currentUser);
+				return Json(new { result = 1, message = result });
+			}
+			catch (Exception ex)
+			{
+				return Json(new { result = -1, message = ex.Message });
+			}
+		}
 
-        [HttpPost, Authorize(Roles = "1")]
-        public async Task<IActionResult> UploadProductByExcel(IFormFile file)
-        {
-            try
-            {
-                var result = await _s_Product.UploadProductByExcel(file, _currentUser);
-                return Json(new {result = 1, message = result});
-            }
-            catch (Exception ex)
-            {
-                return Json(new {result = -1, message = ex.Message});    
-            }
-        }
+		[HttpPut]
+		[Authorize(Roles = "1")]
+		public async Task<IActionResult> UpdateProduct([FromForm] MReq_Product productRequest)
+		{
+			var productToUpdate = await _s_Product.UpdateProductAsync(productRequest, _currentUser);
+			return Json(productToUpdate);
+		}
 
-        [HttpPut]
-        [Authorize(Roles = "1")]
-        public async Task<IActionResult> UpdateProduct([FromForm] MReq_Product productRequest)
-        {
-            var productToUpdate = await _s_Product.UpdateProductAsync(productRequest, _currentUser);
-            return Json(productToUpdate);
-        }
+		[HttpPut]
+		[Authorize(Roles = "1")]
+		public async Task<IActionResult> ChangeStatusProduct(int id)
+		{
+			var productToChange = await _s_Product.ChangeStatusProduct(id, _currentUser);
+			return Json(productToChange);
+		}
 
-        [HttpPut]
-        [Authorize(Roles ="1")]
-        public async Task<IActionResult> ChangeStatusProduct(int id)
-        {
-            var productToChange = await _s_Product.ChangeStatusProduct(id,_currentUser);
-            return Json(productToChange);
-        }
-
-        [Authorize(Roles = "1")]
-        [HttpDelete]
-        public async Task<IActionResult> RemoveProduct(int idProduct)
-        {
-            var productToDelete = await _s_Product.RemoveProduct(idProduct);
-            return Json(productToDelete);
-        }
-    }
+		[Authorize(Roles = "1")]
+		[HttpDelete]
+		public async Task<IActionResult> RemoveProduct(int idProduct)
+		{
+			var productToDelete = await _s_Product.RemoveProduct(idProduct);
+			return Json(productToDelete);
+		}
+	}
 }

@@ -64,8 +64,16 @@ builder.Services.AddHttpClient("ProductService", client =>
     client.BaseAddress = new Uri("https://localhost:7076");
 });
 
-// Add HttpContextAccessor
+// Add HttpContextAccessor And session
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+});
+
+
 
 // Register the product service
 builder.Services.AddScoped<IS_Product, S_Product>();
@@ -91,6 +99,9 @@ app.UseStaticFiles();
 
 // Middleware: Use routing
 app.UseRouting();
+
+// Session
+app.UseSession();
 
 // Enable authentication and authorization
 app.UseAuthentication(); 
