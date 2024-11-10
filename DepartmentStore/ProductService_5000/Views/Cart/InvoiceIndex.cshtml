@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<ProductService_5000.Response.MRes_Product>
+@{
 	ViewData["Title"] = "Giỏ hàng";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -12,54 +13,45 @@
 							<tr class="text-center">
 								<th>&nbsp;</th>
 								<th>&nbsp;</th>
-								<th>Product name</th>
-								<th>Price</th>
-								<th>Quantity</th>
-								<th>Total</th>
+								<th>Tên sản phẩm</th>
+								<th>Đơn giá</th>
+								<th>Số lượng</th>
+								<th>Tổng cộng (VND)</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr class="text-center">
-								<td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
+							@{
+								int total = 0;
+								string subTotalString = null;
+							}
+							@foreach (var item in Model)
+							{
+								<tr class="text-center">
+									<td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
 
-								<td class="image-prod"><div class="img" style="background-image:url(images/product-3.jpg);"></div></td>
+									<td class="image-prod"><div class="img" style="background-image:url(@item.MainImage);"></div></td>
 
-								<td class="product-name">
-									<h3>Bell Pepper</h3>
-									<p>Far far away, behind the word mountains, far from the countries</p>
-								</td>
+									<td class="product-name">
+										<h3>@item.ProductName</h3>
+										<p>Far far away, behind the word mountains, far from the countries</p>
+									</td>
 
-								<td class="price">$4.90</td>
+									<td class="price">@item.Price.ToString("N0")</td>
 
-								<td class="quantity">
-									<div class="input-group mb-3">
-										<input type="text" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
-									</div>
-								</td>
+									<td class="quantity">
+										<div class="input-group mb-3">
+											<input type="text" name="quantity" class="quantity form-control input-number" value="@item.Quantity" min="1" max="100">
+										</div>
+									</td>
+									@{
+										int itemTotal = item.Price * item.Quantity;
+										total += itemTotal;
+									}
+									<td class="total">@itemTotal.ToString("N0")</td>
+								</tr>
 
-								<td class="total">$4.90</td>
-							</tr><!-- END TR-->
-
-							<tr class="text-center">
-								<td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
-
-								<td class="image-prod"><div class="img" style="background-image:url(images/product-4.jpg);"></div></td>
-
-								<td class="product-name">
-									<h3>Bell Pepper</h3>
-									<p>Far far away, behind the word mountains, far from the countries</p>
-								</td>
-
-								<td class="price">$15.70</td>
-
-								<td class="quantity">
-									<div class="input-group mb-3">
-										<input type="text" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
-									</div>
-								</td>
-
-								<td class="total">$15.70</td>
-							</tr><!-- END TR-->
+								<!-- END TR-->
+							}
 						</tbody>
 					</table>
 				</div>
@@ -68,16 +60,16 @@
 		<div class="row justify-content-end">
 			<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
 				<div class="cart-total mb-3">
-					<h3>Coupon Code</h3>
-					<p>Enter your coupon code if you have one</p>
+					<h3>Mã giảm giá</h3>
+					<p>Nhập mã giảm giá nếu bạn có</p>
 					<form action="#" class="info">
 						<div class="form-group">
-							<label for="">Coupon code</label>
-							<input type="text" class="form-control text-left px-3" placeholder="">
+							<input type="text" class="form-control text-left px-3" placeholder="Nhập mã giảm giá..." id="input_promotion_code">
 						</div>
+						<div class="m-3" id="div_check_promotion_available">AAAA</div>
+						<p><a onclick="CheckPromotion()" class="btn btn-primary py-3 px-4">Áp dụng</a></p>
 					</form>
 				</div>
-				<p><a href="checkout.html" class="btn btn-primary py-3 px-4">Apply Coupon</a></p>
 			</div>
 			<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
 				<div class="cart-total mb-3">
@@ -104,8 +96,8 @@
 				<div class="cart-total mb-3">
 					<h3>Cart Totals</h3>
 					<p class="d-flex">
-						<span>Subtotal</span>
-						<span>$20.60</span>
+						<span>Tổng phụ</span>
+						<span>@total.ToString("N0") VND</span>
 					</p>
 					<p class="d-flex">
 						<span>Delivery</span>

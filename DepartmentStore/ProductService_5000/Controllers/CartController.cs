@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using ProductService_5000.Response;
 using ProductService_5000.Services;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace ProductService_5000.Controllers
 {
@@ -14,6 +15,7 @@ namespace ProductService_5000.Controllers
 		private readonly MRes_InfoUser _currentUser;
 		private readonly IHttpContextAccessor _httpContextAccessor;
 		private const string IdBranchSessionKey = "IdBranch";
+		private const string LocationBranchSessionKey = "LocationBranch";
 
 		public CartController(IS_Cart cart, CurrentUserHelper currentUser, IHttpContextAccessor httpContextAccessor)
 		{
@@ -22,7 +24,7 @@ namespace ProductService_5000.Controllers
 			_httpContextAccessor = httpContextAccessor;
 		}
 
-		private int IdBranch
+		private int ID_BRANCH
 		{
 			get
 			{
@@ -34,16 +36,29 @@ namespace ProductService_5000.Controllers
 			}
 		}
 
+		private string LOCATION_BRANCH
+		{
+			get
+			{
+				return _httpContextAccessor.HttpContext.Session.GetString(LocationBranchSessionKey) ?? null;
+			}
+			set
+			{
+				_httpContextAccessor.HttpContext.Session.SetString(LocationBranchSessionKey, value);
+			}
+		}
+
 		[HttpGet]
 		public async Task<IActionResult> Index()
 		{
+			TempData["Location"] = LOCATION_BRANCH;
 			return View();
 		}
 
 		[HttpGet]
 		public async Task<IActionResult> GetAll()
 		{
-			var getAll = await _s_Cart.GetAll(IdBranch, _currentUser);
+			var getAll = await _s_Cart.GetAll(ID_BRANCH, _currentUser);
 			return Json(getAll); 
 		}
 
@@ -61,14 +76,20 @@ namespace ProductService_5000.Controllers
 			return Json(delete);
 		}
 
-		//[HttpPost]
-		//public async Task<vcv>
+		[HttpPost]
+		public IActionResult SubmitCart([FromForm] string cartData)
+		{
+			return RedirectToAction("InvoiceIndex", "Cart", new { stringifyCarts = cartData });
+		}
 
 		// Invoice
 		[HttpGet]
-		public async Task<IActionResult> InvoiceIndex(List<MRes_Product> listRequest)
+		public IActionResult InvoiceIndex(string stringifyCarts)
 		{
-			return View(listRequest);
+			TempData["Location"] = LOCATION_BRANCH;
+			var invoiceIndex = _s_Cart.InvoiceIndex(stringifyCarts, ID_BRANCH);
+			return View(invoiceIndex);
 		}
+
 	}
 }

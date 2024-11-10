@@ -1,9 +1,9 @@
 ﻿using APIGateway.Response;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using ProductService_5000.Models;
 using ProductService_5000.Response;
-using System.Net.Http;
 using System.Text.Json;
 
 namespace ProductService_5000.Services
@@ -13,6 +13,8 @@ namespace ProductService_5000.Services
 		Task<List<MRes_Product>> GetAll(int idBranch, MRes_InfoUser currentUser);
 		Task<string> Add(MRes_Cart request, MRes_InfoUser currentUser);
 		Task<string> Delete(int id, MRes_InfoUser currentUser);
+
+		List<MRes_Product> InvoiceIndex(string stringifyCarts,int idBranch);
 	}
 
 	public class S_Cart : IS_Cart
@@ -140,12 +142,22 @@ namespace ProductService_5000.Services
 		private List<Cart> GetCartFromSession()
 		{
 			var cartData = Session.GetString(CartAddSessionKey);
-			return string.IsNullOrEmpty(cartData) ? new List<Cart>() : JsonSerializer.Deserialize<List<Cart>>(cartData);
+			return string.IsNullOrEmpty(cartData) ? new List<Cart>() : System.Text.Json.JsonSerializer.Deserialize<List<Cart>>(cartData);
 		}
 
 		private void SaveCartToSession(List<Cart> cart)
 		{
-			Session.SetString(CartAddSessionKey, JsonSerializer.Serialize(cart));
+			Session.SetString(CartAddSessionKey, System.Text.Json.JsonSerializer.Serialize(cart));
+		}
+
+		public List<MRes_Product> InvoiceIndex(string stringifyCarts, int idBranch)
+		{
+			List<MRes_Product> cartItems = new List<MRes_Product>();
+
+
+			cartItems = JsonConvert.DeserializeObject<List<MRes_Product>>(stringifyCarts);
+			cartItems.ForEach(m => m.IdBranch = idBranch);
+			return  cartItems;
 		}
 	}
 }
