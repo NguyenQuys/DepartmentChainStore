@@ -12,6 +12,7 @@ namespace ProductService_5000.Services
 	{
 		Task<List<MRes_Product>> GetAll(int idBranch, MRes_InfoUser currentUser);
 		Task<string> Add(MRes_Cart request, MRes_InfoUser currentUser);
+		Task<string> Delete(int id, MRes_InfoUser currentUser);
 	}
 
 	public class S_Cart : IS_Cart
@@ -22,8 +23,9 @@ namespace ProductService_5000.Services
 		private readonly IHttpContextAccessor _httpContextAccessor;
 		private ISession Session => _httpContextAccessor.HttpContext.Session;
 
-		private static readonly string CartSessionKey = "Cart";
-
+		private static readonly string CartAddSessionKey = "CartAdd";
+		private static readonly string CartChosenSessionKey = "CartChosen";
+			 
 		public S_Cart(ProductDbContext context, IMapper mapper, IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
 		{
 			_context = context;
@@ -77,17 +79,6 @@ namespace ProductService_5000.Services
 			return "Thêm vào giỏ hàng thành công";
 		}
 
-		private List<Cart> GetCartFromSession()
-		{
-			var cartData = Session.GetString(CartSessionKey);
-			return string.IsNullOrEmpty(cartData) ? new List<Cart>() : JsonSerializer.Deserialize<List<Cart>>(cartData);
-		}
-
-		private void SaveCartToSession(List<Cart> cart)
-		{
-			Session.SetString(CartSessionKey, JsonSerializer.Serialize(cart));
-		}
-
 		public async Task<List<MRes_Product>> GetAll(int idBranch, MRes_InfoUser currentUser)
 		{
 			List<Cart> cartEntities;
@@ -102,7 +93,6 @@ namespace ProductService_5000.Services
 			}
 			else
 			{
-				// Fetch non-authenticated user's cart from the session
 				cartEntities = GetCartFromSession();
 			}
 
@@ -115,7 +105,7 @@ namespace ProductService_5000.Services
 				.Where(cartEntity => products.ContainsKey(cartEntity.IdProduct))
 				.Select(cartEntity => new MRes_Product
 				{
-					Id = products[cartEntity.IdProduct].Id,
+					IdProduct = products[cartEntity.IdProduct].Id,
 					ProductName = products[cartEntity.IdProduct].ProductName,
 					Price = products[cartEntity.IdProduct].Price,
 					Quantity = cartEntity.Quantity,
@@ -125,6 +115,37 @@ namespace ProductService_5000.Services
 				.ToList();
 
 			return cartDTOs;
+		}
+
+		public async Task<string> Delete(int idProduct,MRes_InfoUser currentUser)
+		{
+			if(currentUser.AccessToken != null)
+			{
+				var cartChosen = await _context.Carts.FirstOrDefaultAsync(m=>m.IdProduct == idProduct);
+				_context.Remove(cartChosen);
+				await _context.SaveChangesAsync();
+			}
+			else
+			{
+				var cartList = GetCartFromSession();
+				var cartToDetele = cartList.FirstOrDefault(m=>m.IdProduct == idProduct);
+				cartList.Remove(cartToDetele);
+
+				SaveCartToSession(cartList);
+			}
+			return "Xóa khỏi giỏ hàng thành công";
+		}
+
+		//****************************** Others **************************
+		private List<Cart> GetCartFromSession()
+		{
+			var cartData = Session.GetString(CartAddSessionKey);
+			return string.IsNullOrEmpty(cartData) ? new List<Cart>() : JsonSerializer.Deserialize<List<Cart>>(cartData);
+		}
+
+		private void SaveCartToSession(List<Cart> cart)
+		{
+			Session.SetString(CartAddSessionKey, JsonSerializer.Serialize(cart));
 		}
 	}
 }

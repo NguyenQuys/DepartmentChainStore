@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace ProductService_5000.Controllers
 {
-	[Route("[controller]/[action]")]
+	[Route("Cart/[action]")]
 	public class CartController : Controller
 	{
 		private readonly IS_Cart _s_Cart;
@@ -35,10 +35,16 @@ namespace ProductService_5000.Controllers
 		}
 
 		[HttpGet]
+		public async Task<IActionResult> Index()
+		{
+			return View();
+		}
+
+		[HttpGet]
 		public async Task<IActionResult> GetAll()
 		{
 			var getAll = await _s_Cart.GetAll(IdBranch, _currentUser);
-			return View(getAll); 
+			return Json(getAll); 
 		}
 
 		[HttpPost]
@@ -46,6 +52,23 @@ namespace ProductService_5000.Controllers
 		{
 			var add = await _s_Cart.Add(request, _currentUser);
 			return Json(add);
+		}
+
+		[HttpDelete]
+		public async Task<IActionResult> Delete(int idProduct)
+		{
+			var delete = await _s_Cart.Delete(idProduct, _currentUser);
+			return Json(delete);
+		}
+
+		//[HttpPost]
+		//public async Task<vcv>
+
+		// Invoice
+		[HttpGet]
+		public async Task<IActionResult> InvoiceIndex(List<MRes_Product> listRequest)
+		{
+			return View(listRequest);
 		}
 	}
 }

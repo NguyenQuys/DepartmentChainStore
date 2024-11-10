@@ -14,7 +14,13 @@ namespace BranchService_5003.Models
         [MaxLength(61)]
         public string Password { get; set; }
 
-        public ICollection<Product_Branch> Product_Branches { get; set; } = new List<Product_Branch>();
+        [MaxLength(50)]
+        public string Latitude { get; set; }
+
+		[MaxLength(50)]
+		public string Longtitude { get; set; }
+
+		public ICollection<Product_Branch> Product_Branches { get; set; } = new List<Product_Branch>();
 
         public ICollection<ImportProductHistory> ImportProductHistory { get; set; } = new List<ImportProductHistory>();
     }

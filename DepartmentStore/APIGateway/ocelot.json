@@ -77,7 +77,6 @@
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     },
     //++++++++++++5003 ends++++++++++++++++++++
-
     {
       "DownstreamPathTemplate": "/User/{action}",
       "DownstreamScheme": "https",
@@ -92,7 +91,21 @@
       "AddHeadersToDownstream": {
         "Authorization": "{Headers.Authorization}"
       }
+    },
+    //++++++++++++++5005 Starts+++++++++++++
+    {
+      "DownstreamPathTemplate": "/Invoice/{action}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5005
+        }
+      ],
+      "UpstreamPathTemplate": "/Invoice/{action}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     }
+    //++++++++++++++5005 Ends+++++++++++++
   ],
   "GlobalConfiguration": {
     "BaseUrl": "https://localhost:7076"
