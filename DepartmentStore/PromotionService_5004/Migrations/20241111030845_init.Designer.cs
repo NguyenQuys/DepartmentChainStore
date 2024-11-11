@@ -12,7 +12,7 @@ using PromotionService_5004.Models;
 namespace PromotionService_5004.Migrations
 {
     [DbContext(typeof(PromotionDbContext))]
-    [Migration("20241107023712_init")]
+    [Migration("20241111030845_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -41,8 +41,14 @@ namespace PromotionService_5004.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
+                    b.Property<DateOnly>("ExpiredDate")
+                        .HasColumnType("date");
+
                     b.Property<byte>("IdPromotionType")
                         .HasColumnType("tinyint");
+
+                    b.Property<DateOnly>("InitDate")
+                        .HasColumnType("date");
 
                     b.Property<int>("InitQuantity")
                         .HasColumnType("int");

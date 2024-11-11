@@ -46,6 +46,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+builder.Services.AddHttpClient("ProductService", client =>
+{
+	client.BaseAddress = new Uri("https://localhost:7076");
+});
+
 builder.Services.AddHttpContextAccessor();
 
 // Services

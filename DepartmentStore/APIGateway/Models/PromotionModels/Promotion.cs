@@ -9,7 +9,11 @@ namespace PromotionService_5004.Models
         [MaxLength(10)]
         public string Code { get; set; }
 
-        public byte Percentage { get; set; }
+		public DateOnly InitDate { get; set; }
+
+		public DateOnly ExpiredDate { get; set; }
+
+		public byte Percentage { get; set; }
 
         public byte ApplyFor { get; set; }
 

@@ -31,6 +31,12 @@ namespace PromotionService_5004.Controllers
             return Ok(getById);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetByPromotionCode(string promotionCode)
+        {
+            var check = await _s_Promotion.
+        }
+
         [HttpPost,Authorize(Roles ="1")]
         public async Task<IActionResult> Add(Promotion request)
         {

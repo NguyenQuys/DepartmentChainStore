@@ -30,6 +30,8 @@ namespace PromotionService_5004.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Code = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    InitDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    ExpiredDate = table.Column<DateOnly>(type: "date", nullable: false),
                     Percentage = table.Column<byte>(type: "tinyint", nullable: false),
                     ApplyFor = table.Column<byte>(type: "tinyint", nullable: false),
                     MinPrice = table.Column<int>(type: "int", nullable: false),

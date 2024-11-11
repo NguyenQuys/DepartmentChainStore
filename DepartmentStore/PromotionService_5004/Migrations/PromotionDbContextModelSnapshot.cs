@@ -38,8 +38,14 @@ namespace PromotionService_5004.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
+                    b.Property<DateOnly>("ExpiredDate")
+                        .HasColumnType("date");
+
                     b.Property<byte>("IdPromotionType")
                         .HasColumnType("tinyint");
+
+                    b.Property<DateOnly>("InitDate")
+                        .HasColumnType("date");
 
                     b.Property<int>("InitQuantity")
                         .HasColumnType("int");

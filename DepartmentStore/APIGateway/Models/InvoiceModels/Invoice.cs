@@ -9,7 +9,8 @@ namespace InvoiceService_5005.InvoiceModels
 		[MaxLength(12)]
 		public string InvoiceNumber { get; set; }
 
-		public int? IdUserPurchase { get; set; }
+		[MaxLength(10)]
+		public string CustomerPhoneNumber { get; set; }
 
 		public int IdPromotion { get; set; }
 
