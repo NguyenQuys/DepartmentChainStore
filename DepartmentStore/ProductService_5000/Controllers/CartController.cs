@@ -90,6 +90,5 @@ namespace ProductService_5000.Controllers
 			var invoiceIndex = _s_Cart.InvoiceIndex(stringifyCarts, ID_BRANCH);
 			return View(invoiceIndex);
 		}
-
 	}
 }

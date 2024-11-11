@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using APIGateway.Response;
+using APIGateway.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PromotionService_5004.Models;
 using PromotionService_5004.Services;
@@ -11,10 +13,12 @@ namespace PromotionService_5004.Controllers
     public class PromotionController : ControllerBase
     {
         private readonly IS_Promotion _s_Promotion;
+        private readonly MRes_InfoUser _currentUser;
 
-        public PromotionController(IS_Promotion promotion)
+        public PromotionController(IS_Promotion promotion,CurrentUserHelper currentUser)
         {
             _s_Promotion = promotion;
+            _currentUser = currentUser.GetCurrentUser();
         }
 
         [HttpGet]
@@ -34,8 +38,16 @@ namespace PromotionService_5004.Controllers
         [HttpGet]
         public async Task<IActionResult> GetByPromotionCode(string promotionCode)
         {
-            var check = await _s_Promotion.
-        }
+            try
+            {
+                var check = await _s_Promotion.GetByPromotionCode(promotionCode,_currentUser);
+				return Ok(new { result = 1, data = check });
+			}
+			catch (Exception ex)
+            {
+				return Ok(new { result = -1, message = ex.Message });
+			}
+		}
 
         [HttpPost,Authorize(Roles ="1")]
         public async Task<IActionResult> Add(Promotion request)

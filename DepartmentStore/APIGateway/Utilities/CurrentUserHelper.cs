@@ -27,8 +27,8 @@ namespace APIGateway.Utilities
                  .FirstOrDefault(c => c.Type == "Fullname")?.Value;
             var emailClaim = _httpContextAccessor.HttpContext.User.Claims
                 .FirstOrDefault(m => m.Type == "Email")?.Value;
-            var accessTokenClaim = _httpContextAccessor.HttpContext.User.Claims
-                .FirstOrDefault(a => a.Type == "AccessToken")?.Value;
+            var accountClaim = _httpContextAccessor.HttpContext.User.Claims
+                .FirstOrDefault(m => m.Type == ClaimTypes.Name)?.Value;
 
             var currentUser = new MRes_InfoUser
             {
@@ -37,8 +37,9 @@ namespace APIGateway.Utilities
                 IdBranch = branchIdClaim,
                 FullName = fullNameClaim,
                 Email = emailClaim,
-                AccessToken = token
-            };
+                AccessToken = token,
+                PhoneNumber = accountClaim
+			};
 
             return currentUser;
         }

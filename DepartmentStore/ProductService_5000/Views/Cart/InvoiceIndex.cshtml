@@ -58,35 +58,42 @@
 			</div>
 		</div>
 		<div class="row justify-content-end">
-			<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
-				<div class="cart-total mb-3">
+			@if (User.Identity.IsAuthenticated)
+			{
+				<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
+					<div class="cart-total mb-3">
 					<h3>Mã giảm giá</h3>
 					<p>Nhập mã giảm giá nếu bạn có</p>
 					<form action="#" class="info">
 						<div class="form-group">
 							<input type="text" class="form-control text-left px-3" placeholder="Nhập mã giảm giá..." id="input_promotion_code">
 						</div>
-						<div class="m-3" id="div_check_promotion_available">AAAA</div>
+						<div class="m-3" id="div_check_promotion_available"></div>
 						<p><a onclick="CheckPromotion()" class="btn btn-primary py-3 px-4">Áp dụng</a></p>
 					</form>
 				</div>
-			</div>
+				</div>
+			}
+			else
+			{
+				<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
+					<div class="cart-total mb-3">
+						<h3 class="text-danger">Bạn cần đăng nhập tài khoản để có thể sử dụng Voucher</h3>
+					</div>
+				</div>
+			}
 			<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
 				<div class="cart-total mb-3">
-					<h3>Estimate shipping and tax</h3>
-					<p>Enter your destination to get a shipping estimate</p>
-					<form action="#" class="info">
+					<h3>Chọn hình thức nhận hàng</h3>
+					<form class="info delivery-method">
 						<div class="form-group">
-							<label for="">Country</label>
-							<input type="text" class="form-control text-left px-3" placeholder="">
-						</div>
-						<div class="form-group">
-							<label for="country">State/Province</label>
-							<input type="text" class="form-control text-left px-3" placeholder="">
-						</div>
-						<div class="form-group">
-							<label for="country">Zip/Postal Code</label>
-							<input type="text" class="form-control text-left px-3" placeholder="">
+							<input type="radio" id="pick_up_at_store" name="fav_language" value="HTML" onclick="toggleLocation()">
+							<label for="pick_up_at_store">Nhận tại cửa hàng</label><br>
+							<input type="radio" id="delivery_to_home" name="fav_language" value="CSS" onclick="toggleLocation()">
+							<label for="delivery_to_home">Ship đến tận nhà</label><br>
+							<p id="btn_choose_location" class="btn-location d-none">
+								<a href="/Shipping/Index" class="btn btn-primary p-2">Chọn vị trí</a>
+							</p>
 						</div>
 					</form>
 				</div>
@@ -104,8 +111,9 @@
 						<span>$0.00</span>
 					</p>
 					<p class="d-flex">
-						<span>Discount</span>
-						<span>$3.00</span>
+						<span>Giảm giá</span>
+						<input type="hidden" value="@total" id="total_cart" />
+						<span id="discount_invoice">0</span>
 					</p>
 					<hr>
 					<p class="d-flex total-price">

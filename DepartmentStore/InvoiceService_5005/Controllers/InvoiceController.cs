@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace InvoiceService_5005.Controllers
 {
 	[ApiController]
-	[Authorize]
+	//[Authorize]
 	[Route("[controller]/[action]")]
 	public class InvoiceController : ControllerBase
 	{

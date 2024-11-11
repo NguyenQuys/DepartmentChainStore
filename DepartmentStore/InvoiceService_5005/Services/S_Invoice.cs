@@ -1,4 +1,5 @@
 ﻿using InvoiceService_5005.InvoiceModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace InvoiceService_5005.Services
 {
@@ -18,7 +19,7 @@ namespace InvoiceService_5005.Services
 
 		public async Task<Invoice> GetByPhoneNumber(string phoneNumberRequest)
 		{
-			var getInvoice = await _context.Invoices.FindAsync(phoneNumberRequest);
+			var getInvoice = await _context.Invoices.FirstOrDefaultAsync(m=>m.CustomerPhoneNumber == phoneNumberRequest);
 			return getInvoice;
 		}
 	}

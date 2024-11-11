@@ -1,0 +1,89 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Google Maps Distance Calculator</title>
+    <script async
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNI_ZWPqvdS6r6gPVO50I4TlYkfkZdXh8&callback=initMap&libraries=geometry">
+    </script>
+    <script>
+        let map;
+        let location1 = { lat: 10.762622, lng: 106.660172 }; // Tọa độ cố định của Location1
+        let secondLocation = null;
+        let distance = 0;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: location1, // Vị trí mặc định là Location 1
+                zoom: 13,
+            });
+
+            // Đánh dấu Location 1 trên bản đồ
+            new google.maps.Marker({
+                position: location1,
+                map,
+                label: "A",
+            });
+
+            map.addListener("click", (mapsMouseEvent) => {
+                const location = mapsMouseEvent.latLng;
+
+                if (!secondLocation) {
+                    secondLocation = location;
+                    document.getElementById("latitude2").value = secondLocation.lat();
+                    document.getElementById("longitude2").value = secondLocation.lng();
+                    new google.maps.Marker({
+                        position: location,
+                        map,
+                        label: "B"
+                    });
+
+                    // Tính khoảng cách khi chọn Location2
+                    calculateDistance();
+                }
+            });
+        }
+
+        function calculateDistance() {
+            if (secondLocation) {
+                distance = google.maps.geometry.spherical.computeDistanceBetween(
+                    new google.maps.LatLng(location1.lat, location1.lng),
+                    secondLocation
+                );
+                document.getElementById("distance").value = distance.toFixed(2); // Hiển thị kết quả khoảng cách (mét)
+            }
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <h2>Chọn điểm trên Google Maps để tính khoảng cách từ Location 1</h2>
+        <div id="map" style="width: 100%; height: 500px;"></div>
+
+        <form method="post" action="/Shipping/Index">
+            @* <h3>Location 1:</h3>
+            <label>Latitude:</label>
+            <input type="text" id="latitude1" name="latitude1" value="10.762622" readonly /><br />
+            <label>Longitude:</label>
+            <input type="text" id="longitude1" name="longitude1" value="106.660172" readonly /><br /> *@
+
+            <h3>Location 2:</h3>
+            <label>Latitude:</label>
+            <input type="text" id="latitude2" name="latitude2" readonly /><br />
+            <label>Longitude:</label>
+            <input type="text" id="longitude2" name="longitude2" readonly /><br />
+
+            <h3>Khoảng cách:</h3>
+            <label>Distance (meters):</label>
+            <input type="text" id="distance" name="distance" readonly /><br />
+
+            <button type="submit">Gửi Dữ Liệu</button>
+        </form>
+    </div>
+</body>
+</html>

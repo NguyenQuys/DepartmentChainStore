@@ -1,4 +1,5 @@
 ﻿using APIGateway.Response;
+using InvoiceService_5005.InvoiceModels;
 using Microsoft.EntityFrameworkCore;
 using PromotionService_5004.Models;
 using System.Net.Http.Headers;
@@ -60,34 +61,40 @@ namespace PromotionService_5004.Services
 
         public async Task<Promotion> GetByPromotionCode(string promotionRequest,MRes_InfoUser currentUser)
         {
-            if (currentUser.AccessToken != null)
+			var promotionToGet = await _context.Promions
+	                    .FirstOrDefaultAsync(m => m.Code.ToUpper() == promotionRequest.ToLower() && m.IsActive);
+
+			if (promotionToGet == null)
             {
-                var promotionToGet = await _context.Promions
-                        .FirstOrDefaultAsync(m => m.Code.Equals(promotionRequest, StringComparison.OrdinalIgnoreCase)
-                                             && m.IsActive);
-
-                if (promotionToGet == null)
-                {
-                    throw new Exception("Voucher này không tồn tại");
-                }
-                else
-                {
-                    if (promotionToGet.InitDate > DateOnly.FromDateTime(DateTime.Now))
-                        throw new Exception("Chưa đến ngày sử dụng voucher");
-                    if (promotionToGet.ExpiredDate <= DateOnly.FromDateTime(DateTime.Now))
-                        throw new Exception("Voucher đã hết hạn");
-                    if (promotionToGet.RemainingQuantity == 0)
-                        throw new Exception("Voucher đã được sử dụng hết");
-                }
-
-                // Check If used voucher before
-                using var client = _httpClientFactory.CreateClient("ProductService");
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", currentUser.AccessToken);
-
-                var invoice
+                throw new Exception("Voucher này không tồn tại");
             }
-                return null;
-            
+            else
+            {
+                if (promotionToGet.InitDate > DateOnly.FromDateTime(DateTime.Now))
+                    throw new Exception("Chưa đến ngày sử dụng voucher");
+                if (promotionToGet.ExpiredDate <= DateOnly.FromDateTime(DateTime.Now))
+                    throw new Exception("Voucher đã hết hạn");
+                if (promotionToGet.RemainingQuantity == 0)
+                    throw new Exception("Voucher đã được sử dụng hết");
+            }
+
+            // Check If used voucher before
+            using var client = _httpClientFactory.CreateClient("ProductService");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", currentUser.AccessToken);
+
+            var invoiceResponse = await client.GetAsync($"/Invoice/GetByPhoneNumber?phoneNumberRequest={currentUser.PhoneNumber}");
+            if(!invoiceResponse.IsSuccessStatusCode)
+            {
+				throw new Exception("Unable to retrieve product information from ProductService");
+			}
+
+            var invoice = await invoiceResponse.Content.ReadFromJsonAsync<Invoice>();
+            if(invoice.IdPromotion == promotionToGet.Id)
+            {
+                throw new Exception("Voucher này đã được bạn sử dụng trước đó");
+            }
+			
+            return promotionToGet;
 		}
 
 		public async Task<string> Update(Promotion request)

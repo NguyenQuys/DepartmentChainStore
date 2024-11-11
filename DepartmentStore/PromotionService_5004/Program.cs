@@ -1,3 +1,4 @@
+using APIGateway.Utilities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -55,6 +56,7 @@ builder.Services.AddHttpContextAccessor();
 
 // Services
 builder.Services.AddScoped<IS_Promotion, S_Promotion>();
+builder.Services.AddScoped<CurrentUserHelper>();
 
 builder.Services.AddEndpointsApiExplorer();
 
