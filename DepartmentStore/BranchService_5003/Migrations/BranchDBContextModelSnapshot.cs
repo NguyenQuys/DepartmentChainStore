@@ -37,8 +37,8 @@ namespace BranchService_5003.Migrations
 
                     b.Property<string>("Latitude")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Location")
                         .IsRequired()
@@ -46,8 +46,8 @@ namespace BranchService_5003.Migrations
 
                     b.Property<string>("Longtitude")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Password")
                         .IsRequired()

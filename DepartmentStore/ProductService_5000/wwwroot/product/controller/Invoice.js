@@ -14,7 +14,7 @@
             } else {
                 $('#div_check_promotion_available').html(`<p class="text-danger">${response.message}</p>`);
             }
-            $('#discount_invoice').text(discount.toLocaleString('vi-VN') + ' VND');
+            $('#discount_invoice').text('- ' + discount.toLocaleString('vi-VN') + ' VND').addClass('text-success');
 
         },
         error: function () {
@@ -23,7 +23,7 @@
     });
 }
 
-function toggleLocation() {
+function ToggleDelivery() {
     const pickUpAtStore = document.getElementById('pick_up_at_store');
     const btnChooseLocation = document.getElementById('btn_choose_location');
     if (pickUpAtStore.checked) {
@@ -36,3 +36,15 @@ function toggleLocation() {
 // Thiết lập trạng thái mặc định khi trang được tải
 //window.onload = toggleLocation;
 
+//function OpenModalBranchLocation(idBranch) {
+//    $.ajax({
+//        url: '/Branch/GetById',
+//        type: 'GET',
+//        data: { id: idBranch },
+//        success: function (response) {
+//            lat = response.latitude;
+//            lng = response.longtitude;
+//            $('#modal_location').modal('show');
+//        }
+//    });
+//}

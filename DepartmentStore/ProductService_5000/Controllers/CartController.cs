@@ -84,11 +84,15 @@ namespace ProductService_5000.Controllers
 
 		// Invoice
 		[HttpGet]
-		public IActionResult InvoiceIndex(string stringifyCarts)
+		public async Task<IActionResult> InvoiceIndex(string stringifyCarts)
 		{
 			TempData["Location"] = LOCATION_BRANCH;
-			var invoiceIndex = _s_Cart.InvoiceIndex(stringifyCarts, ID_BRANCH);
-			return View(invoiceIndex);
+			TempData["IdBranch"] = ID_BRANCH;
+			var invoiceIndex = await _s_Cart.InvoiceIndex(stringifyCarts, ID_BRANCH);
+            TempData["Latitude"] = invoiceIndex.First().LatitudeBranch ?? "0.0";  
+            TempData["Longitude"] = invoiceIndex.First().LongitudeBranch ?? "0.0";  
+
+            return View(invoiceIndex);
 		}
 	}
 }

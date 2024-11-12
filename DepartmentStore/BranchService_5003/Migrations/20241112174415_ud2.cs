@@ -5,7 +5,7 @@
 namespace BranchService_5003.Migrations
 {
     /// <inheritdoc />
-    public partial class update2 : Migration
+    public partial class ud2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -13,16 +13,16 @@ namespace BranchService_5003.Migrations
             migrationBuilder.AddColumn<string>(
                 name: "Latitude",
                 table: "Branches",
-                type: "nvarchar(50)",
-                maxLength: 50,
+                type: "nvarchar(20)",
+                maxLength: 20,
                 nullable: false,
                 defaultValue: "");
 
             migrationBuilder.AddColumn<string>(
                 name: "Longtitude",
                 table: "Branches",
-                type: "nvarchar(50)",
-                maxLength: 50,
+                type: "nvarchar(20)",
+                maxLength: 20,
                 nullable: false,
                 defaultValue: "");
         }

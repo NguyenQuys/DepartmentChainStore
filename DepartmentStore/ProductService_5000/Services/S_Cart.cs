@@ -1,5 +1,6 @@
 ﻿using APIGateway.Response;
 using AutoMapper;
+using BranchService_5003.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using ProductService_5000.Models;
@@ -14,10 +15,10 @@ namespace ProductService_5000.Services
 		Task<string> Add(MRes_Cart request, MRes_InfoUser currentUser);
 		Task<string> Delete(int id, MRes_InfoUser currentUser);
 
-		List<MRes_Product> InvoiceIndex(string stringifyCarts,int idBranch);
+	 Task<List<MRes_Product>> InvoiceIndex(string stringifyCarts,int idBranch);
 	}
 
-	public class S_Cart : IS_Cart
+    public class S_Cart : IS_Cart
 	{
 		private readonly ProductDbContext _context;
 		private readonly IMapper _mapper;
@@ -150,14 +151,49 @@ namespace ProductService_5000.Services
 			Session.SetString(CartAddSessionKey, System.Text.Json.JsonSerializer.Serialize(cart));
 		}
 
-		public List<MRes_Product> InvoiceIndex(string stringifyCarts, int idBranch)
-		{
-			List<MRes_Product> cartItems = new List<MRes_Product>();
+        public async Task<List<MRes_Product>> InvoiceIndex(string stringifyCarts, int idBranch)
+        {
+            // Attempt to deserialize the cartItems from the passed JSON string.
+            List<MRes_Product> cartItems;
+            try
+            {
+                cartItems = JsonConvert.DeserializeObject<List<MRes_Product>>(stringifyCarts);
+                if (cartItems == null)
+                {
+                    throw new Exception("Invalid cart data.");
+                }
+            }
+            catch (Exception ex)
+            {
+                // You can log the exception if needed.
+                throw new Exception("Failed to parse cart data.", ex);
+            }
 
+            using var client = _httpClientFactory.CreateClient("ProductService");
 
-			cartItems = JsonConvert.DeserializeObject<List<MRes_Product>>(stringifyCarts);
-			cartItems.ForEach(m => m.IdBranch = idBranch);
-			return  cartItems;
-		}
-	}
+            // Get branch data from the service.
+            var branchResponse = await client.GetAsync($"/Branch/GetById?id={idBranch}");
+            if (!branchResponse.IsSuccessStatusCode)
+            {
+                throw new Exception("Failed to retrieve data from the Branch Service.");
+            }
+
+            var branch = await branchResponse.Content.ReadFromJsonAsync<Branch>();
+            if (branch == null)
+            {
+                throw new Exception("Branch data is empty.");
+            }
+
+            // Assign branch data to each item in the cart.
+            foreach (var item in cartItems)
+            {
+                item.LatitudeBranch = branch.Latitude;
+                item.LongitudeBranch = branch.Longtitude;
+                item.IdBranch = branch.Id;
+            }
+
+            return cartItems;
+        }
+
+    }
 }

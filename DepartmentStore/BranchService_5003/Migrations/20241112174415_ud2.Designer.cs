@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BranchService_5003.Migrations
 {
     [DbContext(typeof(BranchDBContext))]
-    [Migration("20241109150635_update2")]
-    partial class update2
+    [Migration("20241112174415_ud2")]
+    partial class ud2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,8 +40,8 @@ namespace BranchService_5003.Migrations
 
                     b.Property<string>("Latitude")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Location")
                         .IsRequired()
@@ -49,8 +49,8 @@ namespace BranchService_5003.Migrations
 
                     b.Property<string>("Longtitude")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Password")
                         .IsRequired()

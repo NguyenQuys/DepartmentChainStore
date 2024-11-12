@@ -87,15 +87,16 @@
 					<h3>Chọn hình thức nhận hàng</h3>
 					<form class="info delivery-method">
 						<div class="form-group">
-							<input type="radio" id="pick_up_at_store" name="fav_language" value="HTML" onclick="toggleLocation()">
+							<input type="radio" id="pick_up_at_store" name="fav_language" value="HTML" onclick="ToggleDelivery()">
 							<label for="pick_up_at_store">Nhận tại cửa hàng</label><br>
-							<input type="radio" id="delivery_to_home" name="fav_language" value="CSS" onclick="toggleLocation()">
+							<input type="radio" id="delivery_to_home" name="fav_language" value="CSS" onclick="ToggleDelivery()">
 							<label for="delivery_to_home">Ship đến tận nhà</label><br>
 							<p id="btn_choose_location" class="btn-location d-none">
-								<a href="/Shipping/Index" class="btn btn-primary p-2">Chọn vị trí</a>
+								<button type="button" class="btn btn-primary p-2" data-bs-toggle="modal" data-bs-target="#modal_location">Chọn vị trí</button>
 							</p>
 						</div>
 					</form>
+
 				</div>
 				<p><a href="checkout.html" class="btn btn-primary py-3 px-4">Estimate</a></p>
 			</div>
@@ -126,3 +127,91 @@
 		</div>
 	</div>
 </section>
+<!--Modal GoogleMap-->
+<div class="modal fade" id="modal_location" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chọn vị trí</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+				<div>
+					<h2>Chọn điểm trên Google Maps để tính khoảng cách từ Location 1</h2>
+					<div id="map" style="width: 100%; height: 500px;"></div>
+
+					<form method="post" action="/Shipping/Index">
+						@* <h3>Location 1:</h3>
+						<label>Latitude:</label>
+						<input type="text" id="latitude1" name="latitude1" value="10.762622" readonly /><br />
+						<label>Longitude:</label>
+						<input type="text" id="longitude1" name="longitude1" value="106.660172" readonly /><br /> *@
+
+						<h3>Location 2:</h3>
+						<label>Latitude:</label>
+						<input type="text" id="latitude2" name="latitude2" readonly /><br />
+						<label>Longitude:</label>
+						<input type="text" id="longitude2" name="longitude2" readonly /><br />
+
+						<h3>Khoảng cách:</h3>
+						<label>Distance (meters):</label>
+						<input type="text" id="distance" name="distance" readonly /><br />
+
+						<button type="submit">Gửi Dữ Liệu</button>
+					</form>
+					<script>
+						let map;
+						let location1 = {
+							lat: 10.770706154510874, lng: 106.61914493090823}; // Tọa độ cố định của Location1
+						let secondLocation = null;
+						let distance = 0;
+
+						function initMap() {
+							map = new google.maps.Map(document.getElementById("map"), {
+								center: location1, // Vị trí mặc định là Location 1
+								zoom: 13,
+							});
+
+							// Đánh dấu Location 1 trên bản đồ
+							new google.maps.Marker({
+								position: location1,
+								map,
+								label: "A",
+							});
+
+							map.addListener("click", (mapsMouseEvent) => {
+								const location = mapsMouseEvent.latLng;
+
+								if (!secondLocation) {
+									secondLocation = location;
+									document.getElementById("latitude2").value = secondLocation.lat();
+									document.getElementById("longitude2").value = secondLocation.lng();
+									new google.maps.Marker({
+										position: location,
+										map,
+										label: "B"
+									});
+
+									// Tính khoảng cách khi chọn Location2
+									calculateDistance();
+								}
+							});
+						}
+
+						function calculateDistance() {
+							if (secondLocation) {
+								distance = google.maps.geometry.spherical.computeDistanceBetween(
+									new google.maps.LatLng(location1.lat, location1.lng),
+									secondLocation
+								);
+								document.getElementById("distance").value = distance.toFixed(2); // Hiển thị kết quả khoảng cách (mét)
+							}
+						}
+					</script>
+				</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

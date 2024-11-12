@@ -14,15 +14,25 @@ namespace InvoiceService_5005.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(string latitude1, string longitude1, string latitude2, string longitude2, string distance)
+        public IActionResult Index(string latitude2, string longitude2, string distance)
         {
-            // Nhận dữ liệu từ form và xử lý theo yêu cầu
-            ViewBag.Latitude2 = latitude2;
-            ViewBag.Longitude2 = longitude2;
-            ViewBag.Distance = distance;
+            int shippingFee = 0;  
+            if(int.Parse(distance) <= 3000)
+            {
+                shippingFee = 18000;
+            }
+            else if(int.Parse(distance) > 3000 && int.Parse(distance) <= 6000)
+            {
+                shippingFee = 30000;
+            }
+            else
+            {
+                throw new Exception("Xin lỗi, chúng tôi chỉ ship trong phạm vi từ 6km trờ xuống. Vui lòng chọn chi nhánh khác");
+            }
 
-            // Trả về view với dữ liệu đã nhận
             return View();
         }
+
+
     }
 }
