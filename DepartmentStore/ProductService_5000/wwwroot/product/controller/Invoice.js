@@ -1,11 +1,11 @@
 ﻿function CheckPromotion() {
     let promotionCode = $('#input_promotion_code').val();
-    let totalCart = parseFloat($('#total_cart').val()) || 0; 
+    let totalCart = parseFloat($('#total_cart').val()) || 0;
 
     $.ajax({
         url: '/Promotion/GetByPromotionCode',
-        type: 'GET', 
-        data: { promotionCode: promotionCode }, 
+        type: 'GET',
+        data: { promotionCode: promotionCode },
         success: function (response) {
             let percentage = response.data?.percentage || 0;
             let discount = totalCart * percentage / 100;
@@ -48,3 +48,5 @@ function ToggleDelivery() {
 //        }
 //    });
 //}
+
+

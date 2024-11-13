@@ -12,6 +12,7 @@ builder.Services.AddDbContext<InvoiceDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("InvoiceDBConnection")));
 
 builder.Services.AddScoped<IS_Invoice, S_Invoice>();
+builder.Services.AddScoped<IS_Shipping, S_Shipping>();
 
 builder.Services.AddEndpointsApiExplorer();
 

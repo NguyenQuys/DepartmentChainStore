@@ -1,38 +1,39 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using InvoiceService_5005.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace InvoiceService_5005.Controllers
 {
-    [Route("[controller]/[action]")]
-    public class ShippingController : Controller
+    [ApiController]
+    [Route("Shipping/[action]")]
+    public class ShippingController : ControllerBase
     {
-        [HttpGet]
-        public ActionResult Index()
+        private readonly IS_Shipping _s_Shipping;
+
+        public ShippingController(IS_Shipping shipping)
         {
-            ViewBag.Latitude1 = "10.770706154510874";
-            ViewBag.Longitude1 = "106.61914493090823";
-            return View();
+            _s_Shipping = shipping;
         }
+
+        //[HttpGet]
+        //public ActionResult Index()
+        //{
+        //    ViewBag.Latitude1 = "10.770706154510874";
+        //    ViewBag.Longitude1 = "106.61914493090823";
+        //    return View();
+        //}
 
         [HttpPost]
-        public IActionResult Index(string latitude2, string longitude2, string distance)
+        public async Task<IActionResult> ShippingFee(string distance)
         {
-            int shippingFee = 0;  
-            if(int.Parse(distance) <= 3000)
+            try
             {
-                shippingFee = 18000;
+                var ship = await _s_Shipping.ShippingFee(distance);
+                return Ok(new { result = 1, data = ship });
             }
-            else if(int.Parse(distance) > 3000 && int.Parse(distance) <= 6000)
+            catch (Exception ex)
             {
-                shippingFee = 30000;
+                return BadRequest(new { message = ex.Message });
             }
-            else
-            {
-                throw new Exception("Xin lỗi, chúng tôi chỉ ship trong phạm vi từ 6km trờ xuống. Vui lòng chọn chi nhánh khác");
-            }
-
-            return View();
         }
-
-
     }
 }
