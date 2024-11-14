@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PromotionService_5004.Models;
 
@@ -11,9 +12,11 @@ using PromotionService_5004.Models;
 namespace PromotionService_5004.Migrations
 {
     [DbContext(typeof(PromotionDbContext))]
-    partial class PromotionDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241114180920_ud2")]
+    partial class ud2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

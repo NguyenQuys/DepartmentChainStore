@@ -59,7 +59,7 @@ namespace ProductService_5000.Migrations
 
                     b.HasIndex("IdProduct");
 
-                    b.ToTable("Batches");
+                    b.ToTable("Batches", (string)null);
                 });
 
             modelBuilder.Entity("ProductService_5000.Models.Cart", b =>
@@ -86,7 +86,7 @@ namespace ProductService_5000.Migrations
 
                     b.HasIndex("IdProduct");
 
-                    b.ToTable("Carts");
+                    b.ToTable("Carts", (string)null);
                 });
 
             modelBuilder.Entity("ProductService_5000.Models.CategoryProduct", b =>
@@ -101,7 +101,7 @@ namespace ProductService_5000.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CategoryProducts");
+                    b.ToTable("CategoryProducts", (string)null);
                 });
 
             modelBuilder.Entity("ProductService_5000.Models.Image", b =>
@@ -124,7 +124,7 @@ namespace ProductService_5000.Migrations
 
                     b.HasIndex("IdProduct");
 
-                    b.ToTable("Images");
+                    b.ToTable("Images", (string)null);
                 });
 
             modelBuilder.Entity("ProductService_5000.Models.Product", b =>
@@ -163,7 +163,7 @@ namespace ProductService_5000.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("ProductService_5000.Models.Batch", b =>

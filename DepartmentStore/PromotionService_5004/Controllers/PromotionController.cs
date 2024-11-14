@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using PromotionService_5004.Models;
 using PromotionService_5004.Services;
 using System.Net.Http.Headers;
+using System.Text.Json;
 
 namespace PromotionService_5004.Controllers
 {
@@ -36,18 +37,22 @@ namespace PromotionService_5004.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetByPromotionCode(string promotionCode)
+        public async Task<IActionResult> GetByPromotionCode(string promotionCode, string listIdProductsAndQuantity)
         {
             try
             {
-                var check = await _s_Promotion.GetByPromotionCode(promotionCode,_currentUser);
-				return Ok(new { result = 1, data = check });
-			}
-			catch (Exception ex)
+                // Deserialize the input string into a dictionary
+                var productsAndQuantities = JsonSerializer.Deserialize<Dictionary<int, int>>(listIdProductsAndQuantity);
+
+                var check = await _s_Promotion.GetByPromotionCode(promotionCode, productsAndQuantities, _currentUser);
+                return Ok(new { result = 1, data = check });
+            }
+            catch (Exception ex)
             {
-				return Ok(new { result = -1, message = ex.Message });
-			}
-		}
+                return Ok(new { result = -1, message = ex.Message });
+            }
+        }
+
 
         [HttpPost,Authorize(Roles ="1")]
         public async Task<IActionResult> Add(Promotion request)

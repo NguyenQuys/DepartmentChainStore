@@ -15,7 +15,7 @@ namespace PromotionService_5004.Models
 
 		public byte Percentage { get; set; }
 
-        public byte ApplyFor { get; set; }
+        public int? ApplyFor { get; set; }
 
         public int MinPrice { get; set; }
 

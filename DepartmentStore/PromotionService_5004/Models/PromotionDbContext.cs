@@ -6,7 +6,7 @@ namespace PromotionService_5004.Models
     { 
         public PromotionDbContext(DbContextOptions<PromotionDbContext> options) : base(options) { }
 
-        public DbSet<Promotion> Promions { get; set; }
+        public DbSet<Promotion> Promotions { get; set; }
         public DbSet<PromotionType> PromotionTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

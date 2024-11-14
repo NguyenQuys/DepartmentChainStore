@@ -26,7 +26,9 @@
 							}
 							@foreach (var item in Model)
 							{
-								<tr class="text-center">
+                                <input type="hidden" value="@item.IdProduct" class="idProductChosen" />
+                                <input type="hidden" value="@item.Quantity" class="quantityChosen" />
+                                <tr class="text-center">
 									<td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
 
 									<td class="image-prod"><div class="img" style="background-image:url(@item.MainImage);"></div></td>
@@ -96,33 +98,30 @@
 							</p>
 						</div>
 					</form>
-
 				</div>
-				<p><a href="checkout.html" class="btn btn-primary py-3 px-4">Estimate</a></p>
 			</div>
 			<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
 				<div class="cart-total mb-3">
-	<h3>Tổng hóa đơn</h3>
-	<p class="d-flex">
-		<span>Tổng phụ</span>
-		<span id="subtotal">@total.ToString("N0") VND</span>
-	</p>
-	<p class="d-flex">
-		<span>Tiền vận chuyển</span>
-		<span id="delivery">0 VND</span>
-	</p>
-	<p class="d-flex">
-		<span>Giảm giá</span>
-		<input type="hidden" value="@total" id="total_cart" />
-		<span id="discount_invoice">0</span>
-	</p>
-	<hr>
-	<p class="d-flex total-price">
-		<span>Total</span>
-		<span id="total_price">0 VND</span>
-	</p>
-</div>
-
+	                <h3>Tổng hóa đơn</h3>
+	                <p class="d-flex">
+		                <span>Tổng phụ</span>
+		                <span id="subtotal">@total.ToString("N0") VND</span>
+	                </p>
+	                <p class="d-flex">
+		                <span>Tiền vận chuyển</span>
+		                <span id="delivery">0 VND</span>
+	                </p>
+	                <p class="d-flex">
+		                <span>Giảm giá</span>
+		                <input type="hidden" value="@total" id="total_cart" />
+		                <span id="discount_invoice">0</span>
+	                </p>
+	                <hr>
+	                <p class="d-flex total-price">
+		                <span>Tổng cộng</span>
+		                <span id="total_price">0 VND</span>
+	                </p>
+                </div>
 				<p><a href="checkout.html" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
 			</div>
 		</div>
@@ -138,8 +137,10 @@
             </div>
             <div class="modal-body">
 				<div>
-					<h2>Chọn điểm trên Google Maps để tính khoảng cách từ Location 1</h2>
-					<div id="noti_available_delivery"></div>
+					<h2>Chọn địa điểm bạn muốn được giao đến</h2>
+					<div>
+                        <h4 class="d-flex">Tiền ship của bạn là: &nbsp<span class="text-success" id="noti_available_delivery"></span></h4>
+                    </div>
 					<div id="map" style="width: 100%; height: 500px;"></div>
 
 					<form id="shippingForm">
@@ -149,17 +150,19 @@
 						<label>longitude:</label>
 						<input type="text" id="longitude1" name="longitude1" value="106.660172" readonly /><br /> *@
 
-						<h3>location 2:</h3>
-						<label>latitude:</label>
-						<input type="text" id="latitude2" name="latitude2" readonly /><br />
-						<label>longitude:</label>
-						<input type="text" id="longitude2" name="longitude2" readonly /><br />
+						<h3>Vị trí bạn muốn giao đến:</h3>
+						<label>Kinh độ:</label>
+						<input type="text" id="latitude2" name="latitude2" class="form-control" readonly /><br />
+						<label>Vĩ độ:</label>
+                        <input type="text" id="longitude2" name="longitude2" class="form-control" readonly /><br />
 
-						<h3>khoảng cách:</h3>
-						<label>distance (meters):</label>
+						<h3>Khoảng cách:</h3>
+						<label>Đơn vị đo (mét):</label>
 						<input type="text" id="distance" name="distance" readonly /><br />
 
-						<button type="button" id="btn_submit_shipping">gửi dữ liệu</button>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" id="btn_submit_shipping" class="btn btn-success">Gửi dữ liệu</button>
+                        </div>
 					</form>
                     <script>
                         let map;
@@ -209,7 +212,7 @@
 
                             currentLocationButton.addEventListener("click", () => {
                                 isManualSelection = false; // Tắt chế độ chọn vị trí thủ công
-                                getCurrentLocation(); // Lấy vị trí hiện tại của người dùng
+                                GetCurrentLocation(); // Lấy vị trí hiện tại của người dùng
 
                                 // Hiển thị marker vị trí hiện tại nếu chưa có
                                 if (currentLocationMarker) {
@@ -258,7 +261,7 @@
 
                         }
 
-                        function getCurrentLocation() {
+                        function GetCurrentLocation() {
                             if (navigator.geolocation) {
                                 navigator.geolocation.getCurrentPosition(
                                     (position) => {
@@ -282,8 +285,8 @@
                                         }
 
                                         // Tính khoảng cách khi chọn Location2
-                                        calculateDistance();
-                                        SubmitFormShipping(calculateDistance());
+                                        CalculateDistance();
+                                        SubmitFormShipping(CalculateDistance());
                                     },
                                     () => {
                                         alert("Không thể lấy vị trí của bạn.");
@@ -294,7 +297,7 @@
                             }
                         }
 
-                        function calculateDistance() {
+                        function CalculateDistance() {
                             if (secondLocation) {
                                 const distance = google.maps.geometry.spherical.computeDistanceBetween(
                                     new google.maps.LatLng(location1.lat, location1.lng),
@@ -303,56 +306,7 @@
                                 document.getElementById("distance").value = distance.toFixed(2); // Hiển thị khoảng cách (mét)
                             }
                         }
-
-                        function SubmitFormShipping() {
-                            let distance = $('#distance').val();
-
-                            $.ajax({
-                                url: `/Shipping/ShippingFee?distance=${distance}`,
-                                type: 'POST',
-                                success: function (response) {
-                                    $('#noti_available_delivery')
-                                        .html(`<p>${response.data}</p>`)
-                                        .removeClass('text-danger')
-                                        .addClass('text-success');
-
-                                    $('#btn_submit_shipping').on('click', function () {
-                                        let formattedData = parseFloat(response.data).toLocaleString('vi-VN');
-                                        $('#delivery').text('+ ' + formattedData + ' VND').addClass('text-danger');
-                                        $('#modal_location').modal('hide');
-                                    });
-                                },
-                                error: function (error) {
-                                    let errorMessage = error.responseJSON?.message || "An error occurred.";
-                                    $('#noti_available_delivery')
-                                        .html(`<p>${errorMessage}</p>`)
-                                        .removeClass('text-success')
-                                        .addClass('text-danger');
-                                }
-                            });
-                        }
-
-                        function updateTotal() {
-                            const subtotal = parseFloat(document.getElementById('total_cart').value) || 0;
-                            const shipping = parseFloat(document.getElementById('delivery').innerText.replace(/[^\d]/g, '')) || 0;
-                            const discount = parseFloat(document.getElementById('discount_invoice').innerText.replace(/[^\d]/g, '')) || 0;
-                            const total = subtotal + shipping - discount;
-                            document.getElementById('total_price').innerText = total.toLocaleString('vi-VN') + ' VND';
-                        }
-
-                        // Gọi hàm để cập nhật tổng và thêm sự kiện nếu cần
-                        updateTotal();
-
-                        const observer = new MutationObserver(updateTotal);
-                        observer.observe(document.getElementById('delivery'), { childList: true, subtree: true });
-                        observer.observe(document.getElementById('discount_invoice'), { childList: true, subtree: true });
                     </script>
-
-
-
-
-
-
 				</div>
             </div>
         </div>

@@ -14,7 +14,7 @@ using System.Diagnostics;
 
 namespace ProductService_5000.Controllers
 {
-	[Route("Product/[action]")]
+    [Route("Product/[action]")]
 	public class ProductController : Controller
 	{
 		private readonly IS_Product _s_Product;
