@@ -114,3 +114,8 @@ UpdateTotal();
 const observer = new MutationObserver(UpdateTotal);
 observer.observe(document.getElementById('delivery'), { childList: true, subtree: true });
 observer.observe(document.getElementById('discount_invoice'), { childList: true, subtree: true });
+
+function OpenModalConfirmPayment() {
+
+    $('#modal_confirmPayment').modal('show');
+}

@@ -63,7 +63,6 @@ namespace PromotionService_5004.Services
 
         public async Task<int> GetByPromotionCode(string promotionCode, Dictionary<int, int> productsAndQuantities, MRes_InfoUser currentUser)
         {
-            // Fetch the promotion matching the given code and check if it's active
             var promotionToGet = await _context.Promotions
                                                .FirstOrDefaultAsync(m => m.Code.ToUpper() == promotionCode.ToUpper() && m.IsActive);
 
