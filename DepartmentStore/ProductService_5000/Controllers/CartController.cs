@@ -87,12 +87,11 @@ namespace ProductService_5000.Controllers
 		public async Task<IActionResult> InvoiceIndex(string stringifyCarts)
 		{
 			TempData["Location"] = LOCATION_BRANCH;
-			TempData["IdBranch"] = ID_BRANCH;
 			var invoiceIndex = await _s_Cart.InvoiceIndex(stringifyCarts, ID_BRANCH);
-            TempData["Latitude"] = invoiceIndex.First().LatitudeBranch ?? "0.0";  
-            TempData["Longitude"] = invoiceIndex.First().LongitudeBranch ?? "0.0";  
-
-            return View(invoiceIndex);
+			TempData["Latitude"] = invoiceIndex.First().LatitudeBranch ?? "0.0";
+			TempData["Longitude"] = invoiceIndex.First().LongitudeBranch ?? "0.0";
+			TempData["IdUser"] = int.Parse(_currentUser?.IdUser ?? "0");
+			return View(invoiceIndex);
 		}
 	}
 }

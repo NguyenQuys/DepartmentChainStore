@@ -72,7 +72,7 @@ namespace PromotionService_5004.Migrations
 
                     b.HasIndex("IdPromotionType");
 
-                    b.ToTable("Promotions");
+                    b.ToTable("Promotions", (string)null);
                 });
 
             modelBuilder.Entity("PromotionService_5004.Models.PromotionType", b =>
@@ -86,7 +86,7 @@ namespace PromotionService_5004.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PromotionTypes");
+                    b.ToTable("PromotionTypes", (string)null);
                 });
 
             modelBuilder.Entity("PromotionService_5004.Models.Promotion", b =>

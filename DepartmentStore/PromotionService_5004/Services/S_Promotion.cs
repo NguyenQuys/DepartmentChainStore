@@ -13,12 +13,13 @@ namespace PromotionService_5004.Services
         Task<List<Promotion>> GetAll();
         Task<Promotion> GetById(int id);
         Task<int> GetByPromotionCode(string promotionRequest,Dictionary<int,int> productsAndQuantities, MRes_InfoUser currentUser);
+        Task<int> TransferPromotionCodeToId(string promotionCode);
         Task<string> Add(Promotion promotion);
         Task<string> Update(Promotion promotion);
         Task<string> Delete(int id);
     }
 
-	public class S_Promotion : IS_Promotion
+    public class S_Promotion : IS_Promotion
     {
         private readonly PromotionDbContext _context;
 		private readonly IHttpClientFactory _httpClientFactory;
@@ -161,6 +162,12 @@ namespace PromotionService_5004.Services
 
             // Return the validated promotion
             return discountFinal;
+        }
+
+        public async Task<int> TransferPromotionCodeToId(string promotionCode)
+        {
+            var transer = await _context.Promotions.FirstOrDefaultAsync(m=>m.Code.ToUpper().Equals(promotionCode.ToUpper()));
+            return transer.Id;
         }
 
         public async Task<string> Update(Promotion request)

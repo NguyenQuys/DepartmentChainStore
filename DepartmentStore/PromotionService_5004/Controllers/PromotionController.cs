@@ -41,7 +41,6 @@ namespace PromotionService_5004.Controllers
         {
             try
             {
-                // Deserialize the input string into a dictionary
                 var productsAndQuantities = JsonSerializer.Deserialize<Dictionary<int, int>>(listIdProductsAndQuantity);
 
                 var check = await _s_Promotion.GetByPromotionCode(promotionCode, productsAndQuantities, _currentUser);
@@ -52,7 +51,6 @@ namespace PromotionService_5004.Controllers
                 return Ok(new { result = -1, message = ex.Message });
             }
         }
-
 
         [HttpPost,Authorize(Roles ="1")]
         public async Task<IActionResult> Add(Promotion request)
@@ -87,6 +85,14 @@ namespace PromotionService_5004.Controllers
         {
             var delete = await _s_Promotion.Delete(id);
             return Ok(delete);
+        }
+
+        // httpclient
+        [HttpGet]
+        public async Task<IActionResult> TransferPromotionCodeToId(string promotionCode)
+        {
+            var transfer = await _s_Promotion.TransferPromotionCodeToId(promotionCode);
+            return Ok(transfer);
         }
     }
 }

@@ -1,31 +1,16 @@
-﻿function CheckPromotion() {
-    let listIdProducts = [];
-    let listQuantities = [];
+﻿let global_idPaymentMethod;
+let checkChooseDeliveryMethod = false;
 
-    // Capture the selected product IDs
-    $('.idProductChosen').each(function () {
-        listIdProducts.push($(this).val());
-    });
-
-    // Capture the quantities
-    $('.quantityChosen').each(function () {
-        listQuantities.push($(this).val());
-    });
-
+function CheckPromotion(event) {
+    event.preventDefault();
     let promotionCode = $('#input_promotion_code').val();
-
-    // Combine product IDs and quantities into an object
-    let listIdProductsAndQuantities = {};
-    for (let i = 0; i < listIdProducts.length; i++) {
-        listIdProductsAndQuantities[listIdProducts[i]] = parseInt(listQuantities[i]) || 0;
-    }
 
     $.ajax({
         url: '/Promotion/GetByPromotionCode',
         type: 'GET',
         data: {
             promotionCode: promotionCode,
-            listIdProductsAndQuantity: JSON.stringify(listIdProductsAndQuantities)
+            listIdProductsAndQuantity: JSON.stringify(ListIdProductsAndQuantities())
         },
         contentType: 'application/json',
         success: function (response) {
@@ -44,33 +29,19 @@
     });
 }
 
-
 function ToggleDelivery() {
     const pickUpAtStore = document.getElementById('pick_up_at_store');
     const btnChooseLocation = document.getElementById('btn_choose_location');
     if (pickUpAtStore.checked) {
-        btnChooseLocation.classList.add('d-none'); // Ẩn nếu chọn 'Nhận tại cửa hàng'
+        btnChooseLocation.classList.add('d-none'); 
+        $('#delivery').text('0 VND');
+        global_idPaymentMethod = 1;
     } else {
-        btnChooseLocation.classList.remove('d-none'); // Hiển thị nếu chọn 'Ship đến tận nhà'
+        btnChooseLocation.classList.remove('d-none'); 
+        global_idPaymentMethod = 2;
     }
+    checkChooseDeliveryMethod = true;
 }
-
-// Thiết lập trạng thái mặc định khi trang được tải
-//window.onload = toggleLocation;
-
-//function OpenModalBranchLocation(idBranch) {
-//    $.ajax({
-//        url: '/Branch/GetById',
-//        type: 'GET',
-//        data: { id: idBranch },
-//        success: function (response) {
-//            lat = response.latitude;
-//            lng = response.longtitude;
-//            $('#modal_location').modal('show');
-//        }
-//    });
-//}
-
 
 function SubmitFormShipping() {
     let distance = $('#distance').val();
@@ -115,7 +86,87 @@ const observer = new MutationObserver(UpdateTotal);
 observer.observe(document.getElementById('delivery'), { childList: true, subtree: true });
 observer.observe(document.getElementById('discount_invoice'), { childList: true, subtree: true });
 
-function OpenModalConfirmPayment() {
+function OpenModalConfirmInformation(idUser) {
+    if (!checkChooseDeliveryMethod) {
+        ShowToastNoti('error', '', 'Vui lòng chọn phương thức vận chuyển', 4000);
+    } else {
+        if (idUser !== 0) {
+            $.ajax({
+                url: '/User/GetCustomerById',
+                type: 'GET',
+                data: { id: idUser },
+                success: function (response) {
+                    $('#input_customerName').val(response.fullName);
+                    $('#input_phoneNumber').val(response.phoneNumber);
+                    $('#modal_information').modal('show');
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching customer information:', error);
+                }
+            });
+        }
+    }
+}
 
-    $('#modal_confirmPayment').modal('show');
+function AddInvoice() {
+    var formData = new FormData();
+    formData.append('Promotion', $('#input_promotion_code').val());
+    formData.append('Price', parseFloat(document.getElementById('total_price').innerText.replace(/[^\d]/g, '')));
+    formData.append('IdPaymentMethod', global_idPaymentMethod);
+    formData.append('IdBranch', global_idBranch);
+    formData.append('CustomerPhoneNumber', $('#input_phoneNumber').val());
+    formData.append('CustomerName', $('#input_customerName').val());
+    formData.append('listIdProductsAndQuantities', JSON.stringify(ListIdProductsAndQuantities()));
+
+    $.ajax({
+        url: '/Invoice/AddAtStoreOffline',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            if (response.result == 1) {
+                $('#modal_body_information').html(`<h2 class="text-success text-center">${response.message}</h2>`);
+                const indexButton = document.createElement('button');
+                indexButton.textContent = "Quay về trang chủ";
+                indexButton.classList.add('text-center', 'btn', 'btn-success');
+
+                indexButton.addEventListener('click', function () {
+                    window.location.href = 'Product/Index'; 
+                });
+
+                $('#modal_body_information').append(indexButton);
+            } else {
+                ShowToastNoti('error', '', response.message, 4000);
+                $('#modal_information').modal('hide');
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('Error adding invoice:', error);
+        }
+    });
+}
+
+
+function ListIdProductsAndQuantities() {
+    let listIdProducts = [];
+    let listQuantities = [];
+
+    // Capture the selected product IDs
+    $('.idProductChosen').each(function () {
+        listIdProducts.push($(this).val());
+    });
+
+    // Capture the quantities
+    $('.quantityChosen').each(function () {
+        listQuantities.push($(this).val());
+    });
+
+    // Combine product IDs and quantities into an object
+    let listIdProductsAndQuantities = {};
+    for (let i = 0; i < listIdProducts.length; i++) {
+        listIdProductsAndQuantities[listIdProducts[i]] = parseInt(listQuantities[i]) || 0;
+    }
+
+    return listIdProductsAndQuantities;
 }

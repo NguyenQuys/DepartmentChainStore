@@ -9,10 +9,7 @@ namespace InvoiceService_5005.InvoiceModels
 		[MaxLength(12)]
 		public string InvoiceNumber { get; set; }
 
-		[MaxLength(10)]
-		public string CustomerPhoneNumber { get; set; }
-
-		public int IdPromotion { get; set; }
+		public int? IdPromotion { get; set; }
 
 		[MaxLength(9)]
 		public int Price { get; set; }
@@ -26,6 +23,12 @@ namespace InvoiceService_5005.InvoiceModels
 
 		public bool IsSuccess { get; set; }
 
-		public ICollection<Invoice_Product> Invoice_Products { get; set; }
+        [MaxLength(10)]
+        public string? CustomerPhoneNumber { get; set; }
+
+		[MaxLength(50)]
+		public string? CustomerName { get; set; }
+
+        public ICollection<Invoice_Product> Invoice_Products { get; set; }
 	}
 }

@@ -32,22 +32,34 @@ namespace ProductService_5000.Controllers
 			_httpContextAccessor = httpContextAccessor;
 		}
 
-		[HttpGet]
-		public async Task<IActionResult> Index(int idBranch, string location)
-		{
-			if (idBranch == 0)
-			{
-				return Redirect("https://localhost:7076/Branch/ChooseBranchIndex");
-			}
-			Session.SetString(LocationBranchSessionKey, location);
-			Session.SetInt32(IdBranchSessionKey, idBranch);
+        [HttpGet]
+        public async Task<IActionResult> Index(int idBranch, string location)
+        {
+            int? sessionIdBranch = Session.GetInt32(IdBranchSessionKey);
+            if (sessionIdBranch != null)
+            {
+                TempData["Location"] = Session.GetString("LocationBranch");
+                TempData["IdBranch"] = sessionIdBranch;
+            }
+            else
+            {
+                if (idBranch == 0)
+                {
+                    return Redirect("https://localhost:7076/Branch/ChooseBranchIndex");
+                }
 
-			TempData["Location"] = location;
-			TempData["IdBranch"] = idBranch;
-			return View();
-		}
+                Session.SetString(LocationBranchSessionKey, location);
+                Session.SetInt32(IdBranchSessionKey, idBranch);
 
-		[HttpGet]
+                TempData["Location"] = location;
+                TempData["IdBranch"] = idBranch;
+            }
+
+            return View();
+        }
+
+
+        [HttpGet]
 		public async Task<IActionResult> GetAllProducts()
 		{
 			var productsToGet = await _s_Product.GetAllProducts();

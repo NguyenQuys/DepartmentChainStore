@@ -33,8 +33,11 @@ namespace InvoiceService_5005.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("CustomerName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("CustomerPhoneNumber")
-                        .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
@@ -44,7 +47,7 @@ namespace InvoiceService_5005.Migrations
                     b.Property<int?>("IdPaymentMethod")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdPromotion")
+                    b.Property<int?>("IdPromotion")
                         .HasColumnType("int");
 
                     b.Property<string>("InvoiceNumber")

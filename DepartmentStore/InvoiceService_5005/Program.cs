@@ -1,4 +1,5 @@
 using InvoiceService_5005.InvoiceModels;
+using InvoiceService_5005.NewFolder;
 using InvoiceService_5005.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,11 +9,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddAutoMapper(typeof(InvoiceMapper));
+
 builder.Services.AddDbContext<InvoiceDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("InvoiceDBConnection")));
 
 builder.Services.AddScoped<IS_Invoice, S_Invoice>();
 builder.Services.AddScoped<IS_Shipping, S_Shipping>();
+
+builder.Services.AddHttpClient("ProductService", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7076");
+});
 
 builder.Services.AddEndpointsApiExplorer();
 
