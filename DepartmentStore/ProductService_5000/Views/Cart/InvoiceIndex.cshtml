@@ -30,6 +30,7 @@
 							{
                                 <input type="hidden" value="@item.IdProduct" class="idProductChosen" />
                                 <input type="hidden" value="@item.Quantity" class="quantityChosen" />
+                                <input type="hidden" value="@item.Price" class="single-price-product" />
                                 <tr class="text-center">
 									<td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
 
@@ -341,6 +342,10 @@
                     <div class="mb-3">
                         <label for="productPrice" class="form-label">Số điện thoại</label>
                         <input type="number" class="form-control" id="input_phoneNumber" required max="9999999999" oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);">
+                    </div>
+                    <div class="mb-3">
+                        <label for="productPrice" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="input_email" required >
                     </div>
                     <div class="d-flex justify-content-around">
                         <button type="button" class="btn btn-success" onclick="AddInvoice()">Xác nhận</button>

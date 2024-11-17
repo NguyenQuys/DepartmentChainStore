@@ -98,6 +98,7 @@ function OpenModalConfirmInformation(idUser) {
                 success: function (response) {
                     $('#input_customerName').val(response.fullName);
                     $('#input_phoneNumber').val(response.phoneNumber);
+                    $('#input_email').val(response.email);
                     $('#modal_information').modal('show');
                 },
                 error: function (xhr, status, error) {
@@ -105,21 +106,30 @@ function OpenModalConfirmInformation(idUser) {
                 }
             });
         }
+        $('#modal_information').modal('show');
     }
 }
 
 function AddInvoice() {
+    let listSinglePrice = [];
+    $('.single-price-product').each(function () {
+        listSinglePrice.push($(this).val());
+    });
+    console.log(listSinglePrice);
+
     var formData = new FormData();
-    formData.append('Promotion', $('#input_promotion_code').val());
-    formData.append('Price', parseFloat(document.getElementById('total_price').innerText.replace(/[^\d]/g, '')));
+    formData.append('Promotion', $('#input_promotion_code').val() ?? 0);
+    formData.append('Email', $('#input_email').val());
+    formData.append('listIdProductsAndQuantities', JSON.stringify(ListIdProductsAndQuantities()));
+    listSinglePrice.forEach(price => formData.append('SinglePrice', price));
+    formData.append('SumPrice', parseFloat(document.getElementById('total_price').innerText.replace(/[^\d]/g, '')));
     formData.append('IdPaymentMethod', global_idPaymentMethod);
     formData.append('IdBranch', global_idBranch);
     formData.append('CustomerPhoneNumber', $('#input_phoneNumber').val());
     formData.append('CustomerName', $('#input_customerName').val());
-    formData.append('listIdProductsAndQuantities', JSON.stringify(ListIdProductsAndQuantities()));
 
     $.ajax({
-        url: '/Invoice/AddAtStoreOffline',
+        url: '/Invoice/AddAtStoreOnline',
         type: 'POST',
         data: formData,
         contentType: false,
@@ -132,7 +142,7 @@ function AddInvoice() {
                 indexButton.classList.add('text-center', 'btn', 'btn-success');
 
                 indexButton.addEventListener('click', function () {
-                    window.location.href = 'Product/Index'; 
+                    window.location.href = '/Product/Index'; 
                 });
 
                 $('#modal_body_information').append(indexButton);

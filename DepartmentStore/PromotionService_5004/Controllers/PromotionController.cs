@@ -94,5 +94,13 @@ namespace PromotionService_5004.Controllers
             var transfer = await _s_Promotion.TransferPromotionCodeToId(promotionCode);
             return Ok(transfer);
         }
+
+        [HttpPut]
+        public async Task<IActionResult> MinusRemainingQuantity(int id)
+        {
+            await _s_Promotion.MinusRemainingQuantity(id);
+            return Ok();
+        }
+
     }
 }

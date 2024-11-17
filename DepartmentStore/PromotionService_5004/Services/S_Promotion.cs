@@ -16,6 +16,7 @@ namespace PromotionService_5004.Services
         Task<int> TransferPromotionCodeToId(string promotionCode);
         Task<string> Add(Promotion promotion);
         Task<string> Update(Promotion promotion);
+        Task MinusRemainingQuantity(int id);
         Task<string> Delete(int id);
     }
 
@@ -72,7 +73,6 @@ namespace PromotionService_5004.Services
                 throw new Exception("Voucher này không tồn tại");
             }
 
-            // Validate promotion availability
             if (promotionToGet.InitDate > DateOnly.FromDateTime(DateTime.Now))
                 throw new Exception("Chưa đến ngày sử dụng voucher");
             if (promotionToGet.ExpiredDate <= DateOnly.FromDateTime(DateTime.Now))
@@ -84,14 +84,14 @@ namespace PromotionService_5004.Services
             using var client = _httpClientFactory.CreateClient("ProductService");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", currentUser.AccessToken);
 
-            var invoiceResponse = await client.GetAsync($"/Invoice/GetByPhoneNumber?phoneNumberRequest={currentUser.PhoneNumber}");
+            var invoiceResponse = await client.GetAsync($"/Invoice/GetByPhoneNumberAndIdPromotion?phoneNumberRequest={currentUser.PhoneNumber}&idPromotion={promotionToGet.Id}");
             if (!invoiceResponse.IsSuccessStatusCode)
             {
                 throw new Exception("Unable to retrieve product information from ProductService");
             }
 
             var invoice = await invoiceResponse.Content.ReadFromJsonAsync<Invoice>();
-            if (invoice?.IdPromotion == promotionToGet.Id)
+            if (invoice != null)
             {
                 throw new Exception("Voucher này đã được bạn sử dụng trước đó");
             }
@@ -162,6 +162,14 @@ namespace PromotionService_5004.Services
 
             // Return the validated promotion
             return discountFinal;
+        }
+
+        public async Task MinusRemainingQuantity(int id)
+        {
+            var promotion = await _context.Promotions.FirstOrDefaultAsync(m=>m.Id == id);
+            promotion.RemainingQuantity -= 1;
+            _context.Update(promotion);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<int> TransferPromotionCodeToId(string promotionCode)

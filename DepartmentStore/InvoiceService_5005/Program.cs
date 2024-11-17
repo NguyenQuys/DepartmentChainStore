@@ -1,7 +1,9 @@
+using APIGateway.Utilities;
 using InvoiceService_5005.InvoiceModels;
 using InvoiceService_5005.NewFolder;
 using InvoiceService_5005.Services;
 using Microsoft.EntityFrameworkCore;
+using Ocelot.Values;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,7 @@ builder.Services.AddDbContext<InvoiceDbContext>(options =>
 
 builder.Services.AddScoped<IS_Invoice, S_Invoice>();
 builder.Services.AddScoped<IS_Shipping, S_Shipping>();
+builder.Services.AddScoped<ISendMailSMTP, SendMailSMTP>();
 
 builder.Services.AddHttpClient("ProductService", client =>
 {

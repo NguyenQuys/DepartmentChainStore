@@ -19,18 +19,18 @@ namespace InvoiceService_5005.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> GetByPhoneNumber(string phoneNumberRequest)
+		public async Task<IActionResult> GetByPhoneNumberAndIdPromotion(string phoneNumberRequest,int idPromotion)
 		{
-			var getInvoice = await _s_Invoice.GetByPhoneNumber(phoneNumberRequest);
+			var getInvoice = await _s_Invoice.GetByPhoneNumberAndIdPromotion(phoneNumberRequest, idPromotion);
 			return Ok(getInvoice);
 		}
 
 		[HttpPost]
-        public async Task<IActionResult> AddAtStoreOffline([FromForm] MReq_Invoice invoiceRequest)
+        public async Task<IActionResult> AddAtStoreOnline([FromForm] MReq_Invoice invoiceRequest)
         {
             try
 			{
-				var add = await _s_Invoice.AddAtStoreOffline(invoiceRequest);
+				var add = await _s_Invoice.AddAtStoreOnline(invoiceRequest);
 				return Ok(new {result = 1, message = add});	
             }
             catch (Exception ex)
