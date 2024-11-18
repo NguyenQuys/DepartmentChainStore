@@ -34,18 +34,19 @@ namespace InvoiceService_5005.Services
 
         public async Task<string> AddAtStoreOnline(MReq_Invoice mReq_Invoice)
         {
+            bool shouldCallMinusRemaining = false;  
+            int? idPromotion = null;
+
             using (var transaction = await _context.Database.BeginTransactionAsync())
             {
                 try
                 {
-                    int? idPromotion = null;
-
                     using var client = _httpClientFactory.CreateClient("ProductService");
 
                     if (!string.IsNullOrEmpty(mReq_Invoice.Promotion) && !mReq_Invoice.Promotion.Equals("0"))
                     {
                         idPromotion = await GetIdPromotionAsync(client, mReq_Invoice.Promotion);
-                        MinusRemainingQuantityPromotionAsync(client, idPromotion);
+                        shouldCallMinusRemaining = true;  
                     }
                     else if (string.IsNullOrWhiteSpace(mReq_Invoice.CustomerName) || string.IsNullOrWhiteSpace(mReq_Invoice.CustomerPhoneNumber))
                     {
@@ -58,7 +59,6 @@ namespace InvoiceService_5005.Services
                     await _context.AddAsync(invoiceToAdd);
                     await _context.SaveChangesAsync();
 
-                    // Deserialize product and quantities data
                     var productsAndQuantities = JsonSerializer.Deserialize<Dictionary<int, int>>(mReq_Invoice.ListIdProductsAndQuantities)
                                                ?? throw new InvalidOperationException("Invalid products and quantities data.");
 
@@ -73,12 +73,13 @@ namespace InvoiceService_5005.Services
                     var dictionaryProductNameAndQuantity = new Dictionary<string, int>();
                     foreach (var item in productsAndQuantities)
                     {
-                        string productName = await GetProductNameByIdAsync(client, item.Key); 
+                        string productName = await GetProductNameByIdAsync(client, item.Key);
                         dictionaryProductNameAndQuantity.Add(productName, item.Value);
                     }
                     await _context.SaveChangesAsync();
 
-                    int totalOriginalPrice = productsAndQuantities.Values.Zip(mReq_Invoice.SinglePrice, (quantity, price) => quantity * price).Sum(); // quantity represents for productsAndQuantities.Values, price for mReq_Invoice.SinglePrice, Zip is used tp pack 2 collections
+                    // Calculate discount
+                    int totalOriginalPrice = productsAndQuantities.Values.Zip(mReq_Invoice.SinglePrice, (quantity, price) => quantity * price).Sum();
                     int discount = totalOriginalPrice - mReq_Invoice.SumPrice;
 
                     var paymentMethod = await _context.PaymentMethods.FirstOrDefaultAsync(m => m.Id == mReq_Invoice.IdPaymentMethod);
@@ -98,7 +99,12 @@ namespace InvoiceService_5005.Services
 
                     await transaction.CommitAsync();
 
-                    //_sendEmail.SendMail(mReq_Invoice.Email, "Hóa đơn mua hàng", EmailTableBody(invoiceEmail));
+                    if (shouldCallMinusRemaining && idPromotion.HasValue)
+                    {
+                        await MinusRemainingQuantityPromotionAsync(client, idPromotion.Value);
+                    }
+
+                    _sendEmail.SendMail(mReq_Invoice.Email, "Hóa đơn mua hàng", EmailTableBody(invoiceEmail));
 
                     return "Đặt hàng thành công";
                 }

@@ -93,5 +93,11 @@ namespace ProductService_5000.Controllers
 			TempData["IdUser"] = int.Parse(_currentUser?.IdUser ?? "0");
 			return View(invoiceIndex);
 		}
+
+		[HttpGet]
+		public async Task<IActionResult> HistoryPurchase()
+		{
+			return View();
+		}
 	}
 }
