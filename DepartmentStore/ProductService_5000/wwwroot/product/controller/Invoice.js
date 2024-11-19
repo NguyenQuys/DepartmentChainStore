@@ -182,5 +182,83 @@ function ListIdProductsAndQuantities() {
 }
 
 function OpenModalHistoryPurchase(idInvoice) {
-    $('#modal_purchaseHistory').modal('show');
+    $.ajax({
+        url: '/Invoice/GetDetailsInvoice',
+        type: 'GET',
+        data: { id: idInvoice },
+        success: function (response) {
+            if (response) {
+                let productRows = '';
+                let initialTotal = response.total + response.discount; // Calculate total before discount
+                let index = 0;
+
+                // Check if productNameAndQuantity is a valid dictionary (object)
+                if (response.productNameAndQuantity && typeof response.productNameAndQuantity === 'object') {
+                    for (let productName in response.productNameAndQuantity) {
+                        if (response.productNameAndQuantity.hasOwnProperty(productName)) {
+                            let quantity = response.productNameAndQuantity[productName];
+                            let singlePrice = response.singlePrice[index] || 0; 
+                            let totalPrice = quantity * singlePrice;
+                            productRows += `
+                                <tr>
+                                    <td style='border: 1px solid #ddd; padding: 8px;'>${productName}</td>
+                                    <td style='border: 1px solid #ddd; padding: 8px;'>${quantity}</td>
+                                    <td style='border: 1px solid #ddd; padding: 8px;'>${singlePrice.toLocaleString('vi-VN')} VND</td>
+                                    <td style='border: 1px solid #ddd; padding: 8px;'>${totalPrice.toLocaleString('vi-VN')} VND</td>
+                                </tr>
+                            `;
+                        }
+                        index++;
+                    }
+                } else {
+                    productRows = '<tr><td colspan="4" style="text-align: center; padding: 8px;">No products found</td></tr>';
+                }
+
+                let bodyDetail = `
+                    <div style='width: 100%; font-family: Arial, sans-serif;'>
+                        <h1>Hóa đơn mua hàng #${response.invoiceNumber || 'N/A'}</h1>
+                        <h2>Thời gian: ${response.time ? new Date(response.time).toLocaleString() : 'N/A'}</h2>
+                        <table style='width: 100%; border-collapse: collapse;'>
+                            <thead>
+                                <tr class='bg-primary text-white''>
+                                    <th style='border: 1px solid #ddd; padding: 8px;'>Sản phẩm</th>
+                                    <th style='border: 1px solid #ddd; padding: 8px;'>Số lượng</th>
+                                    <th style='border: 1px solid #ddd; padding: 8px;'>Đơn giá</th>
+                                    <th style='border: 1px solid #ddd; padding: 8px;'>Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${productRows}
+                                <tr>
+                                    <td colspan='3' style='border: 1px solid #ddd; padding: 8px; text-align: right; font-weight: bold;'>Tổng ban đầu:</td>
+                                    <td style='border: 1px solid #ddd; padding: 8px;'>${initialTotal.toLocaleString('en-US')} VND</td>
+                                </tr>
+                                <tr>
+                                    <td colspan='3' style='border: 1px solid #ddd; padding: 8px; text-align: right; font-weight: bold;'>Giảm giá:</td>
+                                    <td style='border: 1px solid #ddd; padding: 8px;'>-${response.discount.toLocaleString('en-US')} VND</td>
+                                </tr>
+                                <tr>
+                                    <td colspan='3' style='border: 1px solid #ddd; padding: 8px; text-align: right; font-weight: bold;'>Tổng cộng:</td>
+                                    <td style='border: 1px solid #ddd; padding: 8px;'>${response.total.toLocaleString('en-US')} VND</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h3>Phương thức thanh toán: ${response.paymentMethod || 'N/A'}</h3>
+                        <h3>Trạng thái: ${response.status || 'N/A'}</h3>
+                    </div>
+                `;
+
+                // Insert the built HTML into the modal's body and show the modal
+                $('#modal_purchaseHistory .modal-body').html(bodyDetail);
+                $('#modal_purchaseHistory').modal('show');
+            } else {
+                alert('Không tìm thấy dữ liệu chi tiết hóa đơn.');
+            }
+        },
+        error: function () {
+            alert('Đã xảy ra lỗi khi lấy dữ liệu chi tiết hóa đơn.');
+        }
+    });
 }
+
+

@@ -19,7 +19,7 @@ namespace ProductService_5000.Services
 		// Invoice
 		Task<List<Invoice>> HistoryPurchase(MRes_InfoUser currentUser);
 
-	 Task<List<MRes_Product>> InvoiceIndex(string stringifyCarts,int idBranch);
+		Task<List<MRes_Product>> InvoiceIndex(string stringifyCarts, int idBranch);
 	}
 
 	public class S_Cart : IS_Cart
@@ -32,7 +32,7 @@ namespace ProductService_5000.Services
 
 		private static readonly string CartAddSessionKey = "CartAdd";
 		private static readonly string CartChosenSessionKey = "CartChosen";
-			 
+
 		public S_Cart(ProductDbContext context, IMapper mapper, IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
 		{
 			_context = context;
@@ -55,8 +55,8 @@ namespace ProductService_5000.Services
 				else
 				{
 					var newCartTemp = _mapper.Map<Cart>(request);
-					newCartTemp.Id = 0; 
-					newCartTemp.IdUser = 0; 
+					newCartTemp.Id = 0;
+					newCartTemp.IdUser = 0;
 					cart.Add(newCartTemp);
 				}
 
@@ -124,18 +124,18 @@ namespace ProductService_5000.Services
 			return cartDTOs;
 		}
 
-		public async Task<string> Delete(int idProduct,MRes_InfoUser currentUser)
+		public async Task<string> Delete(int idProduct, MRes_InfoUser currentUser)
 		{
-			if(currentUser.AccessToken != null)
+			if (currentUser.AccessToken != null)
 			{
-				var cartChosen = await _context.Carts.FirstOrDefaultAsync(m=>m.IdProduct == idProduct);
+				var cartChosen = await _context.Carts.FirstOrDefaultAsync(m => m.IdProduct == idProduct);
 				_context.Remove(cartChosen);
 				await _context.SaveChangesAsync();
 			}
 			else
 			{
 				var cartList = GetCartFromSession();
-				var cartToDetele = cartList.FirstOrDefault(m=>m.IdProduct == idProduct);
+				var cartToDetele = cartList.FirstOrDefault(m => m.IdProduct == idProduct);
 				cartList.Remove(cartToDetele);
 
 				SaveCartToSession(cartList);
@@ -155,49 +155,49 @@ namespace ProductService_5000.Services
 			Session.SetString(CartAddSessionKey, System.Text.Json.JsonSerializer.Serialize(cart));
 		}
 
-        public async Task<List<MRes_Product>> InvoiceIndex(string stringifyCarts, int idBranch)
-        {
-            // Attempt to deserialize the cartItems from the passed JSON string.
-            List<MRes_Product> cartItems;
-            try
-            {
-                cartItems = JsonConvert.DeserializeObject<List<MRes_Product>>(stringifyCarts);
-                if (cartItems == null)
-                {
-                    throw new Exception("Invalid cart data.");
-                }
-            }
-            catch (Exception ex)
-            {
-                // You can log the exception if needed.
-                throw new Exception("Failed to parse cart data.", ex);
-            }
+		public async Task<List<MRes_Product>> InvoiceIndex(string stringifyCarts, int idBranch)
+		{
+			// Attempt to deserialize the cartItems from the passed JSON string.
+			List<MRes_Product> cartItems;
+			try
+			{
+				cartItems = JsonConvert.DeserializeObject<List<MRes_Product>>(stringifyCarts);
+				if (cartItems == null)
+				{
+					throw new Exception("Invalid cart data.");
+				}
+			}
+			catch (Exception ex)
+			{
+				// You can log the exception if needed.
+				throw new Exception("Failed to parse cart data.", ex);
+			}
 
-            using var client = _httpClientFactory.CreateClient("ProductService");
+			using var client = _httpClientFactory.CreateClient("ProductService");
 
-            // Get branch data from the service.
-            var branchResponse = await client.GetAsync($"/Branch/GetById?id={idBranch}");
-            if (!branchResponse.IsSuccessStatusCode)
-            {
-                throw new Exception("Failed to retrieve data from the Branch Service.");
-            }
+			// Get branch data from the service.
+			var branchResponse = await client.GetAsync($"/Branch/GetById?id={idBranch}");
+			if (!branchResponse.IsSuccessStatusCode)
+			{
+				throw new Exception("Failed to retrieve data from the Branch Service.");
+			}
 
-            var branch = await branchResponse.Content.ReadFromJsonAsync<Branch>();
-            if (branch == null)
-            {
-                throw new Exception("Branch data is empty.");
-            }
+			var branch = await branchResponse.Content.ReadFromJsonAsync<Branch>();
+			if (branch == null)
+			{
+				throw new Exception("Branch data is empty.");
+			}
 
-            // Assign branch data to each item in the cart.
-            foreach (var item in cartItems)
-            {
-                item.LatitudeBranch = branch.Latitude;
-                item.LongitudeBranch = branch.Longtitude;
-                item.IdBranch = branch.Id;
-            }
+			// Assign branch data to each item in the cart.
+			foreach (var item in cartItems)
+			{
+				item.LatitudeBranch = branch.Latitude;
+				item.LongitudeBranch = branch.Longtitude;
+				item.IdBranch = branch.Id;
+			}
 
-            return cartItems;
-        }
+			return cartItems;
+		}
 
 		public async Task<List<Invoice>> HistoryPurchase(MRes_InfoUser currentUser)
 		{
