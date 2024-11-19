@@ -97,7 +97,8 @@ namespace ProductService_5000.Controllers
 		[HttpGet]
 		public async Task<IActionResult> HistoryPurchase()
 		{
-			return View();
+			var listToDisplay = await _s_Cart.HistoryPurchase(_currentUser);
+			return View(listToDisplay);
 		}
 	}
 }

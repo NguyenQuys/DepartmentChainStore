@@ -180,3 +180,7 @@ function ListIdProductsAndQuantities() {
 
     return listIdProductsAndQuantities;
 }
+
+function OpenModalHistoryPurchase(idInvoice) {
+    $('#modal_purchaseHistory').modal('show');
+}

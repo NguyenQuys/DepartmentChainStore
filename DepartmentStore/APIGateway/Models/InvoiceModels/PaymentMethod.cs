@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace InvoiceService_5005.InvoiceModels
 {
@@ -9,6 +10,7 @@ namespace InvoiceService_5005.InvoiceModels
 
 		public string Method { get; set; }
 
+		[JsonIgnore]
 		public ICollection<Invoice> Invoices { get; set; }
 	}
 }

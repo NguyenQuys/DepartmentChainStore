@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace InvoiceService_5005.InvoiceModels
 {
@@ -21,7 +22,9 @@ namespace InvoiceService_5005.InvoiceModels
 
 		public DateTime CreatedDate { get; set; }
 
-		public bool IsSuccess { get; set; }
+		public short IdStatus { get; set; } 
+
+		public Status Status { get; set; }
 
         [MaxLength(10)]
         public string? CustomerPhoneNumber { get; set; }
@@ -29,6 +32,10 @@ namespace InvoiceService_5005.InvoiceModels
 		[MaxLength(50)]
 		public string? CustomerName { get; set; }
 
+		public string? Note { get; set; }
+
+		[JsonIgnore]
         public ICollection<Invoice_Product> Invoice_Products { get; set; }
+
 	}
 }

@@ -12,6 +12,7 @@ namespace InvoiceService_5005.InvoiceModels
 		public DbSet<Invoice> Invoices { get; set; }
 		public DbSet<Invoice_Product> Invoice_Products { get; set; }
 		public DbSet<PaymentMethod> PaymentMethods { get; set; }
+		public DbSet<Status> Status { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -28,6 +29,12 @@ namespace InvoiceService_5005.InvoiceModels
 				.WithMany(pm => pm.Invoices)
 				.HasForeignKey(i => i.IdPaymentMethod)
 				.OnDelete(DeleteBehavior.SetNull);  // Khi xóa PaymentMethod, giữ lại Invoice nhưng không có PaymentMethod
+
+			modelBuilder.Entity<Invoice>()
+				.HasOne(m => m.Status)
+				.WithMany(m => m.Invoices)
+				.HasForeignKey(i => i.IdStatus)
+				.OnDelete(DeleteBehavior.Restrict);
 		}
 	}
 }

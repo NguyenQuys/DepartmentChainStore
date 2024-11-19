@@ -1,6 +1,7 @@
-﻿@{
-    ViewData["Title"] = "Lịch sử mua hàng";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@model List<InvoiceService_5005.InvoiceModels.Invoice>
+@{
+	ViewData["Title"] = "Lịch sử mua hàng";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <section class="ftco-section ftco-cart">
 	<div class="container">
@@ -10,140 +11,30 @@
 					<table class="table">
 						<thead class="thead-primary">
 							<tr class="text-center">
-								<th>&nbsp;</th>
-								<th>Product List</th>
-								<th>&nbsp;</th>
-								<th>Price</th>
-								<th>Quantity</th>
-								<th>Total</th>
+								<th>STT</th>
+								<th>Số hóa đơn</th>
+								<th>Thời gian</th>
+								<th>Trạng thái</th>
+								<th>Hành động</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr class="text-center">
-								<td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
-
-								<td class="image-prod"><div class="img" style="background-image:url(images/product-1.jpg);"></div></td>
-
-								<td class="product-name">
-									<h3>Bell Pepper</h3>
-									<p>Far far away, behind the word mountains, far from the countries</p>
-								</td>
-
-								<td class="price">$4.90</td>
-
-								<td class="quantity">
-									<div class="input-group mb-3">
-										<input type="text" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
-									</div>
-								</td>
-
-								<td class="total">$4.90</td>
-							</tr><!-- END TR-->
-
-							<tr class="text-center">
-								<td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
-
-								<td class="image-prod"><div class="img" style="background-image:url(images/product-2.jpg);"></div></td>
-
-								<td class="product-name">
-									<h3>Bell Pepper</h3>
-									<p>Far far away, behind the word mountains, far from the countries</p>
-								</td>
-
-								<td class="price">$15.70</td>
-
-								<td class="quantity">
-									<div class="input-group mb-3">
-										<input type="text" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
-									</div>
-								</td>
-
-								<td class="total">$15.70</td>
-							</tr><!-- END TR-->
-
-							<tr class="text-center">
-								<td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
-
-								<td class="image-prod"><div class="img" style="background-image:url(images/product-3.jpg);"></div></td>
-
-								<td class="product-name">
-									<h3>Bell Pepper</h3>
-									<p>Far far away, behind the word mountains, far from the countries</p>
-								</td>
-
-								<td class="price">$15.70</td>
-
-								<td class="quantity">
-									<div class="input-group mb-3">
-										<input type="text" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
-									</div>
-								</td>
-
-								<td class="total">$15.70</td>
-							</tr><!-- END TR-->
-
-							<tr class="text-center">
-								<td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
-
-								<td class="image-prod"><div class="img" style="background-image:url(images/product-4.jpg);"></div></td>
-
-								<td class="product-name">
-									<h3>Bell Pepper</h3>
-									<p>Far far away, behind the word mountains, far from the countries</p>
-								</td>
-
-								<td class="price">$15.70</td>
-
-								<td class="quantity">
-									<div class="input-group mb-3">
-										<input type="text" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
-									</div>
-								</td>
-
-								<td class="total">$15.70</td>
-							</tr><!-- END TR-->
-
-							<tr class="text-center">
-								<td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
-
-								<td class="image-prod"><div class="img" style="background-image:url(images/product-5.jpg);"></div></td>
-
-								<td class="product-name">
-									<h3>Bell Pepper</h3>
-									<p>Far far away, behind the word mountains, far from the countries</p>
-								</td>
-
-								<td class="price">$15.70</td>
-
-								<td class="quantity">
-									<div class="input-group mb-3">
-										<input type="text" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
-									</div>
-								</td>
-
-								<td class="total">$15.70</td>
-							</tr><!-- END TR-->
-
-							<tr class="text-center">
-								<td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
-
-								<td class="image-prod"><div class="img" style="background-image:url(images/product-6.jpg);"></div></td>
-
-								<td class="product-name">
-									<h3>Bell Pepper</h3>
-									<p>Far far away, behind the word mountains, far from the countries</p>
-								</td>
-
-								<td class="price">$15.70</td>
-
-								<td class="quantity">
-									<div class="input-group mb-3">
-										<input type="text" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
-									</div>
-								</td>
-
-								<td class="total">$15.70</td>
-							</tr><!-- END TR-->
+							@{
+								int index = 1;
+							}
+							@foreach (var item in Model)
+							{
+								<tr class="text-center">
+									<td>@index</td>
+									<td>#@item.InvoiceNumber</td>
+									<td>@item.CreatedDate</td>
+									<td>@item.Status.Type</td>
+									<td class="quantity">
+										<button type="button" class="btn btn-primary p-3" onclick="OpenModalHistoryPurchase(@item.Id)">Chi tiết</button>
+									</td>
+								</tr>
+								index++;
+							}
 						</tbody>
 					</table>
 				</div>
@@ -151,3 +42,17 @@
 		</div>
 	</div>
 </section>
+<!-- Modal Purchase History -->
+<div class="modal fade" id="modal_purchaseHistory" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Chi tiết hóa đơn</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				
+			</div>
+		</div>
+	</div>
+</div>

@@ -13,11 +13,12 @@ namespace InvoiceService_5005.Services
 	public interface IS_Invoice
 	{
 		Task<Invoice> GetByPhoneNumberAndIdPromotion(string phoneNumberRequest,int idPromotion);
-
+        Task<MRes_InvoiceEmail> GetDetailsInvoice(int id);
+        Task<List<Invoice>> HistoryPurchaseJson(string phoneNumber);
 		Task<string> AddAtStoreOnline(MReq_Invoice mReq_Invoice);
 	}
 
-    public class S_Invoice : IS_Invoice
+	public class S_Invoice : IS_Invoice
 	{
         private readonly InvoiceDbContext _context;
         private readonly IMapper _mapper;
@@ -73,8 +74,8 @@ namespace InvoiceService_5005.Services
                     var dictionaryProductNameAndQuantity = new Dictionary<string, int>();
                     foreach (var item in productsAndQuantities)
                     {
-                        string productName = await GetProductNameByIdAsync(client, item.Key);
-                        dictionaryProductNameAndQuantity.Add(productName, item.Value);
+                        var product = await GetProductByIdAsync(client, item.Key);
+                        dictionaryProductNameAndQuantity.Add(product.ProductName, item.Value);
                     }
                     await _context.SaveChangesAsync();
 
@@ -94,7 +95,6 @@ namespace InvoiceService_5005.Services
                         Total = mReq_Invoice.SumPrice,
                         Discount = discount,
                         PaymentMethod = paymentMethodType,
-                        Status = false
                     };
 
                     await transaction.CommitAsync();
@@ -123,8 +123,60 @@ namespace InvoiceService_5005.Services
 			return getInvoice;
 		}
 
-        // Others
-        private async Task<int> GetIdPromotionAsync(HttpClient client, string? promotionCode)
+		public async Task<List<Invoice>> HistoryPurchaseJson(string phoneNumber)
+		{
+			var listToView = await _context.Invoices.Where(m=>m.CustomerPhoneNumber == phoneNumber).Include(m=>m.Status).ToListAsync();
+            return listToView;
+        }
+
+        public async Task<MRes_InvoiceEmail> GetDetailsInvoice(int id)
+        {
+			var invoice = await _context.Invoices
+								.Include(m => m.Invoice_Products)
+								.Include(m => m.PaymentMethod) 
+                                .Include(m=>m.Status)
+								.FirstOrDefaultAsync(m => m.Id == id);
+
+			if (invoice == null)
+			{
+				throw new Exception("Invoice not found");
+			}
+
+			using var client = _httpClientFactory.CreateClient("ProductService");
+
+            var productNameAndQuantity = new Dictionary<string, int>();
+            var listSinglePrice = new List<int>();
+
+            // calculate discount
+            int totalOriginalPrice = 0;
+
+			foreach (var item in invoice.Invoice_Products)
+			{
+                var product = await GetProductByIdAsync(client,item.IdProduct);
+                productNameAndQuantity[product.ProductName] = item.Quantity;
+                listSinglePrice.Add(product.Price);
+                totalOriginalPrice += item.Quantity * product.Price;
+			}
+
+            int discount = totalOriginalPrice - invoice.Price;
+
+            var detail = new MRes_InvoiceEmail()
+            {
+                InvoiceNumber = invoice.InvoiceNumber,
+                Time = invoice.CreatedDate,
+                ProductNameAndQuantity = productNameAndQuantity,
+                SinglePrice = listSinglePrice,
+                Discount = discount,
+                Total = totalOriginalPrice - discount,
+                PaymentMethod = invoice.PaymentMethod.Method,
+                Status = invoice.Status.Type,
+
+            };
+            return detail;
+        }
+
+		// Others
+		private async Task<int> GetIdPromotionAsync(HttpClient client, string? promotionCode)
         {
             var promotionResponse = await client.GetAsync($"/Promotion/TransferPromotionCodeToId?promotionCode={promotionCode}");
             if (!promotionResponse.IsSuccessStatusCode)
@@ -134,7 +186,7 @@ namespace InvoiceService_5005.Services
             return await promotionResponse.Content.ReadFromJsonAsync<int>();
         }
 
-        private async Task<string> GetProductNameByIdAsync(HttpClient client, int idProduct)
+        private async Task<Product> GetProductByIdAsync(HttpClient client, int idProduct)
         {
             var productResponse = await client.GetAsync($"/Product/GetByIdJson?idProduct={idProduct}");
             if (!productResponse.IsSuccessStatusCode)
@@ -142,7 +194,7 @@ namespace InvoiceService_5005.Services
                 throw new Exception("Failed to retrieve promotion data");
             }
             var product = await productResponse.Content.ReadFromJsonAsync<Product>();
-            return product.ProductName;
+            return product;
         }
 
         private async Task MinusRemainingQuantityPromotionAsync(HttpClient client,int? id)
@@ -238,10 +290,13 @@ namespace InvoiceService_5005.Services
                 </tbody>
             </table>
             <h3>Phương thức thanh toán: {invoiceEmail.PaymentMethod}</h3>
-            <h3>Trạng thái: {(invoiceEmail.Status ? "Đã thanh toán" : "Chưa thanh toán")}</h3>
+            <h3>Trạng thái: {invoiceEmail.Status}</h3>
         </div>";
 
             return emailBody;
         }
-    }
+
+        
+	}
 }
+

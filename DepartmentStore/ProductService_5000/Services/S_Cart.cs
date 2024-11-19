@@ -1,6 +1,7 @@
 ﻿using APIGateway.Response;
 using AutoMapper;
 using BranchService_5003.Models;
+using InvoiceService_5005.InvoiceModels;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using ProductService_5000.Models;
@@ -15,10 +16,13 @@ namespace ProductService_5000.Services
 		Task<string> Add(MRes_Cart request, MRes_InfoUser currentUser);
 		Task<string> Delete(int id, MRes_InfoUser currentUser);
 
+		// Invoice
+		Task<List<Invoice>> HistoryPurchase(MRes_InfoUser currentUser);
+
 	 Task<List<MRes_Product>> InvoiceIndex(string stringifyCarts,int idBranch);
 	}
 
-    public class S_Cart : IS_Cart
+	public class S_Cart : IS_Cart
 	{
 		private readonly ProductDbContext _context;
 		private readonly IMapper _mapper;
@@ -195,5 +199,17 @@ namespace ProductService_5000.Services
             return cartItems;
         }
 
-    }
+		public async Task<List<Invoice>> HistoryPurchase(MRes_InfoUser currentUser)
+		{
+			using var client = _httpClientFactory.CreateClient("ProductService");
+			var responseInvoiceList = await client.GetAsync($"/Invoice/HistoryPurchaseJson?phoneNumber={currentUser.PhoneNumber}");
+			if(!responseInvoiceList.IsSuccessStatusCode)
+			{
+				throw new Exception("Khong lay duoc thong tin");
+			}
+
+			var invoiceList = await responseInvoiceList.Content.ReadFromJsonAsync<List<Invoice>>();
+			return invoiceList;
+		}
+	}
 }

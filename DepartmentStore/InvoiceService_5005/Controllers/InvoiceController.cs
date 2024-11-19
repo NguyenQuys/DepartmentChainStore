@@ -38,5 +38,21 @@ namespace InvoiceService_5005.Controllers
 				return Ok(new { result = -1, message = ex.Message });
 			}
 		}
+
+
+		// Call API
+		[HttpGet]
+		public async Task<IActionResult> HistoryPurchaseJson(string phoneNumber)
+		{
+			var listToView = await _s_Invoice.HistoryPurchaseJson(phoneNumber);
+			return Ok(listToView);
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> GetDetailsInvoice(int id)
+		{
+			var detail = await _s_Invoice.GetDetailsInvoice(id);
+			return Ok(detail);
+		}
 	}
 }
