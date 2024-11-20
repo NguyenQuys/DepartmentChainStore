@@ -36,7 +36,8 @@ namespace ProductService_5000.Controllers
         public async Task<IActionResult> Index(int idBranch, string location)
         {
             int? sessionIdBranch = Session.GetInt32(IdBranchSessionKey);
-            if (sessionIdBranch != null)
+            
+			if (sessionIdBranch != null)
             {
                 TempData["Location"] = Session.GetString("LocationBranch");
                 TempData["IdBranch"] = sessionIdBranch;

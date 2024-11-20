@@ -18,7 +18,7 @@ namespace UserService_5002.Controllers
         private readonly IJwtHelper _jwtHelper;
         private readonly MRes_InfoUser _currentUser;
 
-        public UserController(IS_User s_User, IJwtHelper jwtHelper, CurrentUserHelper currentUserHelper)
+		public UserController(IS_User s_User, IJwtHelper jwtHelper, CurrentUserHelper currentUserHelper)
         {
             _s_User = s_User;
             _jwtHelper = jwtHelper;
@@ -27,9 +27,17 @@ namespace UserService_5002.Controllers
 
         [HttpGet]
         [Authorize]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_currentUser);
+            try
+            {
+                var identifyRoleUser = await _s_User.IdentifyRoleUser(_currentUser);
+                return View(_currentUser);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost]
@@ -49,15 +57,6 @@ namespace UserService_5002.Controllers
         [HttpGet]
         public async Task<IActionResult> Login()
         {
-            //if(_currentUser.IdRole != null)
-            //{
-            //    if(_currentUser.IdRole == "1" || )
-            //    {
-            //        return RedirectToAction("Index", "User");
-            //    }
-            //    return RedirectToAction("Index", "Home");
-            //}
-            //return View();
             if (_currentUser.AccessToken != null)
             {
                 if(_currentUser.IdUser == "1" || _currentUser.IdUser == "2" || _currentUser.IdBranch != null)
@@ -82,6 +81,11 @@ namespace UserService_5002.Controllers
                 if(login.IdRole == "1" || login.IdRole == "2")
                 {
                     return RedirectToAction("Index", "User");
+                }
+                else if(login.IdRole == null && login.IdBranch != null)
+                {
+                    var branchName = await _s_User.GetBranchById(login.IdBranch);
+                    return RedirectToAction("Index", "Product", new { idBranch = login.IdBranch,location = branchName });
                 }
                 return RedirectToAction("ChooseBranchIndex", "Branch");
             }

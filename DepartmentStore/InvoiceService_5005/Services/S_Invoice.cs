@@ -17,6 +17,7 @@ namespace InvoiceService_5005.Services
 		Task<List<Invoice>> GetListInvoiceBranch(int idBranch);
 		Task<List<Invoice>> HistoryPurchaseJson(string phoneNumber);
 		Task<string> AddAtStoreOnline(MReq_Invoice mReq_Invoice);
+		Task<string> ChangeStatusInvoice(int idInvoice,short idStatus);
 	}
 
 	public class S_Invoice : IS_Invoice
@@ -169,6 +170,7 @@ namespace InvoiceService_5005.Services
 
 			var detail = new MRes_InvoiceEmail()
 			{
+				IdInvoice = id,
 				InvoiceNumber = invoice.InvoiceNumber,
 				Time = invoice.CreatedDate,
 				ProductNameAndQuantity = productNameAndQuantity,
@@ -308,6 +310,22 @@ namespace InvoiceService_5005.Services
 			var listToView = await _context.Invoices.Where(m => m.IdBranch == idBranch).Include(m=>m.Status).ToListAsync();
 			return listToView;
 		}
+
+		public async Task<string> ChangeStatusInvoice(int idInvoice, short idStatus)
+		{
+			var invoiceToChangeStatus = await _context.Invoices.FirstOrDefaultAsync(m => m.Id == idInvoice);
+			invoiceToChangeStatus.IdStatus = idStatus;
+			_context.Update(invoiceToChangeStatus);
+			await _context.SaveChangesAsync();
+			string message = idStatus switch
+			{
+				2 => "Đã đóng gói thành công!",
+				3 => "Đơn hàng đang được giao",
+				4 => "Đơn hàng đã được giao",
+				5 => "Đơn hàng đã bị hủy",
+				_ => "Trạng thái không hợp lệ"
+			};
+			return message;
+		}
 	}
 }
-

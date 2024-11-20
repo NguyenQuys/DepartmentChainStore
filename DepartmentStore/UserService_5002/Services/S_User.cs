@@ -19,8 +19,10 @@ namespace UserService_5002.Services
 
         Task<List<UserOtherInfo>> GetListUserByIdBranch(int idBranch, MRes_InfoUser currentUser);
         Task<MReq_Staff> GetStaffById(int id);
+        Task<MRes_InfoUser> IdentifyRoleUser(MRes_InfoUser currentUser);
+        Task<string> GetBranchById(string idBranch);
 
-        Task<string> AddStaff(MReq_Staff mReq_Staff);
+		Task<string> AddStaff(MReq_Staff mReq_Staff);
         Task<string> UpdateStaff(MReq_Staff mReq_Staff);
 
         String DeleteStaff(int id);
@@ -288,10 +290,13 @@ namespace UserService_5002.Services
 
         public async Task<string> Logout(MRes_InfoUser currentUser)
         {
-            var user = await _userContext.UserOtherInfo.FirstOrDefaultAsync(m => m.UserId == int.Parse(currentUser.IdUser));
-            user.LogoutTime = DateTime.Now;
-            _userContext.Update(user);
-            await _userContext.SaveChangesAsync();
+            if (currentUser.IdUser != null)
+            {
+                var user = await _userContext.UserOtherInfo.FirstOrDefaultAsync(m => m.UserId == int.Parse(currentUser.IdUser));
+                user.LogoutTime = DateTime.Now;
+                _userContext.Update(user);
+                await _userContext.SaveChangesAsync();
+            }
             return "Đăng xuất thành công";
         }
 
@@ -427,5 +432,18 @@ namespace UserService_5002.Services
             await _userContext.SaveChangesAsync();
             return "Thay đổi trạng thái thành công";
         }
-    }
+
+		public async Task<MRes_InfoUser> IdentifyRoleUser(MRes_InfoUser currentUser)
+		{
+            if (currentUser.IdRole == "1")
+                throw new Exception("Bạn không có quyên vào trang này");
+            return currentUser;
+		}
+
+		public async Task<string> GetBranchById(string idBranch)
+		{
+            var branchToGet = await _branchContext.Branches.FirstOrDefaultAsync(m => m.Id == int.Parse(idBranch));
+            return branchToGet.Location;
+		}
+	}
 }

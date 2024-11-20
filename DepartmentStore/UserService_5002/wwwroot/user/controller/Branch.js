@@ -524,72 +524,124 @@ function RenderTableInvoice(idBranch) {
 }
 
 function GetDetailsInvoice(idInvoice) {
-    let bodyDetail = '';
     $.ajax({
         url: '/Invoice/GetDetailsInvoice',
         type: 'GET',
         data: { id: idInvoice },
         success: function (response) {
-            if (response && response.ProductNameAndQuantity && response.SinglePrice) {
-                // Assuming response.ProductNameAndQuantity is a dictionary where keys are product names
-                // and values are quantities, and SinglePrice is a corresponding array.
-                const productNames = Object.keys(response.ProductNameAndQuantity);
-                const quantities = Object.values(response.ProductNameAndQuantity);
-
-                bodyDetail = productNames.map((productName, index) => {
-                    const quantity = quantities[index] || 0;
-                    const singlePrice = response.SinglePrice[index] || 0;
-                    const totalPrice = quantity * singlePrice;
-
-                    return `
-                        <tr>
-                            <td style='border: 1px solid #ddd; padding: 8px;'>${productName}</td>
-                            <td style='border: 1px solid #ddd; padding: 8px;'>${quantity}</td>
-                            <td style='border: 1px solid #ddd; padding: 8px;'>${singlePrice.toLocaleString('vi-VN')} VND</td>
-                            <td style='border: 1px solid #ddd; padding: 8px;'>${totalPrice.toLocaleString('vi-VN')} VND</td>
-                        </tr>
-                    `;
-                }).join('');
-            } else {
-                bodyDetail = `<tr><td colspan="4" style='border: 1px solid #ddd; padding: 8px;'>No products found</td></tr>`;
+            if (response.idStatus === 1) {
+                $('#div_action').removeClass('d-none');
             }
 
-            $('#div_data_detail_branch').html(`
-                <div style='width: 100%; font-family: Arial, sans-serif;'>
-                    <h1>Hóa đơn mua hàng #${response.invoiceNumber || 'N/A'}</h1>
-                    <h2>Thời gian: ${response.time ? new Date(response.time).toLocaleString() : 'N/A'}</h2>
-                    <table style='width: 100%; border-collapse: collapse;'>
-                        <thead>
-                            <tr class='bg-primary text-white'>
-                                <th style='border: 1px solid #ddd; padding: 8px;'>Sản phẩm</th>
-                                <th style='border: 1px solid #ddd; padding: 8px;'>Số lượng</th>
-                                <th style='border: 1px solid #ddd; padding: 8px;'>Đơn giá</th>
-                                <th style='border: 1px solid #ddd; padding: 8px;'>Thành tiền</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${bodyDetail}
-                            <tr>
-                                <td colspan='3' style='border: 1px solid #ddd; padding: 8px; text-align: right; font-weight: bold;'>Tổng ban đầu:</td>
-                                <td style='border: 1px solid #ddd; padding: 8px;'>${response.initialTotal ? response.initialTotal.toLocaleString('en-US') : '0'} VND</td>
-                            </tr>
-                            <tr>
-                                <td colspan='3' style='border: 1px solid #ddd; padding: 8px; text-align: right; font-weight: bold;'>Giảm giá:</td>
-                                <td style='border: 1px solid #ddd; padding: 8px;'>-${response.discount ? response.discount.toLocaleString('en-US') : '0'} VND</td>
-                            </tr>
-                            <tr>
-                                <td colspan='3' style='border: 1px solid #ddd; padding: 8px; text-align: right; font-weight: bold;'>Tổng cộng:</td>
-                                <td style='border: 1px solid #ddd; padding: 8px;'>${response.total ? response.total.toLocaleString('en-US') : '0'} VND</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <h3>Phương thức thanh toán: ${response.paymentMethod || 'N/A'}</h3>
-                    <h3>Trạng thái: ${response.status || 'N/A'}</h3>
-                </div>
-            `);
+            if (response) {
+                let productRows = '';
+                let initialTotal = response.total + response.discount;
+                let index = 0;
+
+                if (response.productNameAndQuantity && typeof response.productNameAndQuantity === 'object') {
+                    for (let productName in response.productNameAndQuantity) {
+                        if (response.productNameAndQuantity.hasOwnProperty(productName)) {
+                            let quantity = response.productNameAndQuantity[productName];
+                            let singlePrice = response.singlePrice[index] || 0;
+                            let totalPrice = quantity * singlePrice;
+                            productRows += `
+                                <tr>
+                                    <td style='border: 1px solid #ddd; padding: 8px;'>${productName}</td>
+                                    <td style='border: 1px solid #ddd; padding: 8px;'>${quantity}</td>
+                                    <td style='border: 1px solid #ddd; padding: 8px;'>${singlePrice.toLocaleString('vi-VN')} VND</td>
+                                    <td style='border: 1px solid #ddd; padding: 8px;'>${totalPrice.toLocaleString('vi-VN')} VND</td>
+                                </tr>
+                            `;
+                        }
+                        index++;
+                    }
+                } else {
+                    productRows = '<tr><td colspan="4" style="text-align: center; padding: 8px;">No products found</td></tr>';
+                }
+
+                let bodyDetail = `
+                    <div style='width: 100%; font-family: Arial, sans-serif;'>
+                        <h1>Hóa đơn mua hàng #${response.invoiceNumber || 'N/A'}</h1>
+                        <h2>Thời gian: ${response.time ? new Date(response.time).toLocaleString() : 'N/A'}</h2>
+                        <table style='width: 100%; border-collapse: collapse;'>
+                            <thead>
+                                <tr class='bg-primary text-white''>
+                                    <th style='border: 1px solid #ddd; padding: 8px;'>Sản phẩm</th>
+                                    <th style='border: 1px solid #ddd; padding: 8px;'>Số lượng</th>
+                                    <th style='border: 1px solid #ddd; padding: 8px;'>Đơn giá</th>
+                                    <th style='border: 1px solid #ddd; padding: 8px;'>Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${productRows}
+                                <tr>
+                                    <td colspan='3' style='border: 1px solid #ddd; padding: 8px; text-align: right; font-weight: bold;'>Tổng ban đầu:</td>
+                                    <td style='border: 1px solid #ddd; padding: 8px;'>${initialTotal.toLocaleString('en-US')} VND</td>
+                                </tr>
+                                <tr>
+                                    <td colspan='3' style='border: 1px solid #ddd; padding: 8px; text-align: right; font-weight: bold;'>Giảm giá:</td>
+                                    <td style='border: 1px solid #ddd; padding: 8px;'>-${response.discount.toLocaleString('en-US')} VND</td>
+                                </tr>
+                                <tr>
+                                    <td colspan='3' style='border: 1px solid #ddd; padding: 8px; text-align: right; font-weight: bold;'>Tổng cộng:</td>
+                                    <td style='border: 1px solid #ddd; padding: 8px;'>${response.total.toLocaleString('en-US')} VND</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h3>Phương thức thanh toán: ${response.paymentMethod || 'N/A'}</h3>
+                        <h3>Trạng thái: <span id='invoice_status'>${response.status || 'N/A'}</span></h3>
+                        <div class='d-flex justify-content-evenly ${response.status !== "Đang chờ xử lý" ? 'd-none' : ''}' id='div_action'>
+                            <button type='button' class='btn btn-success' onclick='ChangeStatusInvoice(${response.idInvoice},2)'>Hoàn tất đóng gói</button>
+                            <button type='button' class='btn btn-danger' onclick='ChangeStatusInvoice(${response.idInvoice},5)'>Huý đơn hàng</button>
+                        </div>
+                    </div>
+                `;
+                
+                $('#div_data_detail_branch').html(bodyDetail);
+            } else {
+                alert('Không tìm thấy dữ liệu chi tiết hóa đơn.');
+            }
+        },
+        error: function () {
+            alert('Đã xảy ra lỗi khi lấy dữ liệu chi tiết hóa đơn.');
         }
     });
 }
+
+function ChangeStatusInvoice(idInvoice, idStatus) {
+    let confirmationMessage = '';
+    if (idStatus === 2) {
+        confirmationMessage = 'Hoàn tất đơn hàng?';
+    } else if (idStatus === 5) {
+        confirmationMessage = 'Hủy đơn hàng?';
+    }
+
+    if (confirmationMessage && confirm(confirmationMessage)) {
+        $.ajax({
+            url: '/Invoice/ChangeStatusInvoice',
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({ idInvoice: idInvoice, idStatus: idStatus }), 
+            success: function (response) {
+                ShowToastNoti('success', '', response, 4000);
+                $('#div_action').addClass('d-none');
+                if (idStatus === 2) {
+                    $('#invoice_status').text(response).addClass('text-success');
+                } else if (idStatus === 5) {
+                    $('#invoice_status').text(response).addClass('text-danger');
+                    document.createElement(input)
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+                ShowToastNoti('error', 'Error', 'Có lỗi xảy ra, vui lòng thử lại!', 4000);
+            }
+        });
+    } else {
+        console.log('User canceled the action.');
+    }
+}
+
 
 
 //++++++++++++++++++++++++Invoice Area Ends++++++++++++++++++++++++

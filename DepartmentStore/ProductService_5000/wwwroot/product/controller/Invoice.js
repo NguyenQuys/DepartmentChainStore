@@ -172,7 +172,6 @@ function ListIdProductsAndQuantities() {
         listQuantities.push($(this).val());
     });
 
-    // Combine product IDs and quantities into an object
     let listIdProductsAndQuantities = {};
     for (let i = 0; i < listIdProducts.length; i++) {
         listIdProductsAndQuantities[listIdProducts[i]] = parseInt(listQuantities[i]) || 0;
@@ -189,10 +188,9 @@ function OpenModalHistoryPurchase(idInvoice) {
         success: function (response) {
             if (response) {
                 let productRows = '';
-                let initialTotal = response.total + response.discount; // Calculate total before discount
+                let initialTotal = response.total + response.discount; 
                 let index = 0;
 
-                // Check if productNameAndQuantity is a valid dictionary (object)
                 if (response.productNameAndQuantity && typeof response.productNameAndQuantity === 'object') {
                     for (let productName in response.productNameAndQuantity) {
                         if (response.productNameAndQuantity.hasOwnProperty(productName)) {
@@ -248,7 +246,6 @@ function OpenModalHistoryPurchase(idInvoice) {
                     </div>
                 `;
 
-                // Insert the built HTML into the modal's body and show the modal
                 $('#modal_purchaseHistory .modal-body').html(bodyDetail);
                 $('#modal_purchaseHistory').modal('show');
             } else {

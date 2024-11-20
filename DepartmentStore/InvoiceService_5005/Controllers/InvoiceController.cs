@@ -39,7 +39,6 @@ namespace InvoiceService_5005.Controllers
 			}
 		}
 
-		// Call API
 		[HttpGet,Authorize]
 		public async Task<IActionResult> HistoryPurchaseJson(string phoneNumber)
 		{
@@ -59,6 +58,13 @@ namespace InvoiceService_5005.Controllers
 		{
 			var listToview = await _s_Invoice.GetListInvoiceBranch(idBranch);
 			return Ok(listToview);
+		}
+
+		[HttpPut,Authorize]
+		public async Task<IActionResult> ChangeStatusInvoice([FromBody] MReq_ChangeStatusInvoice request)
+		{
+			var invoiceToChange = await _s_Invoice.ChangeStatusInvoice(request.IdInvoice, request.IdStatus);
+			return Ok(invoiceToChange);
 		}
 	}
 }
