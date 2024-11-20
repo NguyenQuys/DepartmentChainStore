@@ -39,20 +39,26 @@ namespace InvoiceService_5005.Controllers
 			}
 		}
 
-
 		// Call API
-		[HttpGet]
+		[HttpGet,Authorize]
 		public async Task<IActionResult> HistoryPurchaseJson(string phoneNumber)
 		{
 			var listToView = await _s_Invoice.HistoryPurchaseJson(phoneNumber);
 			return Ok(listToView);
 		}
 
-		[HttpGet]
+		[HttpGet,Authorize]
 		public async Task<IActionResult> GetDetailsInvoice(int id)
 		{
 			var detail = await _s_Invoice.GetDetailsInvoice(id);
 			return Ok(detail);
+		}
+
+		[HttpGet,Authorize]
+		public async Task<IActionResult> GetListInvoiceBranch(int idBranch)
+		{
+			var listToview = await _s_Invoice.GetListInvoiceBranch(idBranch);
+			return Ok(listToview);
 		}
 	}
 }

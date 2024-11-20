@@ -20,7 +20,7 @@ namespace ProductService_5000.Controllers
             _currentUser = currentUser.GetCurrentUser();
         }
 
-        [HttpGet,Authorize(Roles ="1")]
+        //[HttpGet,Authorize(Roles ="1")]
         public async Task<IActionResult> GetById(int id)
         {
             var batchToGet = await _s_Batch.GetById(id);

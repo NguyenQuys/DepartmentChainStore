@@ -194,8 +194,10 @@ function OnChangeTypeBranchDetail(elm, type) {
         RenderTableProductBranch();
     } else if (type === 'staff') {
         RenderTableStaff(idBranch_global);
-    } else if ('importProduct') {
+    } else if (type === 'importProduct') {
         RenderTableImportProduct(idBranch_global);
+    } else if (type === 'invoice') {
+        RenderTableInvoice(idBranch_global);
     }
 }
 
@@ -474,3 +476,120 @@ function RemoveStaff(idStaff) {
     }
 }
 //+++++++++++++++++++++++Staff Area Ends+++++++++++++++++++++++++++++
+//++++++++++++++++++++++++Invoice Area Starts++++++++++++++++++++++++
+function RenderTableInvoice(idBranch) {
+    let tableBody = '';
+
+    $.ajax({
+        url: '/Invoice/GetListInvoiceBranch',
+        type: 'GET',
+        data: { idBranch: idBranch },
+        success: function (response) {
+            if (response.length === 0) {
+                tableBody = '<tr><td colspan="6" class="text-center">Không có dữ liệu để hiển thị</td></tr>';
+            }
+            else {
+                response.forEach(function (invoice, index) {
+                    tableBody += `
+                                    <tr>
+                                        <td>${index + 1}</td>
+                                        <td>${invoice.invoiceNumber}</td>
+                                        <td>${invoice.createdDate}</td>
+                                        <td>${invoice.status.type}</td>
+                                        <td>
+                                            <a href="javascript:void(0)" class="btn btn-primary" onclick="GetDetailsInvoice(${invoice.id})">Chi tiết</a>
+                                        </td>
+                                    </tr>`;
+                });
+            }
+
+            $('#div_data_detail_branch').html(`
+                            <div>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr class='bg-primary text-white'>
+                                            <th>STT</th>
+                                            <th>Mã đơn hàng</th>
+                                            <th>Thời gian</th>
+                                            <th>Trạng thái</th>
+                                            <th>Hành động</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>${tableBody}</tbody>
+                                </table>
+                            </div>
+                        `);
+        }
+    });
+}
+
+function GetDetailsInvoice(idInvoice) {
+    let bodyDetail = '';
+    $.ajax({
+        url: '/Invoice/GetDetailsInvoice',
+        type: 'GET',
+        data: { id: idInvoice },
+        success: function (response) {
+            if (response && response.ProductNameAndQuantity && response.SinglePrice) {
+                // Assuming response.ProductNameAndQuantity is a dictionary where keys are product names
+                // and values are quantities, and SinglePrice is a corresponding array.
+                const productNames = Object.keys(response.ProductNameAndQuantity);
+                const quantities = Object.values(response.ProductNameAndQuantity);
+
+                bodyDetail = productNames.map((productName, index) => {
+                    const quantity = quantities[index] || 0;
+                    const singlePrice = response.SinglePrice[index] || 0;
+                    const totalPrice = quantity * singlePrice;
+
+                    return `
+                        <tr>
+                            <td style='border: 1px solid #ddd; padding: 8px;'>${productName}</td>
+                            <td style='border: 1px solid #ddd; padding: 8px;'>${quantity}</td>
+                            <td style='border: 1px solid #ddd; padding: 8px;'>${singlePrice.toLocaleString('vi-VN')} VND</td>
+                            <td style='border: 1px solid #ddd; padding: 8px;'>${totalPrice.toLocaleString('vi-VN')} VND</td>
+                        </tr>
+                    `;
+                }).join('');
+            } else {
+                bodyDetail = `<tr><td colspan="4" style='border: 1px solid #ddd; padding: 8px;'>No products found</td></tr>`;
+            }
+
+            $('#div_data_detail_branch').html(`
+                <div style='width: 100%; font-family: Arial, sans-serif;'>
+                    <h1>Hóa đơn mua hàng #${response.invoiceNumber || 'N/A'}</h1>
+                    <h2>Thời gian: ${response.time ? new Date(response.time).toLocaleString() : 'N/A'}</h2>
+                    <table style='width: 100%; border-collapse: collapse;'>
+                        <thead>
+                            <tr class='bg-primary text-white'>
+                                <th style='border: 1px solid #ddd; padding: 8px;'>Sản phẩm</th>
+                                <th style='border: 1px solid #ddd; padding: 8px;'>Số lượng</th>
+                                <th style='border: 1px solid #ddd; padding: 8px;'>Đơn giá</th>
+                                <th style='border: 1px solid #ddd; padding: 8px;'>Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${bodyDetail}
+                            <tr>
+                                <td colspan='3' style='border: 1px solid #ddd; padding: 8px; text-align: right; font-weight: bold;'>Tổng ban đầu:</td>
+                                <td style='border: 1px solid #ddd; padding: 8px;'>${response.initialTotal ? response.initialTotal.toLocaleString('en-US') : '0'} VND</td>
+                            </tr>
+                            <tr>
+                                <td colspan='3' style='border: 1px solid #ddd; padding: 8px; text-align: right; font-weight: bold;'>Giảm giá:</td>
+                                <td style='border: 1px solid #ddd; padding: 8px;'>-${response.discount ? response.discount.toLocaleString('en-US') : '0'} VND</td>
+                            </tr>
+                            <tr>
+                                <td colspan='3' style='border: 1px solid #ddd; padding: 8px; text-align: right; font-weight: bold;'>Tổng cộng:</td>
+                                <td style='border: 1px solid #ddd; padding: 8px;'>${response.total ? response.total.toLocaleString('en-US') : '0'} VND</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h3>Phương thức thanh toán: ${response.paymentMethod || 'N/A'}</h3>
+                    <h3>Trạng thái: ${response.status || 'N/A'}</h3>
+                </div>
+            `);
+        }
+    });
+}
+
+
+//++++++++++++++++++++++++Invoice Area Ends++++++++++++++++++++++++
