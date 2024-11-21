@@ -1,53 +1,53 @@
 ﻿@model List<ProductService_5000.Response.MRes_Product>
 @{
-	ViewData["Title"] = "Giỏ hàng";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Giỏ hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <section class="ftco-section ftco-cart">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12 ftco-animate">
-				<div class="cart-list">
-					<table class="table">
-						<thead class="thead-primary">
-							<tr class="text-center">
-								<th>&nbsp;</th>
-								<th>&nbsp;</th>
-								<th>Tên sản phẩm</th>
-								<th>Đơn giá</th>
-								<th>Số lượng</th>
-								<th>Tổng cộng (VND)</th>
-							</tr>
-						</thead>
-						<tbody>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 ftco-animate">
+                <div class="cart-list">
+                    <table class="table">
+                        <thead class="thead-primary">
+                            <tr class="text-center">
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Đơn giá</th>
+                                <th>Số lượng</th>
+                                <th>Tổng cộng (VND)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                             @{
                                 int total = 0;
                                 string subTotalString = null;
                                 bool checkIfAssignIdBranch = false;
                                 int idBranch = 0;
                             }
-							@foreach (var item in Model)
-							{
+                            @foreach (var item in Model)
+                            {
                                 <input type="hidden" value="@item.IdProduct" class="idProductChosen" />
                                 <input type="hidden" value="@item.Quantity" class="quantityChosen" />
                                 <input type="hidden" value="@item.Price" class="single-price-product" />
                                 <tr class="text-center">
-									<td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
+                                    <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
 
-									<td class="image-prod"><div class="img" style="background-image:url(@item.MainImage);"></div></td>
+                                    <td class="image-prod"><div class="img" style="background-image:url(@item.MainImage);"></div></td>
 
-									<td class="product-name">
-										<h3>@item.ProductName</h3>
-										<p>Far far away, behind the word mountains, far from the countries</p>
-									</td>
+                                    <td class="product-name">
+                                        <h3>@item.ProductName</h3>
+                                        <p>Far far away, behind the word mountains, far from the countries</p>
+                                    </td>
 
-									<td class="price">@item.Price.ToString("N0")</td>
+                                    <td class="price">@item.Price.ToString("N0")</td>
 
-									<td class="quantity">
-										<div class="input-group mb-3">
-											<input type="text" name="quantity" class="quantity form-control input-number" value="@item.Quantity" min="1" max="100">
-										</div>
-									</td>
+                                    <td class="quantity">
+                                        <div class="input-group mb-3">
+                                            <input type="text" name="quantity" class="quantity form-control input-number" value="@item.Quantity" min="1" max="100">
+                                        </div>
+                                    </td>
                                     @{
                                         int itemTotal = item.Price * item.Quantity;
                                         total += itemTotal;
@@ -57,54 +57,65 @@
                                             checkIfAssignIdBranch = true;
                                         }
                                     }
-									<td class="total">@itemTotal.ToString("N0")</td>
-								</tr>
-							}
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-		<div class="row justify-content-end">
-			@if (User.Identity.IsAuthenticated)
-			{
-				<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
-					<div class="cart-total mb-3">
-					    <h3>Mã giảm giá</h3>
-					    <p>Nhập mã giảm giá nếu bạn có</p>
-					    <form class="info">
-						    <div class="form-group">
-							    <input type="text" class="form-control text-left px-3" placeholder="Nhập mã giảm giá..." id="input_promotion_code">
-						    </div>
-						    <div class="m-3" id="div_check_promotion_available"></div>
-						    <p><button type="submit" onclick="CheckPromotion(event)" class="btn btn-primary py-3 px-4 w-100">Áp dụng</button></p>
-					    </form>
-				    </div>
+                                    <td class="total">@itemTotal.ToString("N0")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                 </div>
-			}
-			else
-			{
-				<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
-					<div class="cart-total mb-3">
-						<h3 class="text-danger">Bạn cần đăng nhập tài khoản để có thể sử dụng Voucher</h3>
-					</div>
-				</div>
-			}
-			<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
-				<div class="cart-total mb-3">
-					<h3>Chọn hình thức nhận hàng</h3>
-					<form class="info delivery-method">
-						<div class="form-group">
-							<input type="radio" id="pick_up_at_store" name="fav_language" value="HTML" onclick="ToggleDelivery()">
-							<label for="pick_up_at_store">Nhận tại cửa hàng</label><br>
-							<input type="radio" id="delivery_to_home" name="fav_language" value="CSS" onclick="ToggleDelivery()">
-							<label for="delivery_to_home">Ship đến tận nhà</label><br>
-							<p id="btn_choose_location" class="btn-location d-none">
-								<a href="#" type="button" class="btn btn-primary p-2 w-100" data-bs-toggle="modal" data-bs-target="#modal_location">Chọn vị trí</a>
-							</p>
-						</div>
-					</form>
-				</div>
+            </div>
+        </div>
+        <div class="row justify-content-end">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="col-lg-4 mt-5 cart-wrap ftco-animate">
+                    <div class="cart-total mb-3">
+                        <h3>Mã giảm giá</h3>
+                        <p>Nhập mã giảm giá nếu bạn có</p>
+                        <form class="info">
+                            <div class="form-group">
+                                <input type="text" class="form-control text-left px-3" placeholder="Nhập mã giảm giá..." id="input_promotion_code">
+                            </div>
+                            <div class="m-3" id="div_check_promotion_available"></div>
+                            <p><button type="submit" onclick="CheckPromotion(event)" class="btn btn-primary py-3 px-4 w-100">Áp dụng</button></p>
+                        </form>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="col-lg-4 mt-5 cart-wrap ftco-animate">
+                    <div class="cart-total mb-3">
+                        <h3 class="text-danger">Bạn cần đăng nhập tài khoản để có thể sử dụng Voucher</h3>
+                    </div>
+                </div>
+            }
+            <div class="col-lg-4 mt-5 cart-wrap ftco-animate">
+                <div class="cart-total mb-3">
+                    <h3>Chọn hình thức nhận hàng</h3>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <form class="info delivery-method">
+                            <div class="form-group">
+                                <input type="radio" id="pick_up_at_store" name="fav_language" value="HTML" onclick="ToggleDelivery()">
+                                <label for="pick_up_at_store">Nhận tại cửa hàng</label><br>
+                                <input type="radio" id="delivery_to_home" name="fav_language" value="CSS" onclick="ToggleDelivery()">
+                                <label for="delivery_to_home">Ship đến tận nhà</label><br>
+                                <p id="btn_choose_location" class="btn-location d-none">
+                                    <a href="#" type="button" class="btn btn-primary p-2 w-100" data-bs-toggle="modal" data-bs-target="#modal_location">Chọn vị trí</a>
+                                </p>
+                            </div>
+                        </form>
+                    }
+                    else{
+                        <form class="info delivery-method">
+                            <div class="form-group">
+                                <input type="radio" id="pick_up_at_store" name="fav_language" value="HTML" onclick="ToggleDelivery()">
+                                <label for="pick_up_at_store">Nhận tại cửa hàng</label><br>
+                            </div>
+                        </form>
+                    }
+                </div>
 			</div>
 			<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
 				<div class="cart-total mb-3">
@@ -347,7 +358,7 @@
                         <label class="form-label">Email <span class="text-danger">*</span></label>
                         <input type="email" class="form-control" id="input_email" required >
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3" id="div_address_invoice">
                         <label class="form-label">Địa chỉ <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="input_address" required >
                     </div>

@@ -43,5 +43,8 @@ namespace InvoiceService_5005.InvoiceModels
 
 		[MaxLength(30)]
 		public string? EmployeeShip { get; set; }
+
+		[MaxLength(200)]
+		public string? Address { get; set; }
 	}
 }

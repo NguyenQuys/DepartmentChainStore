@@ -30,6 +30,10 @@ namespace InvoiceService_5005.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Address")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 

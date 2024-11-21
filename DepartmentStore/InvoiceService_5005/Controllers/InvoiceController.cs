@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 namespace InvoiceService_5005.Controllers
 {
 	[ApiController]
-	//[Authorize]
 	[Route("[controller]/[action]")]
 	public class InvoiceController : ControllerBase
 	{

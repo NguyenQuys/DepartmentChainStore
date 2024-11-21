@@ -76,7 +76,7 @@ namespace InvoiceService_5005.Services
 				invoiceToAdd.InvoiceNumber = GenerateCode(GetPaymentPrefix(mReq_Invoice.IdPaymentMethod));
 
 				await _context.AddAsync(invoiceToAdd);
-				await _context.SaveChangesAsync();
+				//await _context.SaveChangesAsync();
 
 				var newInvoiceProducts = productsAndQuantities.Select(item => new Invoice_Product
 				{
@@ -85,11 +85,9 @@ namespace InvoiceService_5005.Services
 					Quantity = item.Value
 				}).ToList();
 				await _context.AddRangeAsync(newInvoiceProducts);
-				await _context.SaveChangesAsync();
+				//await _context.SaveChangesAsync();
 
-				// Fetch payment method (using AsNoTracking for better read performance)
 				var paymentMethod = await _context.PaymentMethods
-
 												 .FirstOrDefaultAsync(m => m.Id == mReq_Invoice.IdPaymentMethod);
 
 				var paymentMethodType = paymentMethod?.Method ?? "Unknown";
@@ -99,6 +97,7 @@ namespace InvoiceService_5005.Services
 				{
 					InvoiceNumber = invoiceToAdd.InvoiceNumber,
 					Time = invoiceToAdd.CreatedDate,
+					Address = mReq_Invoice.Address,
 					ProductNameAndQuantity = dictionaryProductNameAndQuantity,
 					SinglePrice = mReq_Invoice.SinglePrice,
 					Total = mReq_Invoice.SumPrice,
@@ -115,7 +114,7 @@ namespace InvoiceService_5005.Services
 				}
 
 				// Send invoice email
-				//_sendEmail.SendMail(mReq_Invoice.Email, "Hóa đơn mua hàng", EmailTableBody(invoiceEmail));
+				_sendEmail.SendMail(mReq_Invoice.Email, "Hóa đơn mua hàng", EmailTableBody(invoiceEmail));
 
 				return "Đặt hàng thành công";
 			}
@@ -171,6 +170,7 @@ namespace InvoiceService_5005.Services
 			var detail = new MRes_InvoiceEmail()
 			{
 				IdInvoice = id,
+				Address = invoice.Address,
 				InvoiceNumber = invoice.InvoiceNumber,
 				Time = invoice.CreatedDate,
 				ProductNameAndQuantity = productNameAndQuantity,
@@ -235,6 +235,7 @@ namespace InvoiceService_5005.Services
         <div style='width: 100%; font-family: Arial, sans-serif;'>
             <h1>Hóa đơn mua hàng #{invoiceEmail.InvoiceNumber}</h1>
             <h2>Thời gian: {invoiceEmail.Time:dd/MM/yyyy HH:mm}</h2>
+            <h2>Địa chỉ: {invoiceEmail.Address}</h2>
 			<h2>Ghi chú từ khách hàng: {invoiceEmail.CustomerNote ?? null}</h2>
             <h2>Ghi chú từ cửa hàng: {invoiceEmail.StoreNote ?? null}</h2>
             <table style='width: 100%; border-collapse: collapse;'>
@@ -303,7 +304,6 @@ namespace InvoiceService_5005.Services
                 </tbody>
             </table>
             <h3>Phương thức thanh toán: {invoiceEmail.PaymentMethod}</h3>
-            <h3>Trạng thái: {invoiceEmail.Status}</h3>
         </div>";
 
 			return emailBody;

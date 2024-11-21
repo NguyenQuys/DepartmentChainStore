@@ -33,9 +33,12 @@ function ToggleDelivery() {
     const pickUpAtStore = document.getElementById('pick_up_at_store');
     const btnChooseLocation = document.getElementById('btn_choose_location');
     if (pickUpAtStore.checked) {
-        btnChooseLocation.classList.add('d-none'); 
+        if (btnChooseLocation) {
+            btnChooseLocation.classList.add('d-none');
+        }
         $('#delivery').text('0 VND');
         global_idPaymentMethod = 1;
+
     } else {
         btnChooseLocation.classList.remove('d-none'); 
         global_idPaymentMethod = 2;
@@ -87,6 +90,13 @@ observer.observe(document.getElementById('delivery'), { childList: true, subtree
 observer.observe(document.getElementById('discount_invoice'), { childList: true, subtree: true });
 
 function OpenModalConfirmInformation(idUser) {
+    if (global_idPaymentMethod === 2) {
+        $('#div_address_invoice').removeClass('d-none');
+
+    } else {
+        $('#div_address_invoice').addClass('d-none');
+    }
+
     if (!checkChooseDeliveryMethod) {
         ShowToastNoti('error', '', 'Vui lòng chọn phương thức vận chuyển', 4000);
     } else {
@@ -96,16 +106,21 @@ function OpenModalConfirmInformation(idUser) {
                 type: 'GET',
                 data: { id: idUser },
                 success: function (response) {
+                    $('#input_address').val(response.address);
                     $('#input_customerName').val(response.fullName);
                     $('#input_phoneNumber').val(response.phoneNumber);
                     $('#input_email').val(response.email);
-                    $('#input_address').val(response.address);
+
                     $('#modal_information').modal('show');
                 },
+
                 error: function (xhr, status, error) {
                     console.error('Error fetching customer information:', error);
                 }
             });
+        }
+        else {
+            $('#div_address_invoice').addClass('d-none');
         }
         $('#modal_information').modal('show');
     }
@@ -116,7 +131,6 @@ function AddInvoice() {
     $('.single-price-product').each(function () {
         listSinglePrice.push($(this).val());
     });
-    console.log(listSinglePrice);
 
     var formData = new FormData();
     formData.append('Promotion', $('#input_promotion_code').val() ?? 0);
@@ -128,7 +142,8 @@ function AddInvoice() {
     formData.append('IdBranch', global_idBranch);
     formData.append('CustomerPhoneNumber', $('#input_phoneNumber').val());
     formData.append('CustomerName', $('#input_customerName').val());
-
+    formData.append('Address', $('#input_address').val());
+    console.log($('#input_address').val() ?? null);
     $.ajax({
         url: '/Invoice/AddAtStoreOnline',
         type: 'POST',
@@ -140,8 +155,8 @@ function AddInvoice() {
                 $('#modal_body_information').html(`<h2 class="text-success text-center">${response.message}</h2>`);
                 const indexButton = document.createElement('button');
                 indexButton.textContent = "Quay về trang chủ";
-                indexButton.classList.add('text-center', 'btn', 'btn-success');
-
+                indexButton.classList.add('btn', 'btn-success');
+                $('#modal_body_information').addClass('text-center');
                 indexButton.addEventListener('click', function () {
                     window.location.href = '/Product/Index'; 
                 });
@@ -217,6 +232,7 @@ function OpenModalHistoryPurchase(idInvoice) {
                     <div style='width: 100%; font-family: Arial, sans-serif;'>
                         <h1>Hóa đơn mua hàng #${response.invoiceNumber || 'N/A'}</h1>
                         <h2>Thời gian: ${response.time ? new Date(response.time).toLocaleString() : 'N/A'}</h2>
+                        <h2>Địa chỉ: ${response.address ?? ''}</h2>
                         <h2>Ghi chú từ khách hàng: ${response.customerNote ?? ''}</h2>
                         <h2>Ghi chú từ cửa hàng: ${response.storeNote ?? ''}</h2>
                         <table style='width: 100%; border-collapse: collapse;'>

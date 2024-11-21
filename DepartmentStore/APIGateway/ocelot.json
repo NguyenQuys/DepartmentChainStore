@@ -116,6 +116,18 @@
       ],
       "UpstreamPathTemplate": "/Shipping/{action}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/Statistic/{action}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5005
+        }
+      ],
+      "UpstreamPathTemplate": "/Statistic/{action}",
+      "UpstreamHttpMethod": [ "GET", "POST"]
     }
     //++++++++++++++5005 Ends+++++++++++++
   ],

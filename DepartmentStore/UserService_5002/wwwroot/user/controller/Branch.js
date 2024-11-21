@@ -22,6 +22,7 @@ function RenderBranchTable() {
                                     <td>${branch.location}</td>
                                     <td></td>
                                     <td>
+                                        <a href="javascript:void(0)" onclick="StatisticRevenue(${branch.id})" class="btn btn-dark">Thống kê</a>
                                         <a href="javascript:void(0)" onclick="OpenModalDetailBranch(${branch.id}, '${branch.location}')" class="btn btn-info">Chi tiết</a>
                                         <a href="javascript:void(0)" onclick="OpenModalBranch('updateBranch', ${branch.id})" class="btn btn-primary">Sửa</a>
                                         <a href="javascript:void(0)" onclick="RemoveBranch(${branch.id})" class="btn btn-danger">Xóa</a>
@@ -404,7 +405,6 @@ function AddStaff(idBranch) {
     });
 }
 
-
 function GetUserById(idStaff) {
     idUser_global = idStaff;
     DivActionStaff('updateStaff');
@@ -457,7 +457,6 @@ function UpdateStaff(idBranch) {
         }
     });
 }
-
 
 function RemoveStaff(idStaff) {
     if (confirm('Bạn có chắc chắn muốn xóa nhân sự này không?')) {
@@ -563,6 +562,7 @@ function GetDetailsInvoice(idInvoice) {
                     <div style='width: 100%; font-family: Arial, sans-serif;'>
                         <h1>Hóa đơn mua hàng #${response.invoiceNumber || 'N/A'}</h1>
                         <h2>Thời gian: ${response.time ? new Date(response.time).toLocaleString() : 'N/A'}</h2>
+                        <h2>Địa chỉ: ${response.address ?? ''}</h2>
                         <h2>Ghi chú từ khách hàng: ${response.customerNote ?? ''}</h2>
                         <table style='width: 100%; border-collapse: collapse;'>
                             <thead>
@@ -659,6 +659,4 @@ function ChangeStatusInvoice(idInvoice, idStatus) {
         console.log('User canceled the action.');
     }
 }
-
-
 //++++++++++++++++++++++++Invoice Area Ends++++++++++++++++++++++++
