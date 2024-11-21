@@ -178,7 +178,9 @@ namespace InvoiceService_5005.Services
 				Discount = discount,
 				Total = totalOriginalPrice - discount,
 				PaymentMethod = invoice.PaymentMethod.Method,
-				Status = invoice.Status.Type
+				Status = invoice.Status.Type,
+				CustomerNote = invoice.CustomerNote,
+				StoreNote = invoice.StoreNote
 			};
 			return detail;
 		}
@@ -233,6 +235,8 @@ namespace InvoiceService_5005.Services
         <div style='width: 100%; font-family: Arial, sans-serif;'>
             <h1>Hóa đơn mua hàng #{invoiceEmail.InvoiceNumber}</h1>
             <h2>Thời gian: {invoiceEmail.Time:dd/MM/yyyy HH:mm}</h2>
+			<h2>Ghi chú từ khách hàng: {invoiceEmail.CustomerNote ?? null}</h2>
+            <h2>Ghi chú từ cửa hàng: {invoiceEmail.StoreNote ?? null}</h2>
             <table style='width: 100%; border-collapse: collapse;'>
                 <thead>
                     <tr style='background-color:grey; color:white'>
@@ -316,7 +320,7 @@ namespace InvoiceService_5005.Services
 			var invoiceToChangeStatus = await _context.Invoices.FirstOrDefaultAsync(m => m.Id == request.IdInvoice);
 			invoiceToChangeStatus.EmployeeShip = request.EmployeeShip;
 			invoiceToChangeStatus.IdStatus = request.IdStatus;
-			invoiceToChangeStatus.Note = request.Note;
+			invoiceToChangeStatus.StoreNote = request.StoreNote;
 			_context.Update(invoiceToChangeStatus);
 			await _context.SaveChangesAsync();
 			string message = request.IdStatus switch

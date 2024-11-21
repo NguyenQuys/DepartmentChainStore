@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using ProductService_5000.Models;
 using ProductService_5000.Response;
+using System.Net.Http.Headers;
 using System.Text.Json;
 
 namespace ProductService_5000.Services
@@ -202,6 +203,7 @@ namespace ProductService_5000.Services
 		public async Task<List<Invoice>> HistoryPurchase(MRes_InfoUser currentUser)
 		{
 			using var client = _httpClientFactory.CreateClient("ProductService");
+			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", currentUser.AccessToken);
 			var responseInvoiceList = await client.GetAsync($"/Invoice/HistoryPurchaseJson?phoneNumber={currentUser.PhoneNumber}");
 			if(!responseInvoiceList.IsSuccessStatusCode)
 			{

@@ -32,7 +32,11 @@ namespace InvoiceService_5005.InvoiceModels
 		[MaxLength(50)]
 		public string? CustomerName { get; set; }
 
-		public string? Note { get; set; }
+		[MaxLength(100)]
+		public string? CustomerNote { get; set; }
+
+		[MaxLength(100)]
+		public string? StoreNote { get; set; }
 
 		[JsonIgnore]
         public ICollection<Invoice_Product> Invoice_Products { get; set; }

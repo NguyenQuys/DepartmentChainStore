@@ -35,7 +35,8 @@ public class UserMapper : Profile
             .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.UserOtherInfo.Gender))
             .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UserOtherInfo.UpdatedAt))
             .ForMember(dest => dest.LoginTime, opt => opt.MapFrom(src => src.UserOtherInfo.LoginTime))
-            .ForMember(dest => dest.LogoutTime, opt => opt.MapFrom(src => src.UserOtherInfo.LogoutTime));
-    }
+            .ForMember(dest => dest.LogoutTime, opt => opt.MapFrom(src => src.UserOtherInfo.LogoutTime))
+            .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.UserOtherInfo.Address));
+	}
 }
 

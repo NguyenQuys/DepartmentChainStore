@@ -563,6 +563,7 @@ function GetDetailsInvoice(idInvoice) {
                     <div style='width: 100%; font-family: Arial, sans-serif;'>
                         <h1>Hóa đơn mua hàng #${response.invoiceNumber || 'N/A'}</h1>
                         <h2>Thời gian: ${response.time ? new Date(response.time).toLocaleString() : 'N/A'}</h2>
+                        <h2>Ghi chú từ khách hàng: ${response.customerNote ?? ''}</h2>
                         <table style='width: 100%; border-collapse: collapse;'>
                             <thead>
                                 <tr class='bg-primary text-white''>
@@ -588,19 +589,19 @@ function GetDetailsInvoice(idInvoice) {
                                 </tr>
                             </tbody>
                         </table>
-                        <h3>Phương thức thanh toán: ${response.paymentMethod || 'N/A'}</h3>
-                        <h3>Trạng thái: <span id='invoice_status'>${response.status || 'N/A'}</span></h3>
-                        <div class='d-flex'>
-                            <div>
+                        <h3 class='my-3'>Phương thức thanh toán: ${response.paymentMethod || 'N/A'}</h3>
+                        <h3 class='my-3'>Trạng thái: <span id='invoice_status'>${response.status || 'N/A'}</span></h3>
+                        <div>
+                            <div class='d-flex my-3'>
                                 <h3>Nhân viên giao hàng</h3>
-                                <input class='ms-3' type='text' id='employeeShip_invoice'>
+                                <input class='ms-3' type='text' id='employeeShip_invoice'}>
                             </div>
-                            <div>
+                            <div class='d-flex ${response.status !== "Đang chờ xử lý" ? 'd-none' : ''}'>
                                 <h3>Ghi chú</h3>
-                                <input class='ms-3' type='text' id='note_invoice'>
+                                <input class='ms-3 store-note-invoice' type='text'>
                             </div>
                         </div>
-                        <div class='mt-3 d-flex justify-content-evenly ${response.status !== "Đang chờ xử lý" ? 'd-none' : ''}' id='div_action'>
+                        <div class='mt-3 my-3 d-flex justify-content-evenly ${response.status !== "Đang chờ xử lý" ? 'd-none' : ''}' id='div_action'>
                             <button type='button' class='btn btn-success' onclick='ChangeStatusInvoice(${response.idInvoice},2)'>Hoàn tất đóng gói</button>
                             <button type='button' class='btn btn-danger' onclick='ChangeStatusInvoice(${response.idInvoice},5)'>Huý đơn hàng</button>
                         </div>
@@ -631,19 +632,20 @@ function ChangeStatusInvoice(idInvoice, idStatus) {
             IdInvoice: idInvoice,
             IdStatus: idStatus,
             EmployeeShip: $('#employeeShip_invoice').val() || null,
-            Note: $('#note_invoice').val() || null
+            StoreNote: $('#note_store_invoice').val() || null
         };
 
         $.ajax({
             url: '/Invoice/ChangeStatusInvoice',
             type: 'PUT',
             data: JSON.stringify(data),
-            contentType: 'application/json', // Set content type to JSON
+            contentType: 'application/json', 
             success: function (response) {
                 ShowToastNoti('success', '', 'Trạng thái đã thay đổi thành công!', 4000);
                 $('#div_action').addClass('d-none');
                 if (idStatus === 2) {
                     $('#invoice_status').text('Đóng gói đơn hàng thành công').addClass('text-success');
+                    $('.store-note-invoice').prop('readonly',true);
                 } else if (idStatus === 5) {
                     $('#invoice_status').text('Đơn hàng đã hủy').addClass('text-danger');
                 }

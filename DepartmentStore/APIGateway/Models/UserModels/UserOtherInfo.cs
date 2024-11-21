@@ -44,5 +44,7 @@ namespace UserService_5002.Models
         public User User { get; set; }
 
         public bool IsActive { get; set; } = true;
+
+        public string Address { get; set; }
     }
 }

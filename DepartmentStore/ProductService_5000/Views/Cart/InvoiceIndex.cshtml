@@ -70,17 +70,17 @@
 			{
 				<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
 					<div class="cart-total mb-3">
-					<h3>Mã giảm giá</h3>
-					<p>Nhập mã giảm giá nếu bạn có</p>
-					<form class="info">
-						<div class="form-group">
-							<input type="text" class="form-control text-left px-3" placeholder="Nhập mã giảm giá..." id="input_promotion_code">
-						</div>
-						<div class="m-3" id="div_check_promotion_available"></div>
-						<p><button type="submit" onclick="CheckPromotion(event)" class="btn btn-primary py-3 px-4 w-100">Áp dụng</button></p>
-					</form>
-				</div>
-				</div>
+					    <h3>Mã giảm giá</h3>
+					    <p>Nhập mã giảm giá nếu bạn có</p>
+					    <form class="info">
+						    <div class="form-group">
+							    <input type="text" class="form-control text-left px-3" placeholder="Nhập mã giảm giá..." id="input_promotion_code">
+						    </div>
+						    <div class="m-3" id="div_check_promotion_available"></div>
+						    <p><button type="submit" onclick="CheckPromotion(event)" class="btn btn-primary py-3 px-4 w-100">Áp dụng</button></p>
+					    </form>
+				    </div>
+                </div>
 			}
 			else
 			{
@@ -336,16 +336,24 @@
             <div class="modal-body" id="modal_body_information">
                 <form id="form_information">
                     <div class="mb-3">
-                        <label for="productName" class="form-label">Họ tên</label>
+                        <label class="form-label">Họ tên <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="input_customerName" required>
                     </div>
                     <div class="mb-3">
-                        <label for="productPrice" class="form-label">Số điện thoại</label>
+                        <label class="form-label">Số điện thoại <span class="text-danger">*</span></label>
                         <input type="number" class="form-control" id="input_phoneNumber" required max="9999999999" oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);">
                     </div>
                     <div class="mb-3">
-                        <label for="productPrice" class="form-label">Email</label>
+                        <label class="form-label">Email <span class="text-danger">*</span></label>
                         <input type="email" class="form-control" id="input_email" required >
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Địa chỉ <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="input_address" required >
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Ghi chú</label>
+                        <input type="text" class="form-control" id="input_noteCustomer" />
                     </div>
                     <div class="d-flex justify-content-around">
                         <button type="button" class="btn btn-success" onclick="AddInvoice()">Xác nhận</button>

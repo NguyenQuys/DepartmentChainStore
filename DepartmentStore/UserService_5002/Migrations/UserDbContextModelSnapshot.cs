@@ -67,6 +67,10 @@ namespace UserService_5002.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateOnly?>("BeginDate")
                         .HasColumnType("date");
 

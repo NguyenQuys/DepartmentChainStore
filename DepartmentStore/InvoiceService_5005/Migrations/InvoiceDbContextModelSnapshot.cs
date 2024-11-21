@@ -37,6 +37,10 @@ namespace InvoiceService_5005.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("CustomerNote")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("CustomerPhoneNumber")
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
@@ -62,12 +66,13 @@ namespace InvoiceService_5005.Migrations
                         .HasMaxLength(12)
                         .HasColumnType("nvarchar(12)");
 
-                    b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Price")
                         .HasMaxLength(9)
                         .HasColumnType("int");
+
+                    b.Property<string>("StoreNote")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 

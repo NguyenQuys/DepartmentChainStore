@@ -14,6 +14,8 @@ namespace UserService_5002.Response
 
         public string Email { get; set; }
 
+        public string Address { get; set; }
+
         public DateOnly DateOfBirth { get; set; }
 
         public byte Gender { get; set; }

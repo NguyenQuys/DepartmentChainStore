@@ -99,6 +99,7 @@ function OpenModalConfirmInformation(idUser) {
                     $('#input_customerName').val(response.fullName);
                     $('#input_phoneNumber').val(response.phoneNumber);
                     $('#input_email').val(response.email);
+                    $('#input_address').val(response.address);
                     $('#modal_information').modal('show');
                 },
                 error: function (xhr, status, error) {
@@ -216,6 +217,8 @@ function OpenModalHistoryPurchase(idInvoice) {
                     <div style='width: 100%; font-family: Arial, sans-serif;'>
                         <h1>Hóa đơn mua hàng #${response.invoiceNumber || 'N/A'}</h1>
                         <h2>Thời gian: ${response.time ? new Date(response.time).toLocaleString() : 'N/A'}</h2>
+                        <h2>Ghi chú từ khách hàng: ${response.customerNote ?? ''}</h2>
+                        <h2>Ghi chú từ cửa hàng: ${response.storeNote ?? ''}</h2>
                         <table style='width: 100%; border-collapse: collapse;'>
                             <thead>
                                 <tr class='bg-primary text-white''>

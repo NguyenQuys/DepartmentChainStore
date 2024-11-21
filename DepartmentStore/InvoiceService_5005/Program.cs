@@ -23,7 +23,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	.AddJwtBearer(options =>
 	{
 		options.Authority = "https://localhost:5001"; // IdentityServer URL
-		options.Audience = "InvocieService_5005";
+		options.Audience = "InvoiceService_5005";
 		options.RequireHttpsMetadata = false; // Set to true in production
 
 		options.TokenValidationParameters = new TokenValidationParameters
