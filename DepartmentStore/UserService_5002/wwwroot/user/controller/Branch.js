@@ -590,7 +590,17 @@ function GetDetailsInvoice(idInvoice) {
                         </table>
                         <h3>Phương thức thanh toán: ${response.paymentMethod || 'N/A'}</h3>
                         <h3>Trạng thái: <span id='invoice_status'>${response.status || 'N/A'}</span></h3>
-                        <div class='d-flex justify-content-evenly ${response.status !== "Đang chờ xử lý" ? 'd-none' : ''}' id='div_action'>
+                        <div class='d-flex'>
+                            <div>
+                                <h3>Nhân viên giao hàng</h3>
+                                <input class='ms-3' type='text' id='employeeShip_invoice'>
+                            </div>
+                            <div>
+                                <h3>Ghi chú</h3>
+                                <input class='ms-3' type='text' id='note_invoice'>
+                            </div>
+                        </div>
+                        <div class='mt-3 d-flex justify-content-evenly ${response.status !== "Đang chờ xử lý" ? 'd-none' : ''}' id='div_action'>
                             <button type='button' class='btn btn-success' onclick='ChangeStatusInvoice(${response.idInvoice},2)'>Hoàn tất đóng gói</button>
                             <button type='button' class='btn btn-danger' onclick='ChangeStatusInvoice(${response.idInvoice},5)'>Huý đơn hàng</button>
                         </div>
@@ -617,19 +627,25 @@ function ChangeStatusInvoice(idInvoice, idStatus) {
     }
 
     if (confirmationMessage && confirm(confirmationMessage)) {
+        const data = {
+            IdInvoice: idInvoice,
+            IdStatus: idStatus,
+            EmployeeShip: $('#employeeShip_invoice').val() || null,
+            Note: $('#note_invoice').val() || null
+        };
+
         $.ajax({
             url: '/Invoice/ChangeStatusInvoice',
             type: 'PUT',
-            contentType: 'application/json',
-            data: JSON.stringify({ idInvoice: idInvoice, idStatus: idStatus }), 
+            data: JSON.stringify(data),
+            contentType: 'application/json', // Set content type to JSON
             success: function (response) {
-                ShowToastNoti('success', '', response, 4000);
+                ShowToastNoti('success', '', 'Trạng thái đã thay đổi thành công!', 4000);
                 $('#div_action').addClass('d-none');
                 if (idStatus === 2) {
-                    $('#invoice_status').text(response).addClass('text-success');
+                    $('#invoice_status').text('Đóng gói đơn hàng thành công').addClass('text-success');
                 } else if (idStatus === 5) {
-                    $('#invoice_status').text(response).addClass('text-danger');
-                    document.createElement(input)
+                    $('#invoice_status').text('Đơn hàng đã hủy').addClass('text-danger');
                 }
             },
             error: function (xhr, status, error) {
@@ -641,7 +657,6 @@ function ChangeStatusInvoice(idInvoice, idStatus) {
         console.log('User canceled the action.');
     }
 }
-
 
 
 //++++++++++++++++++++++++Invoice Area Ends++++++++++++++++++++++++

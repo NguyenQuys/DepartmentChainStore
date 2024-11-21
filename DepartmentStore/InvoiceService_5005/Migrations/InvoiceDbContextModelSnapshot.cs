@@ -41,6 +41,10 @@ namespace InvoiceService_5005.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
+                    b.Property<string>("EmployeeShip")
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
                     b.Property<int>("IdBranch")
                         .HasColumnType("int");
 
@@ -50,13 +54,16 @@ namespace InvoiceService_5005.Migrations
                     b.Property<int?>("IdPromotion")
                         .HasColumnType("int");
 
+                    b.Property<short>("IdStatus")
+                        .HasColumnType("smallint");
+
                     b.Property<string>("InvoiceNumber")
                         .IsRequired()
                         .HasMaxLength(12)
                         .HasColumnType("nvarchar(12)");
 
-                    b.Property<bool>("IsSuccess")
-                        .HasColumnType("bit");
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Price")
                         .HasMaxLength(9)
@@ -65,6 +72,8 @@ namespace InvoiceService_5005.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("IdPaymentMethod");
+
+                    b.HasIndex("IdStatus");
 
                     b.ToTable("Invoices");
                 });
@@ -107,6 +116,21 @@ namespace InvoiceService_5005.Migrations
                     b.ToTable("PaymentMethods");
                 });
 
+            modelBuilder.Entity("InvoiceService_5005.InvoiceModels.Status", b =>
+                {
+                    b.Property<short>("Id")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Status");
+                });
+
             modelBuilder.Entity("InvoiceService_5005.InvoiceModels.Invoice", b =>
                 {
                     b.HasOne("InvoiceService_5005.InvoiceModels.PaymentMethod", "PaymentMethod")
@@ -114,7 +138,15 @@ namespace InvoiceService_5005.Migrations
                         .HasForeignKey("IdPaymentMethod")
                         .OnDelete(DeleteBehavior.SetNull);
 
+                    b.HasOne("InvoiceService_5005.InvoiceModels.Status", "Status")
+                        .WithMany("Invoices")
+                        .HasForeignKey("IdStatus")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("PaymentMethod");
+
+                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("InvoiceService_5005.InvoiceModels.Invoice_Product", b =>
@@ -134,6 +166,11 @@ namespace InvoiceService_5005.Migrations
                 });
 
             modelBuilder.Entity("InvoiceService_5005.InvoiceModels.PaymentMethod", b =>
+                {
+                    b.Navigation("Invoices");
+                });
+
+            modelBuilder.Entity("InvoiceService_5005.InvoiceModels.Status", b =>
                 {
                     b.Navigation("Invoices");
                 });

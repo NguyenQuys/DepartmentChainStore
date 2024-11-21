@@ -435,7 +435,7 @@ namespace UserService_5002.Services
 
 		public async Task<MRes_InfoUser> IdentifyRoleUser(MRes_InfoUser currentUser)
 		{
-            if (currentUser.IdRole == "1")
+            if (currentUser.IdRole == "4")
                 throw new Exception("Bạn không có quyên vào trang này");
             return currentUser;
 		}

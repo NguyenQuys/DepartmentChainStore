@@ -37,5 +37,7 @@ namespace InvoiceService_5005.InvoiceModels
 		[JsonIgnore]
         public ICollection<Invoice_Product> Invoice_Products { get; set; }
 
+		[MaxLength(30)]
+		public string? EmployeeShip { get; set; }
 	}
 }

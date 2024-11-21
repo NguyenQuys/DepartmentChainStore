@@ -60,10 +60,10 @@ namespace InvoiceService_5005.Controllers
 			return Ok(listToview);
 		}
 
-		[HttpPut,Authorize]
+		[HttpPut]
 		public async Task<IActionResult> ChangeStatusInvoice([FromBody] MReq_ChangeStatusInvoice request)
 		{
-			var invoiceToChange = await _s_Invoice.ChangeStatusInvoice(request.IdInvoice, request.IdStatus);
+			var invoiceToChange = await _s_Invoice.ChangeStatusInvoice(request);
 			return Ok(invoiceToChange);
 		}
 	}

@@ -12,9 +12,6 @@ namespace InvoiceService_5005.InvoiceModels
 		[MaxLength(20)]
 		public string Type { get; set; }
 
-		[MaxLength(120)]
-		public string Description { get; set; }
-
 		[JsonIgnore]
 		public ICollection<Invoice> Invoices { get; set; }
 	}

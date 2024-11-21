@@ -17,7 +17,7 @@ namespace InvoiceService_5005.Services
 		Task<List<Invoice>> GetListInvoiceBranch(int idBranch);
 		Task<List<Invoice>> HistoryPurchaseJson(string phoneNumber);
 		Task<string> AddAtStoreOnline(MReq_Invoice mReq_Invoice);
-		Task<string> ChangeStatusInvoice(int idInvoice,short idStatus);
+		Task<string> ChangeStatusInvoice(MReq_ChangeStatusInvoice request);
 	}
 
 	public class S_Invoice : IS_Invoice
@@ -76,7 +76,7 @@ namespace InvoiceService_5005.Services
 				invoiceToAdd.InvoiceNumber = GenerateCode(GetPaymentPrefix(mReq_Invoice.IdPaymentMethod));
 
 				await _context.AddAsync(invoiceToAdd);
-				//await _context.SaveChangesAsync();
+				await _context.SaveChangesAsync();
 
 				var newInvoiceProducts = productsAndQuantities.Select(item => new Invoice_Product
 				{
@@ -85,7 +85,7 @@ namespace InvoiceService_5005.Services
 					Quantity = item.Value
 				}).ToList();
 				await _context.AddRangeAsync(newInvoiceProducts);
-				//await _context.SaveChangesAsync();
+				await _context.SaveChangesAsync();
 
 				// Fetch payment method (using AsNoTracking for better read performance)
 				var paymentMethod = await _context.PaymentMethods
@@ -311,13 +311,15 @@ namespace InvoiceService_5005.Services
 			return listToView;
 		}
 
-		public async Task<string> ChangeStatusInvoice(int idInvoice, short idStatus)
+		public async Task<string> ChangeStatusInvoice(MReq_ChangeStatusInvoice request)
 		{
-			var invoiceToChangeStatus = await _context.Invoices.FirstOrDefaultAsync(m => m.Id == idInvoice);
-			invoiceToChangeStatus.IdStatus = idStatus;
+			var invoiceToChangeStatus = await _context.Invoices.FirstOrDefaultAsync(m => m.Id == request.IdInvoice);
+			invoiceToChangeStatus.EmployeeShip = request.EmployeeShip;
+			invoiceToChangeStatus.IdStatus = request.IdStatus;
+			invoiceToChangeStatus.Note = request.Note;
 			_context.Update(invoiceToChangeStatus);
 			await _context.SaveChangesAsync();
-			string message = idStatus switch
+			string message = request.IdStatus switch
 			{
 				2 => "Đã đóng gói thành công!",
 				3 => "Đơn hàng đang được giao",
