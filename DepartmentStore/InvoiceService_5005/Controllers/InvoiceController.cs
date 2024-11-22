@@ -59,11 +59,18 @@ namespace InvoiceService_5005.Controllers
 			return Ok(listToview);
 		}
 
-		[HttpPut]
+		[HttpPut,Authorize]
 		public async Task<IActionResult> ChangeStatusInvoice([FromBody] MReq_ChangeStatusInvoice request)
 		{
 			var invoiceToChange = await _s_Invoice.ChangeStatusInvoice(request);
 			return Ok(invoiceToChange);
+		}
+
+		[HttpGet,Authorize]
+		public async Task<IActionResult> GetListInvoiceByIdShipper(int idShipper)
+		{
+			var listToGet = await _s_Invoice.GetListInvoiceByIdShipper(idShipper);
+			return Ok(listToGet);
 		}
 	}
 }

@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using ProductService_5000.Models;
 using PromotionService_5004.Models;
 using System.Text.Json;
+using IdentityServer4.Models;
 
 namespace InvoiceService_5005.Services
 {
@@ -15,6 +16,7 @@ namespace InvoiceService_5005.Services
 		Task<Invoice> GetByPhoneNumberAndIdPromotion(string phoneNumberRequest, int idPromotion);
 		Task<MRes_InvoiceEmail> GetDetailsInvoice(int id);
 		Task<List<Invoice>> GetListInvoiceBranch(int idBranch);
+		Task<List<MRes_InvoiceEmail>> GetListInvoiceByIdShipper(int idShipper);
 		Task<List<Invoice>> HistoryPurchaseJson(string phoneNumber);
 		Task<string> AddAtStoreOnline(MReq_Invoice mReq_Invoice);
 		Task<string> ChangeStatusInvoice(MReq_ChangeStatusInvoice request);
@@ -144,6 +146,7 @@ namespace InvoiceService_5005.Services
 				.Include(m => m.Invoice_Products)
 				.Include(m => m.PaymentMethod)
 				.Include(m => m.Status)
+				.AsNoTracking()
 				.FirstOrDefaultAsync(m => m.Id == id);
 
 			if (invoice == null)
@@ -318,7 +321,7 @@ namespace InvoiceService_5005.Services
 		public async Task<string> ChangeStatusInvoice(MReq_ChangeStatusInvoice request)
 		{
 			var invoiceToChangeStatus = await _context.Invoices.FirstOrDefaultAsync(m => m.Id == request.IdInvoice);
-			invoiceToChangeStatus.EmployeeShip = request.EmployeeShip;
+			//invoiceToChangeStatus.EmployeeShip = request.EmployeeShip;
 			invoiceToChangeStatus.IdStatus = request.IdStatus;
 			invoiceToChangeStatus.StoreNote = request.StoreNote;
 			_context.Update(invoiceToChangeStatus);
@@ -332,6 +335,59 @@ namespace InvoiceService_5005.Services
 				_ => "Trạng thái không hợp lệ"
 			};
 			return message;
+		}
+
+		public async Task<List<MRes_InvoiceEmail>> GetListInvoiceByIdShipper(int idShipper)
+		{
+			var invoiceList = await _context.Invoices
+				.Include(m => m.Invoice_Products)
+				.Include(m => m.PaymentMethod)
+				.Include(m => m.Status)
+				.AsNoTracking()
+				.Where(m => m.IdEmployeeShip == idShipper)
+				.ToListAsync();
+
+			using var client = _httpClientFactory.CreateClient("ProductService");
+
+			var newListInvoice = new List<MRes_InvoiceEmail>();
+
+			foreach (var invoice in invoiceList)
+			{
+				var productNameAndQuantity = new Dictionary<string, int>();
+				var listSinglePrice = new List<int>();
+				int totalOriginalPrice = 0;
+
+				// Lấy thông tin sản phẩm từ ProductService
+				foreach (var item in invoice.Invoice_Products)
+				{
+					var product = await GetProductByIdAsync(client, item.IdProduct);
+					productNameAndQuantity[product.ProductName] = item.Quantity;
+					listSinglePrice.Add(product.Price);
+					totalOriginalPrice += item.Quantity * product.Price;
+				}
+
+				int discount = totalOriginalPrice - invoice.Price;
+
+				var newInvoice = new MRes_InvoiceEmail
+				{
+					IdInvoice = invoice.Id,
+					InvoiceNumber = invoice.InvoiceNumber,
+					Time = invoice.CreatedDate,
+					CustomerNote = invoice.CustomerNote,
+					StoreNote = invoice.StoreNote,
+					Address = invoice.Address,
+					ProductNameAndQuantity = productNameAndQuantity,
+					SinglePrice = listSinglePrice,
+					Discount = discount,
+					Total = invoice.Price,
+					PaymentMethod = invoice.PaymentMethod?.Method ?? "Unknown",
+					Status = invoice.Status?.Type ?? "Unknown"
+				};
+
+				newListInvoice.Add(newInvoice);
+			}
+
+			return newListInvoice;
 		}
 	}
 }

@@ -1,0 +1,41 @@
+﻿@model List<APIGateway.Response.MRes_InvoiceEmail>
+@{
+    ViewData["Title"] = "Ship";
+}
+<section class="ftco-section ftco-cart">
+	<div class="container">
+		<div class="row">
+            <div class="col-12 ftco-animate fadeInUp ftco-animated">
+                <div class="cart-list">
+                    <!-- Thêm table-responsive -->
+                    <table class="table-bordered">
+                        <thead class="bg-primary text-white">
+                            <tr class="text-center">
+                                <th class="col-1">STT</th>
+                                <th class="col-7">Số hóa đơn</th>
+                                <th class="col-4">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int index = 1;
+                            }
+                            @foreach (var item in Model)
+                            {
+                                <tr class="text-center">
+                                    <td class="col-1">@index</td>
+                                    <td class="col-7">#@item.InvoiceNumber</td>
+                                    <td class="col-4">
+                                        <button type="button" class="btn btn-primary btn-sm p-2">Chi tiết</button>
+                                    </td>
+                                </tr>
+                                index++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+		</div>
+	</div>
+</section>

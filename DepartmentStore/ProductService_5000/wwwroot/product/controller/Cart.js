@@ -25,24 +25,28 @@
     });
 });
 
-function AddToCart(idProduct) {
+async function AddToCart(idProduct) {
     let quantity = $('#quantity').val();
 
-    var formData = new FormData();
+    const formData = new FormData();
     formData.append('IdProduct', idProduct);
     formData.append('Quantity', quantity);
     formData.append('IdBranch', ID_BRANCH);
-    $.ajax({
-        url: '/Cart/Add',
-        type: 'POST',
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function (response) {
-            ShowToastNoti('success', '', response, 4000);
-        }
-    });
+
+    try {
+        const response = await fetch('/Cart/Add', {
+            method: 'POST',
+            body: formData,
+        });
+
+        const result = await response.json(); 
+        ShowToastNoti('success', '', result, 4000);
+    } catch (error) {
+        console.error('Error adding to cart:', error);
+        ShowToastNoti('error', '', error.message, 4000);
+    }
 }
+
 
 $(document).ready(function () {
     $(document).on('click', '.btn-remove-cart', function () {
@@ -101,13 +105,19 @@ $(document).ready(function () {
 
 // Your RenderCartTable function
 function RenderCartTable() {
-    $.ajax({
-        url: '/Cart/GetAll',
-        type: 'GET',
-        success: function (response) {
+    fetch('/Cart/GetAll', {
+        method: 'GET',
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(response => {
             let tableBody = response.length === 0
                 ? '<tr><td colspan="8" class="text-center">Không có dữ liệu để hiển thị</td></tr>'
-                : response.map((cart) => `
+                : response.map(cart => `
                     <tr class="text-center">
                         <td><input type="checkbox" data-product-id="${cart.idProduct}" style="width: 20px; height: 20px;"></td>
                         <td class="image-prod"><div class="img" style="background-image:url(${cart.mainImage});"></div></td>
@@ -126,29 +136,30 @@ function RenderCartTable() {
                         <td class="product-remove"><a onclick="RemoveCart(${cart.idProduct})"><span class="ion-ios-close"></span></a></td>
                     </tr>
                 `).join('');
-            $('#div_table_cart').html(tableBody);
-        },
-        error: function () {
-            $('#div_table_cart').html('<tr><td colspan="8" class="text-center text-danger">Không thể lấy dữ liệu giỏ hàng</td></tr>');
-        }
-    });
+            document.getElementById('div_table_cart').innerHTML = tableBody;
+        })
+        .catch(() => {
+            document.getElementById('div_table_cart').innerHTML = '<tr><td colspan="8" class="text-center text-danger">Không thể lấy dữ liệu giỏ hàng</td></tr>';
+        });
 }
 
-
-function RemoveCart(idProduct) {
-    console.log(idProduct);
+async function RemoveCart(idProduct) {
     if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')) {
-        $.ajax({
-            url: '/Cart/Delete',
-            type: 'DELETE',
-            data: { idProduct: idProduct },
-            success: function (response) {
-                ShowToastNoti('success', '', `Xóa sản phẩm ${response} thành công`, 4000, 'topRight');
-                RenderCartTable();
-            },
-            error: function () {
-                ShowToastNoti('error', '', response, 4000, 'topRight');
+        try {
+            const response = await fetch(`/Cart/Delete?idProduct=${idProduct}`, {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status}`);
             }
-        });
+
+            const result = await response.json();
+            ShowToastNoti('success', '', result , 4000, 'topRight');
+            RenderCartTable();
+        } catch (error) {
+            console.error('Error removing cart:', error);
+            ShowToastNoti('error', '', error.message, 4000, 'topRight');
+        }
     }
 }

@@ -72,7 +72,7 @@ namespace ProductService_5000.Controllers
 		[HttpDelete]
 		public async Task<IActionResult> Delete(int idProduct)
 		{
-			var delete = await _s_Cart.Delete(idProduct, _currentUser);
+			string delete = await _s_Cart.Delete(idProduct, _currentUser);
 			return Json(delete);
 		}
 
@@ -98,6 +98,14 @@ namespace ProductService_5000.Controllers
 		public async Task<IActionResult> HistoryPurchase()
 		{
 			var listToDisplay = await _s_Cart.HistoryPurchase(_currentUser);
+			return View(listToDisplay);
+		}
+
+		// Ship
+		[HttpGet]
+		public async Task<IActionResult> ListInvoiceToShip()
+		{
+			var listToDisplay = await _s_Cart.ListInvoiceToShip(_currentUser);
 			return View(listToDisplay);
 		}
 	}

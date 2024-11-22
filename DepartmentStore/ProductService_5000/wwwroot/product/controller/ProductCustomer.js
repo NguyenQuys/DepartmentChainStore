@@ -9,58 +9,73 @@ $('#category_select_customer').on('change', function () {
     GetListProduct(selectedId); // Pass the selected ID to the function
 });
 
-function GetListProduct(idProductCategory = null) {
-    $.ajax({
-        url: '/Product_Branch/GetListByIdBranch',
-        type: 'GET',
-        data: { idBranch: ID_BRANCH, idProductCategory: idProductCategory },
-        success: function (response) {
-            if (response.result === 1) {
-                let data = '';
-                response.data.forEach(product => {
-                    data += `
-                        <div class="col-md-6 col-lg-3 ftco-animate fadeInUp ftco-animated">
-                            <div class="product">
-                                <a href="/Product/GetByIdView?idProduct=${product.id}" class="img-prod">
-                                    <img class="img-fluid" src="${product.mainImage}" alt="Product Image">
-                                    <span class="status">30%</span>
-                                    <div class="overlay"></div>
-                                </a>
-                                <div class="text py-3 pb-4 px-3 text-center">
-                                    <h3>${product.productName}</h3>
-                                    <div class="d-flex">
-                                        <div class="pricing">
-                                            <p class="price"><span class="mr-2">${product.price.toLocaleString('vi-VN') } VND</span></p>
-                                        </div>
+async function GetListProduct(idProductCategory = null) {
+    try {
+        // Xây dựng URL với query string
+        const url = new URL('/Product_Branch/GetListByIdBranch', window.location.origin);
+        url.searchParams.append('idBranch', ID_BRANCH);
+        if (idProductCategory !== null) {
+            url.searchParams.append('idProductCategory', idProductCategory);
+        }
+
+        // Gọi API bằng Fetch
+        const response = await fetch(url);
+
+        // Kiểm tra nếu phản hồi không thành công
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        // Xử lý kết quả trả về (giả sử response là JSON)
+        const result = await response.json();
+
+        if (result.result === 1) {
+            let data = '';
+            result.data.forEach(product => {
+                data += `
+                    <div class="col-md-6 col-lg-3 ftco-animate fadeInUp ftco-animated">
+                        <div class="product">
+                            <a href="/Product/GetByIdView?idProduct=${product.id}" class="img-prod">
+                                <img class="img-fluid" src="${product.mainImage}" alt="Product Image">
+                                <span class="status">30%</span>
+                                <div class="overlay"></div>
+                            </a>
+                            <div class="text py-3 pb-4 px-3 text-center">
+                                <h3>${product.productName}</h3>
+                                <div class="d-flex">
+                                    <div class="pricing">
+                                        <p class="price"><span class="mr-2">${product.price.toLocaleString('vi-VN')} VND</span></p>
                                     </div>
-                                    <div class="bottom-area d-flex px-3">
-                                        <div class="m-auto d-flex">
-                                            <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                                                <span><i class="ion-ios-menu"></i></span>
-                                            </a>
-                                            <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                                <span><i class="ion-ios-cart"></i></span>
-                                            </a>
-                                            <a href="#" class="heart d-flex justify-content-center align-items-center">
-                                                <span><i class="ion-ios-heart"></i></span>
-                                            </a>
-                                        </div>
+                                </div>
+                                <div class="bottom-area d-flex px-3">
+                                    <div class="m-auto d-flex">
+                                        <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                                            <span><i class="ion-ios-menu"></i></span>
+                                        </a>
+                                        <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
+                                            <span><i class="ion-ios-cart"></i></span>
+                                        </a>
+                                        <a href="#" class="heart d-flex justify-content-center align-items-center">
+                                            <span><i class="ion-ios-heart"></i></span>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    `;
-                });
-                $('#div_data_product_index').html(data);
-            } else {
-                console.error("Error:", response.message);
-            }
-        },
-        error: function (xhr, status, error) {
-            console.error("AJAX error:", status, error);
+                    </div>
+                `;
+            });
+
+            // Gắn nội dung vào div
+            document.getElementById('div_data_product_index').innerHTML = data;
+        } else {
+            console.error("Error:", result.message);
         }
-    });
+    } catch (error) {
+        console.error("Fetch API error:", error.message);
+    }
 }
+
 
 
 $(document).ready(function () {

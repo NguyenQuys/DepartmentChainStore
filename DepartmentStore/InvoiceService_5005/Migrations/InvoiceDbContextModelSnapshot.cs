@@ -49,11 +49,10 @@ namespace InvoiceService_5005.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
-                    b.Property<string>("EmployeeShip")
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
                     b.Property<int>("IdBranch")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdEmployeeShip")
                         .HasColumnType("int");
 
                     b.Property<int?>("IdPaymentMethod")
