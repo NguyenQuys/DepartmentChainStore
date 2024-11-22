@@ -143,7 +143,7 @@ function AddInvoice() {
     formData.append('CustomerPhoneNumber', $('#input_phoneNumber').val());
     formData.append('CustomerName', $('#input_customerName').val());
     formData.append('Address', $('#input_address').val());
-    console.log($('#input_address').val() ?? null);
+
     $.ajax({
         url: '/Invoice/AddAtStoreOnline',
         type: 'POST',

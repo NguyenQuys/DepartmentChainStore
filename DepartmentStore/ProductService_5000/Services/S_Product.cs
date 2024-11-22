@@ -255,6 +255,7 @@ namespace ProductService_5000.Services
             }
             var productsToGet = await _context.Products.Where(m=>m.ProductName
                                                        .Contains(productNameImput.ToLower()) && !m.IsHide)
+                                                       .AsNoTracking()
                                                        .ToListAsync();
             return productsToGet;
         }

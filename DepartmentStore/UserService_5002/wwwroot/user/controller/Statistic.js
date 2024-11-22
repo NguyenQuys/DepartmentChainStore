@@ -10,9 +10,6 @@
             var labels = Object.keys(response); // Lấy danh sách ngày
             var dataPoints = Object.values(response); // Lấy danh sách doanh thu
 
-            console.log("Labels:", labels); // Debug: kiểm tra ngày
-            console.log("DataPoints:", dataPoints); // Debug: kiểm tra doanh thu
-
             // Chuẩn bị dữ liệu cho biểu đồ
             var data = {
                 labels: labels, // Ngày
