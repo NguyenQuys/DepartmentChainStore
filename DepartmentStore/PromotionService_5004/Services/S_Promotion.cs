@@ -186,6 +186,7 @@ namespace PromotionService_5004.Services
                     discountFinal = Math.Min(generalDiscount, promotion.MaxPrice);
                     break;
 
+                case 5: // Use only 1 time
                 default:
                     throw new Exception("Loại khuyến mãi không hợp lệ");
             }

@@ -4,7 +4,7 @@
     "Projects": [
       {
         "Path": "ProductService_5000\\ProductService_5000.csproj",
-        "Action": "Start"
+        "Action": "StartWithoutDebugging"
       },
       {
         "Path": "IdentityServer\\IdentityServer.csproj",
@@ -20,15 +20,15 @@
       },
       {
         "Path": "BranchService_5003\\BranchService_5003.csproj",
-        "Action": "Start"
+        "Action": "StartWithoutDebugging"
       },
       {
         "Path": "PromotionService_5004\\PromotionService_5004.csproj",
-        "Action": "StartWithoutDebugging"
+        "Action": "Start"
       },
       {
         "Path": "InvoiceService_5005\\InvoiceService_5005.csproj",
-        "Action": "StartWithoutDebugging"
+        "Action": "Start"
       }
     ]
   }

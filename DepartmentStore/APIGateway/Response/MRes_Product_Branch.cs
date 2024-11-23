@@ -27,5 +27,7 @@ namespace APIGateway.Response
 
 		[JsonPropertyName("mainImage")]
 		public string MainImage { get; set; }
+
+		public int? IdBranch { get; set; }
 	}
 }

@@ -176,6 +176,7 @@ namespace ProductService_5000.Controllers
 		[HttpGet,Authorize]
 		public async Task<IActionResult> Product_BranchIndex(int idBranch, int? idProductCategory)
 		{
+			TempData["IdBranch"] = idBranch;
 			var listToView = await _s_Product.Product_BranchIndex(idBranch, idProductCategory);
 			return View(listToView);
 		}

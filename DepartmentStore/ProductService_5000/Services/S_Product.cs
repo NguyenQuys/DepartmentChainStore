@@ -345,7 +345,6 @@ namespace ProductService_5000.Services
 				// Chuyển đổi phần 'data' thành danh sách đối tượng
 				var productBranchJson = root.GetProperty("data").GetRawText();
 				var product_Branch = JsonSerializer.Deserialize<List<MRes_Product_Branch>>(productBranchJson);
-
 				if (product_Branch != null)
 				{
 					return product_Branch;

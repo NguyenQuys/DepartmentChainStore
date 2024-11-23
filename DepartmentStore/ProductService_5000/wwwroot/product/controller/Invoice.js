@@ -24,6 +24,7 @@ function CheckPromotion(event) {
                 $('#div_check_promotion_available').html(`<p class="text-danger">${response.message}</p>`);
             }
             $('#discount_invoice').text('- ' + discount.toLocaleString('vi-VN') + ' VND').addClass('text-success');
+            UpdateTotalStore()
 
         },
         error: function () {
@@ -175,6 +176,42 @@ function AddInvoice() {
         }
     });
 }
+
+async function AddInvoiceOffline() {
+    const formData = new FormData();
+    formData.append('Promotion', $('#input_promotion_code').val() ?? 0);
+    formData.append('ListIdProductsAndQuantities', JSON.stringify(ListIdProductsAndQuantities()));
+    formData.append('SumPrice', parseFloat(document.getElementById('final_price').innerText.replace(/[^\d]/g, '')));
+    formData.append('IdPaymentMethod', 3);
+    formData.append('IdBranch', global_idBranch);
+
+    try {
+        const response = await fetch('/Invoice/AddAtStoreOffline', {
+            method: 'POST',
+            body: formData, 
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+
+        if (data.result === 1) {
+            ShowToastNoti('success', '', data.message, 4000);
+            $('#div_selectedProduct').html('');
+        } else {
+            ShowToastNoti('error', '', data.message, 4000);
+        }
+    } catch (error) {
+        console.error('Error adding invoice:', error);
+        ShowToastNoti('error', '', 'Có lỗi xảy ra khi tạo hóa đơn.', 4000);
+    }
+}
+
+
+
+
 
 function ListIdProductsAndQuantities() {
     //let listIdProducts = [];
@@ -402,7 +439,7 @@ function AddProductToQueue(idProduct, productName, price) {
         });
     }
     UpdateIdProductsAndQuantities();
-    renderSelectedProducts();
+    RenderSelectedProducts();
 }
 
 function UpdateIdProductsAndQuantities() {
@@ -416,7 +453,7 @@ function UpdateIdProductsAndQuantities() {
     });
 }
 
-function renderSelectedProducts() {
+function RenderSelectedProducts() {
     // Làm trống div trước khi hiển thị lại
     $('#div_selectedProduct').html('');
     let quantityProduct = 0;
@@ -455,10 +492,9 @@ function renderSelectedProducts() {
     });
 
     // Lấy giá trị giảm giá từ discount_invoice
-    let discountA = parseInt($('#discount_invoice').text().replace(/[^\d\-]/g, '')) || 0;
-
-    // Tính giá cuối cùng
+    let discountA = parseFloat($('#discount_invoice').text().replace(/[^\d\-]/g, '')) || 0;
     let finalPrice = sumAllProductPrice + discountA; // Cộng discount (giá trị âm)
+    // Tính giá cuối cùng
 
     // Ghi vào bảng
     table += `
@@ -469,17 +505,50 @@ function renderSelectedProducts() {
             <td style="padding: 8px;">${sumAllProductPrice.toLocaleString('vi-VN')}đ</td>
         </tr>
         <tr>
+            <td style="padding: 8px;" colspan="4">Giảm giá</td>
+            <td style="padding: 8px;" id='discount_invoice'></td>
+        </tr>
+        <tr>
             <td style="padding: 8px;" colspan="4">Giá cuối cùng</td>
             <td style="padding: 8px;" id='final_price'>${finalPrice.toLocaleString('vi-VN')}đ</td>
         </tr>
         </tbody>
     </table>
+            <div class="m-3" id="div_check_promotion_available"></div>
+
     <div class='d-flex justify-content-end'>
-        <button type='button' class='btn btn-success m-3'>Hoàn tất</button>
+        <input type="text" class="form-control text-left px-3" placeholder="Nhập mã giảm giá..." id="input_promotion_code">
+        <p><button type="submit" onclick="CheckPromotion(event)" class="btn btn-primary m-3">Áp dụng</button></p>
+        <button type='button' class='btn btn-success m-3' onclick='AddInvoiceOffline()'>Hoàn tất</button>
     </div>
     `;
 
-    // Hiển thị bảng trong div
     $('#div_selectedProduct').html(table);
 
+}
+
+function UpdateTotalStore() {
+    // Lấy giá trị tổng tiền sản phẩm
+    let sumAllProductPrice = listProduct.reduce((sum, product) => sum + product.price * product.quantity, 0);
+
+    // Lấy giá trị giảm giá từ discount_invoice
+    let discountA = parseFloat($('#discount_invoice').text().replace(/[^\d\-]/g, '')) || 0;
+    console.log('Discount:', discountA);
+
+    // Tính giá cuối cùng
+    let finalPrice = sumAllProductPrice + discountA;
+    console.log('Final Price:', finalPrice);
+
+    // Cập nhật giá cuối cùng vào DOM
+    $('#final_price').text(finalPrice.toLocaleString('vi-VN') + 'đ');
+}
+
+const discountElement = document.querySelector('#discount_invoice'); // Lấy phần tử đầu tiên có class 'discount_invoice'
+
+if (discountElement) {
+    const observerA = new MutationObserver(UpdateTotalStore);
+
+    observerA.observe(discountElement, { childList: true, subtree: true });
+} else {
+    console.error('Element with class "discount_invoice" not found!');
 }

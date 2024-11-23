@@ -84,8 +84,7 @@ namespace UserService_5002.Controllers
                 }
                 else if(login.IdRole == null && login.IdBranch != null)
                 {
-                    var branchName = await _s_User.GetBranchById(login.IdBranch);
-                    return RedirectToAction("Index", "Product", new { idBranch = login.IdBranch,location = branchName });
+                    return RedirectToAction("Product_BranchIndex", "Product", new { idBranch = int.Parse(login.IdBranch) });
                 }
                 return RedirectToAction("ChooseBranchIndex", "Branch");
             }

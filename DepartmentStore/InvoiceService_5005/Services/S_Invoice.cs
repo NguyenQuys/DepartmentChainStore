@@ -19,6 +19,7 @@ namespace InvoiceService_5005.Services
 		Task<List<MRes_InvoiceEmail>> GetListInvoiceByIdShipper(int idShipper);
 		Task<List<Invoice>> HistoryPurchaseJson(string phoneNumber);
 		Task<string> AddAtStoreOnline(MReq_Invoice mReq_Invoice);
+		Task<string> AddAtStoreOffline(MReq_Invoice mReq_Invoice);
 		Task<string> ChangeStatusInvoice(MReq_ChangeStatusInvoice request);
 	}
 
@@ -188,6 +189,69 @@ namespace InvoiceService_5005.Services
 			return detail;
 		}
 
+		public async Task<string> AddAtStoreOffline(MReq_Invoice mReq_Invoice)
+		{
+			bool shouldCallMinusRemaining = false;
+			int? idPromotion = null;
+			using var transaction = await _context.Database.BeginTransactionAsync();
+			try
+			{
+				using var client = _httpClientFactory.CreateClient("ProductService");
+
+				if (!string.IsNullOrEmpty(mReq_Invoice.Promotion) && !mReq_Invoice.Promotion.Equals("0"))
+				{
+					idPromotion = await GetIdPromotionAsync(client, mReq_Invoice.Promotion);
+					shouldCallMinusRemaining = true;
+				}
+
+				var productsAndQuantities = JsonSerializer.Deserialize<Dictionary<int, int>>(mReq_Invoice.ListIdProductsAndQuantities)
+								   ?? throw new InvalidOperationException("Invalid products and quantities data.");
+
+				var dictionaryProductNameAndQuantity = new Dictionary<string, int>();
+				foreach (var item in productsAndQuantities)
+				{
+					var product = await GetProductByIdAsync(client, item.Key);
+					dictionaryProductNameAndQuantity[product.ProductName] = item.Value;
+				}
+
+				var newInvoice = new Invoice()
+				{
+					InvoiceNumber = GenerateCode(GetPaymentPrefix(3)),
+					IdPromotion = idPromotion,
+					Price = mReq_Invoice.SumPrice,
+					IdPaymentMethod = mReq_Invoice.IdPaymentMethod,
+					IdBranch = mReq_Invoice.IdBranch,
+					CreatedDate = DateTime.UtcNow,
+					IdStatus = 4
+				};
+
+				await _context.AddAsync(newInvoice);
+				//await _context.SaveChangesAsync();
+
+				var newInvoiceProducts = productsAndQuantities.Select(item => new Invoice_Product
+				{
+					IdInvoice = newInvoice.Id,
+					IdProduct = item.Key,
+					Quantity = item.Value
+				}).ToList();
+				await _context.AddRangeAsync(newInvoiceProducts);
+				//await _context.SaveChangesAsync();
+
+				await transaction.CommitAsync();
+				// Call MinusRemainingQuantityPromotionAsync if needed
+				if (shouldCallMinusRemaining && idPromotion.HasValue)
+				{
+					await MinusRemainingQuantityPromotionAsync(client, idPromotion.Value);
+				}
+				return "Hoàn tất đơn hàng";
+
+			}
+			catch (Exception ex)
+			{
+				await transaction.RollbackAsync();
+				throw new InvalidOperationException("An error occurred while adding the invoice.", ex);
+			}
+		}
 
 		// Others
 		private async Task<int> GetIdPromotionAsync(HttpClient client, string? promotionCode)
@@ -220,7 +284,7 @@ namespace InvoiceService_5005.Services
 		{
 			1 => "PK",
 			2 => "SH",
-			_ => "XX"
+			3 => "DY"
 		};
 
 		private string GenerateCode(string prefix)

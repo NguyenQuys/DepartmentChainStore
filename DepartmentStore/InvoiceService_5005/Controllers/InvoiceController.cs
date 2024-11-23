@@ -38,6 +38,20 @@ namespace InvoiceService_5005.Controllers
 			}
 		}
 
+		[HttpPost]
+		public async Task<IActionResult> AddAtStoreOffline([FromForm] MReq_Invoice invoiceRequest)
+		{
+			try
+			{
+				var add = await _s_Invoice.AddAtStoreOffline(invoiceRequest);
+				return Ok(new { result = 1, message = add });
+			}
+			catch (Exception ex)
+			{
+				return Ok(new { result = -1, message = ex.Message });
+			}
+		}
+
 		[HttpGet,Authorize]
 		public async Task<IActionResult> HistoryPurchaseJson(string phoneNumber)
 		{
