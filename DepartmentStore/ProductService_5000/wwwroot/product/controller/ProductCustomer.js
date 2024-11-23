@@ -18,15 +18,12 @@ async function GetListProduct(idProductCategory = null) {
             url.searchParams.append('idProductCategory', idProductCategory);
         }
 
-        // Gọi API bằng Fetch
         const response = await fetch(url);
 
-        // Kiểm tra nếu phản hồi không thành công
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        // Xử lý kết quả trả về (giả sử response là JSON)
         const result = await response.json();
 
         if (result.result === 1) {

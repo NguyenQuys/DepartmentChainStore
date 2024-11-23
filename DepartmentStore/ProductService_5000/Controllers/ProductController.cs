@@ -172,5 +172,12 @@ namespace ProductService_5000.Controllers
 			var productToDelete = await _s_Product.RemoveProduct(idProduct);
 			return Json(productToDelete);
 		}
+
+		[HttpGet,Authorize]
+		public async Task<IActionResult> Product_BranchIndex(int idBranch, int? idProductCategory)
+		{
+			var listToView = await _s_Product.Product_BranchIndex(idBranch, idProductCategory);
+			return View(listToView);
+		}
 	}
 }

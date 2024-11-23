@@ -20,7 +20,7 @@
       },
       {
         "Path": "BranchService_5003\\BranchService_5003.csproj",
-        "Action": "StartWithoutDebugging"
+        "Action": "Start"
       },
       {
         "Path": "PromotionService_5004\\PromotionService_5004.csproj",

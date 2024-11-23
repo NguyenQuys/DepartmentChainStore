@@ -102,7 +102,6 @@ $(document).ready(function () {
 
 });
 
-
 // Your RenderCartTable function
 function RenderCartTable() {
     fetch('/Cart/GetAll', {

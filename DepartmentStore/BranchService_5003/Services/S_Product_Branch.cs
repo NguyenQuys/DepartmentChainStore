@@ -48,7 +48,7 @@ namespace BranchService_5003.Services
         public async Task<List<MRes_Product_Branch>> GetListByIdBranch(int idBranch,int? idProductCategory, MRes_InfoUser currentUser)
         {
             List<Product_Branch> pbList;
-            if (currentUser.IdRole == "4" || currentUser.AccessToken == null)
+            if (currentUser.IdRole == "4" || currentUser.AccessToken == null || currentUser.AccessToken != null)
             {
                 pbList = _context.Product_Branches
                                        .Where(m => m.IdBranch == idBranch 

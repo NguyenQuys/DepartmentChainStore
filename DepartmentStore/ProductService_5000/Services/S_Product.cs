@@ -1,5 +1,6 @@
 ﻿using APIGateway.Response;
 using AutoMapper;
+using BranchService_5003.Models;
 using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
@@ -8,6 +9,7 @@ using ProductService_5000.Models;
 using ProductService_5000.Request;
 using ProductService_5000.Response;
 using System.Drawing;
+using System.Text.Json;
 using Image = ProductService_5000.Models.Image;
 
 namespace ProductService_5000.Services
@@ -19,8 +21,10 @@ namespace ProductService_5000.Services
         Task<MRes_Product> GetByIdView(int idProduct, int idBranch);
         Task<List<Product>> GetProductsByIdCategory(int? id, MRes_InfoUser currentUser);
         Task<Product> GetByName(string productName);
+        Task<List<MRes_Product_Branch>> Product_BranchIndex(int idBranch,int? idProductCategory);
 
-        Task<string> AddProductAsync(MReq_Product productsRequest, MRes_InfoUser currentUser);
+
+		Task<string> AddProductAsync(MReq_Product productsRequest, MRes_InfoUser currentUser);
         Task<string> UploadProductByExcel(IFormFile file, MRes_InfoUser currentUser);
         Task<List<Product>> SearchProduct(string productName);
 
@@ -32,7 +36,7 @@ namespace ProductService_5000.Services
         Task<MemoryStream> ExportSampleProductFileExcel();
     }
 
-    public class S_Product : IS_Product
+	public class S_Product : IS_Product
     {
         private readonly ProductDbContext _context;
         private readonly IMapper _mapper;
@@ -318,5 +322,41 @@ namespace ProductService_5000.Services
             result.Quantity = pbQuantity;
             return result;
         }
-    }
+
+		public async Task<List<MRes_Product_Branch>> Product_BranchIndex(int idBranch, int? idProductCategory)
+		{
+			using var client = _httpClientFactory.CreateClient("ProductService");
+			var responsePb = await client.GetAsync($"Product_Branch/GetListByIdBranch?idBranch={idBranch}&idProductCategory={idProductCategory}");
+
+			if (!responsePb.IsSuccessStatusCode)
+			{
+				throw new Exception($"Failed to fetch data. Status: {responsePb.StatusCode}");
+			}
+
+			var responseContent = await responsePb.Content.ReadAsStringAsync();
+
+			// Parse JSON với JsonDocument
+			using var jsonDoc = JsonDocument.Parse(responseContent);
+			var root = jsonDoc.RootElement;
+
+			// Kiểm tra kết quả trả về từ API
+			if (root.GetProperty("result").GetInt32() == 1)
+			{
+				// Chuyển đổi phần 'data' thành danh sách đối tượng
+				var productBranchJson = root.GetProperty("data").GetRawText();
+				var product_Branch = JsonSerializer.Deserialize<List<MRes_Product_Branch>>(productBranchJson);
+
+				if (product_Branch != null)
+				{
+					return product_Branch;
+				}
+				throw new Exception("Failed to parse 'data' into List<MRes_Product_Branch>.");
+			}
+			else
+			{
+				var errorMessage = root.GetProperty("message").GetString();
+				throw new Exception($"Server returned error: {errorMessage}");
+			}
+		}
+	}
 }
