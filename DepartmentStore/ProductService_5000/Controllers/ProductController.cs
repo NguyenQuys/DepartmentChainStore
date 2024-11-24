@@ -59,7 +59,6 @@ namespace ProductService_5000.Controllers
             return View();
         }
 
-
         [HttpGet]
 		public async Task<IActionResult> GetAllProducts()
 		{
@@ -174,11 +173,21 @@ namespace ProductService_5000.Controllers
 		}
 
 		[HttpGet,Authorize]
-		public async Task<IActionResult> Product_BranchIndex(int idBranch, int? idProductCategory)
+		public async Task<IActionResult> Product_BranchIndex(int idBranch)
 		{
+			Session.SetInt32(IdBranchSessionKey, idBranch);
+			return View();
+		}
+
+		[HttpGet,Authorize]
+		public async Task<IActionResult> Product_BranchTab()
+		{
+			int? sessionIdBranch = Session.GetInt32(IdBranchSessionKey);
+
+			int? idBranch = sessionIdBranch;
 			TempData["IdBranch"] = idBranch;
-			var listToView = await _s_Product.Product_BranchIndex(idBranch, idProductCategory);
-			return View(listToView);
+			var view = await _s_Product.Product_BranchTab(idBranch);
+			return Ok(view);
 		}
 	}
 }

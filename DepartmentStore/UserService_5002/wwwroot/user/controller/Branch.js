@@ -476,51 +476,51 @@ function RemoveStaff(idStaff) {
 }
 //+++++++++++++++++++++++Staff Area Ends+++++++++++++++++++++++++++++
 //++++++++++++++++++++++++Invoice Area Starts++++++++++++++++++++++++
-function RenderTableInvoice(idBranch) {
-    let tableBody = '';
+//function RenderTableInvoice(idBranch) {
+//    let tableBody = '';
 
-    $.ajax({
-        url: '/Invoice/GetListInvoiceBranch',
-        type: 'GET',
-        data: { idBranch: idBranch },
-        success: function (response) {
-            if (response.length === 0) {
-                tableBody = '<tr><td colspan="6" class="text-center">Không có dữ liệu để hiển thị</td></tr>';
-            }
-            else {
-                response.forEach(function (invoice, index) {
-                    tableBody += `
-                                    <tr>
-                                        <td>${index + 1}</td>
-                                        <td>${invoice.invoiceNumber}</td>
-                                        <td>${invoice.createdDate}</td>
-                                        <td>${invoice.status.type}</td>
-                                        <td>
-                                            <a href="javascript:void(0)" class="btn btn-primary" onclick="GetDetailsInvoice(${invoice.id})">Chi tiết</a>
-                                        </td>
-                                    </tr>`;
-                });
-            }
+//    $.ajax({
+//        url: '/Invoice/GetListInvoiceBranch',
+//        type: 'GET',
+//        data: { idBranch: idBranch },
+//        success: function (response) {
+//            if (response.length === 0) {
+//                tableBody = '<tr><td colspan="6" class="text-center">Không có dữ liệu để hiển thị</td></tr>';
+//            }
+//            else {
+//                response.forEach(function (invoice, index) {
+//                    tableBody += `
+//                                    <tr>
+//                                        <td>${index + 1}</td>
+//                                        <td>${invoice.invoiceNumber}</td>
+//                                        <td>${invoice.createdDate}</td>
+//                                        <td>${invoice.status.type}</td>
+//                                        <td>
+//                                            <a href="javascript:void(0)" class="btn btn-primary" onclick="GetDetailsInvoice(${invoice.id})">Chi tiết</a>
+//                                        </td>
+//                                    </tr>`;
+//                });
+//            }
 
-            $('#div_data_detail_branch').html(`
-                            <div>
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr class='bg-primary text-white'>
-                                            <th>STT</th>
-                                            <th>Mã đơn hàng</th>
-                                            <th>Thời gian</th>
-                                            <th>Trạng thái</th>
-                                            <th>Hành động</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>${tableBody}</tbody>
-                                </table>
-                            </div>
-                        `);
-        }
-    });
-}
+//            $('#div_data_detail_branch').html(`
+//                            <div>
+//                                <table class="table table-striped">
+//                                    <thead>
+//                                        <tr class='bg-primary text-white'>
+//                                            <th>STT</th>
+//                                            <th>Mã đơn hàng</th>
+//                                            <th>Thời gian</th>
+//                                            <th>Trạng thái</th>
+//                                            <th>Hành động</th>
+//                                        </tr>
+//                                    </thead>
+//                                    <tbody>${tableBody}</tbody>
+//                                </table>
+//                            </div>
+//                        `);
+//        }
+//    });
+//}
 
 function ChangeStatusInvoice(idInvoice, idStatus) {
     let confirmationMessage = '';

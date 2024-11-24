@@ -4,33 +4,44 @@ let listIdProducts = [];
 let listQuantities = [];
 let listProduct = [];
 
-function CheckPromotion(event) {
+async function CheckPromotion(event) {
     event.preventDefault();
     let promotionCode = $('#input_promotion_code').val();
 
-    $.ajax({
-        url: '/Promotion/GetByPromotionCode',
-        type: 'GET',
-        data: {
+    $('#div_check_promotion_available').html('<div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div>');
+
+    try {
+        const response = await fetch('/Promotion/GetByPromotionCode?' + new URLSearchParams({
             promotionCode: promotionCode,
             listIdProductsAndQuantity: JSON.stringify(ListIdProductsAndQuantities())
-        },
-        contentType: 'application/json',
-        success: function (response) {
-            let discount = response.data;
-            if (response.result === 1) {
-                $('#div_check_promotion_available').html('<p class="text-success">Chúc mừng. Bạn đã áp dụng voucher thành công</p>');
-            } else {
-                $('#div_check_promotion_available').html(`<p class="text-danger">${response.message}</p>`);
-            }
-            $('#discount_invoice').text('- ' + discount.toLocaleString('vi-VN') + ' VND').addClass('text-success');
-            UpdateTotalStore()
+        }), {
+            method: 'GET'
+        });
 
-        },
-        error: function () {
-            $('#div_check_promotion_available').html('<p class="text-danger">Đã xảy ra lỗi khi áp dụng mã khuyến mãi.</p>');
+        if (!response.ok) {
+            throw new Error('HTTP error ' + response.status);
         }
-    });
+
+        const data = await response.json();
+
+        if (data.result === 1) {
+            $('#div_check_promotion_available').html('<p class="text-success">Chúc mừng. Bạn đã áp dụng voucher thành công</p>');
+        } else {
+            $('#div_check_promotion_available').html(`<p class="text-danger">${data.message}</p>`);
+        }
+
+        let discount = data.data;
+        $('#discount_invoice').text('- ' + discount.toLocaleString('vi-VN') + ' VND').addClass('text-success');
+        UpdateTotalStore();
+
+    } catch (error) {
+        // Xử lý lỗi
+        console.error('Fetch error:', error);
+        $('#div_check_promotion_available').html('<p class="text-danger">Đã xảy ra lỗi khi áp dụng mã khuyến mãi.</p>');
+    } finally {
+        // Ẩn spinner khi hoàn tất
+        $('.spinner-border').remove();
+    }
 }
 
 function ToggleDelivery() {
@@ -208,10 +219,6 @@ async function AddInvoiceOffline() {
         ShowToastNoti('error', '', 'Có lỗi xảy ra khi tạo hóa đơn.', 4000);
     }
 }
-
-
-
-
 
 function ListIdProductsAndQuantities() {
     //let listIdProducts = [];

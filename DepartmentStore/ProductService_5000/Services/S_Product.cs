@@ -21,7 +21,7 @@ namespace ProductService_5000.Services
         Task<MRes_Product> GetByIdView(int idProduct, int idBranch);
         Task<List<Product>> GetProductsByIdCategory(int? id, MRes_InfoUser currentUser);
         Task<Product> GetByName(string productName);
-        Task<List<MRes_Product_Branch>> Product_BranchIndex(int idBranch,int? idProductCategory);
+        Task<List<MRes_Product_Branch>> Product_BranchTab(int? idBranch);
 
 
 		Task<string> AddProductAsync(MReq_Product productsRequest, MRes_InfoUser currentUser);
@@ -323,10 +323,10 @@ namespace ProductService_5000.Services
             return result;
         }
 
-		public async Task<List<MRes_Product_Branch>> Product_BranchIndex(int idBranch, int? idProductCategory)
+		public async Task<List<MRes_Product_Branch>> Product_BranchTab(int? idBranch)
 		{
 			using var client = _httpClientFactory.CreateClient("ProductService");
-			var responsePb = await client.GetAsync($"Product_Branch/GetListByIdBranch?idBranch={idBranch}&idProductCategory={idProductCategory}");
+			var responsePb = await client.GetAsync($"Product_Branch/GetListByIdBranch?idBranch={idBranch}");
 
 			if (!responsePb.IsSuccessStatusCode)
 			{

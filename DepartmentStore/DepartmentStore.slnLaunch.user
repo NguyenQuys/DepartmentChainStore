@@ -24,7 +24,7 @@
       },
       {
         "Path": "PromotionService_5004\\PromotionService_5004.csproj",
-        "Action": "Start"
+        "Action": "StartWithoutDebugging"
       },
       {
         "Path": "InvoiceService_5005\\InvoiceService_5005.csproj",

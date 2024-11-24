@@ -1,46 +1,27 @@
-﻿@model List<APIGateway.Response.MRes_Product_Branch>
-@{
+﻿@{
     ViewData["Title"] = "Cửa hàng";
 }
-<div class="container pt-4">
-    <div class="row">
-        <div class="col-lg-7 ftco-animate fadeInUp ftco-animated">
-            <div class="row">
-                @foreach (var product in Model)
-                {
-                    <div class="col-lg-4">
-                        <div class="product">
-                            <a onclick="AddProductToQueue(@product.Id,'@product.ProductName',@product.Price)" class="img-prod">
-                                <img class="img-fluid" src="@product.MainImage" alt="Product Image">
-                                <span class="status">30%</span>
-                                <div class="overlay"></div>
-                            </a>
-                            <div class="text py-3 pb-4 px-3 text-center">
-                                <h3>@product.ProductName</h3>
-                                <div class="d-flex">
-                                    <div class="pricing">
-                                        <p class="price">
-                                            <span class="mr-2">
-                                                @product.Price.ToString("N0") VND
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-        <div class="col-lg-5 bg-secondary">
-            <div class="container">
-                <div><p class="text-center">Danh sách chọn</p></div>
-                <hr>
-                <div class="bg-secondary" id="div_selectedProduct"></div>
-            </div>
-        </div>
-    </div>
+<div class="d-flex justify-content-center align-items-center">
+    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        <li class="nav-item mx-4" role="presentation">
+            <button class="nav-link active" data-bs-toggle="pill" type="button" role="tab" aria-selected="true" onclick="RenderProduct_BranchTab()">
+                Home
+            </button>
+        </li>
+        <li class="nav-item mx-4" role="presentation">
+            <button class="nav-link" data-bs-toggle="pill" type="button" role="tab" aria-selected="false">
+                Đơn hàng Online
+            </button>
+        </li>
+        <li class="nav-item mx-4" role="presentation">
+            <button class="nav-link" data-bs-toggle="pill" type="button" role="tab" aria-selected="false" onclick="RenderTableInvoice()">
+                Lịch sử đơn hàng
+            </button>
+        </li>
+       
+    </ul>
 </div>
+<div id="div_content_store"></div>
 <script>
     let global_idBranch = @TempData["IdBranch"];
 </script>

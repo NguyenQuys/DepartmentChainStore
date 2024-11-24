@@ -185,10 +185,6 @@ namespace PromotionService_5004.Services
                     var generalDiscount = totalSum * promotion.Percentage / 100;
                     discountFinal = Math.Min(generalDiscount, promotion.MaxPrice);
                     break;
-
-                case 5: // Use only 1 time
-                default:
-                    throw new Exception("Loại khuyến mãi không hợp lệ");
             }
             return discountFinal;
         }

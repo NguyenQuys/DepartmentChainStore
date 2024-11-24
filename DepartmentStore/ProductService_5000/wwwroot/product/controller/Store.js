@@ -1,72 +1,142 @@
-﻿//let listProduct = [];
+﻿// Gọi hàm khi DOM đã sẵn sàng
+document.addEventListener('DOMContentLoaded', function () {
+    RenderProduct_BranchTab();
+});
 
-//function AddProductToQueue(idProduct, productName, price) {
-//    let product = listProduct.find(p => p.id === idProduct);
+async function RenderProduct_BranchTab() {
+    try {
+        const response = await fetch('/Product/Product_BranchTab', {
+            method: 'GET', 
+        });
 
-//    if (product) {
-//        product.quantity += 1;
-//    } else {
-//        listProduct.push({
-//            id: idProduct,
-//            name: productName,
-//            price: price,
-//            quantity: 1
-//        });
-//    }
+        if (!response.ok) {
+            throw new Error('HTTP error ' + response.status); 
+        }
 
-//    renderSelectedProducts();
-//}
+        const data = await response.json(); 
 
-//function renderSelectedProducts() {
-//    // Làm trống div trước khi hiển thị lại
-//    $('#div_selectedProduct').html('');
-//    let quantityProduct = 0;
-//    let sumAllProduct = 0;
+        const productContainer = document.querySelector('#div_content_store');
+        productContainer.classList.add('row'); 
+        productContainer.innerHTML = '';  
 
-//    let table = `
-//        <table border="1" style="width: 100%; border-collapse: collapse;">
-//            <thead>
-//                <tr>
-//                    <th style="text-align: left; padding: 8px;">STT</th>
-//                    <th style="text-align: left; padding: 8px;">Tên sản phẩm</th>
-//                    <th style="text-align: left; padding: 8px;">Số lượng</th>
-//                    <th style="text-align: left; padding: 8px;">Đơn giá</th>
-//                    <th style="text-align: left; padding: 8px;">Tổng</th>
-//                </tr>
-//            </thead>
-//            <tbody>
-//    `;
+        let productHTML = `
+        <div class="col-lg-7 ftco-animate fadeInUp ftco-animated">
+            <div class="row">`;
 
-//    listProduct.forEach((product, index) => {
-//        let total = product.price * product.quantity; 
-//        sumAllProduct += total;
-//        quantityProduct += product.quantity;
-//        table += `
-//            <tr>
-//                <td style="padding: 8px;">${index + 1}</td>
-//                <td style="padding: 8px;">${product.name}</td>
-//                <td style="padding: 8px;">${product.quantity}</td>
-//                <td style="padding: 8px;">${product.price.toLocaleString()}đ</td>
-//                <td style="padding: 8px;">${total.toLocaleString()}đ</td>
-//            </tr>
-//        `;
-//    });
+        data.forEach(product => {
+            productHTML += `
+                <div class="col-lg-4">
+                    <div class="product">
+                        <a onclick="AddProductToQueue(${product.id}, '${product.productName}', ${product.price})" class="img-prod">
+                            <img class="img-fluid" src="${product.mainImage}" alt="Product Image">
+                            <span class="status">30%</span>
+                            <div class="overlay"></div>
+                        </a>
+                        <div class="text py-3 pb-4 px-3 text-center">
+                            <h3>${product.productName}</h3>
+                            <div class="d-flex">
+                                <div class="pricing">
+                                    <p class="price">
+                                        <span class="mr-2">
+                                            ${product.price.toLocaleString('vi-VN')} VND
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+        });
 
-//    table += `
-//            <tr class="fw-bold text-danger">
-//                <td style="padding: 8px;" colspan="2">Tổng</td>
-//                <td style="padding: 8px;">${quantityProduct}</td>
-//                <td style="padding: 8px;"></td>
-//                <td style="padding: 8px;">${sumAllProduct.toLocaleString() }đ</td>
-//            </tr>
-//            </tbody>
-//        </table>
-//        <div class='d-flex justify-content-end'>
-//            <input type='text' class='form-control m-3' placeholder='Nhập voucher...'>
-//            <button type='button'
-//            <button type='button' class='btn btn-success m-3'>Hoàn tát</button>
-//        </div>
-//    `;
+        productHTML += `
+            </div>
+        </div>`; 
 
-//    $('#div_selectedProduct').html(table);
-//}
+        const selectedProductHTML = `
+        <div class="col-lg-5 bg-secondary">
+            <div class="container">
+                <div><p class="text-center">Danh sách chọn</p></div>
+                <hr>
+                <div class="bg-secondary" id="div_selectedProduct"></div>
+            </div>
+        </div>`;
+
+        productContainer.innerHTML = productHTML + selectedProductHTML;
+
+    } catch (error) {
+        console.error('Error fetching products:', error); 
+        const productContainer = document.querySelector('#div_content_store');
+        productContainer.innerHTML = '<p class="text-danger">Không thể tải sản phẩm. Vui lòng thử lại sau.</p>'; // Hiển thị thông báo lỗi
+    }
+}
+
+async function RenderTableInvoice() {
+    let tableBody = '';
+    $('#div_content_store').html(`<div class=d-flex align-items-center justify-content-center>
+                                        <div class="spinner-border text-primary" role="status"> <span class="sr-only">Loading...</span></div>
+                                  <div>
+                                   `);
+    try {
+        // Gửi yêu cầu GET với Fetch API
+        const response = await fetch(`/Invoice/GetListInvoiceBranch?idBranch=${global_idBranch}`, {
+            method: 'GET',
+            // Các thông số có thể thêm vào nếu cần, ví dụ headers hoặc query params
+            // headers: {
+            //     'Content-Type': 'application/json',
+            //     'Authorization': 'Bearer ' + token,
+            // },
+            //params: { idBranch: global_idBranch }
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        // Chuyển đổi dữ liệu JSON từ phản hồi
+        const data = await response.json();
+
+        if (data.length === 0) {
+            tableBody = '<tr><td colspan="6" class="text-center">Không có dữ liệu để hiển thị</td></tr>';
+        } else {
+            data.forEach(function (invoice, index) {
+                tableBody += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${invoice.invoiceNumber}</td>
+                        <td>${invoice.createdDate}</td>
+                        <td>${invoice.status.type}</td>
+                        <td>
+                            <a href="javascript:void(0)" class="btn btn-primary" onclick="GetDetailsInvoice(${invoice.id})">Chi tiết</a>
+                        </td>
+                    </tr>`;
+            });
+        }
+
+        // Cập nhật nội dung của bảng trong #div_content_store
+        document.querySelector('#div_content_store').innerHTML = `
+            <div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr class='bg-primary text-white'>
+                            <th>STT</th>
+                            <th>Mã đơn hàng</th>
+                            <th>Thời gian</th>
+                            <th>Trạng thái</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>${tableBody}</tbody>
+                </table>
+            </div>
+        `;
+
+        // Nếu cần xóa class 'row' (nếu có trong DOM)
+        document.querySelector('#div_content_store').classList.remove('row');
+
+    } catch (error) {
+        console.error('Error fetching invoices:', error);
+        // Xử lý lỗi khi không thể lấy dữ liệu
+        document.querySelector('#div_content_store').innerHTML = '<p class="text-danger">Không thể tải danh sách hóa đơn. Vui lòng thử lại sau.</p>';
+    }
+}
+

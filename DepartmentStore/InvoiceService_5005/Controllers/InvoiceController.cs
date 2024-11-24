@@ -73,6 +73,20 @@ namespace InvoiceService_5005.Controllers
 			return Ok(listToview);
 		}
 
+		//[HttpGet,Authorize]
+		//public async Task<IActionResult> GetListUndoneInvoiceBranch(int idBranch)
+		//{
+		//	var listToview = await _s_Invoice.GetListUndoneInvoiceBranch(idBranch);
+		//	return Ok(listToview);
+		//}
+
+		//[HttpGet, Authorize]
+		//public async Task<IActionResult> GetListDoneInvoiceBranch(int idBranch)
+		//{
+		//	var listToview = await _s_Invoice.GetListDoneInvoiceBranch(idBranch);
+		//	return Ok(listToview);
+		//}
+
 		[HttpPut,Authorize]
 		public async Task<IActionResult> ChangeStatusInvoice([FromBody] MReq_ChangeStatusInvoice request)
 		{
