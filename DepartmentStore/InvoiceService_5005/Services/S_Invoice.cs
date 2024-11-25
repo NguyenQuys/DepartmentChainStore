@@ -184,7 +184,8 @@ namespace InvoiceService_5005.Services
 				PaymentMethod = invoice.PaymentMethod.Method,
 				Status = invoice.Status.Type,
 				CustomerNote = invoice.CustomerNote,
-				StoreNote = invoice.StoreNote
+				StoreNote = invoice.StoreNote,
+				PhoneNumber = invoice.CustomerPhoneNumber ?? "Không có thông tin"
 			};
 			return detail;
 		}
@@ -418,7 +419,7 @@ namespace InvoiceService_5005.Services
 				.Include(m => m.PaymentMethod)
 				.Include(m => m.Status)
 				.AsNoTracking()
-				.Where(m => m.IdEmployeeShip == idShipper)
+				.Where(m => m.IdEmployeeShip == idShipper && m.IdStatus == 2)
 				.ToListAsync();
 
 			using var client = _httpClientFactory.CreateClient("ProductService");

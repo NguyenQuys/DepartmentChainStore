@@ -133,8 +133,10 @@ async function RenderTableInvoice(idStatus = null) {
     }
 }
 
-async function OpenModalInvoiceStore(idInvoice) {
-    RenderEmployee();
+async function OpenModalInvoiceStore(idInvoice, idStatus) {
+    if (idStatus === 1) {
+        RenderEmployee();
+    }
     try {
         const response = await fetch(`/Invoice/GetDetailsInvoice?id=${idInvoice}`, {
             method: 'GET',
@@ -178,6 +180,7 @@ async function OpenModalInvoiceStore(idInvoice) {
                     <h2>Thời gian: ${data.time ? new Date(data.time).toLocaleString('vi-VN') : 'N/A'}</h2>
                     <h2>Địa chỉ: ${data.address ?? ''}</h2>
                     <h2>Ghi chú từ khách hàng: ${data.customerNote ?? ''}</h2>
+                    <h2>Số điện thoại: ${data.phoneNumber}</h2>
                     <table style='width: 100%; border-collapse: collapse;'>
                         <thead>
                             <tr class='bg-primary text-white'>
@@ -271,9 +274,21 @@ async function RenderEmployee() {
 async function ChangeStatusInvoiceStore(idInvoice, idStatus) {
     let confirmationMessage = '';
     if (idStatus === 2) {
-        confirmationMessage = 'Hoàn tất đơn hàng?';
-    } else if (idStatus === 5) {
-        confirmationMessage = 'Hủy đơn hàng?';
+        confirmationMessage = 'Hoàn tất đóng gói?';
+    } else if (idStatus === 3)
+    {
+        confirmationMessage = 'Giao hàng thành công?';
+    }
+    else if (idStatus === 4) {
+        confirmationMessage = 'Bạn đã nhận được hàng?';
+    }
+    else if (idStatus === 5) {
+        confirmationMessage = 'Cửa hàng hủy đơn hàng?';
+    }
+    else if (idStatus === 5) {
+        confirmationMessage = 'Khách hàng hủy đơn hàng?';
+    } else if (idStatus === 7) {
+        confirmationMessage = 'Shipper hủy đơn hàng?';
     }
 
     if (confirmationMessage && confirm(confirmationMessage)) {
@@ -312,6 +327,7 @@ async function ChangeStatusInvoiceStore(idInvoice, idStatus) {
                     }
                 }
                 $('.modal-store').modal('hide');
+                $('.modal-shipper').modal('hide');
                 RenderTableInvoice(idStatus);
             } else {
                 console.error('Failed to update status:', response.statusText);

@@ -80,7 +80,7 @@ namespace InvoiceService_5005.Controllers
 			return Ok(invoiceToChange);
 		}
 
-		[HttpGet,Authorize(Roles = "2")]
+		[HttpGet,Authorize(Roles = "3")]
 		public async Task<IActionResult> GetListInvoiceByIdShipper(int idShipper)
 		{
 			var listToGet = await _s_Invoice.GetListInvoiceByIdShipper(idShipper);
