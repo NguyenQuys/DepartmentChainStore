@@ -396,7 +396,10 @@ namespace InvoiceService_5005.Services
 		public async Task<string> ChangeStatusInvoice(MReq_ChangeStatusInvoice request)
 		{
 			var invoiceToChangeStatus = await _context.Invoices.FirstOrDefaultAsync(m => m.Id == request.IdInvoice);
-			//invoiceToChangeStatus.EmployeeShip = request.EmployeeShip;
+			if (request.EmployeeShip != null)
+			{
+				invoiceToChangeStatus.IdEmployeeShip = request.EmployeeShip;
+			}
 			invoiceToChangeStatus.IdStatus = request.IdStatus;
 			invoiceToChangeStatus.StoreNote = request.StoreNote;
 			_context.Update(invoiceToChangeStatus);

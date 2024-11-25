@@ -105,8 +105,7 @@ namespace ProductService_5000.Controllers
 		[HttpGet]
 		public async Task<IActionResult> ListInvoiceToShip()
 		{
-			var listToDisplay = await _s_Cart.ListInvoiceToShip(_currentUser);
-			return View(listToDisplay);
+			return View();
 		}
 	}
 }

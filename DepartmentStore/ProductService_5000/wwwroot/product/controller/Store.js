@@ -1,7 +1,7 @@
 ﻿// Gọi hàm khi DOM đã sẵn sàng
-document.addEventListener('DOMContentLoaded', function () {
-    RenderProduct_BranchTab();
-});
+//document.addEventListener('DOMContentLoaded', function () {
+//    RenderProduct_BranchTab();
+//});
 
 async function RenderProduct_BranchTab() {
     try {
@@ -327,7 +327,6 @@ async function ChangeStatusInvoiceStore(idInvoice, idStatus) {
                     }
                 }
                 $('.modal-store').modal('hide');
-                $('.modal-shipper').modal('hide');
                 RenderTableInvoice(idStatus);
             } else {
                 console.error('Failed to update status:', response.statusText);

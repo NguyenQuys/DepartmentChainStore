@@ -319,6 +319,10 @@ function OpenModalHistoryPurchase(idInvoice) {
                         </table>
                         <h3>Phương thức thanh toán: ${response.paymentMethod || 'N/A'}</h3>
                         <h3>Trạng thái: ${response.status || 'N/A'}</h3>
+                        <div class='mt-3 my-3 justify-content-around ${response.status !== "Giao hàng thành công" ? 'd-none' : 'd-flex'}' id='div_action'>
+                            <button type='button' class='btn btn-success' onclick='ChangeStatusInvoiceCustomer(${response.idInvoice},4)'>Đã nhận đơn hàng</button>
+                            <button type='button' class='btn btn-danger'>Chưa nhận được đơn hàng</button>
+                        </div>
                     </div>
                 `;
 
@@ -558,4 +562,39 @@ if (discountElement) {
     observerA.observe(discountElement, { childList: true, subtree: true });
 } else {
     console.error('Element with class "discount_invoice" not found!');
+}
+
+async function ChangeStatusInvoiceCustomer(idInvoice, idStatus) {
+    const confirmationMessage = idStatus === 4 ? 'Đã nhận được hàng?' : 'Chưa nhận được hàng?';
+
+    if (confirm(confirmationMessage)) {
+        try {
+            const response = await fetch('/Invoice/ChangeStatusInvoice', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ IdInvoice: idInvoice, IdStatus: idStatus })
+            });
+
+            if (response.ok) {
+                ShowToastNoti('success', '', 'Trạng thái đã thay đổi thành công!', 4000);
+
+                const invoiceStatus = document.getElementById('invoice_status');
+                if (invoiceStatus) {
+                    invoiceStatus.textContent = idStatus === 3 ? 'Nhận hàng thành công' : 'Đơn hàng đã hủy';
+                    invoiceStatus.className = idStatus === 3 ? 'text-success' : 'text-danger';
+                }
+
+                document.getElementById('div_action')?.classList.add('d-none');
+                $('.modal-shipper').modal('hide');
+                RenderOrderList(); // Re-render the list
+            } else {
+                ShowToastNoti('error', 'Error', 'Có lỗi xảy ra, vui lòng thử lại!', 4000);
+            }
+        } catch (error) {
+            console.error('Error updating status:', error);
+            ShowToastNoti('error', 'Error', 'Có lỗi xảy ra, vui lòng thử lại!', 4000);
+        }
+    }
 }

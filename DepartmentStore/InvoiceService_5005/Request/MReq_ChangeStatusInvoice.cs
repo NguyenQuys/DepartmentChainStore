@@ -4,7 +4,7 @@
 	{
 		public int IdInvoice { get; set; }
 		public short IdStatus { get; set; }
-		public string? EmployeeShip { get; set; }
+		public int? EmployeeShip { get; set; }
 		public string? StoreNote { get; set; }
 	}
 }

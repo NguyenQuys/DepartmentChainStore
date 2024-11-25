@@ -19,9 +19,7 @@ namespace ProductService_5000.Services
 
 		// Invoice
 		Task<List<Invoice>> HistoryPurchase(MRes_InfoUser currentUser);
-
 		Task<List<MRes_Product>> InvoiceIndex(string stringifyCarts, int idBranch);
-		Task<List<MRes_InvoiceEmail>> ListInvoiceToShip(MRes_InfoUser currentUser);
 	}
 
 	public class S_Cart : IS_Cart
@@ -206,7 +204,7 @@ namespace ProductService_5000.Services
 			using var client = _httpClientFactory.CreateClient("ProductService");
 			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", currentUser.AccessToken);
 			var responseInvoiceList = await client.GetAsync($"/Invoice/HistoryPurchaseJson?phoneNumber={currentUser.PhoneNumber}");
-			if(!responseInvoiceList.IsSuccessStatusCode)
+			if (!responseInvoiceList.IsSuccessStatusCode)
 			{
 				throw new Exception("Khong lay duoc thong tin");
 			}
@@ -214,36 +212,5 @@ namespace ProductService_5000.Services
 			var invoiceList = await responseInvoiceList.Content.ReadFromJsonAsync<List<Invoice>>();
 			return invoiceList;
 		}
-
-		public async Task<List<MRes_InvoiceEmail>> ListInvoiceToShip(MRes_InfoUser currentUser)
-		{
-			using var client = _httpClientFactory.CreateClient("ProductService");
-			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", currentUser.AccessToken);
-
-			var reponseInvoiceList = await client.GetAsync($"Invoice/GetListInvoiceByIdShipper?idShipper={int.Parse(currentUser.IdUser)}");
-			if(!reponseInvoiceList.IsSuccessStatusCode)
-			{
-				throw new Exception("Khong lay dc du lieu");
-			}
-
-			var invoiceList = await reponseInvoiceList.Content.ReadFromJsonAsync<List<MRes_InvoiceEmail>>();
-			return invoiceList;
-		}
 	}
 }
-
-//var detail = new MRes_InvoiceEmail()
-//{
-//	IdInvoice = id,
-//	Address = invoice.Address,
-//	InvoiceNumber = invoice.InvoiceNumber,
-//	Time = invoice.CreatedDate,
-//	ProductNameAndQuantity = productNameAndQuantity,
-//	SinglePrice = listSinglePrice,
-//	Discount = discount,
-//	Total = totalOriginalPrice - discount,
-//	PaymentMethod = invoice.PaymentMethod.Method,
-//	Status = invoice.Status.Type,
-//	CustomerNote = invoice.CustomerNote,
-//	StoreNote = invoice.StoreNote
-//};

@@ -1,4 +1,6 @@
-﻿using InvoiceService_5005.Request;
+﻿using APIGateway.Response;
+using APIGateway.Utilities;
+using InvoiceService_5005.Request;
 using InvoiceService_5005.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,10 +13,12 @@ namespace InvoiceService_5005.Controllers
 	public class InvoiceController : ControllerBase
 	{
 		private readonly IS_Invoice _s_Invoice;
+		private readonly MRes_InfoUser _currentUser;
 
-		public InvoiceController(IS_Invoice invoice)
+		public InvoiceController(IS_Invoice invoice, CurrentUserHelper currentUser)
 		{
 			_s_Invoice = invoice;
+			this._currentUser = currentUser.GetCurrentUser();
 		}
 
 		[HttpGet]
@@ -81,9 +85,9 @@ namespace InvoiceService_5005.Controllers
 		}
 
 		[HttpGet,Authorize(Roles = "3")]
-		public async Task<IActionResult> GetListInvoiceByIdShipper(int idShipper)
+		public async Task<IActionResult> GetListInvoiceByIdShipper()
 		{
-			var listToGet = await _s_Invoice.GetListInvoiceByIdShipper(idShipper);
+			var listToGet = await _s_Invoice.GetListInvoiceByIdShipper(int.Parse(_currentUser.IdUser));
 			return Ok(listToGet);
 		}
 	}

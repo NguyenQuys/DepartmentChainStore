@@ -1,10 +1,9 @@
-﻿@model List<APIGateway.Response.MRes_InvoiceEmail>
-@{
+﻿@{
     ViewData["Title"] = "Ship";
 }
 <section class="ftco-section ftco-cart">
-	<div class="container">
-		<div class="row">
+    <div class="container">
+        <div class="row">
             <div class="col-12 ftco-animate fadeInUp ftco-animated">
                 <div class="cart-list">
                     <table class="table-bordered">
@@ -15,28 +14,14 @@
                                 <th class="col-4">Hành động</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @{
-                                int index = 1;
-                            }
-                            @foreach (var item in Model)
-                            {
-                                <tr class="text-center">
-                                    <td class="col-1">@index</td>
-                                    <td class="col-7">#@item.InvoiceNumber</td>
-                                    <td class="col-4">
-                                        <button type="button" class="btn btn-primary btn-sm p-2" onclick="OpenModalInvoiceShipper(@item.IdInvoice)">Chi tiết</button>
-                                    </td>
-                                </tr>
-                                index++;
-                            }
+                        <tbody id="data_order_shipper">
                         </tbody>
                     </table>
                 </div>
             </div>
 
-		</div>
-	</div>
+        </div>
+    </div>
 </section>
 <div class="modal fade modal-shipper" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">

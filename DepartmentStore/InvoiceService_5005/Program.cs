@@ -52,10 +52,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 		};
 	});
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddScoped<IS_Invoice, S_Invoice>();
 builder.Services.AddScoped<IS_Shipping, S_Shipping>();
 builder.Services.AddScoped<IS_Statistic, S_Statistic>();
 builder.Services.AddScoped<ISendMailSMTP, SendMailSMTP>();
+builder.Services.AddScoped<CurrentUserHelper>();
 
 builder.Services.AddHttpClient("ProductService", client =>
 {

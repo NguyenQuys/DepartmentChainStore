@@ -1,4 +1,5 @@
-﻿let ID_BRANCH = $('#idBranchTemp').val();
+﻿let global_phoneNumber;
+let ID_BRANCH = $('#idBranchTemp').val();
 $(document).ready(function () {
     GetListProduct();
 });
@@ -72,8 +73,6 @@ async function GetListProduct(idProductCategory = null) {
         console.error("Fetch API error:", error.message);
     }
 }
-
-
 
 $(document).ready(function () {
     $('#search_product_keyword').on('keyup', function () {
