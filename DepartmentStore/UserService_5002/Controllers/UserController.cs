@@ -244,5 +244,14 @@ namespace UserService_5002.Controllers
             var customerToChangeStatus = await _s_User.ChangeStatusCustomer(id, _currentUser);
             return Json(customerToChangeStatus);
         }
-    }
+        // Employee
+        [HttpGet,Authorize]
+        public async Task<IActionResult> GetEmployeesByIdBranch(int idBranch)
+        {
+            var getList = await _s_User.GetEmployeesByIdBranch(idBranch);
+            return Ok(getList);
+
+		}
+
+	}
 }

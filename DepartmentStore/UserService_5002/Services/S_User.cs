@@ -21,6 +21,7 @@ namespace UserService_5002.Services
         Task<MReq_Staff> GetStaffById(int id);
         Task<MRes_InfoUser> IdentifyRoleUser(MRes_InfoUser currentUser);
         Task<string> GetBranchById(string idBranch);
+        Task<List<MRes_EmployeeBranch>> GetEmployeesByIdBranch(int idBranch);
 
 		Task<string> AddStaff(MReq_Staff mReq_Staff);
         Task<string> UpdateStaff(MReq_Staff mReq_Staff);
@@ -444,6 +445,24 @@ namespace UserService_5002.Services
 		{
             var branchToGet = await _branchContext.Branches.FirstOrDefaultAsync(m => m.Id == int.Parse(idBranch));
             return branchToGet.Location;
+		}
+
+		public async Task<List<MRes_EmployeeBranch>> GetEmployeesByIdBranch(int idBranch)
+		{
+			var getUserList = await _userContext.UserOtherInfo.Where(m=>m.IdBranch == idBranch.ToString()
+                                                                     && m.RoleId == 3)
+                                                              .ToListAsync();
+            var newList = new List<MRes_EmployeeBranch>();
+			foreach (var item in getUserList)
+			{
+                var newUser = new MRes_EmployeeBranch()
+                {
+                    Id = item.UserId,
+                    Name = item.FullName
+                };
+                newList.Add(newUser);
+			}
+            return newList;
 		}
 	}
 }

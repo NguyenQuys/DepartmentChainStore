@@ -67,25 +67,11 @@ namespace InvoiceService_5005.Controllers
 		}
 
 		[HttpGet,Authorize]
-		public async Task<IActionResult> GetListInvoiceBranch(int idBranch)
+		public async Task<IActionResult> GetListInvoiceBranch(int idBranch,int? idStatus)
 		{
-			var listToview = await _s_Invoice.GetListInvoiceBranch(idBranch);
+			var listToview = await _s_Invoice.GetListInvoiceBranch(idBranch, idStatus);
 			return Ok(listToview);
 		}
-
-		//[HttpGet,Authorize]
-		//public async Task<IActionResult> GetListUndoneInvoiceBranch(int idBranch)
-		//{
-		//	var listToview = await _s_Invoice.GetListUndoneInvoiceBranch(idBranch);
-		//	return Ok(listToview);
-		//}
-
-		//[HttpGet, Authorize]
-		//public async Task<IActionResult> GetListDoneInvoiceBranch(int idBranch)
-		//{
-		//	var listToview = await _s_Invoice.GetListDoneInvoiceBranch(idBranch);
-		//	return Ok(listToview);
-		//}
 
 		[HttpPut,Authorize]
 		public async Task<IActionResult> ChangeStatusInvoice([FromBody] MReq_ChangeStatusInvoice request)

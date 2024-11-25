@@ -9,19 +9,31 @@
             </button>
         </li>
         <li class="nav-item mx-4" role="presentation">
-            <button class="nav-link" data-bs-toggle="pill" type="button" role="tab" aria-selected="false">
+            <button class="nav-link" data-bs-toggle="pill" type="button" role="tab" aria-selected="false" onclick="RenderTableInvoice(1)">
                 Đơn hàng Online
             </button>
         </li>
         <li class="nav-item mx-4" role="presentation">
-            <button class="nav-link" data-bs-toggle="pill" type="button" role="tab" aria-selected="false" onclick="RenderTableInvoice()">
+            <button class="nav-link" data-bs-toggle="pill" type="button" role="tab" aria-selected="false" onclick="RenderTableInvoice(0)">
                 Lịch sử đơn hàng
             </button>
         </li>
-       
+
     </ul>
 </div>
 <div id="div_content_store"></div>
+<div class="modal fade modal-store" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chi tiết hóa đơn</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="body_invoiceStore">
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     let global_idBranch = @TempData["IdBranch"];
 </script>

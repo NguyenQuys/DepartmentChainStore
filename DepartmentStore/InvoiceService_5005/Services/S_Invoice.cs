@@ -15,7 +15,7 @@ namespace InvoiceService_5005.Services
 	{
 		Task<Invoice> GetByPhoneNumberAndIdPromotion(string phoneNumberRequest, int idPromotion);
 		Task<MRes_InvoiceEmail> GetDetailsInvoice(int id);
-		Task<List<Invoice>> GetListInvoiceBranch(int idBranch);
+		Task<List<Invoice>> GetListInvoiceBranch(int idBranch,int? idStatus);
 		Task<List<MRes_InvoiceEmail>> GetListInvoiceByIdShipper(int idShipper);
 		Task<List<Invoice>> HistoryPurchaseJson(string phoneNumber);
 		Task<string> AddAtStoreOnline(MReq_Invoice mReq_Invoice);
@@ -376,9 +376,19 @@ namespace InvoiceService_5005.Services
 			return emailBody;
 		}
 
-		public async Task<List<Invoice>> GetListInvoiceBranch(int idBranch)
+		public async Task<List<Invoice>> GetListInvoiceBranch(int idBranch,int? idStatus)
 		{
-			var listToView = await _context.Invoices.Where(m => m.IdBranch == idBranch).Include(m=>m.Status).ToListAsync();
+			List<Invoice> listToView;
+			if (idStatus == 0)
+			{
+				listToView = await _context.Invoices.Where(m => m.IdBranch == idBranch).Include(m => m.Status).ToListAsync();
+			}else
+			{
+				listToView = await _context.Invoices.Where(m => m.IdBranch == idBranch
+															&&m.IdStatus == idStatus)
+													.Include(m => m.Status)
+													.ToListAsync();
+			}
 			return listToView;
 		}
 
