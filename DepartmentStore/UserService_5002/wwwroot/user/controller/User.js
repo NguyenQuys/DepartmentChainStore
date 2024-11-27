@@ -92,3 +92,146 @@ function ChangeStatusCustomer(customerId) {
         }
     });
 }
+
+function RenderSignUpBody() {
+    const signUpBody = `
+        <form id="signupForm">
+            <div class="mb-3">
+                <label for="fullName" class="form-label">Họ và tên</label>
+                <input type="text" class="form-control" id="fullName" name="fullName" maxlength="60" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" maxlength="30" required>
+            </div>
+            <div class="mb-3">
+                <label for="phoneNumber" class="form-label">Số điện thoại</label>
+                <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" maxlength="10" required>
+            </div>
+            <div class="mb-3">
+                <label for="address" class="form-label">Địa chỉ</label>
+                <input type="text" class="form-control" id="address" name="address" maxlength="30" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Mật khẩu</label>
+                <input type="password" class="form-control" id="password" name="password" maxlength="61" required>
+            </div>
+            <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Xác nhận mật khẩu</label>
+                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" maxlength="61" required>
+            </div>
+            <div class="mb-3">
+                <label for="dateOfBirth" class="form-label">Ngày sinh</label>
+                <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" required>
+            </div>
+            <div class="mb-3">
+                <label for="gender" class="form-label">Giới tính</label>
+                <select class="form-select" id="gender" name="gender" required>
+                    <option value="" selected>Chọn giới tính</option>
+                    <option value="0">Nam</option>
+                    <option value="1">Nữ</option>
+                    <option value="2">Khác</option>
+                </select>
+            </div>
+        </form>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            <button type="submit" class="btn btn-primary" onclick="SignUp()">Đăng ký</button>
+        </div>
+    `;
+
+    $('#div_content_signup').html(signUpBody);
+    $('#modal_signup').modal('show');
+}
+
+async function SignUp() {
+    // Show loading spinner
+    //$('#div_content_signup').html(`
+    //    <div class="text-center">
+    //        <div class="spinner-border text-primary" role="status">
+    //            <span class="sr-only">Loading...</span>
+    //        </div>
+    //    </div>
+    //`);
+
+    // Prepare the form data
+    const data = {
+        PhoneNumber: document.getElementById('phoneNumber').value,
+        Password: document.getElementById('password').value,
+        FullName: document.getElementById('fullName').value,
+        Email: document.getElementById('email').value,
+        DateOfBirth: document.getElementById('dateOfBirth').value,
+        Gender: document.getElementById('gender').value,
+        Address: document.getElementById('address').value
+    };
+
+    try {
+        // Send the POST request
+        const response = await fetch('/User/SignUp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        // Check if the response is OK
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        // Handle the server response
+        if (result.result === 1) {
+            ShowToastNoti('success', '', result.message, 4000);
+            $('#div_content_signup').html(`
+                <label>Nhập mã OTP đã được gửi vào email của bạn</label>
+                <input type="number" class="form-control" placeholder="Nhập mã OTP..." id="otpCode">
+                <button class="btn btn-primary mt-3" onclick="VerifyOTP()">Xác nhận OTP</button>
+            `);
+        } else if (result.result === -1) {
+            ShowToastNoti('error', '', result.message, 4000);
+            RenderSignUpBody(); // Reload the sign-up form if an error occurred
+        }
+    } catch (err) {
+        console.error('Error occurred:', err);
+        alert('An error occurred while signing up. Please try again.');
+
+        RenderSignUpBody();
+    }
+}
+
+async function VerifyOTP() {
+    try {
+        const otpCode = document.getElementById('otpCode').value;
+
+        if (!otpCode) {
+            alert('Vui lòng nhập mã OTP.');
+            return;
+        }
+
+        const response = await fetch('/User/ValidateOTP', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(otpCode) 
+        });
+
+        const result = await response.json();
+
+        if (result.result === 1) {
+            ShowToastNoti('success', result.message, 'Bạn đã có thể đăng nhập', 4000);
+            $('#modal_signup').modal('hide');
+        } else {
+            ShowToastNoti('error', '', result.message, 4000);
+        }
+    } catch (error) {
+        console.error('Error occurred:', error);
+        alert('Đã xảy ra lỗi khi xác thực OTP. Vui lòng thử lại.');
+    }
+}
+
+
+

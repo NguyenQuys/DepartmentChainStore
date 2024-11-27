@@ -22,18 +22,27 @@
 							@{
 								int index = 1;
 							}
-							@foreach (var item in Model)
+							@if(!Model.Any())
 							{
-								<tr class="text-center">
-									<td>@index</td>
-									<td>#@item.InvoiceNumber</td>
-									<td>@item.CreatedDate</td>
-									<td>@item.Status.Type</td>
-									<td class="quantity">
-										<button type="button" class="btn btn-primary p-3" onclick="OpenModalHistoryPurchase(@item.Id)">Chi tiết</button>
-									</td>
+								<tr>
+									<td colspan="5" class="text-center">Không có dữ liệu</td>
 								</tr>
-								index++;
+							}
+							else
+							{
+								foreach (var item in Model)
+								{
+									<tr class="text-center">
+										<td>@index</td>
+										<td>#@item.InvoiceNumber</td>
+										<td>@item.CreatedDate</td>
+										<td>@item.Status.Type</td>
+										<td class="quantity">
+											<button type="button" class="btn btn-primary p-3" onclick="OpenModalHistoryPurchase(@item.Id)">Chi tiết</button>
+										</td>
+									</tr>
+									index++;
+								}
 							}
 						</tbody>
 					</table>

@@ -10,7 +10,6 @@ using UserService_5002.Services;
 
 namespace UserService_5002.Controllers
 {
-
     [Route("User/[action]")]
     public class UserController : Controller
     {
@@ -40,19 +39,19 @@ namespace UserService_5002.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> SignUp(List<User> users)
+		[HttpPost]
+        public async Task<IActionResult> SignUp([FromBody] MReq_SignUp request)
         {
             try
             {
-                var result = await _s_User.SignUp(users, _currentUser);
-                return Ok(result);
+                var result = await _s_User.SignUp(request);
+                return Ok(new { result = 1, message = result});
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
-            }
-        }
+				return Ok(new { result = -1, message = ex.Message });
+			}
+		}
 
         [HttpGet]
         public async Task<IActionResult> Login()
@@ -253,5 +252,27 @@ namespace UserService_5002.Controllers
 
 		}
 
+		// OTP
+		[HttpPost]
+		public async Task<IActionResult> ValidateOTP([FromBody] string otp)
+		{
+			try
+			{
+				if (string.IsNullOrWhiteSpace(otp))
+					return BadRequest("Mã OTP không được để trống.");
+
+				var isOtpValid = await _s_User.ValidateOTP(otp);
+
+				if (isOtpValid)
+					return Ok(new { result = 1, message = "Xác thực thành công" });
+				else
+					return Ok(new { result = -1, message = "Xác thực thất bại" });
+			}
+			catch (Exception ex)
+			{
+				Console.Error.WriteLine($"Error validating OTP: {ex.Message}");
+				return StatusCode(500, "Đã xảy ra lỗi trong quá trình xác thực OTP.");
+			}
+		}
 	}
 }

@@ -25,7 +25,6 @@
     <link rel="stylesheet" href="~/user/css/vertical-layout-light/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="~/user/images/favicon.png" />
-    <script src="~/user/controller/user+login.js" asp-append-version="true"></script>
 </head>
 
 <body>
@@ -53,13 +52,10 @@
                             </form>
 
                             <div class="my-2 d-flex justify-content-between align-items-center">
-                                <div class="form-check">
-                                    <label class="form-check-label text-muted">
-                                        <input type="checkbox" class="form-check-input">
-                                        Keep me signed in
-                                    </label>
-                                </div>
                                 <a href="#" class="auth-link text-black">Forgot password?</a>
+                            </div>
+                            <div class="my-2 d-flex justify-content-between align-items-center">
+                                <a href="#" class="auth-link text-black">Xác thực lại tài khoản</a>
                             </div>
                             <div class="mb-2">
                                 <button type="button" class="btn btn-block btn-facebook auth-form-btn">
@@ -67,7 +63,10 @@
                                 </button>
                             </div>
                             <div class="text-center mt-4 fw-light">
-                                Don't have an account? <a href="register.html" class="text-primary">Create</a>
+                                Bạn chưa có tài khoản?
+                                <button type="button" class="btn btn-link text-primary" onclick="RenderSignUpBody()">
+                                    Đăng ký ngay
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -77,8 +76,22 @@
         </div>
         <!-- page-body-wrapper ends -->
     </div>
+    <!--Modal SignUp-->
+    <div class="modal fade" id="modal_signup" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Đăng kí tài khoản</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pb-0" id="div_content_signup"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- container-scroller -->
     <!-- plugins:js -->
+    <partial name="_P_Scripts" />
     <script src="~/user/vendors/js/vendor.bundle.base.js"></script>
     <!-- endinject -->
     <!-- Plugin js for this page -->

@@ -19,13 +19,13 @@ namespace APIGateway.Utilities
 
         public async Task<string> GenerateOTP()
         {
-            var totp = new Totp(_secretKeyOTP, step: 1000); // otp exist for 60s
+            var totp = new Totp(_secretKeyOTP, step: 6000); // otp exist for 60s
             return totp.ComputeTotp(); // generate otp
         }
 
         public async Task<bool> ValidateOTP(string otp)
         {
-            var totp = new Totp(_secretKeyOTP, step: 1000);
+            var totp = new Totp(_secretKeyOTP, step: 6000);
             return totp.VerifyTotp(otp, out long timeStepMatched, VerificationWindow.RfcSpecifiedNetworkDelay);
         }
     }

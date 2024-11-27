@@ -81,6 +81,7 @@ builder.Services.AddScoped<IOTP_Verify, OTP_Verify>();
 builder.Services.AddScoped<IS_ProductFromUser, S_ProductFromUser>();
 builder.Services.AddScoped<IS_Auth, S_Auth>(); // S_Auth depends on BranchDBContext
 builder.Services.AddScoped<IS_Branch, S_Branch>();
+builder.Services.AddScoped<IS_OTP, S_OTP>();
 builder.Services.AddScoped<CurrentUserHelper>();
 
 // Add Authorization

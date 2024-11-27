@@ -3,6 +3,7 @@ using APIGateway.Utilities;
 using AutoMapper;
 using BranchService_5003.Models;
 using IdentityServer.Constant;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using UserService_5002.Models;
@@ -14,7 +15,7 @@ namespace UserService_5002.Services
     public interface IS_User
     {
         Task<MRes_Login> Login(MReq_Login loginRequest);
-        Task<(List<User> AddedUsers, List<string> ExistingPhoneNumbers)> SignUp(List<User> users, MRes_InfoUser currentUser);
+        Task<string> SignUp(MReq_SignUp users);
         Task<string> Logout(MRes_InfoUser currentUser);
 
         Task<List<UserOtherInfo>> GetListUserByIdBranch(int idBranch, MRes_InfoUser currentUser);
@@ -33,9 +34,11 @@ namespace UserService_5002.Services
         Task<MRes_Customer> GetCustomerById(int id);
 
         Task<string> ChangeStatusCustomer(int id,MRes_InfoUser currentUser);
-    }
 
-    public class S_User : IS_User
+		Task<bool> ValidateOTP(string otp);
+	}
+
+	public class S_User : IS_User
     {
         private readonly UserDbContext _userContext;
         private readonly BranchDBContext _branchContext;
@@ -43,143 +46,77 @@ namespace UserService_5002.Services
         private readonly IOTP_Verify _otp_Verify;
         private static string phoneNumberTemporary;
         private readonly IMapper _mapper;
+		private readonly IS_OTP _s_Otp;
 
-        public S_User(UserDbContext user,BranchDBContext branch, ISendMailSMTP sendMailSMTP, IOTP_Verify oTP_Verify,IMapper mapper)
+		public S_User(UserDbContext user,BranchDBContext branch, ISendMailSMTP sendMailSMTP, IOTP_Verify oTP_Verify,IMapper mapper,IS_OTP s_OTP)
         {
             _userContext = user;
             _branchContext = branch;
             _sendMailSMTP = sendMailSMTP;
             _otp_Verify = oTP_Verify;
             _mapper = mapper;
+            _s_Otp = s_OTP;
         }
 
-        public async Task<(List<User> AddedUsers, List<string> ExistingPhoneNumbers)> SignUp(List<User> users, MRes_InfoUser currentUser)
-        {
-            var newPhoneNumbers = users.Select(u => u.PhoneNumber).ToList();
+		public async Task<string> SignUp(MReq_SignUp request)
+		{
+			var checkExistingPhoneNumber = await _userContext.Users.FirstOrDefaultAsync(m => m.PhoneNumber == request.PhoneNumber);
+			if (checkExistingPhoneNumber != null)
+			{
+				throw new Exception("Số điện thoại đã tồn tại");
+			}
 
-            var existingPhoneNumbers = await _userContext.Users
-                                                     .Where(p => newPhoneNumbers.Contains(p.PhoneNumber))
-                                                     .Select(p => p.PhoneNumber)
-                                                     .ToListAsync();
+			using (var transaction = await _userContext.Database.BeginTransactionAsync())
+			{
+				try
+				{
+					var newUser = new User
+					{
+						PhoneNumber = request.PhoneNumber,
+						Password = !string.IsNullOrEmpty(request.Password) ? BCrypt.Net.BCrypt.HashPassword(request.Password) : null,
+					};
 
-            var phoneNumbersToAdd = newPhoneNumbers.Except(existingPhoneNumbers).ToList();
+					await _userContext.Users.AddAsync(newUser);
+					await _userContext.SaveChangesAsync(); 
 
-            if (!phoneNumbersToAdd.Any())
-            {
-                throw new Exception("Số điện thoại đã tồn tại");
-            }
+					var newUserOtherInfo = new UserOtherInfo
+					{
+                        Address = request.Address,
+						UserId = newUser.UserId,
+						FullName = request.FullName,
+						Email = request.Email,
+						DateOfBirth = request.DateOfBirth,
+						Gender = request.Gender,
+						RoleId = 4,
+						BeginDate = DateOnly.FromDateTime(DateTime.Now),
+						UpdatedAt = DateTime.Now,
+						UpdateBy = newUser.UserId 
+					};
 
-            var usersToAdd = users.Where(u => phoneNumbersToAdd.Contains(u.PhoneNumber)).ToList();
-            var userList = new List<User>();
-            var userOtherInfoList = new List<UserOtherInfo>();
+					await _userContext.UserOtherInfo.AddAsync(newUserOtherInfo);
+					await _userContext.SaveChangesAsync();
 
-            using (var transaction = await _userContext.Database.BeginTransactionAsync()) 
-            {
-                try
-                {
-                    // Lưu danh sách người dùng vào bảng Users
-                    foreach (var user in usersToAdd)
-                    {
-                        // Kiểm tra thuộc tính PhoneNumber không vượt quá 10 ký tự
-                        if (user.PhoneNumber.Length > 10)
-                        {
-                            throw new ArgumentException("Số điện thoại không được vượt quá 10 ký tự");
-                        }
+					var activeCode = await _s_Otp.GenerateOTP();
 
-                        // Tạo đối tượng mới cho User để lưu vào bảng Users
-                        var newUser = new User
-                        {
-                            PhoneNumber = user.PhoneNumber,
-                            Password = user.Password != null ? BCrypt.Net.BCrypt.HashPassword(user.Password) : null, // Hash mật khẩu nếu có
-                            //IsActive = true // Mặc định trạng thái là active
-                        };
-                        userList.Add(newUser);
-                    }
+                    phoneNumberTemporary = request.PhoneNumber;
+                    _sendMailSMTP.SendMail(
+                        newUserOtherInfo.Email,
+                        "Tạo tài khoản Department Store",
+                        GenerateEmailBody(newUserOtherInfo.FullName, activeCode));
 
-                    await _userContext.Users.AddRangeAsync(userList);
-                    await _userContext.SaveChangesAsync(); // Lưu tất cả User trước để lấy UserId
-
-                    // Lưu thông tin UserOtherInfo tương ứng
-                    foreach (var newUser in userList)
-                    {
-                        var userFromInput = users.FirstOrDefault(u => u.PhoneNumber == newUser.PhoneNumber);
-
-                        if (userFromInput == null) continue;
-
-                        if (userFromInput.UserOtherInfo.FullName.Length > 60)
-                        {
-                            throw new Exception("Họ tên không được vượt quá 60 ký tự");
-                        }
-
-                        if (userFromInput.UserOtherInfo.Email.Length > 30)
-                        {
-                            throw new Exception("Email không được vượt quá 30 ký tự");
-                        }
-
-                        var newUserOtherInfo = new UserOtherInfo
-                        {
-                            UserId = newUser.UserId, 
-                            FullName = userFromInput.UserOtherInfo.FullName,
-                            Email = userFromInput.UserOtherInfo.Email,
-                            DateOfBirth = userFromInput.UserOtherInfo.DateOfBirth, 
-                            Gender = userFromInput.UserOtherInfo.Gender,
-                            RoleId = userFromInput.UserOtherInfo.RoleId,
-                            IdBranch = userFromInput.UserOtherInfo.IdBranch, 
-                            Salary = userFromInput.UserOtherInfo.Salary,
-                            BeginDate = DateOnly.FromDateTime(DateTime.Now),
-                            UpdatedAt = DateTime.Now,
-                            UpdateBy = int.Parse(currentUser.IdUser)
-                        };
-
-                        if (!string.IsNullOrEmpty(currentUser.IdRole))
-                        {
-                            if (currentUser.IdRole.Equals("3") && userFromInput.UserOtherInfo.RoleId == 2)
-                            {
-                                newUserOtherInfo.RoleId = 2;
-                            }
-                            else if (currentUser.IdRole.Equals("4"))
-                            {
-                                if (userFromInput.UserOtherInfo.RoleId == 2 || userFromInput.UserOtherInfo.RoleId == 3)
-                                {
-                                    newUserOtherInfo.RoleId = userFromInput.UserOtherInfo.RoleId;
-                                }
-                                else
-                                {
-                                    throw new DataException(MessageErrorConstants.AUTHORIZATION_ERROR);
-                                }
-                            }
-                            else
-                            {
-                                throw new DataException(MessageErrorConstants.AUTHORIZATION_ERROR);
-                            }
-                        }
-
-                        userOtherInfoList.Add(newUserOtherInfo);
-
-                        // Gửi email OTP cho người dùng
-                        var activeCode = GenerateCode();
-                        _sendMailSMTP.SendMail(newUserOtherInfo.Email, "Tạo tài khoản Department Store", GenerateEmailBody(newUserOtherInfo.FullName, activeCode));
-                        var token = _otp_Verify.GenerateOTP();
-                    }
-
-                    // Lưu danh sách UserOtherInfo vào bảng UserOtherInfo
-                    await _userContext.UserOtherInfo.AddRangeAsync(userOtherInfoList);
-                    await _userContext.SaveChangesAsync(); // Lưu toàn bộ thông tin khác
-
-                    // Commit transaction sau khi tất cả dữ liệu được lưu thành công
                     await transaction.CommitAsync();
-                }
-                catch (Exception)
-                {
-                    await transaction.RollbackAsync();
-                    throw;
-                }
-            }
 
-            return (userList, existingPhoneNumbers);
-        }
+					return "User created successfully";
+				}
+				catch (Exception)
+				{
+					await transaction.RollbackAsync();
+					throw;
+				}
+			}
+		}
 
-        private string GenerateEmailBody(string name, string otptext)
+		private string GenerateEmailBody(string name, string otptext)
         {
             string emailbody = "<div style='width : 100%'>";
             emailbody += "<h1>Xin chào " + name + ", Cảm ơn đã đăng kí</h1>";
@@ -223,8 +160,7 @@ namespace UserService_5002.Services
             if (!userInfo.IsActive)
             {
                 phoneNumberTemporary = user.PhoneNumber;
-                var activeCode = GenerateCode();
-                var codeJwtTokenToActive = _otp_Verify.GenerateOTP();
+                var activeCode = await _otp_Verify.GenerateOTP();
                 _sendMailSMTP.SendMail(userInfo.Email, "Kích hoạt lại tài khoản", GenerateReactiveEmailBody(userInfo.FullName, activeCode));
                 throw new Exception("Bạn cần xác thực mã OTP để tiếp tục");
             }
@@ -266,16 +202,6 @@ namespace UserService_5002.Services
             }
 
             throw new Exception("Vui lòng nhập thông tin đăng nhập hợp lệ.");
-        }
-
-        private string GenerateCode()
-        {
-            const string chars = "0123456789";
-            var random = new Random();
-
-            return new string(Enumerable.Repeat(chars, 6)
-                                        .Select(s => s[random.Next(s.Length)])
-                                        .ToArray());
         }
 
         private string GenerateReactiveEmailBody(string name, string otptext)
@@ -464,5 +390,35 @@ namespace UserService_5002.Services
 			}
             return newList;
 		}
+
+		public async Task<bool> ValidateOTP(string otp)
+		{
+			if (string.IsNullOrWhiteSpace(otp))
+				throw new ArgumentException("Mã OTP không hợp lệ.");
+
+			if (string.IsNullOrWhiteSpace(phoneNumberTemporary))
+				throw new InvalidOperationException("Không tìm thấy số điện thoại tạm thời.");
+
+			var isOtpValid = await _s_Otp.ValidateOTP(otp);
+			if (!isOtpValid)
+				return false;
+
+			var userRegistration = await _userContext.Users
+				.Include(u => u.UserOtherInfo)
+				.FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumberTemporary);
+
+			if (userRegistration == null || userRegistration.UserOtherInfo == null)
+				throw new InvalidOperationException("Không tìm thấy thông tin người dùng.");
+
+			userRegistration.UserOtherInfo.IsActive = true;
+			userRegistration.UserOtherInfo.UpdatedAt = DateTime.UtcNow;
+			userRegistration.UserOtherInfo.NumberOfIncorrectEntries = 0;
+
+			_userContext.Users.Update(userRegistration);
+			await _userContext.SaveChangesAsync();
+
+			return true;
+		}
+
 	}
 }
