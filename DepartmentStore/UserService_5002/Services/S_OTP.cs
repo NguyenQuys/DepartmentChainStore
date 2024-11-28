@@ -4,25 +4,33 @@ namespace UserService_5002.Services
 {
 	public interface IS_OTP
 	{
-		Task<string> GenerateOTP();
-		Task<bool> ValidateOTP(string otp);
+		Task<string> GenerateOTP(string email);
+		Task<bool> ValidateOTP(string email, string otp);
 	}
 
 	public class S_OTP : IS_OTP
 	{
-		private static readonly byte[] _secretKeyOTP = KeyGeneration.GenerateRandomKey(10);
-		private static readonly int _otpStep = 60; // OTP tồn tại trong 60 giây
+		private static readonly int _otpStep = 60; 
+		private static readonly Dictionary<string, byte[]> _userKeys = new();
 
-		public async Task<string> GenerateOTP()
+		public async Task<string> GenerateOTP(string email)
 		{
-			var totp = new Totp(_secretKeyOTP, step: _otpStep);
+			if (!_userKeys.ContainsKey(email))
+			{
+				_userKeys[email] = KeyGeneration.GenerateRandomKey(10);
+			}
+			var totp = new Totp(_userKeys[email], step: _otpStep);
 			return totp.ComputeTotp();
 		}
 
-		public async Task<bool> ValidateOTP(string otp)
+		public async Task<bool> ValidateOTP(string email, string otp)
 		{
-			var totp = new Totp(_secretKeyOTP, step: _otpStep);
+			if (!_userKeys.ContainsKey(email))
+				return false; 
+
+			var totp = new Totp(_userKeys[email], step: _otpStep);
 			return totp.VerifyTotp(otp, out _, new VerificationWindow(previous: 1, future: 1));
 		}
 	}
+
 }

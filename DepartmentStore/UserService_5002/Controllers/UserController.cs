@@ -17,11 +17,17 @@ namespace UserService_5002.Controllers
         private readonly IJwtHelper _jwtHelper;
         private readonly MRes_InfoUser _currentUser;
 
-		public UserController(IS_User s_User, IJwtHelper jwtHelper, CurrentUserHelper currentUserHelper)
+		private readonly IHttpContextAccessor _httpContextAccessor;
+		private ISession Session => _httpContextAccessor.HttpContext.Session;
+
+		private const string EmailSessionKey = "EmailSessionKey";
+
+		public UserController(IS_User s_User, IJwtHelper jwtHelper, CurrentUserHelper currentUserHelper,IHttpContextAccessor httpContextAccessor)
         {
             _s_User = s_User;
             _jwtHelper = jwtHelper;
             _currentUser = currentUserHelper.GetCurrentUser();
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet]
@@ -45,6 +51,7 @@ namespace UserService_5002.Controllers
             try
             {
                 var result = await _s_User.SignUp(request);
+                Session.SetString(EmailSessionKey, request.Email);
                 return Ok(new { result = 1, message = result});
             }
             catch (Exception ex)
@@ -261,7 +268,9 @@ namespace UserService_5002.Controllers
 				if (string.IsNullOrWhiteSpace(otp))
 					return BadRequest("Mã OTP không được để trống.");
 
-				var isOtpValid = await _s_User.ValidateOTP(otp);
+                string email = Session.GetString(EmailSessionKey);
+
+				var isOtpValid = await _s_User.ValidateOTP(email,otp);
 
 				if (isOtpValid)
 					return Ok(new { result = 1, message = "Xác thực thành công" });
@@ -274,5 +283,8 @@ namespace UserService_5002.Controllers
 				return StatusCode(500, "Đã xảy ra lỗi trong quá trình xác thực OTP.");
 			}
 		}
+
+        //[HttpPost]
+        //public async Task<IActionResult> ResendOTP()
 	}
 }

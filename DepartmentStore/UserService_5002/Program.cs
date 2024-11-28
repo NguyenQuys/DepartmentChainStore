@@ -74,6 +74,8 @@ builder.Services.AddSingleton<IDiscoveryCache>(sp =>
     return new DiscoveryCache("https://localhost:5001", () => factory.CreateClient());
 });
 
+builder.Services.AddSession();
+
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IS_User, S_User>();
 builder.Services.AddScoped<ISendMailSMTP, SendMailSMTP>();
@@ -133,6 +135,7 @@ app.UseCookiePolicy(new CookiePolicyOptions
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseSession();
 
 app.UseAuthentication();
 app.UseAuthorization();

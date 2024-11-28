@@ -93,8 +93,11 @@ function ChangeStatusCustomer(customerId) {
     });
 }
 
-function RenderSignUpBody() {
-    const signUpBody = `
+function RenderSignUpBody(action) {
+    let body = '';
+    if (action === 'signUp') {
+        $('#modal_signup .modal-title').text('Tạo tài khoản mới');
+        body = `
         <form id="signupForm">
             <div class="mb-3">
                 <label for="fullName" class="form-label">Họ và tên</label>
@@ -139,9 +142,24 @@ function RenderSignUpBody() {
             <button type="submit" class="btn btn-primary" onclick="SignUp()">Đăng ký</button>
         </div>
     `;
+    } else if (action === 'reIdentify') {
+        $('#modal_signup .modal-title').text('Xác thực lại tài khoản');
+        body = ` <form>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" maxlength="60" placeholder='Nhập tài khoản Email...' required>
+                    </div>
+                 </form>
+                 <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary" onclick="RequestResendOTP()">Gửi lại mã OTP</button>
+                </div>
+                `;
+    }
 
-    $('#div_content_signup').html(signUpBody);
+    $('#div_content_signup').html(body);
     $('#modal_signup').modal('show');
+    
 }
 
 async function SignUp() {

@@ -35,7 +35,7 @@ namespace UserService_5002.Services
 
         Task<string> ChangeStatusCustomer(int id,MRes_InfoUser currentUser);
 
-		Task<bool> ValidateOTP(string otp);
+		Task<bool> ValidateOTP(string email,string otp);
 	}
 
 	public class S_User : IS_User
@@ -44,7 +44,6 @@ namespace UserService_5002.Services
         private readonly BranchDBContext _branchContext;
         private readonly ISendMailSMTP _sendMailSMTP;
         private readonly IOTP_Verify _otp_Verify;
-        private static string phoneNumberTemporary;
         private readonly IMapper _mapper;
 		private readonly IS_OTP _s_Otp;
 
@@ -96,13 +95,12 @@ namespace UserService_5002.Services
 					await _userContext.UserOtherInfo.AddAsync(newUserOtherInfo);
 					await _userContext.SaveChangesAsync();
 
-					var activeCode = await _s_Otp.GenerateOTP();
+					var activeCode = await _s_Otp.GenerateOTP(request.Email);
 
-                    phoneNumberTemporary = request.PhoneNumber;
-                    _sendMailSMTP.SendMail(
-                        newUserOtherInfo.Email,
-                        "Tạo tài khoản Department Store",
-                        GenerateEmailBody(newUserOtherInfo.FullName, activeCode));
+                    //_sendMailSMTP.SendMail(
+                    //    newUserOtherInfo.Email,
+                    //    "Tạo tài khoản Department Store",
+                    //    GenerateEmailBody(newUserOtherInfo.FullName, activeCode));
 
                     await transaction.CommitAsync();
 
@@ -159,7 +157,6 @@ namespace UserService_5002.Services
 
             if (!userInfo.IsActive)
             {
-                phoneNumberTemporary = user.PhoneNumber;
                 var activeCode = await _otp_Verify.GenerateOTP();
                 _sendMailSMTP.SendMail(userInfo.Email, "Kích hoạt lại tài khoản", GenerateReactiveEmailBody(userInfo.FullName, activeCode));
                 throw new Exception("Bạn cần xác thực mã OTP để tiếp tục");
@@ -391,21 +388,18 @@ namespace UserService_5002.Services
             return newList;
 		}
 
-		public async Task<bool> ValidateOTP(string otp)
+        public async Task<bool> ValidateOTP(string email, string otp)
 		{
 			if (string.IsNullOrWhiteSpace(otp))
 				throw new ArgumentException("Mã OTP không hợp lệ.");
 
-			if (string.IsNullOrWhiteSpace(phoneNumberTemporary))
-				throw new InvalidOperationException("Không tìm thấy số điện thoại tạm thời.");
-
-			var isOtpValid = await _s_Otp.ValidateOTP(otp);
+			var isOtpValid = await _s_Otp.ValidateOTP(email,otp);
 			if (!isOtpValid)
 				return false;
 
 			var userRegistration = await _userContext.Users
 				.Include(u => u.UserOtherInfo)
-				.FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumberTemporary);
+				.FirstOrDefaultAsync(u => u.UserOtherInfo.Email == email);
 
 			if (userRegistration == null || userRegistration.UserOtherInfo == null)
 				throw new InvalidOperationException("Không tìm thấy thông tin người dùng.");
