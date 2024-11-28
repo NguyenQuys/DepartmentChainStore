@@ -147,7 +147,7 @@ function RenderSignUpBody(action) {
         body = ` <form>
                     <div class="mb-3">
                         <label class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" maxlength="60" placeholder='Nhập tài khoản Email...' required>
+                        <input type="email" class="form-control" id="resendEmail" maxlength="60" placeholder='Nhập tài khoản Email...' required>
                     </div>
                  </form>
                  <div class="modal-footer">
@@ -172,7 +172,6 @@ async function SignUp() {
     //    </div>
     //`);
 
-    // Prepare the form data
     const data = {
         PhoneNumber: document.getElementById('phoneNumber').value,
         Password: document.getElementById('password').value,
@@ -184,7 +183,6 @@ async function SignUp() {
     };
 
     try {
-        // Send the POST request
         const response = await fetch('/User/SignUp', {
             method: 'POST',
             headers: {
@@ -193,20 +191,18 @@ async function SignUp() {
             body: JSON.stringify(data),
         });
 
-        // Check if the response is OK
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const result = await response.json();
 
-        // Handle the server response
         if (result.result === 1) {
             ShowToastNoti('success', '', result.message, 4000);
             $('#div_content_signup').html(`
                 <label>Nhập mã OTP đã được gửi vào email của bạn</label>
                 <input type="number" class="form-control" placeholder="Nhập mã OTP..." id="otpCode">
-                <button class="btn btn-primary mt-3" onclick="VerifyOTP()">Xác nhận OTP</button>
+                <button class="btn btn-primary m-3 float-end" onclick="VerifyOTP()">Xác nhận OTP</button>
             `);
         } else if (result.result === -1) {
             ShowToastNoti('error', '', result.message, 4000);
@@ -251,5 +247,31 @@ async function VerifyOTP() {
     }
 }
 
+async function RequestResendOTP() {
+    const email = $('#resendEmail').val();
 
+    const response = await fetch(`/User/ResendOTP?email=${email}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'applaication/json'
+        }
+    });
+    
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
+    const result = await response.json();
+    if (result.result === 1) {
+        ShowToastNoti('success', '', result.message, 4000);
+        let body = `
+            <label>Nhập mã OTP đã được gửi vào email của bạn</label>
+            <input type="number" class="form-control" placeholder="Nhập mã OTP..." id="otpCode">
+            <button class="btn btn-primary m-3 float-end" onclick="VerifyOTP()">Xác nhận OTP</button>
+        `;
+        $('#div_content_signup').html(body);
+    } else {
+        ShowToastNoti('error', '', result.message, 4000);
+        $('#modal_signup').modal('hide');
+    }
+}

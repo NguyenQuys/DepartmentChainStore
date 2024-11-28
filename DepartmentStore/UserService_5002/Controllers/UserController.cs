@@ -284,7 +284,19 @@ namespace UserService_5002.Controllers
 			}
 		}
 
-        //[HttpPost]
-        //public async Task<IActionResult> ResendOTP()
-	}
+        [HttpPost]
+        public async Task<IActionResult> ResendOTP(string email)
+        {
+            try
+            {
+                Session.SetString(EmailSessionKey,email);
+				var resendOTP = await _s_User.ResendOTP(email);
+                return Ok(new {result = 1, message = resendOTP });
+            }catch(Exception ex)
+            {
+				return Ok(new { result = -1, message = ex.Message });
+			}
+		}
+
+    }
 }

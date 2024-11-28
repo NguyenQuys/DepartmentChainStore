@@ -35,7 +35,9 @@ namespace UserService_5002.Services
 
         Task<string> ChangeStatusCustomer(int id,MRes_InfoUser currentUser);
 
+        // OTP
 		Task<bool> ValidateOTP(string email,string otp);
+        Task<string> ResendOTP(string email);
 	}
 
 	public class S_User : IS_User
@@ -414,5 +416,24 @@ namespace UserService_5002.Services
 			return true;
 		}
 
+		async Task<string> IS_User.ResendOTP(string email)
+		{
+            var existingUser = await _userContext.UserOtherInfo.Where(m=>m.Email == email).FirstOrDefaultAsync();
+            if (existingUser == null)
+            {
+                throw new Exception("Tài khoản chưa được đăng kí trước đó");
+            }
+            else if(existingUser != null && existingUser.IsActive == true)
+            {
+                throw new Exception("Tài khoản đã được kích hoạt trước đó");
+            }
+
+			var oTPCode = await _s_Otp.GenerateOTP(email);
+			//await _sendMailSMTP.SendMail(
+			//	email,
+   //             "Gửi lại mã OTP kích hoạt",
+   //             GenerateEmailBody(existingUser.FullName, oTPCode));
+            return "Mã OTP đã được gửi qua email của bạn";
+		}
 	}
 }
