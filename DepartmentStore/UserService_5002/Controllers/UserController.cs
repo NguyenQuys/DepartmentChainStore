@@ -92,6 +92,10 @@ namespace UserService_5002.Controllers
                 {
                     return RedirectToAction("Product_BranchIndex", "Product", new { idBranch = int.Parse(login.IdBranch) });
                 }
+                else if(login.IdRole == "3")
+                {
+                    return RedirectToAction("ListInvoiceToShip", "Cart");
+                }
                 return RedirectToAction("ChooseBranchIndex", "Branch");
             }
             catch (Exception ex)

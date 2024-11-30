@@ -1,10 +1,10 @@
 ﻿function StatisticRevenue(idBranch) {
+    $('#modal_statistic').modal('show');
     $.ajax({
         url: '/Statistic/GetRevenueBranch7DaysById',
         type: 'GET',
         data: { idBranch: idBranch },
         success: function (response) {
-            $('#modal_statistic').modal('show'); // Hiển thị modal
 
             // Lấy key và value từ dictionary
             var labels = Object.keys(response); // Lấy danh sách ngày

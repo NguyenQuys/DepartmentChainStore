@@ -12,7 +12,7 @@
       },
       {
         "Path": "UserService_5002\\UserService_5002.csproj",
-        "Action": "Start"
+        "Action": "StartWithoutDebugging"
       },
       {
         "Path": "APIGateway\\APIGateway.csproj",
@@ -28,7 +28,7 @@
       },
       {
         "Path": "InvoiceService_5005\\InvoiceService_5005.csproj",
-        "Action": "StartWithoutDebugging"
+        "Action": "Start"
       }
     ]
   }

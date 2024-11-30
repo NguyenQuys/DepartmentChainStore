@@ -187,6 +187,7 @@ function RemoveBranch(idBranch) {
 }
 
 function OnChangeTypeBranchDetail(elm, type) {
+    console.log(idBranch_global);
     currentType = type;
     $(".nav-detail-branch").removeClass("active");
     $(elm).addClass("active");
@@ -476,51 +477,61 @@ function RemoveStaff(idStaff) {
 }
 //+++++++++++++++++++++++Staff Area Ends+++++++++++++++++++++++++++++
 //++++++++++++++++++++++++Invoice Area Starts++++++++++++++++++++++++
-//function RenderTableInvoice(idBranch) {
-//    let tableBody = '';
+async function RenderTableInvoice(idBranch) {
+    let tableBody = '';
 
-//    $.ajax({
-//        url: '/Invoice/GetListInvoiceBranch',
-//        type: 'GET',
-//        data: { idBranch: idBranch },
-//        success: function (response) {
-//            if (response.length === 0) {
-//                tableBody = '<tr><td colspan="6" class="text-center">Không có dữ liệu để hiển thị</td></tr>';
-//            }
-//            else {
-//                response.forEach(function (invoice, index) {
-//                    tableBody += `
-//                                    <tr>
-//                                        <td>${index + 1}</td>
-//                                        <td>${invoice.invoiceNumber}</td>
-//                                        <td>${invoice.createdDate}</td>
-//                                        <td>${invoice.status.type}</td>
-//                                        <td>
-//                                            <a href="javascript:void(0)" class="btn btn-primary" onclick="GetDetailsInvoice(${invoice.id})">Chi tiết</a>
-//                                        </td>
-//                                    </tr>`;
-//                });
-//            }
+    try {
+        const response = await fetch(`/Invoice/GetListInvoiceBranch?idBranch=${idBranch}&idStatus=0`, {
+            method: 'GET'
+        });
 
-//            $('#div_data_detail_branch').html(`
-//                            <div>
-//                                <table class="table table-striped">
-//                                    <thead>
-//                                        <tr class='bg-primary text-white'>
-//                                            <th>STT</th>
-//                                            <th>Mã đơn hàng</th>
-//                                            <th>Thời gian</th>
-//                                            <th>Trạng thái</th>
-//                                            <th>Hành động</th>
-//                                        </tr>
-//                                    </thead>
-//                                    <tbody>${tableBody}</tbody>
-//                                </table>
-//                            </div>
-//                        `);
-//        }
-//    });
-//}
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+
+        if (data.length === 0) {
+            tableBody = '<tr><td colspan="6" class="text-center">Không có dữ liệu để hiển thị</td></tr>';
+        } else {
+            data.forEach((invoice, index) => {
+                tableBody += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${invoice.invoiceNumber}</td>
+                        <td>${invoice.createdDate}</td>
+                        <td>${invoice.status.type}</td>
+                        <td>
+                            <a href="javascript:void(0)" class="btn btn-primary" onclick="GetDetailsInvoice(${invoice.id})">Chi tiết</a>
+                        </td>
+                    </tr>`;
+            });
+        }
+
+        document.getElementById('div_data_detail_branch').innerHTML = `
+            <div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr class='bg-primary text-white'>
+                            <th>STT</th>
+                            <th>Mã đơn hàng</th>
+                            <th>Thời gian</th>
+                            <th>Trạng thái</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>${tableBody}</tbody>
+                </table>
+            </div>`;
+    } catch (error) {
+        console.error('Error fetching invoice data:', error);
+        document.getElementById('div_data_detail_branch').innerHTML = `
+            <div class="text-center text-danger">
+                Lỗi khi tải dữ liệu. Vui lòng thử lại sau.
+            </div>`;
+    }
+}
+
 
 function ChangeStatusInvoice(idInvoice, idStatus) {
     let confirmationMessage = '';
