@@ -31,7 +31,7 @@ namespace UserService_5002.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "1,2")]
         public async Task<IActionResult> Index()
         {
             try

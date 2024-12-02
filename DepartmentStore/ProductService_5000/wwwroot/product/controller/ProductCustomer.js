@@ -80,21 +80,21 @@ $(document).ready(function () {
 
         if (keyword) {
             $.ajax({
-                url: '/Product/SearchProduct', // Correct URL path
+                url: '/Product/SearchProduct',
                 type: 'POST',
                 data: { productName: keyword },
                 success: function (response) {
                     var results = $('#search_results');
                     results.removeClass('d-none').css('z-index', '9').show();
 
-                    results.empty(); // Clear previous results
+                    results.empty();
 
                     if (response.length > 0) {
                         response.forEach(function (product) {
                             results.append(`
                                 <li class="list-group-item">
                                     <img src="${product.mainImage}" alt="${product.productName}" style="max-width: 50px; margin-right: 10px">
-                                    <span>${product.productName}</span>
+                                    <span data-id-product="${product.id}">${product.productName}</span>
                                 </li>
                             `);
                         });
@@ -120,8 +120,10 @@ $(document).ready(function () {
 
     // Xử lý sự kiện click trên các mục kết quả tìm kiếm
     $('#search_results').on('click', 'li', function () {
-        $('#search_product_keyword').val($(this).text());
-        $('#search_results').hide(); // Ẩn kết quả sau khi chọn
+        var productId = $(this).find('span').data('id-product');
+        if (productId) {
+            window.location = `/product/GetByIdView?idProduct=${productId}`;
+        }
     });
 
     // Hiển thị lại kết quả khi bắt đầu nhập lại sau khi chọn
@@ -130,11 +132,6 @@ $(document).ready(function () {
             $('#search_results').show();
         }
     });
-
-    // Optionally: Handle click on result items
-    //$('#search_results').on('click', 'li', function () {
-    //    $('#search_product_keyword').val($(this).text());
-    //    $('#search_results').hide(); // Hide results after selection
-    //});
 });
+
 

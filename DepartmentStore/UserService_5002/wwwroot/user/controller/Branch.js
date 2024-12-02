@@ -1,63 +1,70 @@
 ﻿let currentType = '';
 let idBranch_global;
-let idUser_global;
 
 // Render Branch Table
-function RenderBranchTable() {
-    $('#div_table_product, #div_table_batch, #div_table_customer, #div_table_export,#div_table_promotion').hide();
+async function RenderBranchTable() {
+    // Hide other tables and show the branch table
+    $('#div_table_product, #div_table_batch, #div_table_customer, #div_table_export, #div_table_promotion').hide();
     $('#div_table_branch').show();
+
     let tableBody = '';
 
-    $.ajax({
-        url: '/Branch/GetAllBranches',
-        type: 'GET',
-        success: function (response) {
-            if (response.length === 0) {
-                tableBody = '<tr><td colspan="6" class="text-center">Không có chi nhánh để hiển thị</td></tr>';
-            } else {
-                response.forEach(function (branch, index) {
-                    tableBody += `
-                                <tr>
-                                    <td>${index + 1}</td> 
-                                    <td>${branch.location}</td>
-                                    <td></td>
-                                    <td>
-                                        <a href="javascript:void(0)" onclick="StatisticRevenue(${branch.id})" class="btn btn-dark">Thống kê</a>
-                                        <a href="javascript:void(0)" onclick="OpenModalDetailBranch(${branch.id}, '${branch.location}')" class="btn btn-info">Chi tiết</a>
-                                        <a href="javascript:void(0)" onclick="OpenModalBranch('updateBranch', ${branch.id})" class="btn btn-primary">Sửa</a>
-                                        <a href="javascript:void(0)" onclick="RemoveBranch(${branch.id})" class="btn btn-danger">Xóa</a>
-                                    </td>
-                                </tr>
-                                `;
-                });
-            }
+    try {
+        const response = await fetch('/Branch/GetAllBranches', { method: 'GET' });
 
-            $('#div_table_branch').html(`
-                            <div>
-                                <button type="button" class="btn btn-primary m-4" id="btn_add_branch" data-bs-toggle="modal" onclick="OpenModalBranch('addBranch')">
-                                    Thêm chi nhánh
-                                </button>
-                            </div>
-                            <div>
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr class='bg-primary text-white'>
-                                            <th>STT</th>
-                                            <th>Chi nhánh</th>
-                                            <th>Quản lý</th>
-                                            <th>Hành động</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>${tableBody}</tbody>
-                                </table>
-                            </div>
-                        `);
-        },
-        error: function (error) {
-            alert('Có lỗi xảy ra khi tải danh sách chi nhánh.');
+        if (!response.ok) {
+            throw new Error('Failed to fetch branch data');
         }
-    });
+
+        const data = await response.json();
+
+        if (data.length === 0) {
+            tableBody = '<tr><td colspan="6" class="text-center">Không có chi nhánh để hiển thị</td></tr>';
+        } else {
+            data.forEach((branch, index) => {
+                tableBody += `
+                    <tr>
+                        <td>${index + 1}</td> 
+                        <td>${branch.location}</td>
+                        <td></td>
+                        <td>
+                            <a href="javascript:void(0)" onclick="StatisticRevenue(${branch.id})" class="btn btn-dark">Thống kê</a>
+                            <a href="javascript:void(0)" onclick="OpenModalDetailBranch(${branch.id}, '${branch.location}')" class="btn btn-info">Chi tiết</a>
+                            <a href="javascript:void(0)" onclick="OpenModalBranch('updateBranch', ${branch.id})" class="btn btn-primary">Sửa</a>
+                            ${idUser_global === 1
+                        ? `<a href="javascript:void(0)" onclick="RemoveBranch(${branch.id})" class="btn btn-danger">Xóa</a>`
+                        : ''
+                    }
+                        </td>
+                    </tr>`;
+            });
+        }
+
+        document.getElementById('div_table_branch').innerHTML = `
+            <div>
+                <button type="button" class="btn btn-primary m-4" id="btn_add_branch" data-bs-toggle="modal" onclick="OpenModalBranch('addBranch')">
+                    Thêm chi nhánh
+                </button>
+            </div>
+            <div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr class='bg-primary text-white'>
+                            <th>STT</th>
+                            <th>Chi nhánh</th>
+                            <th>Quản lý</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>${tableBody}</tbody>
+                </table>
+            </div>`;
+    } catch (error) {
+        alert('Có lỗi xảy ra khi tải danh sách chi nhánh.');
+        console.error('Error fetching branch data:', error);
+    }
 }
+
 
 // Open Modal branch
 function OpenModalBranch(type, branchId = null) {
