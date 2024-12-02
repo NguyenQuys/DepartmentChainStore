@@ -99,22 +99,40 @@ namespace ProductService_5000.Services
             return "Đã thêm sản phẩm thành công";
         }
 
-        private async Task<string> SaveImageFileAsync(IFormFile file)
-        {
-            //var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-            var fileName = file.FileName;
-            var filePath = Path.Combine("wwwroot/images", fileName);
+		private async Task<string> SaveImageFileAsync(IFormFile file)
+		{
+			if (file == null || file.Length == 0)
+			{
+				throw new ArgumentException("Tệp ảnh không hợp lệ.");
+			}
 
-            // Lưu file vào thư mục
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
+			var folderPath = Path.Combine("wwwroot/product", "images");
+			var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+			var filePath = Path.Combine(folderPath, fileName);
 
-            return "/images/" + fileName;
-        }
+			try
+			{
+				if (!Directory.Exists(folderPath))
+				{
+					Directory.CreateDirectory(folderPath);
+				}
 
-        public async Task<List<Product>> GetAllProducts()
+				// Lưu file vào thư mục
+				using (var stream = new FileStream(filePath, FileMode.Create))
+				{
+					await file.CopyToAsync(stream);
+				}
+			}
+			catch (Exception ex)
+			{
+				throw new InvalidOperationException("Không thể lưu file: " + ex.Message);
+			}
+
+			return "/product/images/" + fileName;
+		}
+
+
+		public async Task<List<Product>> GetAllProducts()
         {
             return await _context.Products.Where(m => !m.IsHide).OrderByDescending(m=>m.UpdatedTime).ToListAsync();
         }
@@ -148,19 +166,49 @@ namespace ProductService_5000.Services
             return productToGet;
         }
 
-        public async Task<string> UpdateProductAsync(MReq_Product productRequest, MRes_InfoUser currentUser)
-        {
-            var productToUpdate = await _context.Products.FirstOrDefaultAsync(m => m.Id == productRequest.Id);
-            _mapper.Map(productRequest, productToUpdate);
+		public async Task<string> UpdateProductAsync(MReq_Product productRequest, MRes_InfoUser currentUser)
+		{
+			var productToUpdate = await _context.Products.FirstOrDefaultAsync(m => m.Id == productRequest.Id);
 
-            productToUpdate.UpdatedBy = int.Parse(currentUser.IdUser);
-            _context.Products.Update(productToUpdate);
-            await _context.SaveChangesAsync();
+			if (productToUpdate == null)
+			{
+				throw new KeyNotFoundException($"Không tìm thấy sản phẩm với ID {productRequest.Id}");
+			}
 
-            return $"Cập nhật sản phẩm {productToUpdate.ProductName} thành công";
-        }
+			_mapper.Map(productRequest, productToUpdate);
 
-        public async Task<string> ChangeStatusProduct(int id, MRes_InfoUser currentUser)
+			if (productRequest.MainImage != null && productRequest.MainImage.Length > 0)
+			{
+				if (!string.IsNullOrEmpty(productToUpdate.MainImage))
+				{
+					var oldImagePath = Path.Combine("wwwroot", productToUpdate.MainImage.TrimStart('/'));
+					if (File.Exists(oldImagePath))
+					{
+						File.Delete(oldImagePath);
+					}
+				}
+
+				productToUpdate.MainImage = await SaveImageFileAsync(productRequest.MainImage);
+			}
+
+			if (productRequest.SecondaryImages != null && productRequest.SecondaryImages.Any())
+			{
+				foreach (var image in productRequest.SecondaryImages)
+				{
+					var secondaryImagePath = await SaveImageFileAsync(image);
+				}
+			}
+
+			productToUpdate.UpdatedBy = int.Parse(currentUser.IdUser);
+			productToUpdate.UpdatedTime = DateTime.UtcNow;
+
+			_context.Products.Update(productToUpdate);
+			await _context.SaveChangesAsync();
+
+			return $"Cập nhật sản phẩm {productToUpdate.ProductName} thành công";
+		}
+
+		public async Task<string> ChangeStatusProduct(int id, MRes_InfoUser currentUser)
         {
             var productToChangeStatus = await _context.Products.FindAsync(id);
             string message;

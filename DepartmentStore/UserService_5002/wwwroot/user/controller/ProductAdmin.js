@@ -236,36 +236,50 @@ function OpenModalProduct(type, productId = null) {
     new bootstrap.Modal(document.getElementById('modal-product')).show();
 }
 
-// Function to update the product
 function updateProduct(productId) {
     const formData = new FormData();
-    formData.append('Id', productId); 
+    formData.append('Id', productId);
     formData.append('ProductName', $('#productName').val());
     formData.append('Price', $('#productPrice').val());
     formData.append('CategoryId', $('#categoryId').val());
 
-    // Handle product images
-    const productImages = $('#productImages')[0].files;
-    for (let i = 0; i < productImages.length; i++) {
-        formData.append('ProductImages', productImages[i]);
+    // Handle main product image
+    const mainImageInput = $('#mainImage');
+    if (mainImageInput.length > 0 && mainImageInput[0].files.length > 0) {
+        formData.append('MainImage', mainImageInput[0].files[0]);
+    } else {
+        console.error('Main image is required.');
+        return; // Dừng lại nếu không có ảnh chính
+    }
+
+    // Handle secondary images
+    const secondaryImagesInput = $('#secondaryImages');
+    if (secondaryImagesInput.length > 0 && secondaryImagesInput[0].files.length > 0) {
+        const secondaryImages = secondaryImagesInput[0].files;
+        for (let i = 0; i < secondaryImages.length; i++) {
+            formData.append('SecondaryImages', secondaryImages[i]);
+        }
     }
 
     $.ajax({
-        url: `/Product/UpdateProduct`, 
+        url: `/Product/UpdateProduct`,
         type: 'PUT',
         data: formData,
-        processData: false, // Prevent jQuery from processing the data
-        contentType: false, // Ensure multipart/form-data is used
+        processData: false, // Không xử lý dữ liệu
+        contentType: false, // Đặt header là multipart/form-data
         success: function (response) {
             ShowToastNoti('success', '', response, 4000, 'topRight');
-            $('#modal-product').modal('hide'); 
-            GetProductsByIdCategory($('#categoryId').val()); 
+            $('#modal-product').modal('hide');
+            GetProductsByIdCategory($('#categoryId').val());
         },
         error: function (error) {
-            ShowToastNoti('success', '', response, 4000, 'topRight');
+            ShowToastNoti('error', '', 'Cập nhật sản phẩm thất bại.', 4000, 'topRight');
+            console.error('Error:', error);
         }
     });
 }
+
+
 
 // Remove a product
 function RemoveProduct(idProduct) {

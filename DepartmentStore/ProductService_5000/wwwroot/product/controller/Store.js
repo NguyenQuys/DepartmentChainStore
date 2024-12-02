@@ -28,7 +28,7 @@ async function RenderProduct_BranchTab() {
                 <div class="col-lg-4">
                     <div class="product">
                         <a onclick="AddProductToQueue(${product.id}, '${product.productName}', ${product.price})" class="img-prod">
-                            <img class="img-fluid" src="${product.mainImage}" alt="Product Image">
+                            <img class="img-fluid" src="${product.mainImage}" style="height:200px" alt="Product Image">
                             <span class="status">30%</span>
                             <div class="overlay"></div>
                         </a>

@@ -34,7 +34,7 @@ async function GetListProduct(idProductCategory = null) {
                     <div class="col-md-6 col-lg-3 ftco-animate fadeInUp ftco-animated">
                         <div class="product">
                             <a href="/Product/GetByIdView?idProduct=${product.id}" class="img-prod">
-                                <img class="img-fluid" src="${product.mainImage}" alt="Product Image">
+                                <img class="img-fluid" src="${product.mainImage}" style="height:200px" alt="Product Image">
                                 <span class="status">30%</span>
                                 <div class="overlay"></div>
                             </a>

@@ -4,7 +4,7 @@
     "Projects": [
       {
         "Path": "ProductService_5000\\ProductService_5000.csproj",
-        "Action": "Start"
+        "Action": "StartWithoutDebugging"
       },
       {
         "Path": "IdentityServer\\IdentityServer.csproj",
@@ -12,7 +12,7 @@
       },
       {
         "Path": "UserService_5002\\UserService_5002.csproj",
-        "Action": "StartWithoutDebugging"
+        "Action": "Start"
       },
       {
         "Path": "APIGateway\\APIGateway.csproj",
