@@ -1,7 +1,7 @@
-﻿// Gọi hàm khi DOM đã sẵn sàng
-//document.addEventListener('DOMContentLoaded', function () {
-//    RenderProduct_BranchTab();
-//});
+﻿ //Gọi hàm khi DOM đã sẵn sàng
+document.addEventListener('DOMContentLoaded', function () {
+    RenderProduct_BranchTab();
+});
 
 async function RenderProduct_BranchTab() {
     try {
@@ -251,7 +251,7 @@ async function RenderEmployee() {
 
             const defaultOption = document.createElement('option');
             defaultOption.value = '';
-            defaultOption.textContent = 'Select an employee';
+            defaultOption.textContent = 'Chọn nhân viên giao hàng';
             selectElement.appendChild(defaultOption);
 
             // Populate the select element with employee data

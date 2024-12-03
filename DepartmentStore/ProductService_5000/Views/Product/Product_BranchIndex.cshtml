@@ -34,6 +34,9 @@
         </div>
     </div>
 </div>
+@{
+    var idBranch = User.Claims.FirstOrDefault(m => m.Type == "IdBranch")?.Value;
+}
 <script>
-    let global_idBranch = @TempData["IdBranch"];
+    let global_idBranch = @idBranch;
 </script>

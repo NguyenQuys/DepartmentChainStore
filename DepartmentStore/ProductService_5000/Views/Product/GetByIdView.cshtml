@@ -12,22 +12,6 @@
             </div>
             <div class="col-lg-6 product-details pl-md-5 ftco-animate">
                 <h3>@Model.ProductName</h3>
-                <div class="rating d-flex">
-                    <p class="text-left mr-4">
-                        <a href="#" class="mr-2">5.0</a>
-                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                    </p>
-                    <p class="text-left mr-4">
-                        <a href="#" class="mr-2" style="color: #000;">100 <span style="color: #bbb;">Rating</span></a>
-                    </p>
-                    <p class="text-left">
-                        <a href="#" class="mr-2" style="color: #000;">500 <span style="color: #bbb;">Sold</span></a>
-                    </p>
-                </div>
                 <p class="price"><span>@Model.Price.ToString("N0") VND</span></p>
                 <p>
                     A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth. Text should turn around and return to its own, safe country. But nothing the copy said could convince her and so it didn’t take long until.
@@ -51,7 +35,6 @@
                 </div>
                 <div class="row">
                     <p class="mr-5"><a onclick="AddToCart(@Model.IdProduct)" class="btn btn-black py-3 px-5 text-white">Thêm vào giỏ hàng</a></p>
-                    <p><a href="cart.html" class="btn btn-success py-3 px-5">Mua ngay</a></p>
                 </div>
             </div>
         </div>

@@ -185,7 +185,6 @@ namespace ProductService_5000.Controllers
 			int? sessionIdBranch = Session.GetInt32(IdBranchSessionKey);
 
 			int? idBranch = sessionIdBranch;
-			TempData["IdBranch"] = idBranch;
 			var view = await _s_Product.Product_BranchTab(idBranch);
 			return Ok(view);
 		}
