@@ -1,10 +1,12 @@
 ﻿using APIGateway.Response;
 using APIGateway.Utilities;
+using BranchService_5003.Request;
 using BranchService_5003.Response;
 using BranchService_5003.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProductService_5000.Request;
+using System.Text.Json;
 
 namespace BranchService_5003.Controllers
 {
@@ -106,5 +108,19 @@ namespace BranchService_5003.Controllers
             return Json(sumQuantity);
         }
 
-    }
+		[HttpPut]
+		public async Task<IActionResult> MinusProductsAndQuantites(string productsAndQuantities, int idBranch)
+		{
+			var minus = await _s_Product_Branch.MinusProductsAndQuantities(productsAndQuantities, idBranch);
+			return Ok(minus);
+		}
+
+		[HttpPut]
+		public async Task<IActionResult> RevertProductsAndQuantitesOnCancel([FromBody] MReq_RevertProduct request)
+		{
+			var reestore = await _s_Product_Branch.RevertProductsAndQuantitesOnCancel(request.ProductsAndQuantities, request.IdBranch);
+			return Ok(reestore);
+		}
+
+	}
 }

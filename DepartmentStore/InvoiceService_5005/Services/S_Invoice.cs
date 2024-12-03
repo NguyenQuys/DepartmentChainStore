@@ -40,7 +40,8 @@ namespace InvoiceService_5005.Services
 
 		public async Task<string> AddAtStoreOnline(MReq_Invoice mReq_Invoice)
 		{
-			bool shouldCallMinusRemaining = false;
+			bool shouldCallMinusRemainingPromotion = false;
+			bool shouldCallMinusRemainingProductsAndQuantites = false;
 			int? idPromotion = null;
 
 			using var transaction = await _context.Database.BeginTransactionAsync();
@@ -51,7 +52,7 @@ namespace InvoiceService_5005.Services
 				if (!string.IsNullOrEmpty(mReq_Invoice.Promotion) && !mReq_Invoice.Promotion.Equals("0"))
 				{
 					idPromotion = await GetIdPromotionAsync(client, mReq_Invoice.Promotion);
-					shouldCallMinusRemaining = true;
+					shouldCallMinusRemainingPromotion = true;
 				}
 				else if (string.IsNullOrWhiteSpace(mReq_Invoice.CustomerName) || string.IsNullOrWhiteSpace(mReq_Invoice.CustomerPhoneNumber))
 				{
@@ -60,6 +61,11 @@ namespace InvoiceService_5005.Services
 
 				var productsAndQuantities = JsonSerializer.Deserialize<Dictionary<int, int>>(mReq_Invoice.ListIdProductsAndQuantities)
 									   ?? throw new InvalidOperationException("Invalid products and quantities data.");
+
+				if (productsAndQuantities.Any())
+				{
+					shouldCallMinusRemainingProductsAndQuantites = true;
+				}
 
 				var dictionaryProductNameAndQuantity = new Dictionary<string, int>();
 				foreach (var item in productsAndQuantities)
@@ -79,7 +85,7 @@ namespace InvoiceService_5005.Services
 				invoiceToAdd.InvoiceNumber = GenerateCode(GetPaymentPrefix(mReq_Invoice.IdPaymentMethod));
 
 				await _context.AddAsync(invoiceToAdd);
-				//await _context.SaveChangesAsync();
+				await _context.SaveChangesAsync();
 
 				var newInvoiceProducts = productsAndQuantities.Select(item => new Invoice_Product
 				{
@@ -88,7 +94,7 @@ namespace InvoiceService_5005.Services
 					Quantity = item.Value
 				}).ToList();
 				await _context.AddRangeAsync(newInvoiceProducts);
-				//await _context.SaveChangesAsync();
+				await _context.SaveChangesAsync();
 
 				var paymentMethod = await _context.PaymentMethods
 												 .FirstOrDefaultAsync(m => m.Id == mReq_Invoice.IdPaymentMethod);
@@ -111,9 +117,14 @@ namespace InvoiceService_5005.Services
 				await transaction.CommitAsync();
 
 				// Call MinusRemainingQuantityPromotionAsync if needed
-				if (shouldCallMinusRemaining && idPromotion.HasValue)
+				if (shouldCallMinusRemainingPromotion)
 				{
 					await MinusRemainingQuantityPromotionAsync(client, idPromotion.Value);
+				}
+
+				if (shouldCallMinusRemainingProductsAndQuantites)
+				{
+					 await MinusProductsAndQuantites(client, mReq_Invoice.ListIdProductsAndQuantities, mReq_Invoice.IdBranch);
 				}
 
 				// Send invoice email
@@ -127,7 +138,6 @@ namespace InvoiceService_5005.Services
 				throw new InvalidOperationException("An error occurred while adding the invoice.", ex);
 			}
 		}
-
 
 		public async Task<Invoice> GetByPhoneNumberAndIdPromotion(string phoneNumberRequest, int idPromotion)
 		{
@@ -192,7 +202,7 @@ namespace InvoiceService_5005.Services
 
 		public async Task<string> AddAtStoreOffline(MReq_Invoice mReq_Invoice)
 		{
-			bool shouldCallMinusRemaining = false;
+			bool shouldCallMinusPromotionRemaining = false;
 			int? idPromotion = null;
 			using var transaction = await _context.Database.BeginTransactionAsync();
 			try
@@ -202,7 +212,7 @@ namespace InvoiceService_5005.Services
 				if (!string.IsNullOrEmpty(mReq_Invoice.Promotion) && !mReq_Invoice.Promotion.Equals("0"))
 				{
 					idPromotion = await GetIdPromotionAsync(client, mReq_Invoice.Promotion);
-					shouldCallMinusRemaining = true;
+					shouldCallMinusPromotionRemaining = true;
 				}
 
 				var productsAndQuantities = JsonSerializer.Deserialize<Dictionary<int, int>>(mReq_Invoice.ListIdProductsAndQuantities)
@@ -227,7 +237,7 @@ namespace InvoiceService_5005.Services
 				};
 
 				await _context.AddAsync(newInvoice);
-				//await _context.SaveChangesAsync();
+				await _context.SaveChangesAsync();
 
 				var newInvoiceProducts = productsAndQuantities.Select(item => new Invoice_Product
 				{
@@ -236,11 +246,11 @@ namespace InvoiceService_5005.Services
 					Quantity = item.Value
 				}).ToList();
 				await _context.AddRangeAsync(newInvoiceProducts);
-				//await _context.SaveChangesAsync();
+				await _context.SaveChangesAsync();
 
 				await transaction.CommitAsync();
 				// Call MinusRemainingQuantityPromotionAsync if needed
-				if (shouldCallMinusRemaining && idPromotion.HasValue)
+				if (shouldCallMinusPromotionRemaining && idPromotion.HasValue)
 				{
 					await MinusRemainingQuantityPromotionAsync(client, idPromotion.Value);
 				}
@@ -254,7 +264,6 @@ namespace InvoiceService_5005.Services
 			}
 		}
 
-		// Others
 		private async Task<int> GetIdPromotionAsync(HttpClient client, string? promotionCode)
 		{
 			var promotionResponse = await client.GetAsync($"/Promotion/TransferPromotionCodeToId?promotionCode={promotionCode}");
@@ -276,10 +285,142 @@ namespace InvoiceService_5005.Services
 			return product;
 		}
 
+		public async Task<List<Invoice>> GetListInvoiceBranch(int idBranch, int? idStatus)
+		{
+			List<Invoice> listToView;
+			if (idStatus == 0)
+			{
+				listToView = await _context.Invoices.Where(m => m.IdBranch == idBranch).Include(m => m.Status).ToListAsync();
+			}
+			else
+			{
+				listToView = await _context.Invoices.Where(m => m.IdBranch == idBranch
+															&& m.IdStatus == idStatus)
+													.Include(m => m.Status)
+													.ToListAsync();
+			}
+			return listToView;
+		}
+
+		public async Task<string> ChangeStatusInvoice(MReq_ChangeStatusInvoice request)
+		{
+			var invoiceToChangeStatus = await _context.Invoices
+				.Include(m => m.Invoice_Products)
+				.FirstOrDefaultAsync(m => m.Id == request.IdInvoice);
+
+			using var client = _httpClientFactory.CreateClient("ProductService");
+
+			if (request.IdStatus == 5 || request.IdStatus == 6 || request.IdStatus == 7)
+			{
+				var productsAndQuantities = invoiceToChangeStatus.Invoice_Products
+					.ToDictionary(p => p.IdProduct, p => p.Quantity);
+
+				var jsonProductsAndQuantities = JsonSerializer.Serialize(productsAndQuantities);
+
+				await RevertProductsAndQuantities(client, jsonProductsAndQuantities, invoiceToChangeStatus.IdBranch);
+			}
+
+			if (request.EmployeeShip != null)
+			{
+				invoiceToChangeStatus.IdEmployeeShip = request.EmployeeShip;
+			}
+
+			invoiceToChangeStatus.IdStatus = request.IdStatus;
+			invoiceToChangeStatus.StoreNote = request.StoreNote;
+
+			_context.Update(invoiceToChangeStatus);
+			await _context.SaveChangesAsync();
+
+			string message = request.IdStatus switch
+			{
+				2 => "Đã đóng gói thành công!",
+				3 => "Đơn hàng đang được giao",
+				4 => "Đơn hàng đã được giao",
+				5 => "Đơn hàng đã bị hủy",
+				_ => "Trạng thái không hợp lệ"
+			};
+
+			return message;
+		}
+
+
+		public async Task<List<MRes_InvoiceEmail>> GetListInvoiceByIdShipper(int idShipper)
+		{
+			var invoiceList = await _context.Invoices
+				.Include(m => m.Invoice_Products)
+				.Include(m => m.PaymentMethod)
+				.Include(m => m.Status)
+				.AsNoTracking()
+				.Where(m => m.IdEmployeeShip == idShipper && m.IdStatus == 2)
+				.ToListAsync();
+
+			using var client = _httpClientFactory.CreateClient("ProductService");
+
+			var newListInvoice = new List<MRes_InvoiceEmail>();
+
+			foreach (var invoice in invoiceList)
+			{
+				var productNameAndQuantity = new Dictionary<string, int>();
+				var listSinglePrice = new List<int>();
+				int totalOriginalPrice = 0;
+
+				// Lấy thông tin sản phẩm từ ProductService
+				foreach (var item in invoice.Invoice_Products)
+				{
+					var product = await GetProductByIdAsync(client, item.IdProduct);
+					productNameAndQuantity[product.ProductName] = item.Quantity;
+					listSinglePrice.Add(product.Price);
+					totalOriginalPrice += item.Quantity * product.Price;
+				}
+
+				int discount = totalOriginalPrice - invoice.Price;
+
+				var newInvoice = new MRes_InvoiceEmail
+				{
+					IdInvoice = invoice.Id,
+					InvoiceNumber = invoice.InvoiceNumber,
+					Time = invoice.CreatedDate,
+					CustomerNote = invoice.CustomerNote,
+					StoreNote = invoice.StoreNote,
+					Address = invoice.Address,
+					ProductNameAndQuantity = productNameAndQuantity,
+					SinglePrice = listSinglePrice,
+					Discount = discount,
+					Total = invoice.Price,
+					PaymentMethod = invoice.PaymentMethod?.Method ?? "Unknown",
+					Status = invoice.Status?.Type ?? "Unknown"
+				};
+
+				newListInvoice.Add(newInvoice);
+			}
+
+			return newListInvoice;
+		}
+		// Others
+
 		private async Task MinusRemainingQuantityPromotionAsync(HttpClient client, int? id)
 		{
 			await client.PutAsync($"/Promotion/MinusRemainingQuantity?id={id}", null);
 		}
+
+		private async Task MinusProductsAndQuantites(HttpClient client, string productsAndQuantities,int idBranch)
+		{
+			await client.PutAsync($"/Product_Branch/MinusProductsAndQuantites?productsAndQuantities={productsAndQuantities}&idBranch={idBranch}",null);
+		}
+
+		private async Task RevertProductsAndQuantities(HttpClient client, string productsAndQuantities, int idBranch)
+		{
+			var payload = new
+			{
+				ProductsAndQuantities = productsAndQuantities,
+				IdBranch = idBranch
+			};
+
+			var content = new StringContent(JsonSerializer.Serialize(payload), System.Text.Encoding.UTF8, "application/json");
+
+			await client.PutAsync("/Product_Branch/RevertProductsAndQuantitesOnCancel", content);
+		}
+
 
 		private string GetPaymentPrefix(int paymentMethodId) => paymentMethodId switch
 		{
@@ -375,97 +516,6 @@ namespace InvoiceService_5005.Services
         </div>";
 
 			return emailBody;
-		}
-
-		public async Task<List<Invoice>> GetListInvoiceBranch(int idBranch,int? idStatus)
-		{
-			List<Invoice> listToView;
-			if (idStatus == 0)
-			{
-				listToView = await _context.Invoices.Where(m => m.IdBranch == idBranch).Include(m => m.Status).ToListAsync();
-			}else
-			{
-				listToView = await _context.Invoices.Where(m => m.IdBranch == idBranch
-															&&m.IdStatus == idStatus)
-													.Include(m => m.Status)
-													.ToListAsync();
-			}
-			return listToView;
-		}
-
-		public async Task<string> ChangeStatusInvoice(MReq_ChangeStatusInvoice request)
-		{
-			var invoiceToChangeStatus = await _context.Invoices.FirstOrDefaultAsync(m => m.Id == request.IdInvoice);
-			if (request.EmployeeShip != null)
-			{
-				invoiceToChangeStatus.IdEmployeeShip = request.EmployeeShip;
-			}
-			invoiceToChangeStatus.IdStatus = request.IdStatus;
-			invoiceToChangeStatus.StoreNote = request.StoreNote;
-			_context.Update(invoiceToChangeStatus);
-			await _context.SaveChangesAsync();
-			string message = request.IdStatus switch
-			{
-				2 => "Đã đóng gói thành công!",
-				3 => "Đơn hàng đang được giao",
-				4 => "Đơn hàng đã được giao",
-				5 => "Đơn hàng đã bị hủy",
-				_ => "Trạng thái không hợp lệ"
-			};
-			return message;
-		}
-
-		public async Task<List<MRes_InvoiceEmail>> GetListInvoiceByIdShipper(int idShipper)
-		{
-			var invoiceList = await _context.Invoices
-				.Include(m => m.Invoice_Products)
-				.Include(m => m.PaymentMethod)
-				.Include(m => m.Status)
-				.AsNoTracking()
-				.Where(m => m.IdEmployeeShip == idShipper && m.IdStatus == 2)
-				.ToListAsync();
-
-			using var client = _httpClientFactory.CreateClient("ProductService");
-
-			var newListInvoice = new List<MRes_InvoiceEmail>();
-
-			foreach (var invoice in invoiceList)
-			{
-				var productNameAndQuantity = new Dictionary<string, int>();
-				var listSinglePrice = new List<int>();
-				int totalOriginalPrice = 0;
-
-				// Lấy thông tin sản phẩm từ ProductService
-				foreach (var item in invoice.Invoice_Products)
-				{
-					var product = await GetProductByIdAsync(client, item.IdProduct);
-					productNameAndQuantity[product.ProductName] = item.Quantity;
-					listSinglePrice.Add(product.Price);
-					totalOriginalPrice += item.Quantity * product.Price;
-				}
-
-				int discount = totalOriginalPrice - invoice.Price;
-
-				var newInvoice = new MRes_InvoiceEmail
-				{
-					IdInvoice = invoice.Id,
-					InvoiceNumber = invoice.InvoiceNumber,
-					Time = invoice.CreatedDate,
-					CustomerNote = invoice.CustomerNote,
-					StoreNote = invoice.StoreNote,
-					Address = invoice.Address,
-					ProductNameAndQuantity = productNameAndQuantity,
-					SinglePrice = listSinglePrice,
-					Discount = discount,
-					Total = invoice.Price,
-					PaymentMethod = invoice.PaymentMethod?.Method ?? "Unknown",
-					Status = invoice.Status?.Type ?? "Unknown"
-				};
-
-				newListInvoice.Add(newInvoice);
-			}
-
-			return newListInvoice;
 		}
 	}
 }

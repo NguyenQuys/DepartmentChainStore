@@ -31,7 +31,7 @@ namespace ProductService_5000.Services
         Task<string> UpdateProductAsync(MReq_Product product, MRes_InfoUser currentUser);
         Task<string> ChangeStatusProduct(int id, MRes_InfoUser currentUser);
 
-        Task<Product> RemoveProduct(int id);
+		Task<Product> RemoveProduct(int id);
 
         Task<MemoryStream> ExportSampleProductFileExcel();
     }

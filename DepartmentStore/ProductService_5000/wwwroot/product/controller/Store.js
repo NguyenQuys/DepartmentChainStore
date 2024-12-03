@@ -327,7 +327,7 @@ async function ChangeStatusInvoiceStore(idInvoice, idStatus) {
                     }
                 }
                 $('.modal-store').modal('hide');
-                RenderTableInvoice(idStatus);
+                RenderTableInvoice(1);
             } else {
                 console.error('Failed to update status:', response.statusText);
                 ShowToastNoti('error', 'Error', 'Có lỗi xảy ra, vui lòng thử lại!', 4000);

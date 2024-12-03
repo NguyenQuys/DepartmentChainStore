@@ -31,10 +31,13 @@ namespace BranchService_5003.Services
         Task<MemoryStream> ExportSampleProductFileExcel(MRes_InfoUser currentUser);
 
         Task<string> UpdateExport(MRes_ImportProductHistory productHistoryRequest,MRes_InfoUser currentUser);
-        Task<string> Delete(int id);
+		Task<string> MinusProductsAndQuantities(string requestToMinus, int idBranch);
+        Task<string> RevertProductsAndQuantitesOnCancel(string requestToRevert, int idBranch);
+
+		Task<string> Delete(int id);
     }
 
-    public class S_Product_Branch : IS_Product_Branch
+	public class S_Product_Branch : IS_Product_Branch
     {
         private readonly BranchDBContext _context;
         private readonly IHttpClientFactory _httpClientFactory;
@@ -508,5 +511,35 @@ namespace BranchService_5003.Services
             var sumQuantity = pbToGet.Sum(m => m.Quantity);
             return sumQuantity;
         }
-    }
+
+		public async Task<string> MinusProductsAndQuantities(string requestToMinus, int idBranch)
+		{
+			var productsAndQuantities = JsonSerializer.Deserialize<Dictionary<int, int>>(requestToMinus)
+									   ?? throw new InvalidOperationException("Invalid products and quantities data.");
+
+            foreach (var request in productsAndQuantities)
+            {
+                var product_branch = await _context.Product_Branches.FirstOrDefaultAsync(m => m.IdBranch == idBranch && m.IdProduct == request.Key);
+                product_branch.Quantity -= request.Value;
+                _context.Update(product_branch);
+            }
+            await _context.SaveChangesAsync();
+            return null;
+        }
+
+		public async Task<string> RevertProductsAndQuantitesOnCancel(string requestToRevert, int idBranch)
+		{
+			var productsAndQuantities = JsonSerializer.Deserialize<Dictionary<int, int>>(requestToRevert)
+									   ?? throw new InvalidOperationException("Invalid products and quantities data.");
+
+			foreach (var request in productsAndQuantities)
+			{
+				var product_branch = await _context.Product_Branches.FirstOrDefaultAsync(m => m.IdBranch == idBranch && m.IdProduct == request.Key);
+				product_branch.Quantity += request.Value;
+				_context.Update(product_branch);
+			}
+			await _context.SaveChangesAsync();
+			return null;
+		}
+	}
 }
