@@ -1,0 +1,380 @@
+﻿@model List<ProductService_5000.Response.MRes_Product>
+@{
+    ViewData["Title"] = "Giỏ hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="ftco-section ftco-cart">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 ftco-animate">
+                <div class="cart-list">
+                    <table class="table">
+                        <thead class="thead-primary">
+                            <tr class="text-center">
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Đơn giá</th>
+                                <th>Số lượng</th>
+                                <th>Tổng cộng (VND)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int total = 0;
+                                string subTotalString = null;
+                                bool checkIfAssignIdBranch = false;
+                                int idBranch = 0;
+                            }
+                            @foreach (var item in Model)
+                            {
+                                <input type="hidden" value="@item.IdProduct" class="idProductChosen" />
+                                <input type="hidden" value="@item.Quantity" class="quantityChosen" />
+                                <input type="hidden" value="@item.Price" class="single-price-product" />
+                                <tr class="text-center">
+                                    <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
+
+                                    <td class="image-prod"><div class="img" style="background-image:url(@item.MainImage);"></div></td>
+
+                                    <td class="product-name">
+                                        <h3>@item.ProductName</h3>
+                                        <p>Far far away, behind the word mountains, far from the countries</p>
+                                    </td>
+
+                                    <td class="price">@item.Price.ToString("N0")</td>
+
+                                    <td class="quantity">
+                                        <div class="input-group mb-3">
+                                            <input type="text" name="quantity" class="quantity form-control input-number" value="@item.Quantity" min="1" max="100">
+                                        </div>
+                                    </td>
+                                    @{
+                                        int itemTotal = item.Price * item.Quantity;
+                                        total += itemTotal;
+                                        if(!checkIfAssignIdBranch)
+                                        {
+                                            idBranch = item.IdBranch;
+                                            checkIfAssignIdBranch = true;
+                                        }
+                                    }
+                                    <td class="total">@itemTotal.ToString("N0")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-end">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="col-lg-4 mt-5 cart-wrap ftco-animate">
+                    <div class="cart-total mb-3">
+                        <h3>Mã giảm giá</h3>
+                        <p>Nhập mã giảm giá nếu bạn có</p>
+                        <form class="info">
+                            <div class="form-group">
+                                <input type="text" class="form-control text-left px-3" placeholder="Nhập mã giảm giá..." id="input_promotion_code">
+                            </div>
+                            <div class="m-3" id="div_check_promotion_available"></div>
+                            <p><button type="submit" onclick="CheckPromotion(event)" class="btn btn-primary py-3 px-4 w-100">Áp dụng</button></p>
+                        </form>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="col-lg-4 mt-5 cart-wrap ftco-animate">
+                    <div class="cart-total mb-3">
+                        <h3 class="text-danger">Bạn cần đăng nhập tài khoản để có thể sử dụng Voucher</h3>
+                    </div>
+                </div>
+            }
+            <div class="col-lg-4 mt-5 cart-wrap ftco-animate">
+                <div class="cart-total mb-3">
+                    <h3>Chọn hình thức nhận hàng</h3>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <form class="info delivery-method">
+                            <div class="form-group">
+                                <input type="radio" id="pick_up_at_store" name="fav_language" value="HTML" onclick="ToggleDelivery()">
+                                <label for="pick_up_at_store">Nhận tại cửa hàng</label><br>
+                                <input type="radio" id="delivery_to_home" name="fav_language" value="CSS" onclick="ToggleDelivery()">
+                                <label for="delivery_to_home">Ship đến tận nhà</label><br>
+                                <p id="btn_choose_location" class="btn-location d-none">
+                                    <a href="#" type="button" class="btn btn-primary p-2 w-100" data-bs-toggle="modal" data-bs-target="#modal_location">Chọn vị trí</a>
+                                </p>
+                            </div>
+                        </form>
+                    }
+                    else{
+                        <form class="info delivery-method">
+                            <div class="form-group">
+                                <input type="radio" id="pick_up_at_store" name="fav_language" value="HTML" onclick="ToggleDelivery()">
+                                <label for="pick_up_at_store">Nhận tại cửa hàng</label><br>
+                            </div>
+                        </form>
+                    }
+                </div>
+			</div>
+			<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
+				<div class="cart-total mb-3">
+	                <h3>Tổng hóa đơn</h3>
+	                <p class="d-flex">
+		                <span>Tổng phụ</span>
+		                <span id="subtotal">@total.ToString("N0") VND</span>
+	                </p>
+	                <p class="d-flex">
+		                <span>Tiền vận chuyển</span>
+		                <span id="delivery">0 VND</span>
+	                </p>
+	                <p class="d-flex">
+		                <span>Giảm giá</span>
+		                <input type="hidden" value="@total" id="total_cart" />
+		                <span id="discount_invoice">0</span>
+	                </p>
+	                <hr>
+	                <p class="d-flex total-price">
+		                <span>Tổng cộng</span>
+		                <span id="total_price">0 VND</span>
+	                </p>
+                </div>
+                <p>
+                    <a href="#"
+                       onclick="OpenModalConfirmInformation(@(TempData["IdUser"]))"
+                       class="btn btn-primary py-3 px-4">
+                        Thanh toán
+                    </a>
+                </p>
+            </div>
+		</div>
+	</div>
+</section>
+<!--Modal GoogleMap-->
+<div class="modal fade" id="modal_location" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chọn vị trí</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+				<div>
+					<h2>Chọn địa điểm bạn muốn được giao đến</h2>
+					<div>
+                        <h4 class="d-flex">Tiền ship của bạn là: &nbsp<span class="text-success" id="noti_available_delivery"></span></h4>
+                    </div>
+					<div id="map" style="width: 100%; height: 500px;"></div>
+
+					<form id="shippingForm">
+@* 						<h3>location 1:</h3>
+						<label>latitude:</label>
+						<input type="text" id="latitude1" name="latitude1" value="10.762622" readonly /><br />
+						<label>longitude:</label>
+						<input type="text" id="longitude1" name="longitude1" value="106.660172" readonly /><br /> *@
+
+						<h3>Vị trí bạn muốn giao đến:</h3>
+						<label>Kinh độ:</label>
+						<input type="text" id="latitude2" name="latitude2" class="form-control" readonly /><br />
+						<label>Vĩ độ:</label>
+                        <input type="text" id="longitude2" name="longitude2" class="form-control" readonly /><br />
+
+						<h3>Khoảng cách:</h3>
+						<label>Đơn vị đo (mét):</label>
+						<input type="text" id="distance" name="distance" readonly /><br />
+
+                        <div class="d-flex justify-content-end">
+                            <button type="button" id="btn_submit_shipping" class="btn btn-success">Gửi dữ liệu</button>
+                        </div>
+					</form>
+                    <script>
+                        let map;
+                        let location1 = {
+                            lat: @Convert.ToDouble(TempData["Latitude"]),
+                            lng: @Convert.ToDouble(TempData["Longitude"])
+                            }; // Tọa độ cố định của Location1
+                        let secondLocation = null;  // Tọa độ của vị trí thủ công
+                        let currentLocationMarker = null; // Marker cho vị trí hiện tại
+                        let manualLocationMarker = null; // Marker cho vị trí thủ công
+                        let isManualSelection = false; // Trạng thái chọn vị trí thủ công
+
+                        function initMap() {
+                            console.log(location1);
+                            map = new google.maps.Map(document.getElementById("map"), {
+                                center: location1, // Vị trí mặc định là Location 1
+                                zoom: 13,
+                            });
+
+                            // Đánh dấu Location 1 trên bản đồ
+                            new google.maps.Marker({
+                                position: location1,
+                                map,
+                                label: "A",
+                            });
+
+                            // Tạo nút chọn vị trí thủ công
+                            const manualSelectionButton = document.createElement("button");
+                            manualSelectionButton.textContent = "Chọn vị trí thủ công";
+                            manualSelectionButton.classList.add("custom-map-control-button");
+                            map.controls[google.maps.ControlPosition.TOP_CENTER].push(manualSelectionButton);
+
+                            manualSelectionButton.addEventListener("click", () => {
+                                isManualSelection = true; // Bật chế độ chọn vị trí thủ công
+
+                                // Ẩn marker vị trí hiện tại khi chọn chế độ thủ công
+                                if (currentLocationMarker) {
+                                    currentLocationMarker.setMap(null);
+                                }
+                            });
+
+                            // Tạo nút chọn vị trí hiện tại
+                            const currentLocationButton = document.createElement("button");
+                            currentLocationButton.textContent = "Chọn vị trí hiện tại";
+                            currentLocationButton.classList.add("custom-map-control-button");
+                            map.controls[google.maps.ControlPosition.TOP_CENTER].push(currentLocationButton);
+
+                            currentLocationButton.addEventListener("click", () => {
+                                isManualSelection = false; // Tắt chế độ chọn vị trí thủ công
+                                GetCurrentLocation(); // Lấy vị trí hiện tại của người dùng
+
+                                // Hiển thị marker vị trí hiện tại nếu chưa có
+                                if (currentLocationMarker) {
+                                    currentLocationMarker.setMap(map);
+                                }
+
+                                // Xóa marker thủ công nếu có khi chọn vị trí hiện tại
+                                if (manualLocationMarker) {
+                                    manualLocationMarker.setMap(null);
+                                    manualLocationMarker = null;
+                                }
+                            });
+
+                            // Lắng nghe sự kiện click trên bản đồ để chọn vị trí thủ công
+                            map.addListener("click", (mapsMouseEvent) => {
+                                if (isManualSelection) {
+                                    const location = mapsMouseEvent.latLng;
+
+                                    // Nếu đã có vị trí thủ công, xóa marker cũ
+                                    if (manualLocationMarker) {
+                                        manualLocationMarker.setMap(null); // Xóa marker cũ
+                                    }
+
+                                    // Lưu tọa độ mới và cập nhật input
+                                    secondLocation = location;
+                                    document.getElementById("latitude2").value = secondLocation.lat();
+                                    document.getElementById("longitude2").value = secondLocation.lng();
+
+                                    // Đánh dấu vị trí mới trên bản đồ
+                                    manualLocationMarker = new google.maps.Marker({
+                                        position: location,
+                                        map,
+                                        label: "B", // Đánh dấu bằng chữ "B"
+                                    });
+
+                                    // Tính khoảng cách khi chọn Location2
+                                    CalculateDistance();
+
+                                    // Gọi hàm gửi dữ liệu vận chuyển
+                                    SubmitFormShipping(CalculateDistance());
+
+                                    // Vô hiệu hóa chọn lại vị trí sau khi đã chọn
+                                    isManualSelection = false; // Tắt chế độ chọn thủ công sau khi đã chọn
+                                }
+                            });
+
+                        }
+
+                        function GetCurrentLocation() {
+                            if (navigator.geolocation) {
+                                navigator.geolocation.getCurrentPosition(
+                                    (position) => {
+                                        const userLocation = {
+                                            lat: position.coords.latitude,
+                                            lng: position.coords.longitude,
+                                        };
+
+                                        // Cập nhật vị trí của Location2
+                                        secondLocation = userLocation;
+                                        document.getElementById("latitude2").value = secondLocation.lat;
+                                        document.getElementById("longitude2").value = secondLocation.lng;
+
+                                        // Đánh dấu vị trí người dùng trên bản đồ nếu chưa có
+                                        if (!currentLocationMarker) {
+                                            currentLocationMarker = new google.maps.Marker({
+                                                position: userLocation,
+                                                map,
+                                                label: "B",
+                                            });
+                                        }
+
+                                        // Tính khoảng cách khi chọn Location2
+                                        CalculateDistance();
+                                        SubmitFormShipping(CalculateDistance());
+                                    },
+                                    () => {
+                                        alert("Không thể lấy vị trí của bạn.");
+                                    }
+                                );
+                            } else {
+                                alert("Trình duyệt của bạn không hỗ trợ Geolocation.");
+                            }
+                        }
+
+                        function CalculateDistance() {
+                            if (secondLocation) {
+                                const distance = google.maps.geometry.spherical.computeDistanceBetween(
+                                    new google.maps.LatLng(location1.lat, location1.lng),
+                                    secondLocation
+                                );
+                                document.getElementById("distance").value = distance.toFixed(2); // Hiển thị khoảng cách (mét)
+                            }
+                        }
+                    </script>
+				</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal InformationInvoice-->
+<div class="modal fade" id="modal_information" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mx-auto" id="modalTitle_information">Nhập thông tin</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modal_body_information">
+                <form id="form_information">
+                    <div class="mb-3">
+                        <label class="form-label">Họ tên <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="input_customerName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Số điện thoại <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="input_phoneNumber" required max="9999999999" oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email <span class="text-danger">*</span></label>
+                        <input type="email" class="form-control" id="input_email" required >
+                    </div>
+                    <div class="mb-3" id="div_address_invoice">
+                        <label class="form-label">Địa chỉ <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="input_address" required >
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Ghi chú</label>
+                        <input type="text" class="form-control" id="input_noteCustomer" />
+                    </div>
+                    <div class="d-flex justify-content-around">
+                        <button type="button" class="btn btn-success" onclick="AddInvoice()">Xác nhận</button>
+                        <button type="button" data-bs-dismiss="modal" class="btn btn-danger">Hủy</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const global_idBranch = @idBranch;
+</script>

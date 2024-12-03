@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\user\css\.DS_Store" />
+    <None Include="wwwroot\user\images\.DS_Store" />
+    <None Include="wwwroot\user\pages\.DS_Store" />
+    <None Include="wwwroot\user\pages\charts\.DS_Store" />
+    <None Include="wwwroot\user\pages\forms\.DS_Store" />
+    <None Include="wwwroot\user\pages\icons\.DS_Store" />
+    <None Include="wwwroot\user\pages\samples\.DS_Store" />
+    <None Include="wwwroot\user\pages\tables\.DS_Store" />
+    <None Include="wwwroot\user\pages\ui-features\.DS_Store" />
+    <None Include="wwwroot\user\scss\.DS_Store" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\APIGateway\APIGateway.csproj" />
+    <ProjectReference Include="..\BranchService_5003\BranchService_5003.csproj" />
+    <ProjectReference Include="..\IdentityServer\IdentityServer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\user\controller\Branch.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

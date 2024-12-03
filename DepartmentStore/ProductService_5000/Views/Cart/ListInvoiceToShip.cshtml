@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "Ship";
+}
+<section class="ftco-section ftco-cart">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 ftco-animate fadeInUp ftco-animated">
+                <div class="cart-list">
+                    <table class="table-bordered">
+                        <thead class="bg-primary text-white">
+                            <tr class="text-center">
+                                <th class="col-1">STT</th>
+                                <th class="col-7">Số hóa đơn</th>
+                                <th class="col-4">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="data_order_shipper">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<div class="modal fade modal-shipper" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chi tiết hóa đơn</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="body_shipper">
+            </div>
+        </div>
+    </div>
+</div>

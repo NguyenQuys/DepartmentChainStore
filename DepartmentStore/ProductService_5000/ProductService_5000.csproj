@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\product\css\.DS_Store" />
+    <None Include="wwwroot\product\css\bootstrap\.DS_Store" />
+    <None Include="wwwroot\product\css\css\.DS_Store" />
+    <None Include="wwwroot\product\css\css\mixins\.DS_Store" />
+    <None Include="wwwroot\product\fonts\.DS_Store" />
+    <None Include="wwwroot\product\fonts\flaticon\.DS_Store" />
+    <None Include="wwwroot\product\fonts\flaticon\font\.DS_Store" />
+    <None Include="wwwroot\product\fonts\ionicons\fonts\.DS_Store" />
+    <None Include="wwwroot\product\js\.DS_Store" />
+    <None Include="wwwroot\product\scss\.DS_Store" />
+    <None Include="wwwroot\product\scss\bootstrap\.DS_Store" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="EFCore.BulkExtensions" Version="8.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\APIGateway\APIGateway.csproj" />
+    <ProjectReference Include="..\IdentityServer\IdentityServer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\product\images\" />
+  </ItemGroup>
+
+</Project>

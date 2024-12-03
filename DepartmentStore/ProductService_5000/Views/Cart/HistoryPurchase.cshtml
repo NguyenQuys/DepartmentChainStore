@@ -1,0 +1,66 @@
+﻿@model List<InvoiceService_5005.InvoiceModels.Invoice>
+@{
+	ViewData["Title"] = "Lịch sử mua hàng";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="ftco-section ftco-cart">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 ftco-animate fadeInUp ftco-animated">
+				<div class="cart-list">
+					<table class="table">
+						<thead class="thead-primary">
+							<tr class="text-center">
+								<th>STT</th>
+								<th>Số hóa đơn</th>
+								<th>Thời gian</th>
+								<th>Trạng thái</th>
+								<th>Hành động</th>
+							</tr>
+						</thead>
+						<tbody>
+							@{
+								int index = 1;
+							}
+							@if(!Model.Any())
+							{
+								<tr>
+									<td colspan="5" class="text-center">Không có dữ liệu</td>
+								</tr>
+							}
+							else
+							{
+								foreach (var item in Model)
+								{
+									<tr class="text-center">
+										<td>@index</td>
+										<td>#@item.InvoiceNumber</td>
+										<td>@item.CreatedDate</td>
+										<td>@item.Status.Type</td>
+										<td class="quantity">
+											<button type="button" class="btn btn-primary p-3" onclick="OpenModalHistoryPurchase(@item.Id)">Chi tiết</button>
+										</td>
+									</tr>
+									index++;
+								}
+							}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- Modal Purchase History -->
+<div class="modal fade" id="modal_purchaseHistory" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Chi tiết hóa đơn</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body" id="body_detailInvoice">
+			</div>
+		</div>
+	</div>
+</div>

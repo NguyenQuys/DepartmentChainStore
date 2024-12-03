@@ -1,0 +1,96 @@
+﻿@model UserService_5002.Request.MReq_Login
+@{
+    ViewData["Title"] = "Đăng nhập";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Star Admin2 </title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="~/user/vendors/feather/feather.css">
+    <link rel="stylesheet" href="~/user/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="~/user/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="~/user/vendors/typicons/typicons.css">
+    <link rel="stylesheet" href="~/user/vendors/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="~/user/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="~/user/css/vertical-layout-light/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="~/user/images/favicon.png" />
+</head>
+
+<body>
+    <div class="container-scroller">
+        <div class="container-fluid page-body-wrapper full-page-wrapper">
+            <div class="content-wrapper d-flex align-items-center auth px-0">
+                <div class="row w-100 mx-0">
+                    <div class="col-lg-4 mx-auto">
+                        <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+                            <h4>Xin chào! Cùng bắt đầu trải nghiệm mua hàng thôi nào</h4>
+                            <h6 class="fw-light">Đăng nhập để tiếp tục</h6>
+                            <form asp-action="Login" method="post" id="loginForm" asp-antiforgery="true" class="pt-3">
+                                <div class="mb-3">
+                                    <label class="form-label">Tên đăng nhập</label>
+                                    <input type="text" class="form-control" id="login-username" asp-for="UserName" placeholder="Nhập tên đăng nhập..." required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Mật khẩu</label>
+                                    <input type="password" class="form-control" id="login-password" asp-for="Password" placeholder="Nhập mật khẩu..." required>
+                                </div>
+                                <button type="submit" data-style="expand-right" id="btn_submit_form" class="btn btn-primary d-grid w-100 ladda-button">Đăng Nhập</button>
+                            </form>
+                            <div class="my-2 d-flex justify-content-between align-items-center">
+                                <a style="cursor:pointer" onclick="RenderSignUpBody('reIdentify')" class="auth-link text-black">Xác thực lại tài khoản</a>
+                            </div>
+                            <div class="text-center mt-4 fw-light">
+                                Bạn chưa có tài khoản?
+                                <button type="button" class="btn btn-link text-primary" onclick="RenderSignUpBody('signUp')">
+                                    Đăng ký ngay
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+    <!--Modal SignUp-->
+    <div class="modal fade" id="modal_signup" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pb-0" id="div_content_signup"></div>
+            </div>
+        </div>
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <partial name="_P_Scripts" />
+    <script src="~/user/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="~/user/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="~/user/js/off-canvas.js"></script>
+    <script src="~/user/js/hoverable-collapse.js"></script>
+    <script src="~/user/js/template.js"></script>
+    <script src="~/user/js/settings.js"></script>
+    <script src="~/user/js/todolist.js"></script>
+    <!-- endinject -->
+</body>
+
+</html>
