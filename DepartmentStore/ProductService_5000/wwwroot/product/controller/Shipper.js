@@ -57,21 +57,24 @@ async function OpenModalInvoiceShipper(idInvoice) {
 
                     return `
                           <tr>
-                              <td style='border: 1px solid #ddd; padding: 8px;'>${productName}</td>
-                              <td style='border: 1px solid #ddd; padding: 8px;'>${quantity}</td>
-                              <td style='border: 1px solid #ddd; padding: 8px;'>${singlePrice.toLocaleString('vi-VN')} VND</td>
-                              <td style='border: 1px solid #ddd; padding: 8px;'>${totalPrice.toLocaleString('vi-VN')} VND</td>
-                          </tr>`;
+                            <td style='border: 1px solid #ddd; padding: 8px;'>${productName}</td>
+                            <td style='border: 1px solid #ddd; padding: 8px;'>${quantity}</td>
+                            <td style='border: 1px solid #ddd; padding: 8px;'>${singlePrice.toLocaleString('vi-VN')} VND</td>
+                            <td style='border: 1px solid #ddd; padding: 8px;'>${totalPrice.toLocaleString('vi-VN')} VND</td>
+                        </tr>`;
                 }).join('')
                 : `<tr><td colspan="4" style="text-align: center; padding: 8px;">Không có sản phẩm</td></tr>`;
 
             const bodyDetail = `
-                <div style='width: 100%; font-family: Arial, sans-serif;'>
-                    <h1>Hóa đơn mua hàng #${data.invoiceNumber || 'N/A'}</h1>
-                    <h2>Thời gian: ${data.time ? new Date(data.time).toLocaleString('vi-VN') : 'N/A'}</h2>
-                    <h2>Địa chỉ: ${data.address ?? ''}</h2>
-                    <h2>Ghi chú từ khách hàng: ${data.customerNote ?? ''}</h2>
-                    <h2>Số điện thoại: ${data.phoneNumber}</h2>
+                <div class="container p-4">
+                    <h2 class="text-center text-primary">Chi tiết hóa đơn #${data.invoiceNumber || 'N/A'}</h2>
+                    <div class="mb-4">
+                        <p><strong>Thời gian:</strong> ${data.time ? new Date(data.time).toLocaleString('vi-VN') : 'N/A'}</p>
+                        <p><strong>Địa chỉ giao hàng:</strong> ${data.address || 'N/A'}</p>
+                        <p><strong>Ghi chú từ khách hàng:</strong> ${data.customerNote || 'Không có'}</p>
+                        <p><strong>Ghi chú từ cửa hàng:</strong> ${data.storeNote || 'Không có'}</p>
+                        <p><strong>Số điện thoại:</strong> ${data.phoneNumber || 'N/A'}</p>
+                    </div>
                     <table style='width: 100%; border-collapse: collapse;'>
                         <thead>
                             <tr class='bg-primary text-white'>

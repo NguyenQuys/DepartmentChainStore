@@ -286,39 +286,41 @@ function OpenModalHistoryPurchase(idInvoice) {
                 }
 
                 let bodyDetail = `
-                    <div style='width: 100%; font-family: Arial, sans-serif;'>
-                        <h1>Hóa đơn mua hàng #${response.invoiceNumber || 'N/A'}</h1>
-                        <h2>Thời gian: ${response.time ? new Date(response.time).toLocaleString() : 'N/A'}</h2>
-                        <h2>Địa chỉ: ${response.address ?? ''}</h2>
-                        <h2>Ghi chú từ khách hàng: ${response.customerNote ?? ''}</h2>
-                        <h2>Ghi chú từ cửa hàng: ${response.storeNote ?? ''}</h2>
-                        <table style='width: 100%; border-collapse: collapse;'>
-                            <thead>
-                                <tr class='bg-primary text-white'>
-                                    <th style='border: 1px solid #ddd; padding: 8px;'>Sản phẩm</th>
-                                    <th style='border: 1px solid #ddd; padding: 8px;'>Số lượng</th>
-                                    <th style='border: 1px solid #ddd; padding: 8px;'>Đơn giá</th>
-                                    <th style='border: 1px solid #ddd; padding: 8px;'>Thành tiền</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${productRows}
-                                <tr>
-                                    <td colspan='3' style='border: 1px solid #ddd; padding: 8px; text-align: right; font-weight: bold;'>Tổng ban đầu:</td>
-                                    <td style='border: 1px solid #ddd; padding: 8px;'>${initialTotal.toLocaleString('en-US')} VND</td>
-                                </tr>
-                                <tr>
-                                    <td colspan='3' style='border: 1px solid #ddd; padding: 8px; text-align: right; font-weight: bold;'>Giảm giá:</td>
-                                    <td style='border: 1px solid #ddd; padding: 8px;'>-${response.discount.toLocaleString('en-US')} VND</td>
-                                </tr>
-                                <tr>
-                                    <td colspan='3' style='border: 1px solid #ddd; padding: 8px; text-align: right; font-weight: bold;'>Tổng cộng:</td>
-                                    <td style='border: 1px solid #ddd; padding: 8px;'>${response.total.toLocaleString('en-US')} VND</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <h3>Phương thức thanh toán: ${response.paymentMethod || 'N/A'}</h3>
-                        <h3>Trạng thái: ${response.status || 'N/A'}</h3>
+                   <div class="container p-4">
+                    <h2 class="text-center text-primary">Chi tiết hóa đơn #${response.invoiceNumber || 'N/A'}</h2>
+                    <div class="mb-4">
+                        <p><strong>Thời gian:</strong> ${response.time ? new Date(response.time).toLocaleString('vi-VN') : 'N/A'}</p>
+                        <p><strong>Địa chỉ giao hàng:</strong> ${response.address || 'N/A'}</p>
+                        <p><strong>Ghi chú từ khách hàng:</strong> ${response.customerNote || 'Không có'}</p>
+                        <p><strong>Số điện thoại:</strong> ${response.phoneNumber || 'N/A'}</p>
+                    </div>
+                    <table style='width: 100%; border-collapse: collapse;'>
+                        <thead>
+                            <tr class='bg-primary text-white'>
+                                <th style='border: 1px solid #ddd; padding: 8px;'>Sản phẩm</th>
+                                <th style='border: 1px solid #ddd; padding: 8px;'>Số lượng</th>
+                                <th style='border: 1px solid #ddd; padding: 8px;'>Đơn giá</th>
+                                <th style='border: 1px solid #ddd; padding: 8px;'>Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${productRows}
+                            <tr>
+                                <td colspan='3' style='border: 1px solid #ddd; padding: 8px; text-align: right; font-weight: bold;'>Tổng ban đầu:</td>
+                                <td style='border: 1px solid #ddd; padding: 8px;'>${initialTotal.toLocaleString('vi-VN')} VND</td>
+                            </tr>
+                            <tr>
+                                <td colspan='3' style='border: 1px solid #ddd; padding: 8px; text-align: right; font-weight: bold;'>Giảm giá:</td>
+                                <td style='border: 1px solid #ddd; padding: 8px;'>-${response.discount.toLocaleString('vi-VN')} VND</td>
+                            </tr>
+                            <tr>
+                                <td colspan='3' style='border: 1px solid #ddd; padding: 8px; text-align: right; font-weight: bold;'>Tổng cộng:</td>
+                                <td style='border: 1px solid #ddd; padding: 8px;'>${response.total.toLocaleString('vi-VN')} VND</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                   <p><strong>Phương thức thanh toán:</strong> ${response.paymentMethod || 'N/A'}</p>
+                    <p><strong>Trạng thái:</strong> <span id="invoice_status" class="badge badge-info">${response.status || 'N/A'}</span></p>
                         <div class='mt-3 my-3 justify-content-around ${response.status !== "Giao hàng thành công" ? 'd-none' : 'd-flex'}' id='div_action'>
                             <button type='button' class='btn btn-success' onclick='ChangeStatusInvoiceCustomer(${response.idInvoice},4)'>Đã nhận đơn hàng</button>
                             <button type='button' class='btn btn-danger'>Chưa nhận được đơn hàng</button>

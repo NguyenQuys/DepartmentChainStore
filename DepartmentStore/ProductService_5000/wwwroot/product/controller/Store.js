@@ -175,12 +175,14 @@ async function OpenModalInvoiceStore(idInvoice, idStatus) {
             }
 
             let bodyDetail = `
-                <div style='width: 100%; font-family: Arial, sans-serif;'>
-                    <h1>Hóa đơn mua hàng #${data.invoiceNumber || 'N/A'}</h1>
-                    <h2>Thời gian: ${data.time ? new Date(data.time).toLocaleString('vi-VN') : 'N/A'}</h2>
-                    <h2>Địa chỉ: ${data.address ?? ''}</h2>
-                    <h2>Ghi chú từ khách hàng: ${data.customerNote ?? ''}</h2>
-                    <h2>Số điện thoại: ${data.phoneNumber}</h2>
+                <div class="container p-4">
+                    <h2 class="text-center text-primary">Chi tiết hóa đơn #${data.invoiceNumber || 'N/A'}</h2>
+                    <div class="mb-4">
+                        <p><strong>Thời gian:</strong> ${data.time ? new Date(data.time).toLocaleString('vi-VN') : 'N/A'}</p>
+                        <p><strong>Địa chỉ giao hàng:</strong> ${data.address || 'N/A'}</p>
+                        <p><strong>Ghi chú từ khách hàng:</strong> ${data.customerNote || 'Không có'}</p>
+                        <p><strong>Số điện thoại:</strong> ${data.phoneNumber || 'N/A'}</p>
+                    </div>
                     <table style='width: 100%; border-collapse: collapse;'>
                         <thead>
                             <tr class='bg-primary text-white'>
@@ -206,21 +208,17 @@ async function OpenModalInvoiceStore(idInvoice, idStatus) {
                             </tr>
                         </tbody>
                     </table>
-                    <h3 class='my-3'>Phương thức thanh toán: ${data.paymentMethod || 'N/A'}</h3>
-                    <h3 class='my-3'>Trạng thái: <span id='invoice_status'>${data.status || 'N/A'}</span></h3>
-                    <div>
-                        <div class='my-3 ${data.status !== "Đang chờ xử lý" ? 'd-none' : 'd-flex'}'>
-                            <h3>Nhân viên giao hàng</h3>
-                            <select id="employee_select" class="form-select"></select>
+                   <p><strong>Phương thức thanh toán:</strong> ${data.paymentMethod || 'N/A'}</p>
+                    <p><strong>Trạng thái:</strong> <span id="invoice_status" class="badge badge-info">${data.status || 'N/A'}</span></p>
+                    <div class="mt-4 ${data.status !== 'Đang chờ xử lý' ? 'd-none' : ''}">
+                        <h5>Nhân viên giao hàng</h5>
+                        <select id="employee_select" class="form-control mb-3"></select>
+                        <h5>Ghi chú</h5>
+                        <input id="note_store_invoice" class="form-control mb-3" type="text" placeholder="Nhập ghi chú">
+                        <div class="d-flex justify-content-around">
+                            <button class="btn btn-success" onclick="ChangeStatusInvoiceStore(${data.idInvoice}, 2)">Hoàn tất đóng gói</button>
+                            <button class="btn btn-danger" onclick="ChangeStatusInvoiceStore(${data.idInvoice}, 5)">Huỷ đơn hàng</button>
                         </div>
-                        <div class='${data.status !== "Đang chờ xử lý" ? 'd-none' : 'd-flex'}'>
-                            <h3>Ghi chú</h3>
-                            <input class='ms-3' id='note_store_invoice' type='text'>
-                        </div>
-                    </div>
-                    <div class='mt-3 my-3 justify-content-around ${data.status !== "Đang chờ xử lý" ? 'd-none' : 'd-flex'}' id='div_action'>
-                        <button type='button' class='btn btn-success' onclick='ChangeStatusInvoiceStore(${data.idInvoice},2)'>Hoàn tất đóng gói</button>
-                        <button type='button' class='btn btn-danger' onclick='ChangeStatusInvoiceStore(${data.idInvoice},5)'>Huỷ đơn hàng</button>
                     </div>
                 </div>
             `;
