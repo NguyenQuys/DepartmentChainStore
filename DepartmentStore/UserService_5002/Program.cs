@@ -1,11 +1,14 @@
 using APIGateway.Utilities;
+using AspNetCoreRateLimit;
 using BranchService_5003.Models;
 using BranchService_5003.Services;
 using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Ocelot.Values;
 using ProductService_5000.Mapper;
+using System.Configuration;
 using System.Text;
 using UserService_5002.Helper;
 using UserService_5002.Models;
@@ -115,6 +118,13 @@ builder.Services.AddCors(options =>
             });
 });
 
+// Rate limited
+builder.Services.AddOptions();
+builder.Services.AddMemoryCache();
+builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
+builder.Services.AddInMemoryRateLimiting();
+builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+
 //+++++++++++++++++++++++ Mapper +++++++++++++++++++++++
 builder.Services.AddAutoMapper(typeof(UserMapper));
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -139,6 +149,9 @@ app.UseSession();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// limit rated
+app.UseIpRateLimiting();
 
 app.MapControllerRoute(
     name: "default",

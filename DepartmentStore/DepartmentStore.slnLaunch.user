@@ -12,11 +12,11 @@
       },
       {
         "Path": "UserService_5002\\UserService_5002.csproj",
-        "Action": "Start"
+        "Action": "StartWithoutDebugging"
       },
       {
         "Path": "APIGateway\\APIGateway.csproj",
-        "Action": "StartWithoutDebugging"
+        "Action": "Start"
       },
       {
         "Path": "BranchService_5003\\BranchService_5003.csproj",

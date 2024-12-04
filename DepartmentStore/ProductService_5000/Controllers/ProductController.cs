@@ -158,6 +158,7 @@ namespace ProductService_5000.Controllers
 
 		[HttpPut]
 		[Authorize(Roles = "1")]
+		[RateLimit(3, "00:00:10")]
 		public async Task<IActionResult> ChangeStatusProduct(int id)
 		{
 			var productToChange = await _s_Product.ChangeStatusProduct(id, _currentUser);
