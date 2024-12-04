@@ -106,7 +106,7 @@ namespace UserService_5002.Services
 
                     await transaction.CommitAsync();
 
-					return "User created successfully";
+					return request.Email;
 				}
 				catch (Exception)
 				{

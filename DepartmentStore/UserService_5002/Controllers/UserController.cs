@@ -52,7 +52,7 @@ namespace UserService_5002.Controllers
             {
                 var result = await _s_User.SignUp(request);
                 Session.SetString(EmailSessionKey, request.Email);
-                return Ok(new { result = 1, message = result});
+                return Ok(new { result = 1, email = result});
             }
             catch (Exception ex)
             {
