@@ -72,7 +72,7 @@ namespace PromotionService_5004.Migrations
 
                     b.HasIndex("IdPromotionType");
 
-                    b.ToTable("Promotions", (string)null);
+                    b.ToTable("Promotions");
                 });
 
             modelBuilder.Entity("PromotionService_5004.Models.PromotionType", b =>
@@ -82,11 +82,12 @@ namespace PromotionService_5004.Migrations
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("PromotionTypes", (string)null);
+                    b.ToTable("PromotionTypes");
                 });
 
             modelBuilder.Entity("PromotionService_5004.Models.Promotion", b =>

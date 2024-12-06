@@ -24,6 +24,7 @@ namespace UserService_5002.Models
 
         public Role Role { get; set; }
 
+        [MaxLength(4)]
         public string? IdBranch { get; set; }
 
         public DateOnly? BeginDate { get; set; }

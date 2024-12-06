@@ -7,10 +7,6 @@
         "Action": "StartWithoutDebugging"
       },
       {
-        "Path": "IdentityServer\\IdentityServer.csproj",
-        "Action": "StartWithoutDebugging"
-      },
-      {
         "Path": "UserService_5002\\UserService_5002.csproj",
         "Action": "StartWithoutDebugging"
       },
@@ -28,6 +24,10 @@
       },
       {
         "Path": "APIGateway\\APIGateway.csproj",
+        "Action": "StartWithoutDebugging"
+      },
+      {
+        "Path": "IdentityServer\\IdentityServer.csproj",
         "Action": "StartWithoutDebugging"
       }
     ]

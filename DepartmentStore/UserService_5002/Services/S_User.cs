@@ -99,10 +99,10 @@ namespace UserService_5002.Services
 
 					var activeCode = await _s_Otp.GenerateOTP(request.Email);
 
-                    //_sendMailSMTP.SendMail(
-                    //    newUserOtherInfo.Email,
-                    //    "Tạo tài khoản Department Store",
-                    //    GenerateEmailBody(newUserOtherInfo.FullName, activeCode));
+                    await _sendMailSMTP.SendMail(
+                        newUserOtherInfo.Email,
+                        "Tạo tài khoản Department Store",
+                        GenerateEmailBody(newUserOtherInfo.FullName, activeCode));
 
                     await transaction.CommitAsync();
 

@@ -65,7 +65,6 @@ async function RenderBranchTable() {
     }
 }
 
-
 // Open Modal branch
 function OpenModalBranch(type, branchId = null) {
     let modalBranchTitle = $('#modal_title_branch');

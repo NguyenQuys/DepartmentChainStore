@@ -117,7 +117,8 @@ namespace InvoiceService_5005.Migrations
 
                     b.Property<string>("Method")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
