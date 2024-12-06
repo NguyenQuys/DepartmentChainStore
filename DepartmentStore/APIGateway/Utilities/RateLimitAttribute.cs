@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using System;
 
 [AttributeUsage(AttributeTargets.Method)]
 public class RateLimitAttribute : ActionFilterAttribute
@@ -27,10 +28,10 @@ public class RateLimitAttribute : ActionFilterAttribute
 				context.Result = new JsonResult(new
 				{
 					success = false,
-					message = "API calls quota exceeded! Maximum admitted is " + MaxRequests + " per " + TimeWindow.TotalSeconds + " seconds."
+					message = "Số yêu cầu vượt quá giới hạn cho phép. Chỉ cho phép tối đa " + MaxRequests + " mỗi " + TimeWindow.TotalSeconds + " giây"
 				})
 				{
-					StatusCode = StatusCodes.Status429TooManyRequests
+					StatusCode = 429
 				};
 				return;
 			}
@@ -42,4 +43,3 @@ public class RateLimitAttribute : ActionFilterAttribute
 		}
 	}
 }
-

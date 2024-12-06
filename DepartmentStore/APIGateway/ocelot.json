@@ -134,7 +134,7 @@
         }
       ],
       "UpstreamPathTemplate": "/Statistic/{action}",
-      "UpstreamHttpMethod": [ "GET", "POST"]
+      "UpstreamHttpMethod": [ "GET" ]
     }
     //++++++++++++++5005 Ends+++++++++++++
   ],

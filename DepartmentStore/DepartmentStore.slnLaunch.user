@@ -15,10 +15,6 @@
         "Action": "StartWithoutDebugging"
       },
       {
-        "Path": "APIGateway\\APIGateway.csproj",
-        "Action": "Start"
-      },
-      {
         "Path": "BranchService_5003\\BranchService_5003.csproj",
         "Action": "StartWithoutDebugging"
       },
@@ -28,6 +24,10 @@
       },
       {
         "Path": "InvoiceService_5005\\InvoiceService_5005.csproj",
+        "Action": "StartWithoutDebugging"
+      },
+      {
+        "Path": "APIGateway\\APIGateway.csproj",
         "Action": "StartWithoutDebugging"
       }
     ]

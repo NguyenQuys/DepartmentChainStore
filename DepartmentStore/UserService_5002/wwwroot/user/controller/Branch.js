@@ -539,7 +539,6 @@ async function RenderTableInvoice(idBranch) {
     }
 }
 
-
 function ChangeStatusInvoice(idInvoice, idStatus) {
     let confirmationMessage = '';
     if (idStatus === 2) {
