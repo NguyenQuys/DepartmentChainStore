@@ -122,7 +122,6 @@ function RenderCartTable() {
                         <td class="image-prod"><div class="img" style="background-image:url(${cart.mainImage});"></div></td>
                         <td class="product-name">
                             <h3>${cart.productName}</h3>
-                            <p>Far far away, behind the word mountains, far from the countries</p>
                         </td>
                         <td class="price-cart" id="single_price_cart">${cart.price.toLocaleString('vi-VN')}</td>
                         <input type="hidden" value="${cart.price}" class="price-cart-hidden">
