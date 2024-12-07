@@ -21,7 +21,7 @@ builder.Services.AddDbContext<BranchDBContext>(options =>
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        options.Authority = "https://localhost:5001"; // IdentityServer URL
+        options.Authority = "https://localhost:7076";
         options.Audience = "BranchService_5003";
         options.RequireHttpsMetadata = false; // Set to true in production
 

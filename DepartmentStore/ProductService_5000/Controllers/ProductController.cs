@@ -1,6 +1,5 @@
 ﻿using APIGateway.Response;
 using APIGateway.Utilities;
-using IdentityServer.Constant;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;

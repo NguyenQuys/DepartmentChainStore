@@ -2,7 +2,6 @@
 using APIGateway.Utilities;
 using AutoMapper;
 using BranchService_5003.Models;
-using IdentityServer.Constant;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Data;

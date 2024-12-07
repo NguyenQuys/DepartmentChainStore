@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using ProductService_5000.Models;
 using PromotionService_5004.Models;
 using System.Text.Json;
-using IdentityServer4.Models;
 
 namespace InvoiceService_5005.Services
 {

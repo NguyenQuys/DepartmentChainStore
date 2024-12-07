@@ -1,6 +1,5 @@
 ﻿using APIGateway.Response;
 using AutoMapper;
-using IdentityServer.Constant;
 using Microsoft.EntityFrameworkCore;
 using ProductService_5000.Models;
 using ProductService_5000.Request;

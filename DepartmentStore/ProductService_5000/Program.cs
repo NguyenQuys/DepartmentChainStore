@@ -29,7 +29,7 @@ builder.Services.AddAutoMapper(typeof(BatchMapper));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        options.Authority = "https://localhost:5001"; // IdentityServer URL
+        options.Authority = "https://localhost:7076"; 
         options.Audience = "ProductService_5000";
         options.RequireHttpsMetadata = false; // Set to true in production
 

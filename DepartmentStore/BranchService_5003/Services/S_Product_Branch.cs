@@ -3,7 +3,6 @@ using AutoMapper;
 using BranchService_5003.Models;
 using BranchService_5003.Response;
 using EFCore.BulkExtensions;
-using IdentityServer.Constant;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;

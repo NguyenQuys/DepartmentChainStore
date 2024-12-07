@@ -63,18 +63,18 @@ builder.Services.AddAuthentication(options =>
 // Register your services (same as before)
 builder.Services.AddHttpClient("APIGateway", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:5001/");
+    client.BaseAddress = new Uri("https://localhost:7076/");
 });
 
-builder.Services.AddHttpClient("ProductService", client =>
-{
-    client.BaseAddress = new Uri("https://localhost:5000/");
-});
+//builder.Services.AddHttpClient("ProductService", client =>
+//{
+//    client.BaseAddress = new Uri("https://localhost:5000/");
+//});
 
 builder.Services.AddSingleton<IDiscoveryCache>(sp =>
 {
     var factory = sp.GetRequiredService<IHttpClientFactory>();
-    return new DiscoveryCache("https://localhost:5001", () => factory.CreateClient());
+    return new DiscoveryCache("https://localhost:7076", () => factory.CreateClient());
 });
 
 builder.Services.AddSession();
@@ -90,18 +90,18 @@ builder.Services.AddScoped<IS_OTP, S_OTP>();
 builder.Services.AddScoped<CurrentUserHelper>();
 
 // Add Authorization
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("UserServicePolicy", policy =>
-    {
-        policy.RequireClaim("scope", "UserService_5002");
-    });
-    options.AddPolicy("RequireAdminRole", policy =>
-    {
-        policy.RequireAuthenticatedUser();
-        //policy.RequireRole("1");
-    });
-});
+//builder.Services.AddAuthorization(options =>
+//{
+//    options.AddPolicy("UserServicePolicy", policy =>
+//    {
+//        policy.RequireClaim("scope", "UserService_5002");
+//    });
+//    options.AddPolicy("RequireAdminRole", policy =>
+//    {
+//        policy.RequireAuthenticatedUser();
+//        //policy.RequireRole("1");
+//    });
+//});
 
 builder.Services.AddSingleton<IJwtHelper, JwtHelper>();
 

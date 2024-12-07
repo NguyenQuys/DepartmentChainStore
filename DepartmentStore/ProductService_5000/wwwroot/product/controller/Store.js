@@ -100,7 +100,7 @@ async function RenderTableInvoice(idStatus = null) {
                     <tr>
                         <td>${index + 1}</td>
                         <td>${invoice.invoiceNumber || 'N/A'}</td>
-                        <td>${invoice.createdDate || 'N/A'}</td>
+                        <td>${invoice.createdDate ? new Date(invoice.createdDate).toLocaleString('vi-VN') : 'N/A'}</td>
                         <td>${invoice.status?.type || 'N/A'}</td>
                         <td>
                             <a href="javascript:void(0)" class="btn btn-primary" onclick="OpenModalInvoiceStore(${invoice.id}, ${idStatus})">Chi tiết</a>
