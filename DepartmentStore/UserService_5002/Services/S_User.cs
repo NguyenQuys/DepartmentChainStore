@@ -428,10 +428,10 @@ namespace UserService_5002.Services
             }
 
 			var oTPCode = await _s_Otp.GenerateOTP(email);
-			//await _sendMailSMTP.SendMail(
-			//	email,
-   //             "Gửi lại mã OTP kích hoạt",
-   //             GenerateEmailBody(existingUser.FullName, oTPCode));
+            await _sendMailSMTP.SendMail(
+                email,
+                "Gửi lại mã OTP kích hoạt",
+                GenerateEmailBody(existingUser.FullName, oTPCode));
             return "Mã OTP đã được gửi qua email của bạn";
 		}
 	}

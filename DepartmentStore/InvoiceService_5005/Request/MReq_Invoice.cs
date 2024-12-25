@@ -10,6 +10,7 @@
         public int SumPrice { get; set; }
         public int IdPaymentMethod { get; set; }
         public int IdBranch { get; set; }
+        public string? CustomerNote { get; set; }
         public string? CustomerPhoneNumber { get; set; }
         public string? CustomerName { get; set; }
     }

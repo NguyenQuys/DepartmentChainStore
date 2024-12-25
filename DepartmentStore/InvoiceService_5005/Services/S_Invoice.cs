@@ -323,7 +323,6 @@ namespace InvoiceService_5005.Services
 			{
 				invoiceToChangeStatus.IdEmployeeShip = request.EmployeeShip;
 			}
-
 			invoiceToChangeStatus.IdStatus = request.IdStatus;
 			invoiceToChangeStatus.StoreNote = request.StoreNote;
 
@@ -341,7 +340,6 @@ namespace InvoiceService_5005.Services
 
 			return message;
 		}
-
 
 		public async Task<List<MRes_InvoiceEmail>> GetListInvoiceByIdShipper(int idShipper)
 		{
@@ -419,7 +417,6 @@ namespace InvoiceService_5005.Services
 
 			await client.PutAsync("/Product_Branch/RevertProductsAndQuantitesOnCancel", content);
 		}
-
 
 		private string GetPaymentPrefix(int paymentMethodId) => paymentMethodId switch
 		{

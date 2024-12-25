@@ -125,7 +125,6 @@ function OpenModalConfirmInformation(idUser) {
                     $('#input_customerName').val(response.fullName);
                     $('#input_phoneNumber').val(response.phoneNumber);
                     $('#input_email').val(response.email);
-
                     $('#modal_information').modal('show');
                 },
 
@@ -158,7 +157,7 @@ function AddInvoice() {
     formData.append('CustomerPhoneNumber', $('#input_phoneNumber').val());
     formData.append('CustomerName', $('#input_customerName').val());
     formData.append('Address', $('#input_address').val());
-
+    formData.append('CustomerNote', $('#input_noteCustomer').val());
     $.ajax({
         url: '/Invoice/AddAtStoreOnline',
         type: 'POST',
@@ -323,7 +322,7 @@ function OpenModalHistoryPurchase(idInvoice) {
                     <p><strong>Trạng thái:</strong> <span id="invoice_status" class="badge badge-info">${response.status || 'N/A'}</span></p>
                         <div class='mt-3 my-3 justify-content-around ${response.status !== "Giao hàng thành công" ? 'd-none' : 'd-flex'}' id='div_action'>
                             <button type='button' class='btn btn-success' onclick='ChangeStatusInvoiceCustomer(${response.idInvoice},4)'>Đã nhận đơn hàng</button>
-                            <button type='button' class='btn btn-danger'>Chưa nhận được đơn hàng</button>
+                            <button type='button' class='btn btn-danger' onclick='ChangeStatusInvoiceCustomer(${response.idInvoice},8)'>Chưa nhận được đơn hàng</button>
                         </div>
                     </div>
                 `;
@@ -584,13 +583,14 @@ async function ChangeStatusInvoiceCustomer(idInvoice, idStatus) {
 
                 const invoiceStatus = document.getElementById('invoice_status');
                 if (invoiceStatus) {
-                    invoiceStatus.textContent = idStatus === 3 ? 'Nhận hàng thành công' : 'Đơn hàng đã hủy';
-                    invoiceStatus.className = idStatus === 3 ? 'text-success' : 'text-danger';
+                    invoiceStatus.textContent = idStatus === 4 ? 'Nhận hàng thành công' : 'Đơn hàng đã hủy';
+                    invoiceStatus.className = idStatus === 4 ? 'text-success' : 'text-danger';
                 }
 
                 document.getElementById('div_action')?.classList.add('d-none');
                 $('.modal-shipper').modal('hide');
-                RenderOrderList(); // Re-render the list
+                RenderOrderList();
+                window.location.href = '/Cart/HistoryPurchase';
             } else {
                 ShowToastNoti('error', 'Error', 'Có lỗi xảy ra, vui lòng thử lại!', 4000);
             }

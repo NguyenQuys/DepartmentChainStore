@@ -205,7 +205,7 @@ function OpenModalBatch(type, batchId = null) {
     new bootstrap.Modal(document.getElementById('modal_batch')).show();
 }
 
-function AddBatch() {
+async function AddBatch() {
     const formData = new FormData();
     formData.append('BatchNumber', $('#batchNumber').val());
     formData.append('IdProduct', $('#productId_batch').val());
@@ -214,26 +214,30 @@ function AddBatch() {
     formData.append('ImportDate', $('#importDate').val());
     formData.append('Receiver', $('#receiver_batch').val());
 
-    $.ajax({
-        url: '/Batch/Create',
-        type: 'POST',
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function (response) {
-            if (response.result === 1) {
-                ShowToastNoti('success', '', response.message, 4000, 'topRight');
-                $('#modal_batch').modal('hide');
-                RenderBatchTable($('#productId_batch').val());
-            } else {
-                ShowToastNoti('error', '', response.message, 4000, 'topRight');
-            }
-        },
-        error: function () {
-            ShowToastNoti('error', '', 'Không thể thêm lô hàng', 4000, 'topRight');
+    try {
+        const response = await fetch('/Batch/Create', {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error('Có lỗi xảy ra khi gửi yêu cầu');
         }
-    });
+
+        const result = await response.json();
+
+        if (result.result === 1) {
+            ShowToastNoti('success', '', result.message || 'Tạo lô hàng thành công', 4000, 'topRight');
+            $('#modal_batch').modal('hide');
+            RenderBatchTable();
+        } else {
+            ShowToastNoti('error', '', result.message || 'Không thể thêm lô hàng', 4000, 'topRight');
+        }
+    } catch (error) {
+        ShowToastNoti('error', '', error.message || 'Không thể thêm lô hàng', 4000, 'topRight');
+    }
 }
+
 
 function UpdateBatch(idBatch) {
     const formDataBatch = new FormData();
@@ -269,8 +273,8 @@ function UpdateBatch(idBatch) {
 function RemoveBatch(batchId) {
     if (confirm('Bạn có chắc chắn muốn xóa lô hàng này?')) {
         $.ajax({
-            url: '/Batch/Delete',
-            type: 'POST',
+            url: '/Batch/DeleteById',
+            type: 'DELETE',
             data: { id: batchId },
             success: function (response) {
                 if (response.result === 1) {
