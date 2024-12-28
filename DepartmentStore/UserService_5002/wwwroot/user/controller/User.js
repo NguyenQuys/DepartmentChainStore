@@ -1,5 +1,5 @@
 ﻿function RenderCustomerTable() {
-    $('#div_table_product,#div_table_batch,#div_table_branch,#div_table_promotion').hide();
+    $('#div_table_product,#div_table_batch,#div_table_branch,#div_table_promotion,#div_table_export').hide();
     $('#div_table_customer').show();
 
     let tableBody = '';
@@ -73,7 +73,8 @@ function OpenModalDetailCustomer(idCustomer) {
 }
 
 $(document).ready(function () {
-    $(document).on('click', '.toggle-status-customer', function () {
+    // Gỡ bỏ sự kiện trước khi gắn lại để tránh bị gọi nhiều lần
+    $(document).off('click', '.toggle-status-customer').on('click', '.toggle-status-customer', function () {
         var customerId = $(this).data('customer-id');
         ChangeStatusCustomer(customerId);
     });
@@ -92,6 +93,7 @@ function ChangeStatusCustomer(customerId) {
         }
     });
 }
+
 
 function RenderSignUpBody(action) {
     let body = '';

@@ -1,5 +1,5 @@
 ﻿function ShowContentExport() {
-    $('#div_table_product, #div_table_branch, #div_table_batch,#div_table_promotion').hide();
+    $('#div_table_product, #div_table_branch, #div_table_batch,#div_table_promotion,#div_table_customer').hide();
     $('#div_table_export').show().html(`
         <div class='container-fluid'>
             <div class="row my-4">
