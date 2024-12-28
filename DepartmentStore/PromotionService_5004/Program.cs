@@ -18,7 +18,7 @@ builder.Services.AddDbContext<PromotionDbContext>(options =>
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        options.Authority = "https://localhost:5001"; // IdentityServer URL
+        options.Authority = "https://localhost:7076"; 
         options.Audience = "PromotionService_5004";
         options.RequireHttpsMetadata = false;
 

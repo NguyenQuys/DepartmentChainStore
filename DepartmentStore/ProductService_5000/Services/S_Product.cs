@@ -231,75 +231,93 @@ namespace ProductService_5000.Services
             return message;
         }
 
-        public async Task<string> UploadProductByExcel(IFormFile file, MRes_InfoUser currentUser)
-        {
-            if (file == null || file.Length == 0)
-            {
-                return "Không có file upload";
-            }
+		public async Task<string> UploadProductByExcel(IFormFile file, MRes_InfoUser currentUser)
+		{
+			if (file == null || file.Length == 0)
+			{
+				return "Không có file upload";
+			}
 
-            var products = new List<Product>();
+			var products = new List<Product>();
+			var errorMessages = new List<string>(); // Lưu trữ thông báo lỗi
+			var categories = await _context.CategoryProducts.ToListAsync();
 
-            var categories = await _context.CategoryProducts.ToListAsync();
+			using (var stream = new MemoryStream())
+			{
+				await file.CopyToAsync(stream);
+				using (var package = new ExcelPackage(stream))
+				{
+					var worksheet = package.Workbook.Worksheets[0];
+					var rowCount = worksheet.Dimension.Rows;
 
-            using (var stream = new MemoryStream())
-            {
-                await file.CopyToAsync(stream);
-                using (var package = new ExcelPackage(stream))
-                {
-                    var worksheet = package.Workbook.Worksheets[0];
-                    var rowCount = worksheet.Dimension.Rows;
+					for (int row = 2; row <= rowCount; row++)
+					{
+						try
+						{
+							var productName = worksheet.Cells[row, 1].Text?.Trim();
+							if (string.IsNullOrEmpty(productName))
+							{
+								errorMessages.Add($"Dòng {row}, Cột 1: Tên sản phẩm không được để trống.");
+								continue;
+							}
 
-                    for (int row = 2; row <= rowCount; row++)
-                    {
-                        var productName = worksheet.Cells[row, 1].Text?.Trim();
-                        if (string.IsNullOrEmpty(productName))
-                        {
-                            continue;
-                        }
+							if (!double.TryParse(worksheet.Cells[row, 2].Value?.ToString(), out double price))
+							{
+								errorMessages.Add($"Dòng {row}, Cột 2: Giá sản phẩm không hợp lệ.");
+								continue;
+							}
 
-                        if (!double.TryParse(worksheet.Cells[row, 2].Value?.ToString(), out double price))
-                        {
-                            continue;
-                        }
+							var categoryName = worksheet.Cells[row, 3].Text?.Trim();
+							if (string.IsNullOrEmpty(categoryName))
+							{
+								errorMessages.Add($"Dòng {row}, Cột 3: Tên phân loại không được để trống.");
+								continue;
+							}
 
-                        var categoryName = worksheet.Cells[row, 3].Text?.Trim();
-                        if (string.IsNullOrEmpty(categoryName))
-                        {
-                            continue;
-                        }
+							// Dò tìm `Id` của `Category` dựa trên tên
+							var category = categories.FirstOrDefault(c => c.Type.Equals(categoryName));
+							if (category == null)
+							{
+								errorMessages.Add($"Dòng {row}, Cột 3: Không tồn tại phân loại '{categoryName}' trong cơ sở dữ liệu.");
+								continue;
+							}
 
-                        // Dò tìm `Id` của `Category` dựa trên tên
-                        var category = categories.FirstOrDefault(c => c.Type.Equals(categoryName));
-                        if (category == null)
-                        {
-                            throw new Exception($"Không tồn tại phân loại '{categoryName}' trong cơ sở dữ liệu");
-                        }
+							var newProduct = new Product
+							{
+								ProductName = productName,
+								Price = (int)price,
+								CategoryId = category.Id, 
+								UpdatedBy = int.Parse(currentUser.IdUser),
+								UpdatedTime = DateTime.Now,
+								IsHide = false
+							};
 
-                        var newProduct = new Product
-                        {
-                            ProductName = productName,
-                            Price = (int)price,
-                            CategoryId = category.Id, // Lấy `Id` từ `Category`
-                            UpdatedBy = int.Parse(currentUser.IdUser),
-                            UpdatedTime = DateTime.Now,
-                            IsHide = false
-                        };
+							products.Add(newProduct);
+						}
+						catch (Exception ex)
+						{
+							errorMessages.Add($"Dòng {row}: {ex.Message}");
+						}
+					}
 
-                        products.Add(newProduct);
-                    }
+					if (products.Count > 0)
+					{
+						await _context.BulkInsertOrUpdateAsync(products);
+					}
+				}
+			}
 
-                    if (products.Count > 0)
-                    {
-                        await _context.BulkInsertOrUpdateAsync(products);
-                    }
-                }
-            }
-            return $"Nhập dữ liệu {products.Count} dòng từ file Excel thành công";
-        }
+			if (errorMessages.Any())
+			{
+				throw new Exception($"Có lỗi trong quá trình xử lý file Excel:\n{string.Join("\n", errorMessages)}");
+			}
+
+			return $"Nhập dữ liệu {products.Count} dòng từ file Excel thành công.";
+		}
 
 
-        public async Task<List<Product>> SearchProduct(string productNameImput)
+
+		public async Task<List<Product>> SearchProduct(string productNameImput)
         {
             if(productNameImput == null)
             {

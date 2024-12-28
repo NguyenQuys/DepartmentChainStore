@@ -5,8 +5,6 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService_5000", "ProductService_5000\ProductService_5000.csproj", "{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer", "IdentityServer\IdentityServer.csproj", "{DBED7949-F3B0-49AA-AC66-F81DC566621E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService_5002", "UserService_5002\UserService_5002.csproj", "{EF075517-928E-49E0-949B-47616C538F15}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIGateway", "APIGateway\APIGateway.csproj", "{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}"
@@ -29,10 +27,6 @@ Global
 		{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DBED7949-F3B0-49AA-AC66-F81DC566621E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DBED7949-F3B0-49AA-AC66-F81DC566621E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DBED7949-F3B0-49AA-AC66-F81DC566621E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DBED7949-F3B0-49AA-AC66-F81DC566621E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EF075517-928E-49E0-949B-47616C538F15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EF075517-928E-49E0-949B-47616C538F15}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF075517-928E-49E0-949B-47616C538F15}.Release|Any CPU.ActiveCfg = Release|Any CPU

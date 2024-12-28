@@ -1,6 +1,5 @@
 ﻿using APIGateway.Response;
 using APIGateway.Utilities;
-using IdentityServer.Constant;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
@@ -158,11 +157,13 @@ namespace ProductService_5000.Controllers
 
 		[HttpPut]
 		[Authorize(Roles = "1")]
+		[RateLimit(3, "00:01:00")]
 		public async Task<IActionResult> ChangeStatusProduct(int id)
 		{
-			var productToChange = await _s_Product.ChangeStatusProduct(id, _currentUser);
-			return Json(productToChange);
+			string productToChange = await _s_Product.ChangeStatusProduct(id, _currentUser);
+			return Json(new { success = true, data = productToChange });
 		}
+
 
 		[Authorize(Roles = "1")]
 		[HttpDelete]

@@ -1,6 +1,5 @@
 ﻿using APIGateway.Response;
 using AutoMapper;
-using IdentityServer.Constant;
 using Microsoft.EntityFrameworkCore;
 using ProductService_5000.Models;
 using ProductService_5000.Request;
@@ -83,7 +82,7 @@ namespace ProductService_5000.Services
         public async Task<Batch> Create(Batch batchRequest)
         {
             if (batchRequest.ExpiryDate.ToDateTime(new TimeOnly(0, 0)) < batchRequest.ImportDate)
-                throw new Exception("Ngày nhập hàng phải lớn hơn hạn sử dụng");
+                throw new Exception("Ngày nhập hàng phải bé hơn hạn sử dụng");
 
             var checkIfUsed = await _context.Batches.AnyAsync(m=>m.BatchNumber.Equals(batchRequest.BatchNumber));
             if (checkIfUsed)
@@ -101,7 +100,7 @@ namespace ProductService_5000.Services
         public async Task<string> Update(Batch batchRequest)
         {
             if (batchRequest.ExpiryDate.ToDateTime(new TimeOnly(0, 0)) < batchRequest.ImportDate)
-                throw new Exception("Ngày nhập hàng phải lớn hơn hạn sử dụng");
+                throw new Exception("Ngày nhập hàng phải bé hơn hạn sử dụng");
 
             var batchToUpdate = await _context.Batches.FirstOrDefaultAsync(m => m.Id == batchRequest.Id);
             if (batchToUpdate == null)

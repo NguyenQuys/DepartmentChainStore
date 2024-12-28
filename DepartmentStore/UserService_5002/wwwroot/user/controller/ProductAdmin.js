@@ -12,7 +12,6 @@ function HandleTabClick(categoryId, tabId, idRole) {
     ActiveTogglePills(tabId);
 }
 
-
 function ActiveTogglePills(tabId) {
     $('.nav-link').removeClass('bg-primary text-white');
     $('#' + tabId).addClass('bg-primary text-white');
@@ -133,11 +132,16 @@ function ChangeStatusProduct(productId) {
         type: 'PUT',
         data: { id: productId },
         success: function (response) {
-            ShowToastNoti('success', '', response, 4000,'topRight');
+            ShowToastNoti('success', '', 'Thay đổi trạng thái thành công', 4000, 'topRight');
         },
         error: function (xhr, status, error) {
-            console.error('Error changing product status:', error);
-            alert('Có lỗi xảy ra khi gửi yêu cầu');
+            var errorMessage = 'Có lỗi xảy ra khi gửi yêu cầu';
+
+            // If the server responded with a message, use it
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                errorMessage = xhr.responseJSON.message;
+            }
+            ShowToastNoti('error', 'Lỗi 429', errorMessage, 4000, 'topRight');
         }
     });
 }
@@ -193,7 +197,6 @@ function addProduct() {
         }
     });
 }
-
 
 // Function to open the add/update product modal
 function OpenModalProduct(type, productId = null) {
@@ -278,8 +281,6 @@ function updateProduct(productId) {
         }
     });
 }
-
-
 
 // Remove a product
 function RemoveProduct(idProduct) {

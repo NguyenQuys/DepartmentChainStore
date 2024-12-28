@@ -91,7 +91,8 @@ namespace UserService_5002.Migrations
                         .HasColumnType("tinyint");
 
                     b.Property<string>("IdBranch")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(4)
+                        .HasColumnType("nvarchar(4)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");

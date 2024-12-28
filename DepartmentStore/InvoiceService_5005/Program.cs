@@ -22,7 +22,7 @@ builder.Services.AddDbContext<InvoiceDbContext>(options =>
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	.AddJwtBearer(options =>
 	{
-		options.Authority = "https://localhost:5001"; // IdentityServer URL
+		options.Authority = "https://localhost:7076"; 
 		options.Audience = "InvoiceService_5005";
 		options.RequireHttpsMetadata = false; // Set to true in production
 

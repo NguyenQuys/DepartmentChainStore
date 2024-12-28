@@ -65,7 +65,6 @@ async function RenderBranchTable() {
     }
 }
 
-
 // Open Modal branch
 function OpenModalBranch(type, branchId = null) {
     let modalBranchTitle = $('#modal_title_branch');
@@ -538,7 +537,6 @@ async function RenderTableInvoice(idBranch) {
             </div>`;
     }
 }
-
 
 function ChangeStatusInvoice(idInvoice, idStatus) {
     let confirmationMessage = '';

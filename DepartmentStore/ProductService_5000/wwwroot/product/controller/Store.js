@@ -96,14 +96,24 @@ async function RenderTableInvoice(idStatus = null) {
             tableBody = '<tr><td colspan="6" class="text-center">Không có dữ liệu để hiển thị</td></tr>';
         } else {
             data.forEach((invoice, index) => {
+                let rowClass = '';
+
+                if (invoice.idPaymentMethod === 1) {
+                    rowClass = 'bg-info text-white';
+                }
+
+                if (invoice.idStatus === 8) {
+                    rowClass = 'bg-warning text-white'; 
+                }
+
                 tableBody += `
-                    <tr>
+                    <tr class="${rowClass}">
                         <td>${index + 1}</td>
                         <td>${invoice.invoiceNumber || 'N/A'}</td>
-                        <td>${invoice.createdDate || 'N/A'}</td>
+                        <td>${invoice.createdDate ? new Date(invoice.createdDate).toLocaleString('vi-VN') : 'N/A'}</td>
                         <td>${invoice.status?.type || 'N/A'}</td>
                         <td>
-                            <a href="javascript:void(0)" class="btn btn-primary" onclick="OpenModalInvoiceStore(${invoice.id}, ${idStatus})">Chi tiết</a>
+                            <a href="javascript:void(0)" class="btn btn-danger" onclick="OpenModalInvoiceStore(${invoice.id}, ${idStatus})">Chi tiết</a>
                         </td>
                     </tr>
                 `;
@@ -113,7 +123,7 @@ async function RenderTableInvoice(idStatus = null) {
         $('#div_content_store').html(`
             <table class="table table-striped">
                 <thead>
-                    <tr class="bg-primary text-white">
+                    <tr class="text-white bg-primary">
                         <th>STT</th>
                         <th>Mã đơn hàng</th>
                         <th>Thời gian</th>
@@ -134,9 +144,6 @@ async function RenderTableInvoice(idStatus = null) {
 }
 
 async function OpenModalInvoiceStore(idInvoice, idStatus) {
-    if (idStatus === 1) {
-        RenderEmployee();
-    }
     try {
         const response = await fetch(`/Invoice/GetDetailsInvoice?id=${idInvoice}`, {
             method: 'GET',
@@ -174,6 +181,15 @@ async function OpenModalInvoiceStore(idInvoice, idStatus) {
                 productRows = '<tr><td colspan="4" style="text-align: center; padding: 8px;">Không có sản phẩm</td></tr>';
             }
 
+            let buttonsHTML = '';
+            if (data.paymentMethod === "Nhận tại cửa hàng") {
+                buttonsHTML += `<button class="btn btn-success" onclick="ChangeStatusInvoiceStore(${data.idInvoice}, 4)">Hoàn tất đơn hàng</button>`;
+            } else {
+                buttonsHTML += `
+                <button class="btn btn-success" onclick="ChangeStatusInvoiceStore(${data.idInvoice}, 2)">Hoàn tất đóng gói</button>
+            `;
+            }
+
             let bodyDetail = `
                 <div class="container p-4">
                     <h2 class="text-center text-primary">Chi tiết hóa đơn #${data.invoiceNumber || 'N/A'}</h2>
@@ -208,15 +224,21 @@ async function OpenModalInvoiceStore(idInvoice, idStatus) {
                             </tr>
                         </tbody>
                     </table>
-                   <p><strong>Phương thức thanh toán:</strong> ${data.paymentMethod || 'N/A'}</p>
+                    <p><strong>Phương thức thanh toán:</strong> ${data.paymentMethod || 'N/A'}</p>
                     <p><strong>Trạng thái:</strong> <span id="invoice_status" class="badge badge-info">${data.status || 'N/A'}</span></p>
                     <div class="mt-4 ${data.status !== 'Đang chờ xử lý' ? 'd-none' : ''}">
-                        <h5>Nhân viên giao hàng</h5>
-                        <select id="employee_select" class="form-control mb-3"></select>
+                        ${data.paymentMethod !== 'Nhận tại cửa hàng' ? `
+                            <h5>Nhân viên giao hàng</h5>
+                            <select id="employee_select" class="form-control mb-3">
+                                <option selected disabled value="">Chọn nhân viên giao hàng</option>
+                                <option value="22">emvvn1</option>
+                                <option value="23">emvvn2</option>
+                            </select>
+                        ` : ''}
                         <h5>Ghi chú</h5>
                         <input id="note_store_invoice" class="form-control mb-3" type="text" placeholder="Nhập ghi chú">
                         <div class="d-flex justify-content-around">
-                            <button class="btn btn-success" onclick="ChangeStatusInvoiceStore(${data.idInvoice}, 2)">Hoàn tất đóng gói</button>
+                            ${buttonsHTML}
                             <button class="btn btn-danger" onclick="ChangeStatusInvoiceStore(${data.idInvoice}, 5)">Huỷ đơn hàng</button>
                         </div>
                     </div>
@@ -235,39 +257,40 @@ async function OpenModalInvoiceStore(idInvoice, idStatus) {
     }
 }
 
-async function RenderEmployee() {
-    try {
-        const response = await fetch(`/User/GetEmployeesByIdBranch?idBranch=${global_idBranch}`, {
-            method: 'GET'
-        });
 
-        if (response.ok) {
-            const employees = await response.json(); 
-            const selectElement = document.getElementById('employee_select'); 
+//async function RenderEmployee() {
+//    try {
+//        const response = await fetch(`/User/GetEmployeesByIdBranch?idBranch=${global_idBranch}`, {
+//            method: 'GET'
+//        });
 
-            selectElement.innerHTML = '';
+//        if (response.ok) {
+//            const employees = await response.json(); 
+//            const selectElement = document.getElementById('employee_select'); 
 
-            const defaultOption = document.createElement('option');
-            defaultOption.value = '';
-            defaultOption.textContent = 'Chọn nhân viên giao hàng';
-            selectElement.appendChild(defaultOption);
+//            selectElement.innerHTML = '';
 
-            // Populate the select element with employee data
-            employees.forEach(employee => {
-                const option = document.createElement('option');
-                option.value = employee.id; 
-                option.textContent = employee.name; 
-                selectElement.appendChild(option);
-            });
-        } else {
-            console.error('Failed to fetch employees:', response.statusText);
-            alert('Không thể tải danh sách nhân viên. Vui lòng thử lại sau.');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Đã xảy ra lỗi khi tải danh sách nhân viên.');
-    }
-}
+//            const defaultOption = document.createElement('option');
+//            defaultOption.value = '';
+//            defaultOption.textContent = 'Chọn nhân viên giao hàng';
+//            selectElement.appendChild(defaultOption);
+
+//            // Populate the select element with employee data
+//            employees.forEach(employee => {
+//                const option = document.createElement('option');
+//                option.value = employee.id; 
+//                option.textContent = employee.name; 
+//                selectElement.appendChild(option);
+//            });
+//        } else {
+//            console.error('Failed to fetch employees:', response.statusText);
+//            alert('Không thể tải danh sách nhân viên. Vui lòng thử lại sau.');
+//        }
+//    } catch (error) {
+//        console.error('Error:', error);
+//        alert('Đã xảy ra lỗi khi tải danh sách nhân viên.');
+//    }
+//}
 
 async function ChangeStatusInvoiceStore(idInvoice, idStatus) {
     let confirmationMessage = '';
@@ -293,7 +316,7 @@ async function ChangeStatusInvoiceStore(idInvoice, idStatus) {
         const data = {
             IdInvoice: idInvoice,
             IdStatus: idStatus,
-            EmployeeShip: document.getElementById('employeeShip_invoice')?.value || null,
+            EmployeeShip: document.getElementById('employee_select')?.value || null,
             StoreNote: document.getElementById('note_store_invoice')?.value || null
         };
 
@@ -326,6 +349,7 @@ async function ChangeStatusInvoiceStore(idInvoice, idStatus) {
                 }
                 $('.modal-store').modal('hide');
                 RenderTableInvoice(1);
+                
             } else {
                 console.error('Failed to update status:', response.statusText);
                 ShowToastNoti('error', 'Error', 'Có lỗi xảy ra, vui lòng thử lại!', 4000);

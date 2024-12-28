@@ -90,6 +90,13 @@
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
       "AddHeadersToDownstream": {
         "Authorization": "{Headers.Authorization}"
+      },
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "10s",
+        "PeriodTimespan": 1,
+        "Limit": 3
       }
     },
     //++++++++++++++5005 Starts+++++++++++++
@@ -127,7 +134,7 @@
         }
       ],
       "UpstreamPathTemplate": "/Statistic/{action}",
-      "UpstreamHttpMethod": [ "GET", "POST"]
+      "UpstreamHttpMethod": [ "GET" ]
     }
     //++++++++++++++5005 Ends+++++++++++++
   ],

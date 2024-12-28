@@ -2,7 +2,6 @@
 using APIGateway.Utilities;
 using AutoMapper;
 using BranchService_5003.Models;
-using IdentityServer.Constant;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
@@ -99,14 +98,14 @@ namespace UserService_5002.Services
 
 					var activeCode = await _s_Otp.GenerateOTP(request.Email);
 
-                    //_sendMailSMTP.SendMail(
-                    //    newUserOtherInfo.Email,
-                    //    "Tạo tài khoản Department Store",
-                    //    GenerateEmailBody(newUserOtherInfo.FullName, activeCode));
+                    await _sendMailSMTP.SendMail(
+                        newUserOtherInfo.Email,
+                        "Tạo tài khoản Department Store",
+                        GenerateEmailBody(newUserOtherInfo.FullName, activeCode));
 
                     await transaction.CommitAsync();
 
-					return "User created successfully";
+					return request.Email;
 				}
 				catch (Exception)
 				{
@@ -429,10 +428,10 @@ namespace UserService_5002.Services
             }
 
 			var oTPCode = await _s_Otp.GenerateOTP(email);
-			//await _sendMailSMTP.SendMail(
-			//	email,
-   //             "Gửi lại mã OTP kích hoạt",
-   //             GenerateEmailBody(existingUser.FullName, oTPCode));
+            await _sendMailSMTP.SendMail(
+                email,
+                "Gửi lại mã OTP kích hoạt",
+                GenerateEmailBody(existingUser.FullName, oTPCode));
             return "Mã OTP đã được gửi qua email của bạn";
 		}
 	}

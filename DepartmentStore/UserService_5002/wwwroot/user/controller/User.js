@@ -1,5 +1,5 @@
 ﻿function RenderCustomerTable() {
-    $('#div_table_product,#div_table_batch,#div_table_branch,#div_table_promotion').hide();
+    $('#div_table_product,#div_table_batch,#div_table_branch,#div_table_promotion,#div_table_export').hide();
     $('#div_table_customer').show();
 
     let tableBody = '';
@@ -73,7 +73,8 @@ function OpenModalDetailCustomer(idCustomer) {
 }
 
 $(document).ready(function () {
-    $(document).on('click', '.toggle-status-customer', function () {
+    // Gỡ bỏ sự kiện trước khi gắn lại để tránh bị gọi nhiều lần
+    $(document).off('click', '.toggle-status-customer').on('click', '.toggle-status-customer', function () {
         var customerId = $(this).data('customer-id');
         ChangeStatusCustomer(customerId);
     });
@@ -92,6 +93,7 @@ function ChangeStatusCustomer(customerId) {
         }
     });
 }
+
 
 function RenderSignUpBody(action) {
     let body = '';
@@ -163,15 +165,6 @@ function RenderSignUpBody(action) {
 }
 
 async function SignUp() {
-    // Show loading spinner
-    //$('#div_content_signup').html(`
-    //    <div class="text-center">
-    //        <div class="spinner-border text-primary" role="status">
-    //            <span class="sr-only">Loading...</span>
-    //        </div>
-    //    </div>
-    //`);
-
     const data = {
         PhoneNumber: document.getElementById('phoneNumber').value,
         Password: document.getElementById('password').value,
@@ -198,15 +191,16 @@ async function SignUp() {
         const result = await response.json();
 
         if (result.result === 1) {
-            ShowToastNoti('success', '', result.message, 4000);
+            ShowToastNoti('success', '', 'Tạo tài khoản thành công, mã OTP đã được gửi vào email của bạn', 4000);
             $('#div_content_signup').html(`
                 <label>Nhập mã OTP đã được gửi vào email của bạn</label>
                 <input type="number" class="form-control" placeholder="Nhập mã OTP..." id="otpCode">
+                <a style="cursor:pointer" class='mt-3 d-flex justify-content-center' onclick="RequestResendOTP('${result.email}')">Gửi lại mã OTP</a>
                 <button class="btn btn-primary m-3 float-end" onclick="VerifyOTP()">Xác nhận OTP</button>
             `);
         } else if (result.result === -1) {
             ShowToastNoti('error', '', result.message, 4000);
-            RenderSignUpBody(); // Reload the sign-up form if an error occurred
+            RenderSignUpBody(); 
         }
     } catch (err) {
         console.error('Error occurred:', err);
@@ -247,8 +241,14 @@ async function VerifyOTP() {
     }
 }
 
-async function RequestResendOTP() {
-    const email = $('#resendEmail').val();
+async function RequestResendOTP(emailSignIn) {
+    let email = null;
+    if (emailSignIn != null) {
+        email = emailSignIn;
+    }
+    else {
+        email = $('#resendEmail').val();
+    }
 
     const response = await fetch(`/User/ResendOTP?email=${email}`, {
         method: 'POST',

@@ -7,20 +7,12 @@
         "Action": "StartWithoutDebugging"
       },
       {
-        "Path": "IdentityServer\\IdentityServer.csproj",
-        "Action": "StartWithoutDebugging"
-      },
-      {
         "Path": "UserService_5002\\UserService_5002.csproj",
         "Action": "StartWithoutDebugging"
       },
       {
-        "Path": "APIGateway\\APIGateway.csproj",
-        "Action": "StartWithoutDebugging"
-      },
-      {
         "Path": "BranchService_5003\\BranchService_5003.csproj",
-        "Action": "Start"
+        "Action": "StartWithoutDebugging"
       },
       {
         "Path": "PromotionService_5004\\PromotionService_5004.csproj",
@@ -28,7 +20,11 @@
       },
       {
         "Path": "InvoiceService_5005\\InvoiceService_5005.csproj",
-        "Action": "Start"
+        "Action": "StartWithoutDebugging"
+      },
+      {
+        "Path": "APIGateway\\APIGateway.csproj",
+        "Action": "StartWithoutDebugging"
       }
     ]
   }

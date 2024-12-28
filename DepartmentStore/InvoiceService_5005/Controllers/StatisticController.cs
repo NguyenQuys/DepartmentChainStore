@@ -18,7 +18,7 @@ namespace InvoiceService_5005.Controllers
 
 		public async Task<IActionResult> GetRevenueBranch7DaysById(int idBranch)
 		{
-			Dictionary<DateOnly,int> getRevenue = await _s_Statistic.GetRevenueBranch7DaysById(idBranch);
+			var getRevenue = await _s_Statistic.GetRevenueBranch7DaysById(idBranch);
 			return Ok(getRevenue);
 		}
 	}

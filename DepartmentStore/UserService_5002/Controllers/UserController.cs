@@ -52,7 +52,7 @@ namespace UserService_5002.Controllers
             {
                 var result = await _s_User.SignUp(request);
                 Session.SetString(EmailSessionKey, request.Email);
-                return Ok(new { result = 1, message = result});
+                return Ok(new { result = 1, email = result});
             }
             catch (Exception ex)
             {
@@ -61,7 +61,7 @@ namespace UserService_5002.Controllers
 		}
 
         [HttpGet]
-        public async Task<IActionResult> Login()
+		public async Task<IActionResult> Login()
         {
             if (_currentUser.AccessToken != null)
             {
@@ -78,7 +78,8 @@ namespace UserService_5002.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(MReq_Login loginRequest)
+		[RateLimit(3, "00:00:10")]
+		public async Task<IActionResult> Login(MReq_Login loginRequest)
         {
             try
             {

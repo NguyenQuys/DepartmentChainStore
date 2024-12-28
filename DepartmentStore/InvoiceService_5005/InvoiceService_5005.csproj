@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\APIGateway\APIGateway.csproj" />
-    <ProjectReference Include="..\IdentityServer\IdentityServer.csproj" />
   </ItemGroup>
 
 </Project>
