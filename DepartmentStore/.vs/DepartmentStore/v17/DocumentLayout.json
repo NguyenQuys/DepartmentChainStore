@@ -1,284 +1,288 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\",
+  "WorkspaceRootPath": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\apigateway\\utilities\\ratelimitattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{9001D842-5D24-4614-8ACF-4D06F47ECDE9}|InvoiceService_5005\\InvoiceService_5005.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\invoiceservice_5005\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{9001D842-5D24-4614-8ACF-4D06F47ECDE9}|InvoiceService_5005\\InvoiceService_5005.csproj|solutionrelative:invoiceservice_5005\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{45C00ECA-9ECB-4547-9F67-84FFB4141A60}|BranchService_5003\\BranchService_5003.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\branchservice_5003\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{45C00ECA-9ECB-4547-9F67-84FFB4141A60}|BranchService_5003\\BranchService_5003.csproj|solutionrelative:branchservice_5003\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\apigateway\\utilities\\ratelimitattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|solutionrelative:apigateway\\utilities\\ratelimitattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\productservice_5000\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\productservice_5000\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|solutionrelative:productservice_5000\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\productservice_5000\\views\\cart\\invoiceindex.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\productservice_5000\\views\\cart\\invoiceindex.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|solutionrelative:productservice_5000\\views\\cart\\invoiceindex.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\productservice_5000\\wwwroot\\product\\controller\\invoice.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\productservice_5000\\wwwroot\\product\\controller\\invoice.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|solutionrelative:productservice_5000\\wwwroot\\product\\controller\\invoice.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\productservice_5000\\controllers\\batchcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\productservice_5000\\controllers\\batchcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|solutionrelative:productservice_5000\\controllers\\batchcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\productservice_5000\\services\\s_product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\productservice_5000\\services\\s_product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|solutionrelative:productservice_5000\\services\\s_product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EEE14561-BADD-40A3-9227-7A1100435225}|PromotionService_5004\\PromotionService_5004.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\promotionservice_5004\\controllers\\promotioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{EEE14561-BADD-40A3-9227-7A1100435225}|PromotionService_5004\\PromotionService_5004.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\promotionservice_5004\\controllers\\promotioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EEE14561-BADD-40A3-9227-7A1100435225}|PromotionService_5004\\PromotionService_5004.csproj|solutionrelative:promotionservice_5004\\controllers\\promotioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EEE14561-BADD-40A3-9227-7A1100435225}|PromotionService_5004\\PromotionService_5004.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\promotionservice_5004\\promotionservice_5004.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "AbsoluteMoniker": "D:0:0:{EEE14561-BADD-40A3-9227-7A1100435225}|PromotionService_5004\\PromotionService_5004.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\promotionservice_5004\\promotionservice_5004.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{EEE14561-BADD-40A3-9227-7A1100435225}|PromotionService_5004\\PromotionService_5004.csproj|solutionrelative:promotionservice_5004\\promotionservice_5004.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\userservice_5002\\wwwroot\\user\\controller\\user.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\userservice_5002\\wwwroot\\user\\controller\\user.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|solutionrelative:userservice_5002\\wwwroot\\user\\controller\\user.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\userservice_5002\\wwwroot\\user\\controller\\export.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\userservice_5002\\wwwroot\\user\\controller\\export.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|solutionrelative:userservice_5002\\wwwroot\\user\\controller\\export.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{45C00ECA-9ECB-4547-9F67-84FFB4141A60}|BranchService_5003\\BranchService_5003.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\branchservice_5003\\controllers\\product_branchcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{45C00ECA-9ECB-4547-9F67-84FFB4141A60}|BranchService_5003\\BranchService_5003.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\branchservice_5003\\controllers\\product_branchcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{45C00ECA-9ECB-4547-9F67-84FFB4141A60}|BranchService_5003\\BranchService_5003.csproj|solutionrelative:branchservice_5003\\controllers\\product_branchcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{45C00ECA-9ECB-4547-9F67-84FFB4141A60}|BranchService_5003\\BranchService_5003.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\branchservice_5003\\services\\s_product_branch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{45C00ECA-9ECB-4547-9F67-84FFB4141A60}|BranchService_5003\\BranchService_5003.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\branchservice_5003\\services\\s_product_branch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{45C00ECA-9ECB-4547-9F67-84FFB4141A60}|BranchService_5003\\BranchService_5003.csproj|solutionrelative:branchservice_5003\\services\\s_product_branch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\productservice_5000\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\productservice_5000\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|solutionrelative:productservice_5000\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9001D842-5D24-4614-8ACF-4D06F47ECDE9}|InvoiceService_5005\\InvoiceService_5005.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\invoiceservice_5005\\controllers\\invoicecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{9001D842-5D24-4614-8ACF-4D06F47ECDE9}|InvoiceService_5005\\InvoiceService_5005.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\invoiceservice_5005\\controllers\\invoicecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9001D842-5D24-4614-8ACF-4D06F47ECDE9}|InvoiceService_5005\\InvoiceService_5005.csproj|solutionrelative:invoiceservice_5005\\controllers\\invoicecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\userservice_5002\\services\\s_user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\userservice_5002\\services\\s_user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|solutionrelative:userservice_5002\\services\\s_user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\userservice_5002\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\userservice_5002\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|solutionrelative:userservice_5002\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\productservice_5000\\services\\s_batch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\productservice_5000\\services\\s_batch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|solutionrelative:productservice_5000\\services\\s_batch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\userservice_5002\\wwwroot\\user\\controller\\batch.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\userservice_5002\\wwwroot\\user\\controller\\batch.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|solutionrelative:userservice_5002\\wwwroot\\user\\controller\\batch.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\productservice_5000\\wwwroot\\product\\controller\\store.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\productservice_5000\\wwwroot\\product\\controller\\store.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|solutionrelative:productservice_5000\\wwwroot\\product\\controller\\store.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\userservice_5002\\views\\user\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\userservice_5002\\views\\user\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|solutionrelative:userservice_5002\\views\\user\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\userservice_5002\\wwwroot\\user\\controller\\importproduct.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\userservice_5002\\wwwroot\\user\\controller\\importproduct.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|solutionrelative:userservice_5002\\wwwroot\\user\\controller\\importproduct.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\userservice_5002\\wwwroot\\user\\controller\\productadmin.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\userservice_5002\\wwwroot\\user\\controller\\productadmin.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|solutionrelative:userservice_5002\\wwwroot\\user\\controller\\productadmin.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9001D842-5D24-4614-8ACF-4D06F47ECDE9}|InvoiceService_5005\\InvoiceService_5005.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\invoiceservice_5005\\controllers\\statisticcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{9001D842-5D24-4614-8ACF-4D06F47ECDE9}|InvoiceService_5005\\InvoiceService_5005.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\invoiceservice_5005\\controllers\\statisticcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9001D842-5D24-4614-8ACF-4D06F47ECDE9}|InvoiceService_5005\\InvoiceService_5005.csproj|solutionrelative:invoiceservice_5005\\controllers\\statisticcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9001D842-5D24-4614-8ACF-4D06F47ECDE9}|InvoiceService_5005\\InvoiceService_5005.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\invoiceservice_5005\\services\\s_statistic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{9001D842-5D24-4614-8ACF-4D06F47ECDE9}|InvoiceService_5005\\InvoiceService_5005.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\invoiceservice_5005\\services\\s_statistic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9001D842-5D24-4614-8ACF-4D06F47ECDE9}|InvoiceService_5005\\InvoiceService_5005.csproj|solutionrelative:invoiceservice_5005\\services\\s_statistic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\productservice_5000\\wwwroot\\product\\controller\\productcustomer.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\productservice_5000\\wwwroot\\product\\controller\\productcustomer.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|solutionrelative:productservice_5000\\wwwroot\\product\\controller\\productcustomer.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\productservice_5000\\wwwroot\\product\\controller\\cart.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\productservice_5000\\wwwroot\\product\\controller\\cart.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|solutionrelative:productservice_5000\\wwwroot\\product\\controller\\cart.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9001D842-5D24-4614-8ACF-4D06F47ECDE9}|InvoiceService_5005\\InvoiceService_5005.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\invoiceservice_5005\\services\\s_invoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{9001D842-5D24-4614-8ACF-4D06F47ECDE9}|InvoiceService_5005\\InvoiceService_5005.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\invoiceservice_5005\\services\\s_invoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9001D842-5D24-4614-8ACF-4D06F47ECDE9}|InvoiceService_5005\\InvoiceService_5005.csproj|solutionrelative:invoiceservice_5005\\services\\s_invoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9001D842-5D24-4614-8ACF-4D06F47ECDE9}|InvoiceService_5005\\InvoiceService_5005.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\invoiceservice_5005\\request\\mreq_invoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{9001D842-5D24-4614-8ACF-4D06F47ECDE9}|InvoiceService_5005\\InvoiceService_5005.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\invoiceservice_5005\\request\\mreq_invoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9001D842-5D24-4614-8ACF-4D06F47ECDE9}|InvoiceService_5005\\InvoiceService_5005.csproj|solutionrelative:invoiceservice_5005\\request\\mreq_invoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{45C00ECA-9ECB-4547-9F67-84FFB4141A60}|BranchService_5003\\BranchService_5003.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\branchservice_5003\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{45C00ECA-9ECB-4547-9F67-84FFB4141A60}|BranchService_5003\\BranchService_5003.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\branchservice_5003\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{45C00ECA-9ECB-4547-9F67-84FFB4141A60}|BranchService_5003\\BranchService_5003.csproj|solutionrelative:branchservice_5003\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9001D842-5D24-4614-8ACF-4D06F47ECDE9}|InvoiceService_5005\\InvoiceService_5005.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\invoiceservice_5005\\services\\s_shipping.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{9001D842-5D24-4614-8ACF-4D06F47ECDE9}|InvoiceService_5005\\InvoiceService_5005.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\invoiceservice_5005\\services\\s_shipping.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9001D842-5D24-4614-8ACF-4D06F47ECDE9}|InvoiceService_5005\\InvoiceService_5005.csproj|solutionrelative:invoiceservice_5005\\services\\s_shipping.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\apigateway\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\apigateway\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|solutionrelative:apigateway\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\userservice_5002\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\userservice_5002\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|solutionrelative:userservice_5002\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EEE14561-BADD-40A3-9227-7A1100435225}|PromotionService_5004\\PromotionService_5004.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\promotionservice_5004\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{EEE14561-BADD-40A3-9227-7A1100435225}|PromotionService_5004\\PromotionService_5004.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\promotionservice_5004\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EEE14561-BADD-40A3-9227-7A1100435225}|PromotionService_5004\\PromotionService_5004.csproj|solutionrelative:promotionservice_5004\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9001D842-5D24-4614-8ACF-4D06F47ECDE9}|InvoiceService_5005\\InvoiceService_5005.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\invoiceservice_5005\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{9001D842-5D24-4614-8ACF-4D06F47ECDE9}|InvoiceService_5005\\InvoiceService_5005.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\invoiceservice_5005\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9001D842-5D24-4614-8ACF-4D06F47ECDE9}|InvoiceService_5005\\InvoiceService_5005.csproj|solutionrelative:invoiceservice_5005\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\userservice_5002\\migrations\\20241031190913_init.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\userservice_5002\\migrations\\20241031190913_init.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|solutionrelative:userservice_5002\\migrations\\20241031190913_init.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\productservice_5000\\views\\shared\\_p_navigationbar_product.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\productservice_5000\\views\\shared\\_p_navigationbar_product.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|solutionrelative:productservice_5000\\views\\shared\\_p_navigationbar_product.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\productservice_5000\\views\\cart\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\productservice_5000\\views\\cart\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|solutionrelative:productservice_5000\\views\\cart\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\productservice_5000\\views\\product\\getbyidview.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\productservice_5000\\views\\product\\getbyidview.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|solutionrelative:productservice_5000\\views\\product\\getbyidview.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\productservice_5000\\views\\product\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\productservice_5000\\views\\product\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|solutionrelative:productservice_5000\\views\\product\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\productservice_5000\\views\\product\\product_branchindex.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\productservice_5000\\views\\product\\product_branchindex.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|solutionrelative:productservice_5000\\views\\product\\product_branchindex.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\userservice_5002\\views\\shared\\_p_navigationbar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\userservice_5002\\views\\shared\\_p_navigationbar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|solutionrelative:userservice_5002\\views\\shared\\_p_navigationbar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\userservice_5002\\migrations\\20241206165414_up4.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\userservice_5002\\migrations\\20241206165414_up4.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|solutionrelative:userservice_5002\\migrations\\20241206165414_up4.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\apigateway\\models\\usermodels\\userotherinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\apigateway\\models\\usermodels\\userotherinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|solutionrelative:apigateway\\models\\usermodels\\userotherinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\apigateway\\models\\branchmodels\\branch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\apigateway\\models\\branchmodels\\branch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|solutionrelative:apigateway\\models\\branchmodels\\branch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\apigateway\\models\\promotionmodels\\promotiontype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\apigateway\\models\\promotionmodels\\promotiontype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|solutionrelative:apigateway\\models\\promotionmodels\\promotiontype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\apigateway\\models\\invoicemodels\\paymentmethod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\apigateway\\models\\invoicemodels\\paymentmethod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|solutionrelative:apigateway\\models\\invoicemodels\\paymentmethod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\apigateway\\models\\invoicemodels\\invoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\apigateway\\models\\invoicemodels\\invoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|solutionrelative:apigateway\\models\\invoicemodels\\invoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\userservice_5002\\wwwroot\\user\\controller\\branch.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\userservice_5002\\wwwroot\\user\\controller\\branch.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|solutionrelative:userservice_5002\\wwwroot\\user\\controller\\branch.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\apigateway\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\apigateway\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|solutionrelative:apigateway\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\apigateway\\ocelot.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\apigateway\\ocelot.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|solutionrelative:apigateway\\ocelot.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\userservice_5002\\views\\user\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\userservice_5002\\views\\user\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|solutionrelative:userservice_5002\\views\\user\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\userservice_5002\\services\\s_otp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\userservice_5002\\services\\s_otp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|solutionrelative:userservice_5002\\services\\s_otp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\productservice_5000\\wwwroot\\product\\controller\\shipper.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\productservice_5000\\wwwroot\\product\\controller\\shipper.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|solutionrelative:productservice_5000\\wwwroot\\product\\controller\\shipper.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{45C00ECA-9ECB-4547-9F67-84FFB4141A60}|BranchService_5003\\BranchService_5003.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\branchservice_5003\\request\\mreq_revertproduct.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{45C00ECA-9ECB-4547-9F67-84FFB4141A60}|BranchService_5003\\BranchService_5003.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\branchservice_5003\\request\\mreq_revertproduct.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{45C00ECA-9ECB-4547-9F67-84FFB4141A60}|BranchService_5003\\BranchService_5003.csproj|solutionrelative:branchservice_5003\\request\\mreq_revertproduct.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{45C00ECA-9ECB-4547-9F67-84FFB4141A60}|BranchService_5003\\BranchService_5003.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\branchservice_5003\\request\\mreq_exportproductfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{45C00ECA-9ECB-4547-9F67-84FFB4141A60}|BranchService_5003\\BranchService_5003.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\branchservice_5003\\request\\mreq_exportproductfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{45C00ECA-9ECB-4547-9F67-84FFB4141A60}|BranchService_5003\\BranchService_5003.csproj|solutionrelative:branchservice_5003\\request\\mreq_exportproductfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\productservice_5000\\views\\product\\getproductsbyidcategory.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\productservice_5000\\views\\product\\getproductsbyidcategory.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|solutionrelative:productservice_5000\\views\\product\\getproductsbyidcategory.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{45C00ECA-9ECB-4547-9F67-84FFB4141A60}|BranchService_5003\\BranchService_5003.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\branchservice_5003\\controllers\\branchcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{45C00ECA-9ECB-4547-9F67-84FFB4141A60}|BranchService_5003\\BranchService_5003.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\branchservice_5003\\controllers\\branchcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{45C00ECA-9ECB-4547-9F67-84FFB4141A60}|BranchService_5003\\BranchService_5003.csproj|solutionrelative:branchservice_5003\\controllers\\branchcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\apigateway\\utilities\\otp_verify.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\apigateway\\utilities\\otp_verify.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1F348B78-0B6E-45CE-90C9-DC56CF1D0327}|APIGateway\\APIGateway.csproj|solutionrelative:apigateway\\utilities\\otp_verify.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{45C00ECA-9ECB-4547-9F67-84FFB4141A60}|BranchService_5003\\BranchService_5003.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\branchservice_5003\\response\\mres_exportproducthistory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{45C00ECA-9ECB-4547-9F67-84FFB4141A60}|BranchService_5003\\BranchService_5003.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\branchservice_5003\\response\\mres_exportproducthistory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{45C00ECA-9ECB-4547-9F67-84FFB4141A60}|BranchService_5003\\BranchService_5003.csproj|solutionrelative:branchservice_5003\\response\\mres_exportproducthistory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\productservice_5000\\migrations\\20241027191744_update3.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\productservice_5000\\migrations\\20241027191744_update3.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|solutionrelative:productservice_5000\\migrations\\20241027191744_update3.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\productservice_5000\\migrations\\20241027191744_update3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\productservice_5000\\migrations\\20241027191744_update3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|solutionrelative:productservice_5000\\migrations\\20241027191744_update3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\userservice_5002\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\userservice_5002\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|solutionrelative:userservice_5002\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\productservice_5000\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\productservice_5000\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|solutionrelative:productservice_5000\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\userservice_5002\\wwwroot\\user\\controller\\statistic.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "AbsoluteMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\userservice_5002\\wwwroot\\user\\controller\\statistic.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{EF075517-928E-49E0-949B-47616C538F15}|UserService_5002\\UserService_5002.csproj|solutionrelative:userservice_5002\\wwwroot\\user\\controller\\statistic.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\productservice_5000\\views\\cart\\historypurchase.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\productservice_5000\\views\\cart\\historypurchase.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|solutionrelative:productservice_5000\\views\\cart\\historypurchase.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\productservice_5000\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\productservice_5000\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{4418EC61-260A-4DD8-8E3E-ABFA63DC58D8}|ProductService_5000\\ProductService_5000.csproj|solutionrelative:productservice_5000\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9001D842-5D24-4614-8ACF-4D06F47ECDE9}|InvoiceService_5005\\InvoiceService_5005.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\invoiceservice_5005\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{9001D842-5D24-4614-8ACF-4D06F47ECDE9}|InvoiceService_5005\\InvoiceService_5005.csproj|solutionrelative:invoiceservice_5005\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EEE14561-BADD-40A3-9227-7A1100435225}|PromotionService_5004\\PromotionService_5004.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\promotionservice_5004\\migrations\\20241206164208_up3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{EEE14561-BADD-40A3-9227-7A1100435225}|PromotionService_5004\\PromotionService_5004.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\promotionservice_5004\\migrations\\20241206164208_up3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EEE14561-BADD-40A3-9227-7A1100435225}|PromotionService_5004\\PromotionService_5004.csproj|solutionrelative:promotionservice_5004\\migrations\\20241206164208_up3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9001D842-5D24-4614-8ACF-4D06F47ECDE9}|InvoiceService_5005\\InvoiceService_5005.csproj|d:\\data\\programming\\project\\dacn\\departmentchainstore\\github\\dev\\departmentstore\\invoiceservice_5005\\migrations\\20241206160118_up7.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{9001D842-5D24-4614-8ACF-4D06F47ECDE9}|InvoiceService_5005\\InvoiceService_5005.csproj|d:\\project\\departmentchainstore\\departmentchainstore\\departmentstore\\invoiceservice_5005\\migrations\\20241206160118_up7.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9001D842-5D24-4614-8ACF-4D06F47ECDE9}|InvoiceService_5005\\InvoiceService_5005.csproj|solutionrelative:invoiceservice_5005\\migrations\\20241206160118_up7.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -289,41 +293,53 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "InvoiceIndex.cshtml",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Views\\Cart\\InvoiceIndex.cshtml",
-              "RelativeDocumentMoniker": "ProductService_5000\\Views\\Cart\\InvoiceIndex.cshtml",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Views\\Cart\\InvoiceIndex.cshtml",
-              "RelativeToolTip": "ProductService_5000\\Views\\Cart\\InvoiceIndex.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAKMAAAB8AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-12-07T02:44:01.655Z",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\BranchService_5003\\appsettings.json",
+              "RelativeDocumentMoniker": "BranchService_5003\\appsettings.json",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\BranchService_5003\\appsettings.json",
+              "RelativeToolTip": "BranchService_5003\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-01-10T16:55:50.099Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
+              "Title": "InvoiceIndex.cshtml",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Views\\Cart\\InvoiceIndex.cshtml",
+              "RelativeDocumentMoniker": "ProductService_5000\\Views\\Cart\\InvoiceIndex.cshtml",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Views\\Cart\\InvoiceIndex.cshtml",
+              "RelativeToolTip": "ProductService_5000\\Views\\Cart\\InvoiceIndex.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAKMAAAB8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-07T02:44:01.655Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "RateLimitAttribute.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\Utilities\\RateLimitAttribute.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\APIGateway\\Utilities\\RateLimitAttribute.cs",
               "RelativeDocumentMoniker": "APIGateway\\Utilities\\RateLimitAttribute.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\Utilities\\RateLimitAttribute.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\APIGateway\\Utilities\\RateLimitAttribute.cs",
               "RelativeToolTip": "APIGateway\\Utilities\\RateLimitAttribute.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-04T03:51:52.3Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "PromotionController.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\PromotionService_5004\\Controllers\\PromotionController.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\PromotionService_5004\\Controllers\\PromotionController.cs",
               "RelativeDocumentMoniker": "PromotionService_5004\\Controllers\\PromotionController.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\PromotionService_5004\\Controllers\\PromotionController.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\PromotionService_5004\\Controllers\\PromotionController.cs",
               "RelativeToolTip": "PromotionService_5004\\Controllers\\PromotionController.cs",
               "ViewState": "AgIAAEcAAAAAAAAAAAAAACEAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -331,24 +347,23 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "ProductController.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Controllers\\ProductController.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Controllers\\ProductController.cs",
               "RelativeDocumentMoniker": "ProductService_5000\\Controllers\\ProductController.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Controllers\\ProductController.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Controllers\\ProductController.cs",
               "RelativeToolTip": "ProductService_5000\\Controllers\\ProductController.cs",
               "ViewState": "AgIAAJYAAAAAAAAAAAAAAJ8AAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-04T05:27:06.037Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-04T05:27:06.037Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "Invoice.js",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\wwwroot\\product\\controller\\Invoice.js",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\wwwroot\\product\\controller\\Invoice.js",
               "RelativeDocumentMoniker": "ProductService_5000\\wwwroot\\product\\controller\\Invoice.js",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\wwwroot\\product\\controller\\Invoice.js",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\wwwroot\\product\\controller\\Invoice.js",
               "RelativeToolTip": "ProductService_5000\\wwwroot\\product\\controller\\Invoice.js",
               "ViewState": "AgIAAGQAAAAAAAAAAAAAAFMBAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
@@ -356,11 +371,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "BatchController.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Controllers\\BatchController.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Controllers\\BatchController.cs",
               "RelativeDocumentMoniker": "ProductService_5000\\Controllers\\BatchController.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Controllers\\BatchController.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Controllers\\BatchController.cs",
               "RelativeToolTip": "ProductService_5000\\Controllers\\BatchController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAADoAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -368,11 +383,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "S_Product.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Services\\S_Product.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Services\\S_Product.cs",
               "RelativeDocumentMoniker": "ProductService_5000\\Services\\S_Product.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Services\\S_Product.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Services\\S_Product.cs",
               "RelativeToolTip": "ProductService_5000\\Services\\S_Product.cs",
               "ViewState": "AgIAAO4AAAAAAAAAAAAewBgBAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -380,11 +395,24 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\InvoiceService_5005\\appsettings.json",
+              "RelativeDocumentMoniker": "InvoiceService_5005\\appsettings.json",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\InvoiceService_5005\\appsettings.json",
+              "RelativeToolTip": "InvoiceService_5005\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-11-27T13:26:51.064Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "PromotionService_5004.csproj",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\PromotionService_5004\\PromotionService_5004.csproj",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\PromotionService_5004\\PromotionService_5004.csproj",
               "RelativeDocumentMoniker": "PromotionService_5004\\PromotionService_5004.csproj",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\PromotionService_5004\\PromotionService_5004.csproj",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\PromotionService_5004\\PromotionService_5004.csproj",
               "RelativeToolTip": "PromotionService_5004\\PromotionService_5004.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
@@ -392,11 +420,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "User.js",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\user\\controller\\User.js",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\wwwroot\\user\\controller\\User.js",
               "RelativeDocumentMoniker": "UserService_5002\\wwwroot\\user\\controller\\User.js",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\user\\controller\\User.js",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\wwwroot\\user\\controller\\User.js",
               "RelativeToolTip": "UserService_5002\\wwwroot\\user\\controller\\User.js",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAF0AAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
@@ -404,11 +432,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "Export.js",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\user\\controller\\Export.js",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\wwwroot\\user\\controller\\Export.js",
               "RelativeDocumentMoniker": "UserService_5002\\wwwroot\\user\\controller\\Export.js",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\user\\controller\\Export.js",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\wwwroot\\user\\controller\\Export.js",
               "RelativeToolTip": "UserService_5002\\wwwroot\\user\\controller\\Export.js",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAABVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
@@ -416,11 +444,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 14,
               "Title": "Program.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Program.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Program.cs",
               "RelativeDocumentMoniker": "ProductService_5000\\Program.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Program.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Program.cs",
               "RelativeToolTip": "ProductService_5000\\Program.cs",
               "ViewState": "AgIAAB0AAAAAAAAAAAAAACIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -428,11 +456,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "Product_BranchController.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\BranchService_5003\\Controllers\\Product_BranchController.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\BranchService_5003\\Controllers\\Product_BranchController.cs",
               "RelativeDocumentMoniker": "BranchService_5003\\Controllers\\Product_BranchController.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\BranchService_5003\\Controllers\\Product_BranchController.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\BranchService_5003\\Controllers\\Product_BranchController.cs",
               "RelativeToolTip": "BranchService_5003\\Controllers\\Product_BranchController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -440,11 +468,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 16,
               "Title": "S_User.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\Services\\S_User.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\Services\\S_User.cs",
               "RelativeDocumentMoniker": "UserService_5002\\Services\\S_User.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\Services\\S_User.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\Services\\S_User.cs",
               "RelativeToolTip": "UserService_5002\\Services\\S_User.cs",
               "ViewState": "AgIAAIIAAAAAAAAAAAAAAJ4AAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -452,11 +480,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 15,
               "Title": "InvoiceController.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\InvoiceService_5005\\Controllers\\InvoiceController.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\InvoiceService_5005\\Controllers\\InvoiceController.cs",
               "RelativeDocumentMoniker": "InvoiceService_5005\\Controllers\\InvoiceController.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\InvoiceService_5005\\Controllers\\InvoiceController.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\InvoiceService_5005\\Controllers\\InvoiceController.cs",
               "RelativeToolTip": "InvoiceService_5005\\Controllers\\InvoiceController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAFMAAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -464,11 +492,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 13,
               "Title": "S_Product_Branch.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\BranchService_5003\\Services\\S_Product_Branch.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\BranchService_5003\\Services\\S_Product_Branch.cs",
               "RelativeDocumentMoniker": "BranchService_5003\\Services\\S_Product_Branch.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\BranchService_5003\\Services\\S_Product_Branch.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\BranchService_5003\\Services\\S_Product_Branch.cs",
               "RelativeToolTip": "BranchService_5003\\Services\\S_Product_Branch.cs",
               "ViewState": "AgIAAFgAAAAAAAAAAAAAAGgAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -476,11 +504,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 20,
               "Title": "Store.js",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\wwwroot\\product\\controller\\Store.js",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\wwwroot\\product\\controller\\Store.js",
               "RelativeDocumentMoniker": "ProductService_5000\\wwwroot\\product\\controller\\Store.js",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\wwwroot\\product\\controller\\Store.js",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\wwwroot\\product\\controller\\Store.js",
               "RelativeToolTip": "ProductService_5000\\wwwroot\\product\\controller\\Store.js",
               "ViewState": "AgIAAHwAAAAAAAAAAAAAAHwAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
@@ -488,11 +516,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 17,
               "Title": "UserController.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\Controllers\\UserController.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\Controllers\\UserController.cs",
               "RelativeDocumentMoniker": "UserService_5002\\Controllers\\UserController.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\Controllers\\UserController.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\Controllers\\UserController.cs",
               "RelativeToolTip": "UserService_5002\\Controllers\\UserController.cs",
               "ViewState": "AgIAAA4BAAAAAAAAAAAewCkBAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -500,11 +528,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 18,
               "Title": "S_Batch.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Services\\S_Batch.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Services\\S_Batch.cs",
               "RelativeDocumentMoniker": "ProductService_5000\\Services\\S_Batch.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Services\\S_Batch.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Services\\S_Batch.cs",
               "RelativeToolTip": "ProductService_5000\\Services\\S_Batch.cs",
               "ViewState": "AgIAAEYAAAAAAAAAAAAAAEwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -512,11 +540,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 25,
               "Title": "S_Statistic.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\InvoiceService_5005\\Services\\S_Statistic.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\InvoiceService_5005\\Services\\S_Statistic.cs",
               "RelativeDocumentMoniker": "InvoiceService_5005\\Services\\S_Statistic.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\InvoiceService_5005\\Services\\S_Statistic.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\InvoiceService_5005\\Services\\S_Statistic.cs",
               "RelativeToolTip": "InvoiceService_5005\\Services\\S_Statistic.cs",
               "ViewState": "AgIAABIAAAAAAAAAAAAAAAcAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -524,11 +552,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 24,
               "Title": "StatisticController.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\InvoiceService_5005\\Controllers\\StatisticController.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\InvoiceService_5005\\Controllers\\StatisticController.cs",
               "RelativeDocumentMoniker": "InvoiceService_5005\\Controllers\\StatisticController.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\InvoiceService_5005\\Controllers\\StatisticController.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\InvoiceService_5005\\Controllers\\StatisticController.cs",
               "RelativeToolTip": "InvoiceService_5005\\Controllers\\StatisticController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -536,11 +564,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 22,
               "Title": "ImportProduct.js",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\user\\controller\\ImportProduct.js",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\wwwroot\\user\\controller\\ImportProduct.js",
               "RelativeDocumentMoniker": "UserService_5002\\wwwroot\\user\\controller\\ImportProduct.js",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\user\\controller\\ImportProduct.js",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\wwwroot\\user\\controller\\ImportProduct.js",
               "RelativeToolTip": "UserService_5002\\wwwroot\\user\\controller\\ImportProduct.js",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
@@ -548,11 +576,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 21,
               "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\Views\\User\\Index.cshtml",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\Views\\User\\Index.cshtml",
               "RelativeDocumentMoniker": "UserService_5002\\Views\\User\\Index.cshtml",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\Views\\User\\Index.cshtml",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\Views\\User\\Index.cshtml",
               "RelativeToolTip": "UserService_5002\\Views\\User\\Index.cshtml",
               "ViewState": "AgIAAGwAAAAAAAAAAAAwwI4AAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
@@ -560,11 +588,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 19,
               "Title": "Batch.js",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\user\\controller\\Batch.js",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\wwwroot\\user\\controller\\Batch.js",
               "RelativeDocumentMoniker": "UserService_5002\\wwwroot\\user\\controller\\Batch.js",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\user\\controller\\Batch.js",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\wwwroot\\user\\controller\\Batch.js",
               "RelativeToolTip": "UserService_5002\\wwwroot\\user\\controller\\Batch.js",
               "ViewState": "AgIAANQAAAAAAAAAAAAAABQBAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
@@ -572,11 +600,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 23,
               "Title": "ProductAdmin.js",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\user\\controller\\ProductAdmin.js",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\wwwroot\\user\\controller\\ProductAdmin.js",
               "RelativeDocumentMoniker": "UserService_5002\\wwwroot\\user\\controller\\ProductAdmin.js",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\user\\controller\\ProductAdmin.js",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\wwwroot\\user\\controller\\ProductAdmin.js",
               "RelativeToolTip": "UserService_5002\\wwwroot\\user\\controller\\ProductAdmin.js",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAPEAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
@@ -584,11 +612,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 26,
               "Title": "ProductCustomer.js",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\wwwroot\\product\\controller\\ProductCustomer.js",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\wwwroot\\product\\controller\\ProductCustomer.js",
               "RelativeDocumentMoniker": "ProductService_5000\\wwwroot\\product\\controller\\ProductCustomer.js",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\wwwroot\\product\\controller\\ProductCustomer.js",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\wwwroot\\product\\controller\\ProductCustomer.js",
               "RelativeToolTip": "ProductService_5000\\wwwroot\\product\\controller\\ProductCustomer.js",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
@@ -596,11 +624,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 27,
               "Title": "Cart.js",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\wwwroot\\product\\controller\\Cart.js",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\wwwroot\\product\\controller\\Cart.js",
               "RelativeDocumentMoniker": "ProductService_5000\\wwwroot\\product\\controller\\Cart.js",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\wwwroot\\product\\controller\\Cart.js",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\wwwroot\\product\\controller\\Cart.js",
               "RelativeToolTip": "ProductService_5000\\wwwroot\\product\\controller\\Cart.js",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAG4AAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
@@ -608,11 +636,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 29,
               "Title": "MReq_Invoice.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\InvoiceService_5005\\Request\\MReq_Invoice.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\InvoiceService_5005\\Request\\MReq_Invoice.cs",
               "RelativeDocumentMoniker": "InvoiceService_5005\\Request\\MReq_Invoice.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\InvoiceService_5005\\Request\\MReq_Invoice.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\InvoiceService_5005\\Request\\MReq_Invoice.cs",
               "RelativeToolTip": "InvoiceService_5005\\Request\\MReq_Invoice.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -620,11 +648,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 28,
               "Title": "S_Invoice.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\InvoiceService_5005\\Services\\S_Invoice.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\InvoiceService_5005\\Services\\S_Invoice.cs",
               "RelativeDocumentMoniker": "InvoiceService_5005\\Services\\S_Invoice.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\InvoiceService_5005\\Services\\S_Invoice.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\InvoiceService_5005\\Services\\S_Invoice.cs",
               "RelativeToolTip": "InvoiceService_5005\\Services\\S_Invoice.cs",
               "ViewState": "AgIAABUAAAAAAAAAAAAAAC8BAABRAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -632,11 +660,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 34,
               "Title": "Program.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\PromotionService_5004\\Program.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\PromotionService_5004\\Program.cs",
               "RelativeDocumentMoniker": "PromotionService_5004\\Program.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\PromotionService_5004\\Program.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\PromotionService_5004\\Program.cs",
               "RelativeToolTip": "PromotionService_5004\\Program.cs",
               "ViewState": "AgIAAA0AAAAAAAAAAABBwBQAAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -644,11 +672,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 35,
               "Title": "Program.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\InvoiceService_5005\\Program.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\InvoiceService_5005\\Program.cs",
               "RelativeDocumentMoniker": "InvoiceService_5005\\Program.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\InvoiceService_5005\\Program.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\InvoiceService_5005\\Program.cs",
               "RelativeToolTip": "InvoiceService_5005\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -656,11 +684,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 30,
               "Title": "Program.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\BranchService_5003\\Program.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\BranchService_5003\\Program.cs",
               "RelativeDocumentMoniker": "BranchService_5003\\Program.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\BranchService_5003\\Program.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\BranchService_5003\\Program.cs",
               "RelativeToolTip": "BranchService_5003\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -668,11 +696,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 31,
               "Title": "S_Shipping.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\InvoiceService_5005\\Services\\S_Shipping.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\InvoiceService_5005\\Services\\S_Shipping.cs",
               "RelativeDocumentMoniker": "InvoiceService_5005\\Services\\S_Shipping.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\InvoiceService_5005\\Services\\S_Shipping.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\InvoiceService_5005\\Services\\S_Shipping.cs",
               "RelativeToolTip": "InvoiceService_5005\\Services\\S_Shipping.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -680,11 +708,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 36,
               "Title": "20241031190913_init.Designer.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\Migrations\\20241031190913_init.Designer.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\Migrations\\20241031190913_init.Designer.cs",
               "RelativeDocumentMoniker": "UserService_5002\\Migrations\\20241031190913_init.Designer.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\Migrations\\20241031190913_init.Designer.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\Migrations\\20241031190913_init.Designer.cs",
               "RelativeToolTip": "UserService_5002\\Migrations\\20241031190913_init.Designer.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -692,11 +720,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 33,
               "Title": "Program.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\Program.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\Program.cs",
               "RelativeDocumentMoniker": "UserService_5002\\Program.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\Program.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\Program.cs",
               "RelativeToolTip": "UserService_5002\\Program.cs",
               "ViewState": "AgIAAFsAAAAAAAAAAABBwGwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -704,11 +732,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 32,
               "Title": "Program.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\Program.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\APIGateway\\Program.cs",
               "RelativeDocumentMoniker": "APIGateway\\Program.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\Program.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\APIGateway\\Program.cs",
               "RelativeToolTip": "APIGateway\\Program.cs",
               "ViewState": "AgIAADEAAAAAAAAAAABBwBYAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -716,11 +744,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 38,
               "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Views\\Cart\\Index.cshtml",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Views\\Cart\\Index.cshtml",
               "RelativeDocumentMoniker": "ProductService_5000\\Views\\Cart\\Index.cshtml",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Views\\Cart\\Index.cshtml",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Views\\Cart\\Index.cshtml",
               "RelativeToolTip": "ProductService_5000\\Views\\Cart\\Index.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
@@ -728,11 +756,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 40,
               "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Views\\Product\\Index.cshtml",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Views\\Product\\Index.cshtml",
               "RelativeDocumentMoniker": "ProductService_5000\\Views\\Product\\Index.cshtml",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Views\\Product\\Index.cshtml",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Views\\Product\\Index.cshtml",
               "RelativeToolTip": "ProductService_5000\\Views\\Product\\Index.cshtml",
               "ViewState": "AgIAABwAAAAAAAAAAAAMwC8AAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
@@ -740,11 +768,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 37,
               "Title": "_P_NavigationBar_Product.cshtml",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Views\\Shared\\_P_NavigationBar_Product.cshtml",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Views\\Shared\\_P_NavigationBar_Product.cshtml",
               "RelativeDocumentMoniker": "ProductService_5000\\Views\\Shared\\_P_NavigationBar_Product.cshtml",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Views\\Shared\\_P_NavigationBar_Product.cshtml",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Views\\Shared\\_P_NavigationBar_Product.cshtml",
               "RelativeToolTip": "ProductService_5000\\Views\\Shared\\_P_NavigationBar_Product.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
@@ -752,11 +780,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 41,
               "Title": "Product_BranchIndex.cshtml",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Views\\Product\\Product_BranchIndex.cshtml",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Views\\Product\\Product_BranchIndex.cshtml",
               "RelativeDocumentMoniker": "ProductService_5000\\Views\\Product\\Product_BranchIndex.cshtml",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Views\\Product\\Product_BranchIndex.cshtml",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Views\\Product\\Product_BranchIndex.cshtml",
               "RelativeToolTip": "ProductService_5000\\Views\\Product\\Product_BranchIndex.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
@@ -764,11 +792,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 39,
               "Title": "GetByIdView.cshtml",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Views\\Product\\GetByIdView.cshtml",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Views\\Product\\GetByIdView.cshtml",
               "RelativeDocumentMoniker": "ProductService_5000\\Views\\Product\\GetByIdView.cshtml",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Views\\Product\\GetByIdView.cshtml",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Views\\Product\\GetByIdView.cshtml",
               "RelativeToolTip": "ProductService_5000\\Views\\Product\\GetByIdView.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABRAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
@@ -776,11 +804,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 44,
               "Title": "UserOtherInfo.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\Models\\UserModels\\UserOtherInfo.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\APIGateway\\Models\\UserModels\\UserOtherInfo.cs",
               "RelativeDocumentMoniker": "APIGateway\\Models\\UserModels\\UserOtherInfo.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\Models\\UserModels\\UserOtherInfo.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\APIGateway\\Models\\UserModels\\UserOtherInfo.cs",
               "RelativeToolTip": "APIGateway\\Models\\UserModels\\UserOtherInfo.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -788,11 +816,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 41,
+              "DocumentIndex": 43,
               "Title": "20241206165414_up4.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\Migrations\\20241206165414_up4.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\Migrations\\20241206165414_up4.cs",
               "RelativeDocumentMoniker": "UserService_5002\\Migrations\\20241206165414_up4.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\Migrations\\20241206165414_up4.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\Migrations\\20241206165414_up4.cs",
               "RelativeToolTip": "UserService_5002\\Migrations\\20241206165414_up4.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -800,23 +828,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 67,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\InvoiceService_5005\\appsettings.json",
-              "RelativeDocumentMoniker": "InvoiceService_5005\\appsettings.json",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\InvoiceService_5005\\appsettings.json",
-              "RelativeToolTip": "InvoiceService_5005\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAPAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-11-27T13:26:51.064Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 42,
               "Title": "_P_NavigationBar.cshtml",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\Views\\Shared\\_P_NavigationBar.cshtml",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\Views\\Shared\\_P_NavigationBar.cshtml",
               "RelativeDocumentMoniker": "UserService_5002\\Views\\Shared\\_P_NavigationBar.cshtml",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\Views\\Shared\\_P_NavigationBar.cshtml",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\Views\\Shared\\_P_NavigationBar.cshtml",
               "RelativeToolTip": "UserService_5002\\Views\\Shared\\_P_NavigationBar.cshtml",
               "ViewState": "AgIAAFkAAAAAAAAAAAAMwGwAAACkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
@@ -824,11 +840,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 43,
+              "DocumentIndex": 45,
               "Title": "Branch.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\Models\\BranchModels\\Branch.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\APIGateway\\Models\\BranchModels\\Branch.cs",
               "RelativeDocumentMoniker": "APIGateway\\Models\\BranchModels\\Branch.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\Models\\BranchModels\\Branch.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\APIGateway\\Models\\BranchModels\\Branch.cs",
               "RelativeToolTip": "APIGateway\\Models\\BranchModels\\Branch.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -836,11 +852,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 68,
+              "DocumentIndex": 69,
               "Title": "20241206164208_up3.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\PromotionService_5004\\Migrations\\20241206164208_up3.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\PromotionService_5004\\Migrations\\20241206164208_up3.cs",
               "RelativeDocumentMoniker": "PromotionService_5004\\Migrations\\20241206164208_up3.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\PromotionService_5004\\Migrations\\20241206164208_up3.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\PromotionService_5004\\Migrations\\20241206164208_up3.cs",
               "RelativeToolTip": "PromotionService_5004\\Migrations\\20241206164208_up3.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -848,11 +864,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 44,
+              "DocumentIndex": 46,
               "Title": "PromotionType.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\Models\\PromotionModels\\PromotionType.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\APIGateway\\Models\\PromotionModels\\PromotionType.cs",
               "RelativeDocumentMoniker": "APIGateway\\Models\\PromotionModels\\PromotionType.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\Models\\PromotionModels\\PromotionType.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\APIGateway\\Models\\PromotionModels\\PromotionType.cs",
               "RelativeToolTip": "APIGateway\\Models\\PromotionModels\\PromotionType.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -860,11 +876,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 69,
+              "DocumentIndex": 70,
               "Title": "20241206160118_up7.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\InvoiceService_5005\\Migrations\\20241206160118_up7.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\InvoiceService_5005\\Migrations\\20241206160118_up7.cs",
               "RelativeDocumentMoniker": "InvoiceService_5005\\Migrations\\20241206160118_up7.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\InvoiceService_5005\\Migrations\\20241206160118_up7.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\InvoiceService_5005\\Migrations\\20241206160118_up7.cs",
               "RelativeToolTip": "InvoiceService_5005\\Migrations\\20241206160118_up7.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -872,11 +888,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 45,
+              "DocumentIndex": 47,
               "Title": "PaymentMethod.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\Models\\InvoiceModels\\PaymentMethod.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\APIGateway\\Models\\InvoiceModels\\PaymentMethod.cs",
               "RelativeDocumentMoniker": "APIGateway\\Models\\InvoiceModels\\PaymentMethod.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\Models\\InvoiceModels\\PaymentMethod.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\APIGateway\\Models\\InvoiceModels\\PaymentMethod.cs",
               "RelativeToolTip": "APIGateway\\Models\\InvoiceModels\\PaymentMethod.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -884,11 +900,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 46,
+              "DocumentIndex": 48,
               "Title": "Invoice.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\Models\\InvoiceModels\\Invoice.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\APIGateway\\Models\\InvoiceModels\\Invoice.cs",
               "RelativeDocumentMoniker": "APIGateway\\Models\\InvoiceModels\\Invoice.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\Models\\InvoiceModels\\Invoice.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\APIGateway\\Models\\InvoiceModels\\Invoice.cs",
               "RelativeToolTip": "APIGateway\\Models\\InvoiceModels\\Invoice.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -896,11 +912,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 47,
+              "DocumentIndex": 49,
               "Title": "Branch.js",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\user\\controller\\Branch.js",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\wwwroot\\user\\controller\\Branch.js",
               "RelativeDocumentMoniker": "UserService_5002\\wwwroot\\user\\controller\\Branch.js",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\user\\controller\\Branch.js",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\wwwroot\\user\\controller\\Branch.js",
               "RelativeToolTip": "UserService_5002\\wwwroot\\user\\controller\\Branch.js",
               "ViewState": "AgIAAAQAAAAAAAAAAABhwMEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
@@ -908,11 +924,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 49,
+              "DocumentIndex": 51,
               "Title": "ocelot.json",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\ocelot.json",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\APIGateway\\ocelot.json",
               "RelativeDocumentMoniker": "APIGateway\\ocelot.json",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\ocelot.json",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\APIGateway\\ocelot.json",
               "RelativeToolTip": "APIGateway\\ocelot.json",
               "ViewState": "AgIAAHIAAAAAAAAAAIBZwI0AAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
@@ -920,11 +936,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 48,
+              "DocumentIndex": 50,
               "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\appsettings.json",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\APIGateway\\appsettings.json",
               "RelativeDocumentMoniker": "APIGateway\\appsettings.json",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\appsettings.json",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\APIGateway\\appsettings.json",
               "RelativeToolTip": "APIGateway\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAIBZwBYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
@@ -932,11 +948,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 50,
+              "DocumentIndex": 52,
               "Title": "Login.cshtml",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\Views\\User\\Login.cshtml",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\Views\\User\\Login.cshtml",
               "RelativeDocumentMoniker": "UserService_5002\\Views\\User\\Login.cshtml",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\Views\\User\\Login.cshtml",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\Views\\User\\Login.cshtml",
               "RelativeToolTip": "UserService_5002\\Views\\User\\Login.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
@@ -944,11 +960,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 51,
+              "DocumentIndex": 53,
               "Title": "S_OTP.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\Services\\S_OTP.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\Services\\S_OTP.cs",
               "RelativeDocumentMoniker": "UserService_5002\\Services\\S_OTP.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\Services\\S_OTP.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\Services\\S_OTP.cs",
               "RelativeToolTip": "UserService_5002\\Services\\S_OTP.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -956,11 +972,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 54,
+              "DocumentIndex": 56,
               "Title": "MReq_ExportProductFilter.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\BranchService_5003\\Request\\MReq_ExportProductFilter.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\BranchService_5003\\Request\\MReq_ExportProductFilter.cs",
               "RelativeDocumentMoniker": "BranchService_5003\\Request\\MReq_ExportProductFilter.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\BranchService_5003\\Request\\MReq_ExportProductFilter.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\BranchService_5003\\Request\\MReq_ExportProductFilter.cs",
               "RelativeToolTip": "BranchService_5003\\Request\\MReq_ExportProductFilter.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -968,11 +984,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 52,
+              "DocumentIndex": 54,
               "Title": "Shipper.js",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\wwwroot\\product\\controller\\Shipper.js",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\wwwroot\\product\\controller\\Shipper.js",
               "RelativeDocumentMoniker": "ProductService_5000\\wwwroot\\product\\controller\\Shipper.js",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\wwwroot\\product\\controller\\Shipper.js",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\wwwroot\\product\\controller\\Shipper.js",
               "RelativeToolTip": "ProductService_5000\\wwwroot\\product\\controller\\Shipper.js",
               "ViewState": "AgIAACYAAAAAAAAAAIBpwDsAAABBAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
@@ -980,11 +996,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 55,
+              "DocumentIndex": 57,
               "Title": "GetProductsByIdCategory.cshtml",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Views\\Product\\GetProductsByIdCategory.cshtml",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Views\\Product\\GetProductsByIdCategory.cshtml",
               "RelativeDocumentMoniker": "ProductService_5000\\Views\\Product\\GetProductsByIdCategory.cshtml",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Views\\Product\\GetProductsByIdCategory.cshtml",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Views\\Product\\GetProductsByIdCategory.cshtml",
               "RelativeToolTip": "ProductService_5000\\Views\\Product\\GetProductsByIdCategory.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
@@ -992,11 +1008,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 53,
+              "DocumentIndex": 55,
               "Title": "MReq_RevertProduct.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\BranchService_5003\\Request\\MReq_RevertProduct.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\BranchService_5003\\Request\\MReq_RevertProduct.cs",
               "RelativeDocumentMoniker": "BranchService_5003\\Request\\MReq_RevertProduct.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\BranchService_5003\\Request\\MReq_RevertProduct.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\BranchService_5003\\Request\\MReq_RevertProduct.cs",
               "RelativeToolTip": "BranchService_5003\\Request\\MReq_RevertProduct.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -1004,11 +1020,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 56,
+              "DocumentIndex": 58,
               "Title": "BranchController.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\BranchService_5003\\Controllers\\BranchController.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\BranchService_5003\\Controllers\\BranchController.cs",
               "RelativeDocumentMoniker": "BranchService_5003\\Controllers\\BranchController.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\BranchService_5003\\Controllers\\BranchController.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\BranchService_5003\\Controllers\\BranchController.cs",
               "RelativeToolTip": "BranchService_5003\\Controllers\\BranchController.cs",
               "ViewState": "AgIAAA8AAAAAAAAAAIBZwA4AAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -1016,11 +1032,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 57,
+              "DocumentIndex": 59,
               "Title": "OTP_Verify.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\Utilities\\OTP_Verify.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\APIGateway\\Utilities\\OTP_Verify.cs",
               "RelativeDocumentMoniker": "APIGateway\\Utilities\\OTP_Verify.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\APIGateway\\Utilities\\OTP_Verify.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\APIGateway\\Utilities\\OTP_Verify.cs",
               "RelativeToolTip": "APIGateway\\Utilities\\OTP_Verify.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -1028,7 +1044,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 58,
+              "DocumentIndex": 60,
               "Title": "Microsoft.Common.CurrentVersion.targets",
               "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
               "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
@@ -1038,11 +1054,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 62,
+              "DocumentIndex": 64,
               "Title": "_Layout.cshtml",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\Views\\Shared\\_Layout.cshtml",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "UserService_5002\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\Views\\Shared\\_Layout.cshtml",
               "RelativeToolTip": "UserService_5002\\Views\\Shared\\_Layout.cshtml",
               "ViewState": "AgIAAAMAAAAAAAAAAIBZwB4AAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
@@ -1050,11 +1066,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 63,
+              "DocumentIndex": 65,
               "Title": "CartController.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Controllers\\CartController.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Controllers\\CartController.cs",
               "RelativeDocumentMoniker": "ProductService_5000\\Controllers\\CartController.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Controllers\\CartController.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Controllers\\CartController.cs",
               "RelativeToolTip": "ProductService_5000\\Controllers\\CartController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwBAAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -1062,11 +1078,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 64,
+              "DocumentIndex": 66,
               "Title": "Statistic.js",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\user\\controller\\Statistic.js",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\wwwroot\\user\\controller\\Statistic.js",
               "RelativeDocumentMoniker": "UserService_5002\\wwwroot\\user\\controller\\Statistic.js",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\UserService_5002\\wwwroot\\user\\controller\\Statistic.js",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\UserService_5002\\wwwroot\\user\\controller\\Statistic.js",
               "RelativeToolTip": "UserService_5002\\wwwroot\\user\\controller\\Statistic.js",
               "ViewState": "AgIAADAAAAAAAAAAAIBZwAEAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
@@ -1074,11 +1090,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 60,
+              "DocumentIndex": 62,
               "Title": "20241027191744_update3.Designer.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Migrations\\20241027191744_update3.Designer.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Migrations\\20241027191744_update3.Designer.cs",
               "RelativeDocumentMoniker": "ProductService_5000\\Migrations\\20241027191744_update3.Designer.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Migrations\\20241027191744_update3.Designer.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Migrations\\20241027191744_update3.Designer.cs",
               "RelativeToolTip": "ProductService_5000\\Migrations\\20241027191744_update3.Designer.cs",
               "ViewState": "AgIAACYAAAAAAAAAAIBZwCwAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -1086,11 +1102,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 59,
+              "DocumentIndex": 61,
               "Title": "MRes_ExportProductHistory.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\BranchService_5003\\Response\\MRes_ExportProductHistory.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\BranchService_5003\\Response\\MRes_ExportProductHistory.cs",
               "RelativeDocumentMoniker": "BranchService_5003\\Response\\MRes_ExportProductHistory.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\BranchService_5003\\Response\\MRes_ExportProductHistory.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\BranchService_5003\\Response\\MRes_ExportProductHistory.cs",
               "RelativeToolTip": "BranchService_5003\\Response\\MRes_ExportProductHistory.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -1098,11 +1114,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 65,
+              "DocumentIndex": 67,
               "Title": "HistoryPurchase.cshtml",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Views\\Cart\\HistoryPurchase.cshtml",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Views\\Cart\\HistoryPurchase.cshtml",
               "RelativeDocumentMoniker": "ProductService_5000\\Views\\Cart\\HistoryPurchase.cshtml",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Views\\Cart\\HistoryPurchase.cshtml",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Views\\Cart\\HistoryPurchase.cshtml",
               "RelativeToolTip": "ProductService_5000\\Views\\Cart\\HistoryPurchase.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
@@ -1110,11 +1126,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 61,
+              "DocumentIndex": 63,
               "Title": "20241027191744_update3.cs",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Migrations\\20241027191744_update3.cs",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Migrations\\20241027191744_update3.cs",
               "RelativeDocumentMoniker": "ProductService_5000\\Migrations\\20241027191744_update3.cs",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\Migrations\\20241027191744_update3.cs",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\Migrations\\20241027191744_update3.cs",
               "RelativeToolTip": "ProductService_5000\\Migrations\\20241027191744_update3.cs",
               "ViewState": "AgIAABEAAAAAAAAAAIBZwBcAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -1122,15 +1138,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 66,
+              "DocumentIndex": 68,
               "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\appsettings.json",
+              "DocumentMoniker": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\appsettings.json",
               "RelativeDocumentMoniker": "ProductService_5000\\appsettings.json",
-              "ToolTip": "D:\\Data\\Programming\\Project\\DACN\\DepartmentChainStore\\github\\dev\\DepartmentStore\\ProductService_5000\\appsettings.json",
+              "ToolTip": "D:\\Project\\DepartmentChainStore\\DepartmentChainStore\\DepartmentStore\\ProductService_5000\\appsettings.json",
               "RelativeToolTip": "ProductService_5000\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-11-27T13:26:11.493Z"
+              "WhenOpened": "2024-11-27T13:26:11.493Z",
+              "EditorCaption": ""
             }
           ]
         }
